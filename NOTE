@@ -1,0 +1,63 @@
+instruction < basic block < function
+
+---
+
+instruction
+ - adhoc data structure
+
+ flow edge
+  - connect two instructions
+
+---
+
+basic block
+ - list of instruction
+ - instructions between two basic block leaders
+     (including the former, excluding the later)
+
+ basic block leader
+  - the program's entry point
+  - the program's first instruction (lexical order)
+  - instruction targeted by a branching instruction
+  - instruction following a branching instruction
+  - instruction targeted by a calling instruction
+  - instruction following a calling instruction
+
+ call site
+  - basic block ending by a call
+
+ return site
+  - basic block following a call site
+      (lexical successor of a call site)
+
+ unknown basic block
+  - used as target for unresolved branching
+  - in each function that contains unresolved branching
+
+ control flow edge
+  - connect two basic blocks
+  - represent possible control flow
+  - connect the unknown block node to possible targets of unresolved branching
+
+ call edge
+  - connect call site to the entry point of the called function
+  - connect the unknown function node to possible targets of unresolved calls
+
+ return edge
+  - connect exit of a function to the corresponding return sites
+
+---
+
+function
+ - graph of basic block
+ - basic blocks between a call target and a return instruction
+     (including both)
+
+ function exit
+  - function unique exit node
+      (virtual basic block)
+
+ unknown function
+  - target of unresolved function calls
+ 
+---
