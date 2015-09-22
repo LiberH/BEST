@@ -1,15 +1,14 @@
 #ifndef _INSTRUCTION_H_
 #define _INSTRUCTION_H_
 
-#include <lemon/list_graph.h>
+#include <string>
 
 using namespace std;
 
 class Instruction {
 public:
   string name_;
-  
-  Instruction (string &s);
+  Instruction (string &);
 };
 
 #endif // _INSTRUCTION_H_

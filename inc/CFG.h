@@ -2,28 +2,31 @@
 #define _CFG_H_
 
 #include "Function.h"
-#include <graphviz/cgraph.h>
 #include <lemon/list_graph.h>
+#include <graphviz/cgraph.h>
 
 using namespace std;
 using namespace lemon;
 
 class Function;
+typedef ListDigraph::NodeMap<Function *> FunctionMap;
+typedef ListDigraph::NodeMap<Agnode_t *> AgnodeMap;
+
 class CFG {
 public:
-  typedef ListDigraph::NodeMap<Function *> FunctionMap;
-  typedef ListDigraph::NodeMap<Agnode_t *> AgnodeMap;
-
-  std::string name_;
+  string       name_;
   ListDigraph *graph_;
   FunctionMap *functions_;
   
-  Agraph_t *agraph_;
-  AgnodeMap *agnodes_;
+  Agraph_t    *agraph_;
+  AgnodeMap   *agnodes_;
+
   
-  CFG (string &);
+                    CFG         (string &);
   ListDigraph::Node addFunction (Function &);
-  ListDigraph::Arc addCall (string &, string &, Function &, Function &);
+  void              addCall     (Function &, string &, string &, Function &);
+
+  string            toDot       ();
 };
 
 #endif // _CFG_H_
