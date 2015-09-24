@@ -4,7 +4,6 @@
 #include "Function.h"
 #include "Instruction.h"
 #include <lemon/list_graph.h>
-#include <graphviz/cgraph.h>
 
 using namespace std;
 using namespace lemon;
@@ -15,18 +14,20 @@ typedef ListDigraph::NodeMap<Instruction *> InstructionMap;
 
 class BasicBlock {
 public:
+  ListDigraph::Node  id_;
+  string             label_;
   string             name_;
   ListDigraph       *graph_;
   InstructionMap    *instructions_;
   ListDigraph::Node  leader_;
   Function          *call_;
-  BasicBlock        *return_;
+  ListDigraph::Node  return_;
 
   
-                    BasicBlock         (Function &, string &);
-  ListDigraph::Node addLeader          (Instruction &);
-  ListDigraph::Node addInstruction     (Instruction &);
-  ListDigraph::Arc  addFallThroughEdge (ListDigraph::Node, ListDigraph::Node);
+                    BasicBlock     (Function &, string);
+  ListDigraph::Node addInstruction (Instruction &);
+  ListDigraph::Node addLeader      (Instruction &);
+  ListDigraph::Arc  addFlowEdge    (ListDigraph::Node, ListDigraph::Node);
 };
 
 #endif // _BASICBLOCK_H_

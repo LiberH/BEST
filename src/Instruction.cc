@@ -2,7 +2,9 @@
 
 using namespace std;
 
-Instruction::Instruction (string &s)
+Instruction::Instruction (BasicBlock &bb, string s)
 {
-  name_ = s;
+  id_    = INVALID;
+  label_ = s;
+  name_  = bb.name_ + "_" + label_;
 }

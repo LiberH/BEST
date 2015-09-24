@@ -1,5 +1,5 @@
 CC       = g++
-CPPFLAGS = -Wall -Werror -pedantic -I$(INC) -DDEBUG -g3
+CPPFLAGS = -Wall -Werror -pedantic -I$(INC)
 LDFLAGS  = -lemon `pkg-config libgvc --libs`
 
 INC  = inc
@@ -9,7 +9,7 @@ BIN  = bin
 TEST = test
 
 # Default:
-all: dirs target run
+all: dirs target
 
 # Directories:
 DIRS = $(OBJ) $(BIN) $(TEST)
@@ -22,10 +22,15 @@ OBJS =	$(OBJ)/Instruction.o	\
 	$(OBJ)/BasicBlock.o	\
 	$(OBJ)/Function.o	\
 	$(OBJ)/CFG.o		\
+	$(OBJ)/Dot.o		\
+	$(OBJ)/DFS.o		\
 	$(OBJ)/main.o
 objs: dirs $(OBJS)
+$(OBJ)/Dot.o: $(SRC)/Dot.cc
+	$(CC) -o $@ -c $< $(CPPFLAGS) -Wno-write-strings `pkg-config libgvc --cflags`
+
 $(OBJ)/%.o: $(SRC)/%.cc
-	$(CC) $(CPPFLAGS) `pkg-config libgvc --cflags` -o $@ -c $<
+	$(CC) -o $@ -c $< $(CPPFLAGS)
 
 # Executable file:
 TRGT = $(BIN)/slicer
