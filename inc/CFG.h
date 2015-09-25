@@ -1,7 +1,6 @@
 #ifndef _CFG_H_
 #define _CFG_H_
 
-#include "Function.h"
 #include <lemon/list_graph.h>
 
 using namespace std;

@@ -1,4 +1,6 @@
 #include "BasicBlock.h"
+#include "Function.h"
+#include "Instruction.h"
 
 using namespace std;
 using namespace lemon;

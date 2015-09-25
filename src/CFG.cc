@@ -1,4 +1,6 @@
 #include "CFG.h"
+#include "Function.h"
+#include "BasicBlock.h"
 #include <iostream>
 
 using namespace std;

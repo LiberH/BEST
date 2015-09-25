@@ -1,8 +1,6 @@
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 
-#include "CFG.h"
-#include "BasicBlock.h"
 #include <lemon/list_graph.h>
 
 using namespace std;

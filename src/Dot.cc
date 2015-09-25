@@ -1,7 +1,11 @@
 #include "Dot.h"
-#include <iostream>
+#include "CFG.h"
+#include "Function.h"
+#include "BasicBlock.h"
+#include "Instruction.h"
 #include <lemon/list_graph.h>
 #include <graphviz/cgraph.h>
+#include <iostream>
 
 #define C(s) ((char *) (s).c_str ())
 

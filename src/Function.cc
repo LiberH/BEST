@@ -1,4 +1,6 @@
 #include "Function.h"
+#include "CFG.h"
+#include "BasicBlock.h"
 
 using namespace std;
 using namespace lemon;

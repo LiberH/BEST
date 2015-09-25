@@ -1,8 +1,6 @@
 #ifndef _BASICBLOCK_H_
 #define _BASICBLOCK_H_
 
-#include "Function.h"
-#include "Instruction.h"
 #include <lemon/list_graph.h>
 
 using namespace std;
