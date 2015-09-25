@@ -17,12 +17,14 @@
 #It can be called either by a simple 'make' command, or 'make OPTIM=1' to turn on optimisation flags.
 
 #stand-alone simulator name
-STAND_ALONE_EXEC_NAME = e200z4
+STAND_ALONE_LIBRARY_NAME = libp2a.a
+STAND_ALONE_EXEC_NAME = p2aFileReader
 #gdb server simulator name
 GDB_SERVER_EXEC_NAME = e200z4_gdb
 
 #SRC that are SHARED both by main executable, and the stand-alone simulator.
 SRCS_COM = \
+staticInfo.cpp \
 instDecoder.cpp \
 instDecoderCache.cpp \
 instConstruct.cpp \
@@ -163,8 +165,10 @@ CFLAGS += $(DEFINES)
 OBJ_DIR = .build
 
 .PHONY: ALL
-ALL: OBJ_DIR_CREATE $(EXEC) $(PYTHON_LIB)
+ALL: OBJ_DIR_CREATE $(STAND_ALONE_EXEC_NAME)
+#$(PYTHON_LIB)
 
+lib: OBJ_DIR_CREATE $(STAND_ALONE_LIBRARY_NAME)
 standalone: OBJ_DIR_CREATE $(STAND_ALONE_EXEC_NAME)
 python: OBJ_DIR_CREATE $(PYTHON_LIB)
 gdb: OBJ_DIR_CREATE $(GDB_SERVER_EXEC_NAME)
@@ -173,7 +177,7 @@ doc: $(IMAGES_DOC)
 ########################################################
 %.svg: %.dot
 	@$(DOT) $< -Tsvg -o $@
-	@echo 'generate log image for $<' \	
+	@echo 'generate log image for $<' 
 ########################################################
 # build rules of pipelines (using automata internal model).
 GENERATED_SRCS = pipelineExample.cpp pipelineExample-1.cpp
@@ -201,13 +205,15 @@ $(INTERFACE_SRC): $(INTERFACE) arch.h
 ########################################################
 # srcs for the 3 targets.
 
+SRCS_LIB = $(SRCS_COM)
 SRCS_PYTHON = $(SRCS_COM)
-SRCS_STAND_ALONE = $(SRCS_COM) main.cpp
+SRCS_STAND_ALONE = $(SRCS_COM) p2acFileReader.cpp #main.cpp
 SRCS_GDB_SERVER = $(SRCS_COM) main_gdb.cpp gdbServerInterface.cpp
 
 ########################################################
 # objs
 #
+OBJS_LIB = $(addprefix $(OBJ_DIR)/,$(SRCS_LIB:.cpp=.o))
 OBJS_PYTHON = $(addprefix $(OBJ_DIR)/,$(SRCS_PYTHON:.cpp=.o)) $(INTERFACE_OBJ)
 OBJS_STAND_ALONE = $(addprefix $(OBJ_DIR)/,$(SRCS_STAND_ALONE:.cpp=.o))
 OBJS_GDB_SERVER = $(addprefix $(OBJ_DIR)/,$(SRCS_GDB_SERVER:.cpp=.o))
@@ -239,8 +245,12 @@ arch.cpp: ioStubs.cpp pipelineExample.h
 ##########
 #link
 
+$(STAND_ALONE_LIBRARY_NAME): $(OBJS_LIB)
+	@echo "linking standalone library.. $@"
+	@ar rcs $@ $(OBJS_LIB)
+
 $(STAND_ALONE_EXEC_NAME): $(OBJS_STAND_ALONE)
-	@echo "linking standalone simulator.. $@"
+	@echo "linking standalone executable.. $@"
 	@$(CXX) -o $@ $(OBJS_STAND_ALONE) $(LDFLAGS)
 
 $(GDB_SERVER_EXEC_NAME): $(OBJS_GDB_SERVER)

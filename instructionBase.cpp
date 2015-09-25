@@ -19,52 +19,38 @@ using namespace std;
  *  * branch target.
  */
 
-string e200z4_instruction::getStaticInfo(arch *_arch) {
-	ostringstream oss;
-	string sep = "@";
-	//values written in decimal.
-	oss << sep << dec << m_pc << sep;
-	oss << this->mnemo() << sep;
-	oss << (int)(this->chunks()) << sep;
-	oss << (int)(this->instClass()) << sep;
-
-	//branch detection stuff.
-	if(isBranch())
-	{
-		oss << 1 << sep;
-		oss << isBranchUnconditional() << sep;
-		oss << hasID_SP_Check() << sep;
-		oss << isBranchStaticallyUnknown() << sep;
-		if(!isBranchStaticallyUnknown())
-		{
-			_arch->setProgramCounter(m_pc+size());
-			detectBranch(_arch); //update the program counter.
-			oss << (int)(_arch->programCounter()) << sep;
-		}
-	} else {
-		oss << 0 << sep;
-	}
-	//DDC register Read/Write
-	this->execute(_arch); //reg evaluation is done at runtime. Should execute the inst.
-	u64 maskWrite = 0;
-   	u64 maskRead = 0;
-	this->lockDDCWriteRegs(maskWrite);
-	this->getDDCReadRegs(maskRead);
-	oss << maskRead << sep;
-	oss << maskWrite << sep;
-	#ifdef __P2AC_MEM__
-		if(m_memOffset != 0 || m_memReg!=0 || m_memRegOffset!=0)
-		{
-			oss << 1 << sep;
-			oss << m_memOffset << sep;
-			oss << m_memReg << sep;
-			oss << m_memRegOffset << sep;
-		} else {
-			oss << 0 << sep;
-		}
-	#else
-		oss << 2 << sep;
-	#endif
-    return oss.str();
+staticInfo *
+e200z4_instruction::getStaticInfo (arch *_arch)
+{
+  staticInfo *i = new staticInfo ();
+  
+  i -> pc = this -> getInstructionPointer ();
+  i -> mnemo = string (this -> mnemo ());
+  
+  this -> execute (_arch);
+  i -> write_regs; this -> lockDDCWriteRegs (i -> write_regs);
+  i -> read_regs; this -> getDDCReadRegs (i -> read_regs);
+  
+  i -> is_branch = this -> isBranch ();
+  i -> is_unkown = this -> isBranchStaticallyUnknown ();
+  i -> do_link = this -> hasID_SP_Check ();
+  i -> is_uncond = this -> isBranchUnconditional ();
+  
+  _arch -> setProgramCounter (i -> pc + this -> size ());
+  this -> detectBranch (_arch);
+  i -> target = _arch -> programCounter ();
+  
+  /*
+    #ifdef __P2AC_MEM__
+    if (this -> m_memOffset != 0 || this -> m_memReg!=0 || this -> m_memRegOffset!=0)
+      {
+        this -> m_memOffset;
+        this -> m_memReg;
+        this -> m_memRegOffset;
+      }
+    #endif
+  */
+  
+  return i;
 }
 

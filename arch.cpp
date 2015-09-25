@@ -15,6 +15,7 @@
 #include "peripherals.h"
 #include "utils.h"
 #include "fifo.h"
+#include "staticInfo.h"
 
 #ifdef GADL_SP_CHECK_ALLOWED
 #include "stackController.h"
@@ -744,14 +745,17 @@ bool arch::useIOStubs()
 #endif
 }
 
-std::string arch::getInstructionStaticInfo(unsigned int &p_addr)
+staticInfo *
+arch::getInstructionStaticInfo(unsigned int &p_addr)
 {
-	if(m_decoder)
-	{
-		e200z4_instruction *inst = m_decoder->decode(this, p_addr);
-		if(inst) return inst->getStaticInfo(this);
-	}
-	return string("error");
+  if(m_decoder)
+    {
+      e200z4_instruction *inst = m_decoder->decode(this, p_addr);
+      if(inst)
+	return inst->getStaticInfo(this);
+    }
+  
+  return NULL;
 }
 
 void arch::dumpObjects()

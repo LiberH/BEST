@@ -13,10 +13,10 @@
 #include "macro.h"
 #include "instructionBase.h"
 #include "fifo.h"
+#include "componentTypeDef.h" //typedefs in components.
 #include <vector> 
 #include <string>
 #include <string.h> //required by Linux for memcpy...
-#include "componentTypeDef.h" //typedefs in components.
 
 #include <map> //used for breakpoints.
 class breakpointAction;
@@ -308,9 +308,9 @@ public:
 		 * updated to point to the next instruction address.
 		 **/
 		#ifdef SWIG /*Swig wrapper (for Python interface)*/		
-			std::string getInstructionStaticInfo(unsigned int &INOUT);
+		        std::string *string getInstructionStaticInfo(unsigned int &INOUT);
 		#else
-			std::string getInstructionStaticInfo(unsigned int &p_addr);
+			staticInfo *getInstructionStaticInfo(unsigned int &p_addr);
 		#endif
 
 		/*******************************************************************

@@ -9,6 +9,7 @@
 #define __e200z4_INSTRUCTION_BASE_H__
 
 #include "types.h"
+#include "staticInfo.h"
 #include <stdio.h>
 #include <string> /* for instruction mnemonique */
 
@@ -132,7 +133,7 @@ class e200z4_instruction {
      * directly.
 	 * WARNING: update the simulation context!
      */
-    std::string getStaticInfo(arch *_arch);
+    staticInfo *getStaticInfo(arch *_arch);
 
 	//***************************
 	// instruction Tags related methods
