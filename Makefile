@@ -1,6 +1,6 @@
 CC       = g++
-CPPFLAGS = -I$(INC) -I$(HINC) -Wall -Werror -pedantic -Wno-long-long
-LDFLAGS  = -L$(LIB) -lp2a -lelf -lemon `pkg-config libgvc --libs`
+CPPFLAGS = -I$(INC) -Wall -Werror -pedantic
+LDFLAGS  = -L$(LIB) -lelf -lp2a -lemon `pkg-config libgvc --libs`
 
 INC  = inc
 SRC  = src
@@ -8,7 +8,6 @@ OBJ  = obj
 BIN  = bin
 LIB  = lib
 TEST = test
-HINC = inc/harmless
 
 # Default:
 all: dirs target
@@ -30,9 +29,7 @@ OBJS =	$(OBJ)/Instruction.o	\
 	$(OBJ)/main.o
 objs: dirs $(OBJS)
 $(OBJ)/Dot.o: $(SRC)/Dot.cc
-	$(CC) -o $@ -c $< $(CPPFLAGS) -Wno-write-strings `pkg-config libgvc --cflags`
-$(OBJ)/main.o: $(SRC)/main.cc
-	$(CC) -o $@ -c $< $(CPPFLAGS) -Wno-unused-but-set-variable
+	$(CC) -o $@ -c $< $(CPPFLAGS) `pkg-config libgvc --cflags` -Wno-write-strings
 $(OBJ)/%.o: $(SRC)/%.cc
 	$(CC) -o $@ -c $< $(CPPFLAGS)
 

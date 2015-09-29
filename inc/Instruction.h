@@ -7,31 +7,29 @@
 using namespace std;
 using namespace lemon;
 
-class BasicBlock;
-class staticInfo;
-
 class Instruction {
+  friend class BasicBlock;
+  friend class Dot;
+  
 public:
-  ListDigraph::Node id_;
-  string label_;
-  string name_;
+  Instruction();
   
-  /* --- */
-  u32 pc_;
-  string mnemo_;
+protected:
+  Node   m_id;
+  string m_name;
+  string m_label;
   
-  u64 write_regs_;
-  u64 read_regs_;
-  
-  bool is_branch_;
-  bool is_unkown_;
-  bool do_link_;
-  bool is_uncond_;
-
-  u64 target_;
-  /* --- */
-  
-  Instruction (BasicBlock &, staticInfo &);
+  /*
+  u32    m_pc;
+  string m_mnemo;
+  u64    m_write_regs;
+  u64    m_read_regs;
+  bool   m_is_branch;
+  bool   m_is_unkown;
+  bool   m_do_link;
+  bool   m_is_uncond;
+  u64    m_target;
+  */
 };
 
 #endif // _INSTRUCTION_H_

@@ -1,64 +1,52 @@
 #include "Function.h"
-#include "CFG.h"
 #include "BasicBlock.h"
 
 using namespace std;
 using namespace lemon;
 
-Function::Function (CFG &cfg, string s)
+Function::Function()
 {
-  id_          = INVALID;
-  label_       = s;
-  name_        = "cluster" + label_;
-  graph_       = new ListDigraph ();
-  basicblocks_ = new BasicBlockMap (*graph_, NULL);
-  entry_       = INVALID;
-  exit_        = INVALID;
-}
-
-ListDigraph::Node
-Function::addBasicBlock (BasicBlock &bb)
-{
-  ListDigraph::Node n = graph_ -> addNode ();
-  (*basicblocks_)[n] = &bb;
-  bb.id_ = n;
+  m_id    = INVALID;
+  m_name  = string();
+  m_label = string();
   
-  return bb.id_;
+  m_graph = new Graph();
+  m_bbs   = new BBMap (*m_graph, NULL);
+  m_entry = INVALID;
+  m_exit  = INVALID;
 }
 
-ListDigraph::Node
-Function::addEntry (BasicBlock &bb)
+Node
+Function::addNode (BasicBlock &bb)
 {
-  entry_ = addBasicBlock (bb);
-  return entry_;
+  Node n = m_graph -> addNode();
+  (*m_bbs)[n] = &bb;
+  bb.m_id = n;
+
+  ostringstream oss;
+  oss << "BB" << m_graph -> id (bb.m_id);
+  bb.m_label = oss.str();
+  bb.m_name = m_label + bb.m_label;
+
+  return bb.m_id;
 }
 
-ListDigraph::Node
-Function::addExit ()
+Arc
+Function::addEdge (Node &n, Node &m)
 {
-  string name = "exit";
-  BasicBlock *bb = new BasicBlock (*this, name);
-  exit_ = addBasicBlock (*bb);
-  return exit_;
-}
-
-ListDigraph::Arc
-Function::addControlFlowEdge (ListDigraph::Node n, ListDigraph::Node m)
-{
-  ListDigraph::Arc a = graph_ -> addArc (n, m);
-  return a;
+  return m_graph -> addArc (n, m);
 }
 
 
 BasicBlock *
-Function::findNode (string s)
+Function::findNode (string &s)
 {
   BasicBlock *bb;
-  ListDigraph::NodeIt n (*graph_);
+  NodeIt n (*m_graph);
   for (; n != INVALID; ++n)
     {
-      bb = (*basicblocks_)[n];
-      if (bb -> label_ == s)
+      bb = (*m_bbs)[n];
+      if (bb -> m_label == s)
 	break;
     }
 

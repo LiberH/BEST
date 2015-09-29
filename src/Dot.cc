@@ -1,10 +1,10 @@
 #include "Dot.h"
+
 #include "CFG.h"
 #include "Function.h"
 #include "BasicBlock.h"
 #include "Instruction.h"
-#include <lemon/list_graph.h>
-#include <graphviz/cgraph.h>
+
 #include <iostream>
 
 #define C(s) ((char *) (s).c_str ())
@@ -17,25 +17,24 @@ static int flush (void *);
 static Agiodisc_t agiodisc = { AgIoDisc.afread, &putstr, &flush }; 
 static Agdisc_t agdisc = { NULL, NULL, &agiodisc };
 
-typedef ListDigraph::NodeMap<Agnode_t *> AgnodeMap;
-
-static AgnodeMap
-*toDot_ (BasicBlock &bb, Agraph_t *agraph)
+AgnodeMap *
+Dot::toDot_ (BasicBlock &bb, Agraph_t *agraph)
 {
-  AgnodeMap *agnodes = new AgnodeMap (*bb.graph_);
-  ListDigraph::NodeIt n (*bb.graph_);
+  Graph *graph = bb.m_graph;
+  AgnodeMap *agnodes = new AgnodeMap (*graph);
+  NodeIt n (*graph);
   for (; n != INVALID; ++n)
     {
-      Instruction *i = (*bb.instructions_)[n];
-      (*agnodes)[n] = agnode (agraph, C(i -> name_), TRUE);
-      agsafeset ((*agnodes)[n], "label", C(i -> label_), "error");
+      Instruction *i = (*bb.m_instrs)[n];
+      (*agnodes)[n] = agnode (agraph, C(i -> m_name), TRUE);
+      agsafeset ((*agnodes)[n], "label", C(i -> m_label), "error");
     }
   
-  ListDigraph::ArcIt a (*bb.graph_);
+  ArcIt a (*graph);
   for (; a != INVALID; ++a)
     {
-      ListDigraph::Node n = bb.graph_ -> source (a);
-      ListDigraph::Node m = bb.graph_ -> target (a);
+      Node n = graph -> source (a);
+      Node m = graph -> target (a);
       agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
     }
 
@@ -46,7 +45,7 @@ string
 Dot::toDot (BasicBlock &bb)
 {
   ostringstream oss;
-  Agraph_t *agraph = agopen (C(bb.label_), Agdirected, &agdisc);
+  Agraph_t *agraph = agopen (C(bb.m_label), Agdirected, &agdisc);
 
   toDot_ (bb, agraph);
   agwrite (agraph, &oss);
@@ -56,30 +55,29 @@ Dot::toDot (BasicBlock &bb)
 
 /* --- */
 
-static AgnodeMap
-*toDot_ (Function &f, Agraph_t *agraph)
+AgnodeMap *
+Dot::toDot_ (Function &f, Agraph_t *agraph, LabelMap *m)
 {
-  agattr (agraph, AGRAPH, "label", C(f.label_));
+  agattr (agraph, AGRAPH, "label", C(f.m_label));
   agattr (agraph, AGRAPH, "style", "bold, rounded");
   agattr (agraph, AGEDGE, "style", "solid");
 
-  AgnodeMap *agnodes = new AgnodeMap (*f.graph_);  
-  ListDigraph::NodeIt n (*f.graph_);
+  Graph *graph = f.m_graph;
+  AgnodeMap *agnodes = new AgnodeMap (*graph);  
+  NodeIt n (*graph);
   for (; n != INVALID; ++n)
     {
-      BasicBlock *bb = (*f.basicblocks_)[n];
-      (*agnodes)[n] = agnode (agraph, C(bb -> name_), TRUE);
-      agsafeset ((*agnodes)[n], "label", C(bb -> label_), "error");
-      
-      // Agraph_t *subg = agsubg (agraph, C(bb -> name_), TRUE);
-      // toDot_ (*bb, subg);
+      BasicBlock *bb = (*f.m_bbs)[n];
+      string label = m ? (*m)[n] : bb -> m_label;
+      (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
+      agsafeset ((*agnodes)[n], "label", C(label), "error");
     }
     
-  ListDigraph::ArcIt a (*f.graph_);
+  ArcIt a (*graph);
   for (; a != INVALID; ++a)
     {
-      ListDigraph::Node n = f.graph_ -> source (a);
-      ListDigraph::Node m = f.graph_ -> target (a);
+      Node n = graph -> source (a);
+      Node m = graph -> target (a);
       agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
     }
 
@@ -87,26 +85,26 @@ static AgnodeMap
 }
 
 string
-Dot::toDot (Function &f)
+Dot::toDot (Function &f, LabelMap *m)
 {
   ostringstream oss;
-  Agraph_t *agraph = agopen (C(f.label_), Agdirected, &agdisc);
+  Agraph_t *agraph = agopen (C(f.m_label), Agdirected, &agdisc);
 
-  toDot_ (f, agraph);
+  toDot_ (f, agraph, m);
   agwrite (agraph, &oss);
   agclose (agraph);
   return oss.str ();
 }
-
+/*
 string
 Dot::toDot (Function &f, LabelMap &labels)
 {
   AgnodeMap *agnodes;
   ostringstream oss;
-  Agraph_t *agraph = agopen (C(f.label_), Agdirected, &agdisc);
+  Agraph_t *agraph = agopen (C(f.label), Agdirected, &agdisc);
 
-  agnodes = toDot_ (f, agraph);
-  ListDigraph::NodeIt n (*f.graph_);
+  agnodes = toDot (f, agraph);
+  NodeIt n (*f.graph);
   for (; n != INVALID; ++n)
     agsafeset ((*agnodes)[n], "label", C(labels[n]), "error");
   
@@ -114,44 +112,43 @@ Dot::toDot (Function &f, LabelMap &labels)
   agclose (agraph);
   return oss.str ();
 }
-
+*/
 /* --- */
 
-static void
-toDot_ (CFG &cfg, Agraph_t *agraph)
+void
+Dot::toDot_ (CFG &cfg, Agraph_t *agraph)
 {
-  AgnodeMap *agnodes;
-  agattr (agraph, AGRAPH, "label", C(cfg.label_));
+  agattr (agraph, AGRAPH, "label", C(cfg.m_label));
   agattr (agraph, AGEDGE, "style", "bold");
   
-  ListDigraph::NodeIt n (*cfg.graph_);
+  NodeIt n (*cfg.m_graph);
   for (; n != INVALID; ++n)
     {
-      Function *f = (*cfg.functions_)[n];
-      Agraph_t *subg = agsubg (agraph, C(f -> name_), TRUE);
-      agnodes = toDot_ (*f, subg);
+      Function *f = (*cfg.m_functs)[n];
+      Agraph_t *subg = agsubg (agraph, C("cluster" + f -> m_label), TRUE);
+      AgnodeMap *agnodes = toDot_ (*f, subg);
 
-      ListDigraph::NodeIt m (*f -> graph_);
+      NodeIt m (*f -> m_graph);
       for (; m != INVALID; ++m)
 	{
-	  BasicBlock *bb = (*f -> basicblocks_)[m];
-	  if (bb -> call_ != NULL)
+	  BasicBlock *bb = (*f -> m_bbs)[m];
+	  if (bb -> m_call)
 	    {
-	      ListDigraph::Node o = bb -> return_;
-	      Agedge_t *age = agedge (agraph, (*agnodes)[m], (*agnodes)[o], NULL, TRUE);
+	      Function *g = bb -> m_call;
+	      Node      o = bb -> m_ret;
+
+	      // Dashize the "call-site to return-site" edge:
+	      Agedge_t *age = agedge (agraph, (*agnodes)[m], (*agnodes)[o], NULL, FALSE);
 	      agsafeset (age, "style", "dashed", "error");
 	      
-	      Function *g = bb -> call_;
-	      Agraph_t *subg = agsubg (agraph, C(g -> name_), FALSE);
-	      BasicBlock *bbe = (*g -> basicblocks_)[g -> entry_];
-	      Agnode_t *agne = agnode (subg, C(bbe -> name_), FALSE);
+	      BasicBlock *bbe  = (*g -> m_bbs)[g -> m_entry];
+	      BasicBlock *bbx  = (*g -> m_bbs)[g -> m_exit ];
+	      Agraph_t   *subg = agsubg (agraph, C("cluster" + g -> m_label), FALSE);
+	      Agnode_t   *agne = agnode (subg, C(bbe -> m_name), FALSE);
+	      Agnode_t   *agnx = agnode (subg, C(bbx -> m_name), FALSE);
 	      agedge (agraph, (*agnodes)[m], agne, NULL, TRUE);	      
-	      
-	      BasicBlock *bbx = (*g -> basicblocks_)[g -> exit_];
-	      Agnode_t *agnx = agnode (subg, C(bbx -> name_), FALSE);
 	      agedge (agraph, agnx, (*agnodes)[o], NULL, TRUE);
 	    }
-
 	}
     }
 }
@@ -160,7 +157,7 @@ string
 Dot::toDot (CFG &cfg)
 {
   ostringstream oss;
-  Agraph_t *agraph = agopen (C(cfg.label_), Agdirected, &agdisc);
+  Agraph_t *agraph = agopen (C(cfg.m_label), Agdirected, &agdisc);
 
   toDot_ (cfg, agraph);
   agwrite (agraph, &oss);

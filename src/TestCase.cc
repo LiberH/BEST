@@ -1,96 +1,118 @@
 #include "TestCase.h"
-#include "staticInfo.h"
+#include "Instruction.h"
+#include "BasicBlock.h"
+#include "Function.h"
+#include "CFG.h"
+#include "DFS.h"
+#include "Dot.h"
 
 using namespace std;
 using namespace lemon;
 
-static CFG        *createCFG ();
-static Function   *createF0  (CFG &);
-static Function   *createF1  (CFG &);
-static BasicBlock *createBB  (Function &, string);
+static void createCFG (CFG &);
+static void createF0  (Function &, Function &);
+static void createF1  (Function &);
+static void createBB  (BasicBlock &);
 
 TestCase::TestCase ()
 {
-  CFG      *cfg = createCFG ();
-  Function *f1  = cfg -> findNode ("F1");
+  string cfg_name = "CFG";
+  CFG *cfg = new CFG (cfg_name);
+  createCFG (*cfg);
 
-  DistMap *dists = dfs (*f1);
-  LabelMap *labels = Dot::toLabels (*f1 -> graph_, dists);
-  cout << Dot::toDot (*f1, *labels) << endl;
+  string f1_name = "F1";
+  Function *f1 = cfg -> findNode (f1_name);
+  LabelMap *labels = DFS::labels (*f1);
+  
+  cout << Dot::toDot (*f1) << endl;
+  cout << Dot::toDot (*f1, labels) << endl;
 }
 
 /* --- */
 
-static CFG
-*createCFG ()
+static void
+createCFG (CFG &cfg)
 {
-  CFG      *cfg = new CFG ("CFG");
-  Function *f0  = createF0 (*cfg);
-  Function *f1  = createF1 (*cfg);
+  Function *f0 = new Function;
+  Function *f1 = new Function;
   
-  cfg -> addFunction (*f0);
-  cfg -> addFunction (*f1);
-  cfg -> addCall (*f0, "BB1", "BB3", *f1);
-  
-  return cfg;
+  cfg.addNode (*f0);
+  cfg.addNode (*f1);
+
+  createF1 (*f1);
+  createF0 (*f0, *f1);
 }
 
-static Function
-*createF0 (CFG &cfg)
+static void
+createF0 (Function &f0, Function &f1)
 {
-  Function   *f   = new Function (cfg, "F0");
-  BasicBlock *bb0 = createBB (*f, "BB0");
-  BasicBlock *bb1 = createBB (*f, "BB1");
-  BasicBlock *bb2 = createBB (*f, "BB2");
-  BasicBlock *bb3 = createBB (*f, "BB3");
+  BasicBlock *bb0 = new BasicBlock;
+  BasicBlock *bb1 = new BasicBlock;
+  BasicBlock *bb2 = new BasicBlock;
+  BasicBlock *bb3 = new BasicBlock;
+  BasicBlock *bb4 = new BasicBlock;
   
-  ListDigraph::Node n0 = f -> addEntry (*bb0);
-  ListDigraph::Node n1 = f -> addBasicBlock (*bb1);
-  ListDigraph::Node n2 = f -> addBasicBlock (*bb2);
-  ListDigraph::Node n3 = f -> addBasicBlock (*bb3);
-  ListDigraph::Node nx = f -> addExit ();
+  createBB (*bb0);
+  createBB (*bb1);
+  createBB (*bb2);
+  createBB (*bb3);
+  createBB (*bb4);
 
-  f -> addControlFlowEdge (n0, n1);
-  f -> addControlFlowEdge (n0, n2);
-  f -> addControlFlowEdge (n3, n2);
-  f -> addControlFlowEdge (n2, nx);
+  Node n0 = f0.addNode (*bb0);
+  Node n1 = f0.addNode (*bb1);
+  Node n2 = f0.addNode (*bb2);
+  Node n3 = f0.addNode (*bb3);
+  Node n4 = f0.addNode (*bb4);
+
+  bb1 -> call (&f1);
+  bb1 -> ret  (n3);
   
-  return f;
+  f0.entry  (n0);
+  f0.exit   (n4);
+  
+  f0.addEdge (n0, n1);
+  f0.addEdge (n0, n2);
+  f0.addEdge (n1, n3);
+  f0.addEdge (n2, n4);
+  f0.addEdge (n3, n2);
 }
 
-static Function
-*createF1 (CFG &cfg)
+static void
+createF1 (Function &f1)
 {
-  Function   *f   = new Function (cfg, "F1");
-  BasicBlock *bb0 = createBB (*f, "BB0");
-  BasicBlock *bb1 = createBB (*f, "BB1");
-  BasicBlock *bb2 = createBB (*f, "BB2");
+  BasicBlock *bb0 = new BasicBlock;
+  BasicBlock *bb1 = new BasicBlock;
+  BasicBlock *bb2 = new BasicBlock;
+  BasicBlock *bb3 = new BasicBlock;
+
+  createBB (*bb0);
+  createBB (*bb1);
+  createBB (*bb2);
+  createBB (*bb3);
   
-  ListDigraph::Node n0 = f -> addEntry (*bb0);
-  ListDigraph::Node n1 = f -> addBasicBlock (*bb1);
-  ListDigraph::Node n2 = f -> addBasicBlock (*bb2);
-  ListDigraph::Node nx = f -> addExit ();
+  Node n0 = f1.addNode (*bb0);
+  Node n1 = f1.addNode (*bb1);
+  Node n2 = f1.addNode (*bb2);
+  Node n3 = f1.addNode (*bb3);
 
-  f -> addControlFlowEdge (n0, n1);
-  f -> addControlFlowEdge (n1, n0);
-  f -> addControlFlowEdge (n1, n2);
-  f -> addControlFlowEdge (n2, nx);
-
-  return f;
+  f1.entry (n0);
+  f1.exit  (n3);
+  
+  f1.addEdge (n0, n1);
+  f1.addEdge (n1, n0);
+  f1.addEdge (n1, n2);
+  f1.addEdge (n2, n3);
 }
 
-static BasicBlock
-*createBB (Function &f, string name)
+static void
+createBB (BasicBlock &bb)
 {
-  BasicBlock  *bb = new BasicBlock (f, name);
-  staticInfo  *s0 = new staticInfo;
-  staticInfo  *s1 = new staticInfo;
-  Instruction *i0 = new Instruction (*bb, *s0);
-  Instruction *i1 = new Instruction (*bb, *s1);
+  Instruction *i0 = new Instruction;
+  Instruction *i1 = new Instruction;
   
-  ListDigraph::Node n0 = bb -> addLeader (*i0);
-  ListDigraph::Node n1 = bb -> addInstruction (*i1);
-
-  bb -> addFlowEdge (n0, n1);
-  return bb;
+  Node n0 = bb.addNode (*i0);
+  Node n1 = bb.addNode (*i1);
+  
+  bb.leader (n0);
+  bb.addEdge (n0, n1);
 }

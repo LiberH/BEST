@@ -1,28 +1,23 @@
 #include "Instruction.h"
-#include "BasicBlock.h"
-#include "staticInfo.h"
-#include <ostream>
 
 using namespace std;
 using namespace lemon;
 
-Instruction::Instruction (BasicBlock &bb, staticInfo &si)
+Instruction::Instruction()
 {
-  ostringstream oss;
+  m_id    = INVALID;
+  m_name  = string();
+  m_label = string();
   
-  id_         = INVALID;
-  oss        << hex << pc_;
-  label_      = oss.str();
-  oss        << bb.name_ << "_" << hex << pc_;
-  name_       = oss.str();
-  
-  pc_         = si.pc;
-  mnemo_      = si.mnemo;
-  write_regs_ = si.write_regs;
-  read_regs_  = si.read_regs;
-  is_branch_  = si.is_branch;
-  is_unkown_  = si.is_unkown;
-  do_link_    = si.do_link;
-  is_uncond_  = si.is_uncond;
-  target_     = si.target;
+  /*
+  m_pc         = si.pc;
+  m_mnemo      = si.mnemo;
+  m_write_regs = si.write_regs;
+  m_read_regs  = si.read_regs;
+  m_is_branch  = si.is_branch;
+  m_is_unkown  = si.is_unkown;
+  m_do_link    = si.do_link;
+  m_is_uncond  = si.is_uncond;
+  m_target     = si.target;
+  */
 }

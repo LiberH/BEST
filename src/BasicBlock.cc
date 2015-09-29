@@ -1,42 +1,40 @@
 #include "BasicBlock.h"
-#include "Function.h"
 #include "Instruction.h"
 
 using namespace std;
 using namespace lemon;
 
-BasicBlock::BasicBlock (Function &f, string s)
+BasicBlock::BasicBlock()
 {
-  id_           = INVALID;
-  label_        = s;
-  name_         = f.label_ + "_" + label_;
-  graph_        = new ListDigraph ();
-  instructions_ = new InstructionMap (*graph_, NULL);
-  leader_       = INVALID;
-  call_         = NULL;
-  return_       = INVALID;
-}
-
-ListDigraph::Node
-BasicBlock::addInstruction (Instruction &i)
-{
-  ListDigraph::Node n = graph_ -> addNode ();
-  (*instructions_)[n] = &i;
-  i.id_ = n;
+  m_id     = INVALID;
+  m_name   = string();
+  m_label  = string();
   
-  return i.id_;
+  m_graph  = new Graph ();
+  m_instrs = new InstrMap (*m_graph, NULL);
+  m_leader = INVALID;
+  
+  m_call   = NULL;
+  m_ret    = INVALID;
 }
 
-ListDigraph::Node
-BasicBlock::addLeader (Instruction &i)
+Node
+BasicBlock::addNode (Instruction &i)
 {
-  leader_ = addInstruction (i);
-  return leader_;
+  Node n = m_graph -> addNode();
+  (*m_instrs)[n] = &i;
+  i.m_id = n;
+
+  ostringstream oss;
+  oss << "I" << m_graph -> id (i.m_id);
+  i.m_label = oss.str();
+  i.m_name  = m_label + i.m_label;
+  
+  return i.m_id;
 }
 
-ListDigraph::Arc
-BasicBlock::addFlowEdge (ListDigraph::Node n, ListDigraph::Node m)
+Arc
+BasicBlock::addEdge (Node &n, Node &m)
 {  
-  ListDigraph::Arc a = graph_ -> addArc (n, m);
-  return a;
+  return m_graph -> addArc (n, m);
 }

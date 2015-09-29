@@ -1,47 +1,41 @@
 #include "CFG.h"
 #include "Function.h"
-#include "BasicBlock.h"
-#include <iostream>
 
 using namespace std;
 using namespace lemon;
 
-CFG::CFG (string s)
+CFG::CFG(string &s)
 {
-  label_     = s;
-  graph_     = new ListDigraph ();
-  functions_ = new FunctionMap (*graph_, NULL);
-}
-
-ListDigraph::Node
-CFG::addFunction (Function &f)
-{
-  ListDigraph::Node n = graph_ -> addNode ();
-  (*functions_)[n] = &f;
-  f.id_ = n;
+  m_label  = s;
   
-  return f.id_;
+  m_graph  = new Graph ();
+  m_functs = new FunctMap (*m_graph, NULL);
 }
 
-void
-CFG::addCall (Function &f, string s, string t, Function &g)
+Node
+CFG::addNode (Function &f)
 {
-  BasicBlock *cs = f.findNode (s);
-  BasicBlock *rs = f.findNode (t);
-  cs -> return_ = rs -> id_;
-  cs -> call_ = &g;
-}
+  Node n = m_graph -> addNode();
+  (*m_functs)[n] = &f;
+  f.m_id = n;
+  
+  ostringstream oss;
+  oss << "F" << m_graph -> id (f.m_id);
+  f.m_label = oss.str();
+  f.m_name = f.m_label;
 
+  return f.m_id;
+}
 
 Function *
-CFG::findNode (string s)
+CFG::findNode (string &s)
 {
   Function *f;
-  ListDigraph::NodeIt n (*graph_);
+  NodeIt n (*m_graph);
   for (; n != INVALID; ++n)
     {
-      f = (*functions_)[n];
-      if (f -> label_ == s)
+      f = (*m_functs)[n];
+      if (f -> m_label == s)
 	break;
     }
 
