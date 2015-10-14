@@ -1,23 +1,19 @@
-#ifndef _INSTRUCTION_H_
-#define _INSTRUCTION_H_
+#ifndef _INST_H_
+#define _INST_H_
 
-#include "types.h"
 #include <lemon/list_graph.h>
 
-using namespace std;
-using namespace lemon;
-
-class Instruction {
-  friend class BasicBlock;
+class Inst {
+  friend class BB;
   friend class Dot;
   
 public:
-  Instruction();
+  Inst ();
   
 protected:
-  Node   m_id;
-  string m_name;
-  string m_label;
+  lemon::ListDigraph::Node   m_id;
+    std::             string m_name;
+    std::             string m_label;
   
   /*
   u32    m_pc;
@@ -32,4 +28,4 @@ protected:
   */
 };
 
-#endif // _INSTRUCTION_H_
+#endif // _INST_H_

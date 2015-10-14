@@ -1,28 +1,41 @@
 #ifndef _CFG_H_
 #define _CFG_H_
 
-#include "types.h"
 #include <lemon/list_graph.h>
 
-using namespace std;
-using namespace lemon;
-
-class Function;
-typedef ListDigraph::NodeMap<Function *> FunctMap;
-
+class BB;
 class CFG {
+  friend class ICFG;
+  friend class DFTree;
   friend class Dot;
   
 public:
-  CFG (string &);
-  Node addNode (Function &);  
-  Function *findNode (string &);
+  CFG ();
+  CFG (const CFG &);
+  
+  static CFG *reverse (const CFG &);
+  static CFG *DFS     (const CFG &);
+
+  lemon::ListDigraph::Node  addNode  (                    BB     &);
+  lemon::ListDigraph::Arc   addEdge  (lemon::ListDigraph::Node   &,
+				      lemon::ListDigraph::Node   &);
+                      BB   *findNode (  std::             string &);
+
+  lemon::ListDigraph::Node &entry () { return m_entry; };
+  lemon::ListDigraph::Node &exit  () { return m_exit;  };
+
+  void entry (lemon::ListDigraph::Node &n) { m_entry = n; };
+  void exit  (lemon::ListDigraph::Node &n) { m_exit  = n; };
 
 protected:
-  string    m_label;
+  lemon::ListDigraph::Node           m_id;
+    std::             string         m_label;
+    std::             string         m_name;
   
-  Graph    *m_graph;
-  FunctMap *m_functs;
+  lemon::             ListDigraph   *m_graph;
+  lemon::ListDigraph::NodeMap<BB *> *m_bbs;
+  lemon::ListDigraph::Node           m_entry;
+  lemon::ListDigraph::Node           m_exit;
 };
 
 #endif // _CFG_H_

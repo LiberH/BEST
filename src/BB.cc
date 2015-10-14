@@ -1,27 +1,26 @@
-#include "BasicBlock.h"
-#include "Instruction.h"
+#include "BB.h"
+#include "Inst.h"
 
-using namespace std;
 using namespace lemon;
+using namespace std;
 
-BasicBlock::BasicBlock()
+BB::BB()
 {
   m_id     = INVALID;
   m_name   = string();
   m_label  = string();
   
-  m_graph  = new Graph ();
-  m_instrs = new InstrMap (*m_graph, NULL);
-  m_leader = INVALID;
-  
+  m_graph  = new ListDigraph ();
+  m_instrs = new ListDigraph::NodeMap<Inst *> (*m_graph, NULL);
+  m_leader = INVALID;  
   m_call   = NULL;
   m_ret    = INVALID;
 }
 
-Node
-BasicBlock::addNode (Instruction &i)
+ListDigraph::Node
+BB::addNode (Inst &i)
 {
-  Node n = m_graph -> addNode();
+  ListDigraph::Node n = m_graph -> addNode();
   (*m_instrs)[n] = &i;
   i.m_id = n;
 
@@ -33,8 +32,9 @@ BasicBlock::addNode (Instruction &i)
   return i.m_id;
 }
 
-Arc
-BasicBlock::addEdge (Node &n, Node &m)
+ListDigraph::Arc
+BB::addEdge (ListDigraph::Node &n,
+	     ListDigraph::Node &m)
 {  
   return m_graph -> addArc (n, m);
 }

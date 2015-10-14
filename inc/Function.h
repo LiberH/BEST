@@ -12,7 +12,7 @@ typedef ListDigraph::NodeMap<BasicBlock *> BBMap;
 
 class Function {
   friend class CFG;
-  friend class DFS;
+  friend class PDT;
   friend class Dot;
   
 public:
