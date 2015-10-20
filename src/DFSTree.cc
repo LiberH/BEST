@@ -1,33 +1,46 @@
-#include "DFTree.h"
+#include "DFSTree.h"
 #include "CFG.h"
 #include <lemon/dfs.h>
 
 using namespace lemon;
 using namespace std;
 
-DFTree::DFTree (const CFG &cfg)
+DFSTree::DFSTree (const CFG &cfg)
 {
   m_label = string ();
-  m_cfg = &cfg;
-  m_ref = new ListDigraph::NodeMap<ListDigraph::Node> (*m_cfg -> m_graph);
+  m_cfg   = &cfg;
+  m_ref   = new ListDigraph::NodeMap<ListDigraph::Node> (*m_cfg -> m_graph);
 
+  int count = countNodes (*m_cfg -> m_graph);
+  m_list  = new vector<ListDigraph::Node> (count, INVALID);
   m_graph = new ListDigraph ();
   ListDigraph::NodeIt n (*m_cfg -> m_graph);
   for (; n != INVALID; ++n)
     (*m_ref)[n] = m_graph -> addNode ();
 
   Dfs<ListDigraph> dfs (*m_cfg -> m_graph);
-  ListDigraph::NodeMap<ListDigraph::Node> parent (*m_cfg -> m_graph, INVALID);    
-  
+  m_order  = new ListDigraph::NodeMap<int> (*m_cfg -> m_graph, -1);
+  m_parent = new ListDigraph::NodeMap<ListDigraph::Node> (*m_cfg -> m_graph, INVALID);    
+
+  int i = 0;
   dfs.init ();
   dfs.addSource (m_cfg -> m_entry);
+  (*m_list)[i] = m_cfg -> m_entry;
+  (*m_order)[m_cfg -> m_entry] = i;
+  (*m_parent)[m_cfg -> m_entry] = INVALID;
   while (!dfs.emptyQueue ())
     {
       ListDigraph::Arc  a = dfs.nextArc ();
       ListDigraph::Node u = m_cfg -> m_graph -> source (a);
       ListDigraph::Node v = m_cfg -> m_graph -> target (a);
       if (!dfs.reached (v))
-	parent[v] = u;
+	{
+	  i++;
+	  
+	  (*m_list  )[i] = v;
+	  (*m_order )[v] = i;
+	  (*m_parent)[v] = u;
+	}
       
       dfs.processNextArc ();
     }
@@ -36,5 +49,6 @@ DFTree::DFTree (const CFG &cfg)
   ListDigraph::NodeIt m (*m_cfg -> m_graph);
   for (; m != INVALID; ++m)
     if ((*m_ref)[m] != m_root)
-      m_graph -> addArc ((*m_ref)[parent[m]], (*m_ref)[m]);
+      m_graph -> addArc ((*m_ref)[(*m_parent)[m]], (*m_ref)[m]);
+
 }

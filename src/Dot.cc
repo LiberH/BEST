@@ -1,7 +1,7 @@
 #include "Dot.h"
 #include "ICFG.h"
 #include "PDT.h"
-#include "DFTree.h"
+#include "DFSTree.h"
 #include "CFG.h"
 #include "BB.h"
 #include "Inst.h"
@@ -99,7 +99,7 @@ Dot::toDot (CFG &f)
 /* --- */
 
 ListDigraph::NodeMap<Agnode_t *> *
-Dot::toDot_ (DFTree &t, Agraph_t *agraph)
+Dot::toDot_ (DFSTree &t, Agraph_t *agraph)
 {
   agattr (agraph, AGRAPH, "label", C(t.m_label));
   agattr (agraph, AGEDGE, "style", "solid");
@@ -126,7 +126,7 @@ Dot::toDot_ (DFTree &t, Agraph_t *agraph)
 }
 
 string
-Dot::toDot (DFTree &t)
+Dot::toDot (DFSTree &t)
 {
   ostringstream oss;
   Agraph_t *agraph = agopen (C(t.m_label), Agdirected, &agdisc);

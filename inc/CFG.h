@@ -6,7 +6,8 @@
 class BB;
 class CFG {
   friend class ICFG;
-  friend class DFTree;
+  friend class DFSTree;
+  friend class PDT;
   friend class Dot;
   
 public:

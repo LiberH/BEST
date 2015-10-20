@@ -8,7 +8,8 @@ class Inst;
 class BB {
   friend class CFG;
   friend class Dot;
-  friend class Tree;
+  friend class DFSTree; // To remove
+  friend class PDT; // To remove
   
 public:
   BB ();

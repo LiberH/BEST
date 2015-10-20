@@ -19,13 +19,13 @@ $(DIRS):
 	mkdir -p $(DIRS)
 
 # Object files:
-OBJS =	$(OBJ)/Inst.o	\
-	$(OBJ)/BB.o	\
-	$(OBJ)/CFG.o	\
-	$(OBJ)/DFTree.o	\
-	$(OBJ)/PDT.o	\
-	$(OBJ)/ICFG.o	\
-	$(OBJ)/Dot.o	\
+OBJS =	$(OBJ)/Inst.o		\
+	$(OBJ)/BB.o		\
+	$(OBJ)/CFG.o		\
+	$(OBJ)/DFSTree.o	\
+	$(OBJ)/PDT.o		\
+	$(OBJ)/ICFG.o		\
+	$(OBJ)/Dot.o		\
 	$(OBJ)/main.o
 objs: dirs $(OBJS)
 $(OBJ)/Dot.o: $(SRC)/Dot.cc
