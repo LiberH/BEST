@@ -22,17 +22,22 @@ main (int argc, char *argv[])
   f << Dot::toDot (*cfg);
   f.close ();
   
-  CFG *reverse_cfg = CFG::reverse (*cfg);
+  CFG *rcfg = CFG::reverse (*cfg);
   f.open ("test/rcfg.dot");
-  f << Dot::toDot (*reverse_cfg);
+  f << Dot::toDot (*rcfg);
   f.close ();
 
-  DFSTree *dfs_tree = new DFSTree (*reverse_cfg);
-  f.open ("test/dfs.dot");
-  f << Dot::toDot (*dfs_tree);
+  DFSTree *dfsg = new DFSTree (*rcfg);
+  f.open ("test/dfsg.dot");
+  f << Dot::toDot (*dfsg);
+  f.close ();
+
+  DFSTree *dfst = DFSTree::tree (*dfsg);
+  f.open ("test/dfst.dot");
+  f << Dot::toDot (*dfst);
   f.close ();
   
-  PDT *pdt = new PDT (*reverse_cfg, *dfs_tree);
+  PDT *pdt = new PDT (*rcfg, *dfst);
   f.open ("test/pdt.dot");
   f << Dot::toDot (*pdt);
   f.close ();

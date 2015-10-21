@@ -15,7 +15,6 @@ public:
   CFG (const CFG &);
   
   static CFG *reverse (const CFG &);
-  static CFG *DFS     (const CFG &);
 
   lemon::ListDigraph::Node  addNode  (                    BB     &);
   lemon::ListDigraph::Arc   addEdge  (lemon::ListDigraph::Node   &,

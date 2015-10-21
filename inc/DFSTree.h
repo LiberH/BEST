@@ -9,8 +9,11 @@ class DFSTree {
   friend class Dot;
   
 public:
-  DFSTree (const CFG &);
+  DFSTree (const DFSTree &);
+  DFSTree (const CFG     &);
 
+  static DFSTree *tree (const DFSTree &);
+  
 protected:
           std::             string                             m_label;
   const                     CFG                               *m_cfg;

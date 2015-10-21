@@ -110,8 +110,12 @@ Dot::toDot_ (DFSTree &t, Agraph_t *agraph)
   for (; n != INVALID; ++n)
     {
       BB *bb = (*t.m_cfg -> m_bbs)[n];
-      (*agnodes)[n] = agnode (agraph, C(bb -> m_label), TRUE);
-      agsafeset ((*agnodes)[n], "label", C(bb -> m_name), "error");
+      (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
+      agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
+
+      ostringstream oss;
+      oss << "(" << (*t.m_order)[n] << ")";
+      agsafeset ((*agnodes)[n], "xlabel", C(oss.str()), "error");
     }
 
   ListDigraph::ArcIt a (*graph);
@@ -145,13 +149,13 @@ Dot::toDot_ (PDT &pdt, Agraph_t *agraph)
   agattr (agraph, AGRAPH, "label", C(pdt.m_label));
 
   ListDigraph *graph = pdt.m_graph;
-  //CFG *f = pdt.m_funct;
+  CFG *cfg = pdt.m_cfg;
   ListDigraph::NodeMap<Agnode_t *> *agnodes = new ListDigraph::NodeMap<Agnode_t *> (*graph);
   ListDigraph::NodeIt n (*graph);
   for (; n != INVALID; ++n)
     {
-      //BB *bb = (*f -> m_bbs)[(*nr)[n]];
-      (*agnodes)[n] = agnode (agraph, NULL, TRUE);//C(bb -> m_name), TRUE);
+      BB *bb = (*cfg -> m_bbs)[n];
+      (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
       //agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
     }
     

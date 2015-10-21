@@ -46,7 +46,8 @@ run: target
 # PNG file from Dot export:
 PNGS =	$(TEST)/cfg.png		\
 	$(TEST)/rcfg.png	\
-	$(TEST)/dfs.png		\
+	$(TEST)/dfsg.png	\
+	$(TEST)/dfst.png	\
 	$(TEST)/pdt.png
 dot: run $(PNGS)
 $(TEST)/%.png: $(TEST)/%.dot
@@ -54,6 +55,6 @@ $(TEST)/%.png: $(TEST)/%.dot
 
 # Clean:
 clean:
-	rm -rf ./$(OBJ)
-	rm -rf ./$(BIN)
-	rm -rf ./$(TEST)
+	rm -rf ./$(OBJ)/*
+	rm -rf ./$(BIN)/*
+	rm -rf ./$(TEST)/*

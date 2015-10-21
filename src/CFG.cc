@@ -79,53 +79,6 @@ CFG::reverse (const CFG &f)
   return g;
 }
 
-CFG *
-CFG::DFS (const CFG &f)
-{
-  int i = 0;
-  CFG *g = new CFG (f);
-  Dfs<ListDigraph> dfs (*g -> m_graph);
-  ListDigraph::NodeMap<ListDigraph::Node> parent (*g -> m_graph);
-  
-  ListDigraph::Node r = g -> m_entry;
-  BB *bb = (*g -> m_bbs)[r];
-  ostringstream oss;
-  oss << i;
-  bb -> m_label = oss.str ();
-  
-  dfs.init ();
-  dfs.addSource (r);
-  while (!dfs.emptyQueue ())
-    {
-      ListDigraph::Arc  a = dfs.nextArc ();
-      ListDigraph::Node u = g -> m_graph -> source (a);
-      ListDigraph::Node v = g -> m_graph -> target (a);
-      if (!dfs.reached (v))
-	{
-	  ++i;
-
-	  BB *bb = (*g -> m_bbs)[v];
-	  ostringstream oss;
-	  oss << i;
-	  bb -> m_label = oss.str ();
-	  parent[v] = u;
-	}
-      
-      dfs.processNextArc ();
-    }
-  
-  ListDigraph::ArcIt a (*g -> m_graph);
-  for (; a != INVALID; ++a)
-    g -> m_graph -> erase (a);
-
-  ListDigraph::NodeIt n (*g -> m_graph);
-  for (; n != INVALID; ++n)
-    if (n != g -> m_entry)
-      g -> m_graph -> addArc (parent[n], n);
-  
-  return g;
-}
-
 ListDigraph::Node
 CFG::addNode (BB &bb)
 {
