@@ -1,6 +1,7 @@
-#ifndef _INST_H_
-#define _INST_H_
+#ifndef _INST_HPP_
+#define _INST_HPP_
 
+#include <string>
 #include <lemon/list_graph.h>
 
 class Inst {
@@ -8,7 +9,7 @@ class Inst {
   friend class Dot;
   
 public:
-  Inst ();
+  Inst (std::string);
   
 protected:
   lemon::ListDigraph::Node   m_id;
@@ -28,4 +29,4 @@ protected:
   */
 };
 
-#endif // _INST_H_
+#endif // _INST_HPP_

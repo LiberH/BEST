@@ -1,13 +1,13 @@
-#include "Inst.h"
+#include "Inst.hpp"
 
 using namespace lemon;
 using namespace std;
 
-Inst::Inst ()
+Inst::Inst (string label)
 {
   m_id    = INVALID;
   m_name  = string ();
-  m_label = string ();
+  m_label = label;
   
   /*
   m_pc         = si.pc;

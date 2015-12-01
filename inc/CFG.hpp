@@ -1,25 +1,21 @@
-#ifndef _CFG_H_
-#define _CFG_H_
+#ifndef _CFG_HPP_
+#define _CFG_HPP_
 
+#include <string>
 #include <lemon/list_graph.h>
 
 class BB;
 class CFG {
   friend class ICFG;
-  friend class DFSTree;
-  friend class PDT;
   friend class Dot;
   
 public:
-  CFG ();
-  CFG (const CFG &);
-  
-  static CFG *reverse (const CFG &);
+  CFG (std::string);
 
-  lemon::ListDigraph::Node  addNode  (                    BB     &);
-  lemon::ListDigraph::Arc   addEdge  (lemon::ListDigraph::Node   &,
-				      lemon::ListDigraph::Node   &);
-                      BB   *findNode (  std::             string &);
+  lemon::ListDigraph::Node  addNode  (     BB     &);
+  lemon::ListDigraph::Arc   addEdge  (     BB     &,
+					   BB     &);
+                      BB   *findNode (std::string &);
 
   lemon::ListDigraph::Node &entry () { return m_entry; };
   lemon::ListDigraph::Node &exit  () { return m_exit;  };
@@ -38,4 +34,4 @@ protected:
   lemon::ListDigraph::Node           m_exit;
 };
 
-#endif // _CFG_H_
+#endif // _CFG_HPP_

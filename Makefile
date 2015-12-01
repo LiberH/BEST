@@ -1,12 +1,14 @@
 CC       = g++
-CPPFLAGS = -I$(INC) -Wall -Werror -pedantic -g3 -DDEBUG
-LDFLAGS  = -L$(LIB) -lemon #-lelf -lp2a
+CPPFLAGS = -I$(INC) -Wall -Werror -pedantic
+CPPFLAGS += -DDEBUG -g3
+LDFLAGS  = -lemon
+#-L$(LIB) -lelf -lp2a
 
 INC  = inc
 SRC  = src
 OBJ  = obj
 BIN  = bin
-LIB  = lib
+#LIB  = lib
 TEST = test
 
 # Default:
@@ -19,37 +21,35 @@ $(DIRS):
 	mkdir -p $(DIRS)
 
 # Object files:
+#	$(OBJ)/DFSTree.o	
+#	$(OBJ)/PDT.o		
 OBJS =	$(OBJ)/Inst.o		\
 	$(OBJ)/BB.o		\
 	$(OBJ)/CFG.o		\
-	$(OBJ)/DFSTree.o	\
-	$(OBJ)/PDT.o		\
 	$(OBJ)/ICFG.o		\
 	$(OBJ)/Dot.o		\
 	$(OBJ)/main.o
 objs: dirs $(OBJS)
-$(OBJ)/Dot.o: $(SRC)/Dot.cc
-	$(CC) -o $@ -c $< $(CPPFLAGS) `pkg-config libgvc --cflags` -Wno-write-strings
-$(OBJ)/%.o: $(SRC)/%.cc
+$(OBJ)/Dot.o: $(SRC)/Dot.cpp
+	$(CC) -o $@ -c $< $(CPPFLAGS) -Wno-write-strings `pkg-config libgvc --cflags`
+$(OBJ)/%.o: $(SRC)/%.cpp
 	$(CC) -o $@ -c $< $(CPPFLAGS)
 
 # Executable file:
-TRGT = $(BIN)/slicer
-target: objs $(TRGT)
+TRGT = $(BIN)/main
+target: dirs objs $(TRGT)
 $(TRGT): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS) `pkg-config libgvc --libs`
 
 # Run:
-run: target
+run: dirs target
 	$(TRGT)
 
 # PNG file from Dot export:
-PNGS =	$(TEST)/cfg.png		\
-	$(TEST)/rcfg.png	\
-	$(TEST)/dfsg.png	\
-	$(TEST)/dfst.png	\
-	$(TEST)/pdt.png
-dot: run $(PNGS)
+PNGS =	$(TEST)/bb0.png		\
+	$(TEST)/cfg0.png	\
+	$(TEST)/icfg.png
+dot: dirs run $(PNGS)
 $(TEST)/%.png: $(TEST)/%.dot
 	dot -Tpng $< > $@
 
