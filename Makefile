@@ -1,14 +1,11 @@
 CC       = g++
-CPPFLAGS = -I$(INC) -Wall -Werror -pedantic
-CPPFLAGS += -DDEBUG -g3
-LDFLAGS  = -lemon
-#-L$(LIB) -lelf -lp2a
+CPPFLAGS = -I$(INC) -I../p2a -Wall -Werror -g3
+LDFLAGS  = -lemon -L../p2a/lib -lp2a -lelf
 
 INC  = inc
 SRC  = src
 OBJ  = obj
 BIN  = bin
-#LIB  = lib
 TEST = test
 
 # Default:
@@ -21,14 +18,18 @@ $(DIRS):
 	mkdir -p $(DIRS)
 
 # Object files:
-#	$(OBJ)/DFSTree.o	
-#	$(OBJ)/PDT.o		
-OBJS =	$(OBJ)/Inst.o		\
-	$(OBJ)/BB.o		\
-	$(OBJ)/CFG.o		\
-	$(OBJ)/ICFG.o		\
-	$(OBJ)/Dot.o		\
-	$(OBJ)/main.o
+OBJS =	$(OBJ)/Dot.o	\
+	$(OBJ)/main.o	\
+	$(OBJ)/Inst.o	\
+	$(OBJ)/BB.o	\
+	$(OBJ)/CFG.o	\
+	$(OBJ)/ICFG.o	\
+	$(OBJ)/DFS.o	\
+	$(OBJ)/DT.o	\
+	$(OBJ)/PDT.o	\
+	$(OBJ)/CDG.o	\
+	$(OBJ)/DDG.o	\
+	$(OBJ)/PDG.o	
 objs: dirs $(OBJS)
 $(OBJ)/Dot.o: $(SRC)/Dot.cpp
 	$(CC) -o $@ -c $< $(CPPFLAGS) -Wno-write-strings `pkg-config libgvc --cflags`
@@ -43,18 +44,17 @@ $(TRGT): $(OBJS)
 
 # Run:
 run: dirs target
-	$(TRGT)
+	$(TRGT) fibcall.elf
 
 # PNG file from Dot export:
-PNGS =	$(TEST)/bb0.png		\
-	$(TEST)/cfg0.png	\
-	$(TEST)/icfg.png
 dot: dirs run $(PNGS)
-$(TEST)/%.png: $(TEST)/%.dot
-	dot -Tpng $< > $@
+	for f in $(TEST)/*.dot; do \
+	  dot -Tpng $$f > $${f%.*}.png; \
+	done
 
 # Clean:
 clean:
-	rm -rf ./$(OBJ)/*
+	rm -rf ./$(OBJ)/*.o
 	rm -rf ./$(BIN)/*
-	rm -rf ./$(TEST)/*
+	rm -rf ./$(TEST)/*.dot
+	rm -rf ./$(TEST)/*.png

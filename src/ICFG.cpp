@@ -1,39 +1,28 @@
 #include "ICFG.hpp"
 #include "CFG.hpp"
 
-using namespace lemon;
 using namespace std;
+using namespace lemon;
 
-ICFG::ICFG (string label)
+ICFG::ICFG ()
 {
-  m_label = label;
+  ostringstream ss_name, ss_label;
+  ss_name  << "icfg";
+  ss_label << "ICFG";  
+
+  m_name  = ss_name.str ();
+  m_label = ss_label.str ();
   
   m_graph = new ListDigraph();
   m_cfgs  = new ListDigraph::NodeMap<CFG *> (*m_graph, NULL);
 }
 
 ListDigraph::Node
-ICFG::addNode (CFG &cfg)
+ICFG::addCFG (CFG &cfg)
 {
   ListDigraph::Node n = m_graph -> addNode();
-  (*m_cfgs)[n] = &cfg;
-  cfg.m_id = n;
+  cfg.m_name = m_name + cfg.m_name;
   
-  cfg.m_name = m_label + cfg.m_label;
-  return cfg.m_id;
-}
-
-CFG *
-ICFG::findNode (string &s)
-{
-  CFG *cfg;
-  ListDigraph::NodeIt n (*m_graph);
-  for (; n != INVALID; ++n)
-    {
-      cfg = (*m_cfgs)[n];
-      if (cfg -> m_label == s)
-	break;
-    }
-
-  return cfg;
+  (*m_cfgs)[n] = &cfg;  
+  return n;
 }

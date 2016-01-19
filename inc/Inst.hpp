@@ -1,32 +1,39 @@
 #ifndef _INST_HPP_
 #define _INST_HPP_
 
+#include "types.h"
 #include <string>
-#include <lemon/list_graph.h>
+#include <vector>
 
+class staticInfo;
 class Inst {
-  friend class BB;
   friend class Dot;
+  friend class BB;
+  friend class CFG;
+  friend class DDG;
   
 public:
-  Inst (std::string);
-  
+  Inst (const staticInfo &);
+  static std::vector<Inst *> *FromFile (std::string);
+
 protected:
-  lemon::ListDigraph::Node   m_id;
-    std::             string m_name;
-    std::             string m_label;
+    std::string  m_name;
+    std::string  m_label;
   
-  /*
-  u32    m_pc;
-  string m_mnemo;
-  u64    m_write_regs;
-  u64    m_read_regs;
-  bool   m_is_branch;
-  bool   m_is_unkown;
-  bool   m_do_link;
-  bool   m_is_uncond;
-  u64    m_target;
-  */
+         u32     m_addr;
+    std::string  m_disass;
+         u64     m_refs;
+         u64     m_defs;
+         Inst   *m_next;
+  
+         bool    m_branch;
+         bool    m_unknown;
+         bool    m_link;
+         bool    m_uncond;
+         u32     m_target;
+  
+private:
+  static int m_id;
 };
 
 #endif // _INST_HPP_

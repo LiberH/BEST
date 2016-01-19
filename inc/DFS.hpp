@@ -1,28 +1,24 @@
-#ifndef _DFSTREE_H_
-#define _DFSTREE_H_
+#ifndef _DFS_HPP_
+#define _DFS_HPP_
 
 #include <lemon/list_graph.h>
 
 class CFG;
-class DFSTree {
-  friend class PDT;
+class DFS {
   friend class Dot;
+  friend class DT;
+  friend class PDT;
   
 public:
-  DFSTree (const DFSTree &);
-  DFSTree (const CFG     &);
-
-  static DFSTree *tree (const DFSTree &);
+  DFS (const CFG &);
   
 protected:
-          std::             string                             m_label;
-  const                     CFG                               *m_cfg;
-        lemon::ListDigraph::NodeMap<lemon::ListDigraph::Node> *m_ref;
-          std::             vector<lemon::ListDigraph::Node>  *m_list;
-        lemon::             ListDigraph                       *m_graph;
-        lemon::ListDigraph::Node                               m_root;
-        lemon::ListDigraph::NodeMap<int>                      *m_order;
-        lemon::ListDigraph::NodeMap<lemon::ListDigraph::Node> *m_parent;
+    std::             string                             m_name;
+    std::             string                             m_label;
+  
+  lemon::ListDigraph::NodeMap<int>                      *m_order;
+  lemon::ListDigraph::NodeMap<lemon::ListDigraph::Node> *m_parent;
+    std::             vector <lemon::ListDigraph::Node> *m_list;
 };
 
-#endif // _DFSTREE_H_
+#endif // _DFS_HPP_

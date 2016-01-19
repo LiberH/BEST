@@ -1,0 +1,4 @@
+clean the code (at least CDG, DDG)
+check iterator decalrations
+stop using references
+add comment in .cpp: PRIVATE, PUBLIC, static

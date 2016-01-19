@@ -1,29 +1,15 @@
-#ifndef _PDT_H_
-#define _PDT_H_
+#ifndef _PDT_HPP_
+#define _PDT_HPP_
 
-#include <lemon/list_graph.h>
-#include <set>
+#include "DT.hpp"
 
 class CFG;
-class DFSTree;
-class PDT {
+class PDT: public DT {
   friend class Dot;
-
-public:
-  PDT (CFG &, DFSTree &);
-
-protected:
-    std::             string                             m_label;
-                      CFG                               *m_cfg;
-                      DFSTree                           *m_tree;
-  lemon::             ListDigraph                       *m_graph;
-  lemon::ListDigraph::NodeMap<lemon::ListDigraph::Node> *m_ref;
-  lemon::ListDigraph::NodeMap<int>                      *m_semi;
-  lemon::ListDigraph::NodeMap<lemon::ListDigraph::Node> *m_idom;
-  lemon::ListDigraph::NodeMap<lemon::ListDigraph::Node> *m_ancestor;
-  lemon::ListDigraph::NodeMap< std::set<lemon::ListDigraph::Node> > *m_bucket;
+  friend class CDG;
   
-private:
-  lemon::ListDigraph::Node eval (lemon::ListDigraph::Node);
+public:
+  PDT (const CFG &);
 };
-#endif // _PDT_H_
+
+#endif // _PDT_HPP_

@@ -8,14 +8,13 @@ class ICFG {
   friend class Dot;
   
 public:
-  ICFG (std::string);
-  
-  lemon::ListDigraph::Node  addNode  (     CFG    &);  
-                      CFG  *findNode (std::string &);
+  ICFG ();
+  lemon::ListDigraph::Node addCFG (CFG &);  
 
 protected:
+    std::             string          m_name;
     std::             string          m_label;
-  
+
   lemon::             ListDigraph    *m_graph;
   lemon::ListDigraph::NodeMap<CFG *> *m_cfgs;
 };

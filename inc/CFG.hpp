@@ -1,37 +1,45 @@
 #ifndef _CFG_HPP_
 #define _CFG_HPP_
 
-#include <string>
+#include "types.h"
 #include <lemon/list_graph.h>
+#include <map>
 
 class BB;
 class CFG {
-  friend class ICFG;
   friend class Dot;
-  
+  friend class ICFG;
+  friend class DFS;
+  friend class DT;
+  friend class PDT;
+  friend class CDG;
+  friend class DDG;
+  friend class PDG;
+
 public:
-  CFG (std::string);
-
-  lemon::ListDigraph::Node  addNode  (     BB     &);
-  lemon::ListDigraph::Arc   addEdge  (     BB     &,
-					   BB     &);
-                      BB   *findNode (std::string &);
-
-  lemon::ListDigraph::Node &entry () { return m_entry; };
-  lemon::ListDigraph::Node &exit  () { return m_exit;  };
-
-  void entry (lemon::ListDigraph::Node &n) { m_entry = n; };
-  void exit  (lemon::ListDigraph::Node &n) { m_exit  = n; };
-
-protected:
-  lemon::ListDigraph::Node           m_id;
-    std::             string         m_label;
-    std::             string         m_name;
+  lemon::ListDigraph::Node addBB   (BB &);
+  lemon::ListDigraph::Arc  addEdge (BB &, BB &);
   
-  lemon::             ListDigraph   *m_graph;
-  lemon::ListDigraph::NodeMap<BB *> *m_bbs;
-  lemon::ListDigraph::Node           m_entry;
-  lemon::ListDigraph::Node           m_exit;
+  static CFG *Reverse (const CFG &);
+  static CFG *FromFile (std::string);
+  
+protected:
+    std::             string                             m_name;
+    std::             string                             m_label;
+  
+  lemon::             ListDigraph                       *m_graph;
+    std::             map<int,lemon::ListDigraph::Node> *m_nodes;
+  lemon::ListDigraph::NodeMap<BB *>                     *m_bbs;
+  lemon::ListDigraph::NodeMap< std::vector<BB *> * >    *m_targets;
+  lemon::ListDigraph::Node                               m_entry;
+  lemon::ListDigraph::Node                               m_exit;
+
+private:
+  static int m_id;
+  
+  CFG ();
+  void findTargets (std::vector<BB *> &);
+  void blr_patch ();
 };
 
 #endif // _CFG_HPP_

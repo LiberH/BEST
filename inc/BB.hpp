@@ -1,34 +1,31 @@
 #ifndef _BB_HPP_
 #define _BB_HPP_
 
-#include <string>
-#include <lemon/list_graph.h>
+#include "types.h"
+#include <vector>
 
 class Inst;
-class CFG;
 class BB {
-  friend class CFG;
   friend class Dot;
+  friend class CFG;
+  friend class DDG;
   
 public:
-  BB (std::string);
-  void addNode (Inst &);
-  void addEdge (Inst &, Inst &);
-
-                      CFG  *call () { return m_call; };
-  lemon::ListDigraph::Node &ret  () { return m_ret;  };
-
-  void call (                    CFG  &c) { m_call = &c; };
-  void ret  (lemon::ListDigraph::Node &n) { m_ret  =  n; };
+  BB ();
+  
+  void addInst (Inst &);
+  static std::vector<BB *> *FromFile (std::string          );
+  static std::vector<u32 > *Leaders  (std::vector<Inst *> &);
   
 protected:
-  lemon::ListDigraph::Node            m_id;
-    std::             string          m_name;
-    std::             string          m_label;
+    std::string          m_name;
+    std::string          m_label;
   
-    std::             vector<Inst *> *m_instrs;
-                      CFG            *m_call;
-  lemon::ListDigraph::Node            m_ret;
+    std::vector<Inst *> *m_insts;
+         int             m_entry;
+
+private:
+  static int m_id;
 };
 
 #endif // _BB_HPP_

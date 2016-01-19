@@ -1,23 +1,78 @@
 #include "Inst.hpp"
 
-using namespace lemon;
+#include "arch.h"
+#include "codeReader.h"
+#include "staticInfo.h"
+#include <sstream>
+
 using namespace std;
 
-Inst::Inst (string label)
+/* PRIVATE: */
+
+// static
+int Inst::m_id = 0;
+
+/* PUBLIC: */
+
+// static
+vector<Inst *> *
+Inst::FromFile (string f)
 {
-  m_id    = INVALID;
-  m_name  = string ();
-  m_label = label;
+  arch a;
+  codeReader *reader;
+  codeSection *section;
+  int nbCodeSection;
+  u32 addr, end_addr;
+  staticInfo *info;
+  Inst *inst, *prev;
+  vector<Inst *> *insts;
   
-  /*
-  m_pc         = si.pc;
-  m_mnemo      = si.mnemo;
-  m_write_regs = si.write_regs;
-  m_read_regs  = si.read_regs;
-  m_is_branch  = si.is_branch;
-  m_is_unkown  = si.is_unkown;
-  m_do_link    = si.do_link;
-  m_is_uncond  = si.is_uncond;
-  m_target     = si.target;
-  */
+  insts = new vector<Inst *> ();
+  a.readCodeFile (f.c_str ());
+  reader = a.getCodeReader ();
+  nbCodeSection = reader -> getNbCodeSection ();
+  for (int i = 0; i < nbCodeSection; ++i)
+    {
+      section = reader -> getCodeSection (i);
+      addr = section -> v_addr ();
+      end_addr = addr + section -> size ();
+      
+      prev = NULL;
+      while (addr < end_addr)
+	{
+	  info = a.getInstructionStaticInfo (addr);
+	  inst = new Inst (*info);
+	  insts -> push_back (inst);
+	  
+	  if (prev)
+	    prev -> m_next = inst;
+	  prev = inst;
+	}
+    }
+
+  return insts;
+}
+
+Inst::Inst (const staticInfo &si)
+{
+  const int id = m_id++;
+  
+  ostringstream ss_name, ss_label;
+  ss_name  << "i" << id;
+  ss_label << hex << si.pc << ": " << si.mnemo;
+  
+  m_name    = ss_name.str ();
+  m_label   = ss_label.str ();
+  
+  m_addr    = si.pc;
+  m_disass  = si.mnemo;
+  m_refs    = si.read_regs;
+  m_defs    = si.write_regs;
+  m_next    = NULL;
+  
+  m_branch  = si.is_branch;
+  m_unknown = si.is_unknown;
+  m_link    = si.do_link;
+  m_uncond  = si.is_uncond;
+  m_target  = si.target;
 }
