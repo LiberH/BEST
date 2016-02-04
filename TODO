@@ -1,4 +1,5 @@
-clean the code (at least CDG, DDG)
-check iterator decalrations
-stop using references
-add comment in .cpp: PRIVATE, PUBLIC, static
+Remove "CFG *" in PDG::PDG (...).
+Use class Slicer as a main class.
+Add interfaces: BBBasedGraph, Dumpable, Dottable, ...
+Automatized test suite.
+UPPAAL export.

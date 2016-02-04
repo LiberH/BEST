@@ -6,15 +6,21 @@
 
 class Inst;
 class BB {
-  friend class Dot;
   friend class CFG;
+  friend class DFS;
+  friend class DT;
+  friend class CDG;
   friend class DDG;
+  friend class PDG;
+  friend class Slicer;
   
 public:
   BB ();
   
   void addInst (Inst &);
-  static std::vector<BB *> *FromFile (std::string          );
+  static std::vector<BB *> *FromFile (std::string);
+  static      void          ToFile   (std::string, std::vector<BB *> *);
+  static      void          ToFile   (std::string, BB *);
   static std::vector<u32 > *Leaders  (std::vector<Inst *> &);
   
 protected:

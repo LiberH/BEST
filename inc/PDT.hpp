@@ -5,11 +5,10 @@
 
 class CFG;
 class PDT: public DT {
-  friend class Dot;
   friend class CDG;
   
 public:
-  PDT (const CFG &);
+  PDT (const CFG *);
 };
 
 #endif // _PDT_HPP_

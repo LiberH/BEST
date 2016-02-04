@@ -3,20 +3,29 @@
 
 #include <lemon/list_graph.h>
 #include <set>
+#include <map>
 
+class BB;
 class CFG;
 class DT {
-  friend class Dot;
   friend class CDG;
 
 public:
   DT (const CFG *);
   
+  lemon::ListDigraph::Node addBB   (const BB *);
+  lemon::ListDigraph::Arc  addEdge (const BB *, const BB *);
+  
+  static void ToFile (std::string, DT *);
+ 
 protected:
     std::             string                                           m_name;
     std::             string                                           m_label;
 
-                const CFG                                             *m_cfg;
+  lemon::             ListDigraph                                     *m_graph;
+    std::             map<int,lemon::ListDigraph::Node>               *m_nodes;
+  lemon::ListDigraph::NodeMap<const BB *>                             *m_bbs;
+  
   lemon::ListDigraph::NodeMap<int>                                    *m_sdom;
   lemon::ListDigraph::NodeMap<lemon::ListDigraph::Node>               *m_idom;
   lemon::ListDigraph::NodeMap<lemon::ListDigraph::Node>               *m_ancestor;

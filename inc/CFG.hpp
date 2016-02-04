@@ -7,7 +7,6 @@
 
 class BB;
 class CFG {
-  friend class Dot;
   friend class ICFG;
   friend class DFS;
   friend class DT;
@@ -17,11 +16,15 @@ class CFG {
   friend class PDG;
 
 public:
-  lemon::ListDigraph::Node addBB   (BB &);
-  lemon::ListDigraph::Arc  addEdge (BB &, BB &);
+  CFG ();
   
-  static CFG *Reverse (const CFG &);
-  static CFG *FromFile (std::string);
+  lemon::ListDigraph::Node          addBB   (BB &);
+  lemon::ListDigraph::Arc           addEdge (BB &, BB &);
+    std::             vector<BB *> *bbs     ();
+  
+  static CFG  *Reverse  (const CFG *);
+  static CFG  *FromFile (std::string);
+  static void  ToFile   (std::string, CFG *);
   
 protected:
     std::             string                             m_name;
@@ -30,15 +33,14 @@ protected:
   lemon::             ListDigraph                       *m_graph;
     std::             map<int,lemon::ListDigraph::Node> *m_nodes;
   lemon::ListDigraph::NodeMap<BB *>                     *m_bbs;
-  lemon::ListDigraph::NodeMap< std::vector<BB *> * >    *m_targets;
+  
+  lemon::ListDigraph::NodeMap< std::vector<BB *> * >    *m_preds;
+  lemon::ListDigraph::NodeMap< std::vector<BB *> * >    *m_succs;
   lemon::ListDigraph::Node                               m_entry;
   lemon::ListDigraph::Node                               m_exit;
 
 private:
-  static int m_id;
-  
-  CFG ();
-  void findTargets (std::vector<BB *> &);
+  void findSuccs (std::vector<BB *> &);
   void blr_patch ();
 };
 

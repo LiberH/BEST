@@ -1,8 +1,7 @@
 CC       = g++
-CPPFLAGS = -I$(INC) -I../p2a -Wall -Werror -g3
+CPPFLAGS = -I./inc -I../p2a -Wall -Werror -g3
 LDFLAGS  = -lemon -L../p2a/lib -lp2a -lelf
 
-INC  = inc
 SRC  = src
 OBJ  = obj
 BIN  = bin
@@ -18,23 +17,20 @@ $(DIRS):
 	mkdir -p $(DIRS)
 
 # Object files:
-OBJS =	$(OBJ)/Dot.o	\
-	$(OBJ)/main.o	\
+OBJS =	$(OBJ)/main.o	\
 	$(OBJ)/Inst.o	\
 	$(OBJ)/BB.o	\
 	$(OBJ)/CFG.o	\
-	$(OBJ)/ICFG.o	\
 	$(OBJ)/DFS.o	\
 	$(OBJ)/DT.o	\
 	$(OBJ)/PDT.o	\
 	$(OBJ)/CDG.o	\
 	$(OBJ)/DDG.o	\
-	$(OBJ)/PDG.o	
+	$(OBJ)/PDG.o	\
+	$(OBJ)/Slicer.o	
 objs: dirs $(OBJS)
-$(OBJ)/Dot.o: $(SRC)/Dot.cpp
-	$(CC) -o $@ -c $< $(CPPFLAGS) -Wno-write-strings `pkg-config libgvc --cflags`
 $(OBJ)/%.o: $(SRC)/%.cpp
-	$(CC) -o $@ -c $< $(CPPFLAGS)
+	$(CC) -o $@ -c $< $(CPPFLAGS) -Wno-write-strings
 
 # Executable file:
 TRGT = $(BIN)/main
@@ -58,3 +54,8 @@ clean:
 	rm -rf ./$(BIN)/*
 	rm -rf ./$(TEST)/*.dot
 	rm -rf ./$(TEST)/*.png
+
+fullclean:
+	rm -rf ./$(OBJ)
+	rm -rf ./$(BIN)
+	rm -rf ./$(TEST)

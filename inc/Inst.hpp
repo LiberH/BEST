@@ -7,15 +7,19 @@
 
 class staticInfo;
 class Inst {
-  friend class Dot;
   friend class BB;
   friend class CFG;
+  friend class DT;
+  friend class CDG;
   friend class DDG;
+  friend class PDG;
+  friend class Slicer;
   
 public:
   Inst (const staticInfo &);
   static std::vector<Inst *> *FromFile (std::string);
-
+  static      void            ToFile   (std::string, std::vector<Inst *> *);
+  
 protected:
     std::string  m_name;
     std::string  m_label;
@@ -24,6 +28,7 @@ protected:
     std::string  m_disass;
          u64     m_refs;
          u64     m_defs;
+         Inst   *m_prev;
          Inst   *m_next;
   
          bool    m_branch;
@@ -34,6 +39,7 @@ protected:
   
 private:
   static int m_id;
+  static bool byAddr (const Inst *, const Inst *);
 };
 
 #endif // _INST_HPP_
