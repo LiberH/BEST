@@ -10,10 +10,10 @@ public:
   u64 write_regs;
   u64 read_regs;
   bool is_branch;
-  bool is_unkown;
+  bool is_unknown;
   bool do_link;
   bool is_uncond;
-  u64 target;
+  u32 target;
   
   staticInfo ();
 };

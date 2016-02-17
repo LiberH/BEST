@@ -32,7 +32,7 @@ e200z4_instruction::getStaticInfo (arch *_arch)
   i -> read_regs; this -> getDDCReadRegs (i -> read_regs);
   
   i -> is_branch = this -> isBranch ();
-  i -> is_unkown = this -> isBranchStaticallyUnknown ();
+  i -> is_unknown = this -> isBranchStaticallyUnknown ();
   i -> do_link = this -> hasID_SP_Check ();
   i -> is_uncond = this -> isBranchUnconditional ();
   

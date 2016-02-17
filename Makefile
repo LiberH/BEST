@@ -223,7 +223,8 @@ OBJS_GDB_SERVER = $(addprefix $(OBJ_DIR)/,$(SRCS_GDB_SERVER:.cpp=.o))
 .PHONY: clean OBJ_DIR_CREATE
 clean:
 	@rm -rf $(OBJ_DIR) *~  $(INTERFACE_SRC) $(GENERATED_SRCS) $(A2A_FILES) #PIPELINE_HEADERS
-	@rm -rf $(STAND_ALONE_EXEC_NAME) $(DEPFILES_PYTHON) $(DEFILES_STAND_ALONE) $(PYTHON_LIB) $(EXTRA_FILES_CLEAN) 
+	@rm -rf $(STAND_ALONE_EXEC_NAME) $(DEPFILES_PYTHON) $(DEFILES_STAND_ALONE) $(PYTHON_LIB) $(EXTRA_FILES_CLEAN)
+	@rm -rf lib/$(STAND_ALONE_LIBRARY_NAME)
 
 ########################################################
 #build
@@ -247,7 +248,7 @@ arch.cpp: ioStubs.cpp pipelineExample.h
 
 $(STAND_ALONE_LIBRARY_NAME): $(OBJS_LIB)
 	@echo "linking standalone library.. $@"
-	@ar rcs $@ $(OBJS_LIB)
+	@ar rcs lib/$@ $(OBJS_LIB)
 
 $(STAND_ALONE_EXEC_NAME): $(OBJS_STAND_ALONE)
 	@echo "linking standalone executable.. $@"

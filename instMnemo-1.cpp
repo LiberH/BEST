@@ -7835,7 +7835,7 @@ const char* const e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -7860,7 +7860,7 @@ const char* const e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -7885,7 +7885,7 @@ const char* const e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -7910,7 +7910,7 @@ const char* const e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -7935,7 +7935,7 @@ const char* const e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -7960,7 +7960,7 @@ const char* const e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -7985,7 +7985,7 @@ const char* const e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -8010,7 +8010,7 @@ const char* const e200z4_abs_bc_bi_bo_nd_statPred_t_tolr::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -8035,7 +8035,7 @@ const char* const e200z4_abs_bc_bi_bo_f_nd_statPred_tolr::mnemo(){
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
