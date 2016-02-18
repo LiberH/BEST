@@ -5,6 +5,7 @@
 #include <lemon/list_graph.h>
 #include <map>
 
+class Inst;
 class BB;
 class CFG {
   friend class ICFG;
@@ -14,6 +15,7 @@ class CFG {
   friend class CDG;
   friend class DDG;
   friend class PDG;
+  friend class Slicer;
 
 public:
   CFG ();
@@ -25,6 +27,7 @@ public:
   static CFG  *Reverse  (const CFG *);
   static CFG  *FromFile (std::string);
   static void  ToFile   (std::string, CFG *);
+  static void  ToUPPAAL (std::string, CFG *, std::vector<Inst *> *);
   
 protected:
     std::             string                             m_name;

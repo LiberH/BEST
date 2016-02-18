@@ -180,6 +180,88 @@ CFG::ToFile (string fn, CFG *cfg)
   fclose (f);
 }
 
+// static
+void
+CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
+{
+  ofstream f;
+  f.open (C(fn));
+  f << "<?xml version=\"1.0\" encoding=\"utf-8\"?>" << endl;
+  f << "<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' \
+'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>" << endl;
+  f << "<nta>" << endl;
+  f << "<declaration></declaration>" << endl;
+  f << "<template>" << endl;
+  f << "<name>Template</name>" << endl;
+  f << "<declaration></declaration>" << endl;
+
+  ListDigraph::NodeIt n (*cfg -> m_graph);
+  for (; n != INVALID; ++n)
+    {
+      BB *bb = (*cfg -> m_bbs)[n];
+      vector<Inst *> *insts = bb -> m_insts;
+      vector<Inst *>::iterator inst_it = insts -> begin ();  
+      for (; inst_it != insts -> end (); ++inst_it)
+	{
+	  Inst *inst = *inst_it;
+	  
+	  f << "<location id=\"id" << hex << inst -> m_addr << "\">" << endl;
+	  f << "<name>_" << hex << inst -> m_addr << "</name>" << endl;
+	  f << "<label kind=\"comments\">";
+	  if (inst -> m_addr == bb -> m_entry)
+	    f << bb -> m_label << endl;
+	  f << inst -> m_disass << "</label>" << endl;
+	  f << "</location>" << endl;
+	}
+    }
+      
+  Inst *entry = (*cfg -> m_bbs)[cfg -> m_entry] -> m_insts -> front ();
+  f << "<init ref=\"id" << hex << entry -> m_addr << "\" />" << endl;
+
+  ListDigraph::NodeIt m (*cfg -> m_graph);
+  for (; m != INVALID; ++m)
+    {
+      BB *bb = (*cfg -> m_bbs)[m];
+      Inst *prev = NULL;
+      vector<Inst *>::iterator inst_it = bb -> m_insts -> begin ();  
+      for (; inst_it != bb -> m_insts -> end (); ++inst_it)
+	{
+	  Inst *inst = *inst_it;
+
+	  if (prev)
+	    {
+	      f << "<transition>" << endl;
+	      f << "<source ref=\"id" << hex << prev -> m_addr << "\"/>" << endl;
+	      f << "<target ref=\"id" << hex << inst -> m_addr << "\"/>" << endl;
+	      f << "</transition>" << endl;
+	    }
+	  
+	  prev = inst;
+	}
+
+      Inst *last = bb -> m_insts -> back ();
+      vector<BB *> *succs = (*cfg -> m_succs)[m];
+      vector<BB *>::iterator succ_it = succs -> begin ();
+      for (; succ_it != succs -> end (); ++succ_it)
+	{
+	  BB *succ = *succ_it;
+	  Inst *inst = succ -> m_insts -> front ();
+	  f << "<transition>" << endl;
+	  f << "<source ref=\"id" << hex << last -> m_addr << "\"/>" << endl;
+	  f << "<target ref=\"id" << hex << inst -> m_addr << "\"/>" << endl;
+	  f << "</transition>" << endl;	  
+	}
+    }
+  
+  f << "</template>" << endl;
+  f << "<system>// ... \n\
+Process = Template(); \n\
+system Process;" << endl;
+  f << "</system>" << endl;
+  f << "</nta>" << endl;
+  f.close ();
+}
+
 /* PRIVATE: */
 
 void
@@ -199,7 +281,7 @@ CFG::findSuccs (vector<BB *> &bbs)
       Inst *inst = bb -> m_insts -> back ();
 
       // TODO: hacky ; to clean
-      if (inst -> m_disass == "bclr- 0,lt")
+      if (inst -> m_disass == "bclr- 20,lt")
 	continue;
       
       if (inst -> m_branch)

@@ -84,6 +84,7 @@ BB::ToFile (string fn, vector<BB *> *bbs)
   f.open (C(fn));
 
   f << "-------------------------------" << endl;
+  sort (bbs -> begin (), bbs -> end (), byAddr);
   vector<BB *>::iterator bb_it = bbs -> begin ();
   for (; bb_it != bbs -> end (); ++bb_it)
     {
@@ -146,7 +147,6 @@ BB::ToFile (string fn, BB *bb)
   fclose (f);
 }
 
-
 // static
 vector<u32> *
 BB::Leaders (vector<Inst *> &insts)
@@ -176,3 +176,10 @@ BB::Leaders (vector<Inst *> &insts)
 
 // static
 int BB::m_id = 0;
+
+// static
+bool
+BB::byAddr (const BB *bb, const BB *cc)
+{
+  return bb -> m_entry < cc -> m_entry;
+}

@@ -14,23 +14,58 @@ using namespace lemon;
 
 Slicer::Slicer (CFG *cfg, PDG *pdg)
 {
+  m_cfg = cfg;
   m_pdg = pdg;
+}
+
+vector<Inst *> *
+Slicer::slice ()
+{
+  vector<Inst *> *to_slice = new vector<Inst *> ();
+  ListDigraph::NodeIt n (*m_cfg -> m_graph);
+  for (; n != INVALID; ++n)
+    {
+      BB *bb = (*m_cfg -> m_bbs)[n];
+      vector<Inst *> *insts = bb -> m_insts;
+      vector<Inst *>::iterator inst_it = insts -> begin ();  
+      for (; inst_it != insts -> end (); ++inst_it)
+	{
+	  Inst *inst = *inst_it;
+	  if (inst -> m_branch)
+	    to_slice -> push_back (inst);
+	}
+    }
+  
+  return this -> slice (to_slice);
 }
 
 vector<Inst *> *
 Slicer::slice (u32 addr)
 {
-  vector<Inst *> *slice = new vector<Inst *> ();
-
   ListDigraph::Node n = (*m_pdg -> m_nodes)[addr +1];
   Inst *inst = (*m_pdg -> m_insts)[n];
-  slice -> push_back (inst);
-
-  ListDigraph::NodeMap<bool> marked (*m_pdg -> m_graph, false);
+  
+  vector<Inst *> *to_slice = new vector<Inst *> ();
+  to_slice -> push_back (inst);
+  return this -> slice (to_slice);
+}
+  
+vector<Inst *> *
+Slicer::slice (vector<Inst *> *insts)
+{
   set<ListDigraph::Node> w;
-  w.insert (n);
-  marked[n] = true;
-
+  vector<Inst *> *slice = new vector<Inst *> ();
+  vector<Inst *>::iterator inst_it = insts -> begin ();  
+  ListDigraph::NodeMap<bool> marked (*m_pdg -> m_graph, false);
+  for (; inst_it != insts -> end (); ++inst_it)
+    {
+      ListDigraph::Node n = (*m_pdg -> m_nodes)[(*inst_it) -> m_addr +1];
+      Inst *inst = (*m_pdg -> m_insts)[n];
+      slice -> push_back (inst);
+      w.insert (n);
+      marked[n] = true;
+    }
+  
   while (!w.empty ())
     {
       ListDigraph::Node n = *w.begin();

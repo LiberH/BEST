@@ -8,8 +8,11 @@
 #include <graphviz/cgraph.h>
 #include <vector>
 #include <bitset>
+#include <sstream>
+#include <fstream>
 
 #define C(s) ((char *) (s).c_str ())
+#define DEBUG false
 
 using namespace std;
 using namespace lemon;
@@ -170,7 +173,7 @@ DDG::DDG (CFG *cfg)
       Inst *inst = (*insts)[i];
       bitset<64> bs (inst -> m_refs);
       // TODO: which registers to filter?
-      cout << hex << inst -> m_addr << ": " << inst -> m_disass << endl;
+      if (DEBUG) cout << hex << inst -> m_addr << ": " << inst -> m_disass << endl;
       for (int b = 0; b < 64; ++b)
 	if (b != 7 && bs[b])
 	  {
@@ -182,13 +185,57 @@ DDG::DDG (CFG *cfg)
 		bitset<64> bs (in -> m_defs);
 		if (bs[b])
 		  {
-		    cout << "  " << reg_names[b] << " - "
-			 << hex << in -> m_addr << ": " << in -> m_disass << endl;
+		    if (DEBUG) cout << "  " << reg_names[b] << " - "
+		                    << hex << in -> m_addr << ": " << in -> m_disass << endl;
 		    (*m_deps)[inst -> m_addr] -> insert (in);
 		  }
 	      }
 	  }
     }
+}
+
+// static
+void
+DDG::ToFile (string fn, vector<Inst *> *insts, DDG *ddg)
+{
+  ofstream f;
+  f.open (C(fn));
+
+  sort (insts -> begin (), insts -> end (), byAddr);
+  vector<Inst *>::iterator inst_it = insts -> begin ();  
+  for (; inst_it != insts -> end (); ++inst_it)
+    {
+      Inst *inst = *inst_it;
+      bitset<64> refs (inst -> m_refs);
+      bitset<64> defs (inst -> m_defs);
+
+      string addr, mnemo, spaces, args;
+      stringstream ss (inst -> m_disass);      
+      getline (ss, mnemo, ' ');
+      getline (ss, args,  ' ');
+      spaces = string (8 - mnemo.length (), ' ');
+
+      f << hex << inst -> m_addr << ":   "
+	<< mnemo << spaces << args;
+
+      spaces = string (12 - args.length (), ' ');
+      f << spaces << "| ";
+
+      string srefs, sdefs;
+      for (int b = 0; b < 64; ++b)
+	if (b != 7 && refs[b])
+	  srefs += reg_names[b] + " ";
+
+      spaces = string (14 - srefs.length (), ' ');
+      f << srefs << spaces << "-> ";
+      for (int b = 0; b < 64; ++b)
+	if (b != 7 && defs[b])
+	  f << reg_names[b] << " ";
+      
+      f << endl;
+    }
+  
+  f.close ();
 }
 
 // static
@@ -251,4 +298,13 @@ DDG::ToFile (string fn, CFG *cfg, DDG *ddg)
   agwrite (agraph, f);
   agclose (agraph);
   fclose (f);
+}
+
+/* PRIVATE */
+
+// static
+bool
+DDG::byAddr (const Inst *inst, const Inst *tsni)
+{
+  return inst -> m_addr < tsni -> m_addr;
 }

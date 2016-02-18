@@ -19,6 +19,7 @@ public:
   Inst (const staticInfo &);
   static std::vector<Inst *> *FromFile (std::string);
   static      void            ToFile   (std::string, std::vector<Inst *> *);
+  static      int             CountRegs (std::vector<Inst *> *);
   
 protected:
     std::string  m_name;

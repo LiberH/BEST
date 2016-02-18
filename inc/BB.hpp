@@ -28,10 +28,11 @@ protected:
     std::string          m_label;
   
     std::vector<Inst *> *m_insts;
-         int             m_entry;
+         u32             m_entry;
 
 private:
   static int m_id;
+  static bool byAddr (const BB *, const BB *);
 };
 
 #endif // _BB_HPP_

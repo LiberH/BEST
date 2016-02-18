@@ -2,16 +2,17 @@ CC       = g++
 CPPFLAGS = -I./inc -I../p2a -Wall -Werror -g3
 LDFLAGS  = -lemon -L../p2a/lib -lp2a -lelf
 
-SRC  = src
-OBJ  = obj
-BIN  = bin
-TEST = test
+SRC   = src
+OBJ   = obj
+BIN   = bin
+TEST  = test
+BENCH = bench/bin
 
 # Default:
 all: dirs target
 
 # Directories:
-DIRS = $(OBJ) $(BIN) $(TEST)
+DIRS = $(OBJ) $(BIN)
 dirs: | $(OBJ)
 $(DIRS):
 	mkdir -p $(DIRS)
@@ -34,28 +35,35 @@ $(OBJ)/%.o: $(SRC)/%.cpp
 
 # Executable file:
 TRGT = $(BIN)/main
-target: dirs objs $(TRGT)
+target: objs $(TRGT)
 $(TRGT): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS) `pkg-config libgvc --libs`
 
-# Run:
-run: dirs target
-	$(TRGT) fibcall.elf
+# Test:
+test: target
+	@for f in $(TEST)/*.elf; do \
+	  echo "Testing ... `basename $$f`"; \
+	  $(TRGT) $$f; \
+	  for g in $(TEST)/`basename $$f .elf`*.dot; do \
+	    dot -Tpng $$g > $${g%.*}.png; \
+	  done; \
+	done
 
-# PNG file from Dot export:
-dot: dirs run $(PNGS)
-	for f in $(TEST)/*.dot; do \
-	  dot -Tpng $$f > $${f%.*}.png; \
+# Benchmarks:
+bench: target
+	@for f in $(BENCH)/*.elf; do \
+	  echo "Benchmarking ... `basename $$f`"; \
+	  $(TRGT) $$f; \
+	  for g in $(BENCH)/`basename $$f .elf`*.dot; do \
+	    dot -Tpng $$g > $${g%.*}.png; \
+	  done; \
 	done
 
 # Clean:
 clean:
-	rm -rf ./$(OBJ)/*.o
-	rm -rf ./$(BIN)/*
-	rm -rf ./$(TEST)/*.dot
-	rm -rf ./$(TEST)/*.png
+	rm -f ./$(TEST)/*.dmp ./$(TEST)/*.dot ./$(TEST)/*.png
+	rm -f ./$(BENCH)/*.dmp ./$(BENCH)/*.dot ./$(BENCH)/*.png
 
-fullclean:
+fullclean: clean
 	rm -rf ./$(OBJ)
 	rm -rf ./$(BIN)
-	rm -rf ./$(TEST)

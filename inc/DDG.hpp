@@ -2,6 +2,7 @@
 #define _DDG_HPP_
 
 #include <lemon/list_graph.h>
+#include <vector>
 #include <set>
 #include <map>
 
@@ -14,6 +15,7 @@ class DDG {
 public:
   DDG (CFG *);
   static void ToFile (std::string, CFG *, DDG *);
+  static void ToFile (std::string, std::vector<Inst *> *, DDG *);
   
 protected:
   std::vector<      std::set<Inst *> * > *m_kills;
@@ -21,6 +23,9 @@ protected:
   std::map   < int, std::set<Inst *> * > *m_ins;
   std::map   < int, std::set<Inst *> * > *m_outs;
   std::map   < int, std::set<Inst *> * > *m_deps;
+
+private:
+    static bool byAddr (const Inst *, const Inst *);
 };
 
 #endif // _DDG_HPP_
