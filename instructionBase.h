@@ -139,6 +139,14 @@ class e200z4_instruction {
 	// instruction Tags related methods
 	//***************************
 
+	virtual bool hasID_CR0() {return false;};
+	virtual bool hasID_CR1() {return false;};
+	virtual bool hasID_CR2() {return false;};
+	virtual bool hasID_CR3() {return false;};
+	virtual bool hasID_CR4() {return false;};
+	virtual bool hasID_CR5() {return false;};
+	virtual bool hasID_CR6() {return false;};
+	virtual bool hasID_CR7() {return false;};
 	virtual bool hasID_SP_Check() {return false;};
 	virtual bool hasID_abs() {return false;};
 	virtual bool hasID_add() {return false;};

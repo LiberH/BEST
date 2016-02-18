@@ -13,6 +13,230 @@ using namespace std;
 
 // instructions that lock registers for the data dependency controller.
 
+void e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR0_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR0_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR1_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR1_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR2_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR2_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR3_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR3_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR4_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR4_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR5_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR5_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR6_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR6_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
+}
+
+void e200z4_CR7_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
+void e200z4_CR7_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
+	lock0 = m_DDCRegMaskWrite;
+}
+
 void e200z4_SP_Check_abs_b_li_updatelr::lockDDCWriteRegs(u64 &lock0){
 	lock0 = m_DDCRegMaskWrite;
 }
@@ -733,16 +957,6 @@ void e200z4_and_notaftercomplemented_ra_rs_shifted_uimm_useStatus::lockDDCWriteR
 	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
 }
 
-void e200z4_arith_cmp_crfd_immediate_l_ra_simm::lockDDCWriteRegs(u64 &lock0){
-	lock0 = m_DDCRegMaskWrite;
-	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
-}
-
-void e200z4_arith_cmp_crfd_l_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
-	lock0 = m_DDCRegMaskWrite;
-	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
-}
-
 void e200z4_b_li_rel::lockDDCWriteRegs(u64 &lock0){
 	lock0 = m_DDCRegMaskWrite;
 }
@@ -879,16 +1093,6 @@ void e200z4_byte_ra_rb_rs_store_u_x::lockDDCWriteRegs(u64 &lock0){
 	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
 }
 
-void e200z4_cmp_crfd_immediate_l_logical_ra_uimm::lockDDCWriteRegs(u64 &lock0){
-	lock0 = m_DDCRegMaskWrite;
-	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
-}
-
-void e200z4_cmp_crfd_l_logical_ra_rb_reg::lockDDCWriteRegs(u64 &lock0){
-	lock0 = m_DDCRegMaskWrite;
-	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
-}
-
 void e200z4_cntlzw_noStatus_ra_rs::lockDDCWriteRegs(u64 &lock0){
 	lock0 = 0;
 	lock0 |= m_DDCRegFileSRU_GPRMaskWrite<<30;
@@ -938,14 +1142,6 @@ void e200z4_crba_crbb_crbd_crorc::lockDDCWriteRegs(u64 &lock0){
 }
 
 void e200z4_crba_crbb_crbd_crxor::lockDDCWriteRegs(u64 &lock0){
-	lock0 = m_DDCRegMaskWrite;
-}
-
-void e200z4_crfd_crfs_mcrf::lockDDCWriteRegs(u64 &lock0){
-	lock0 = m_DDCRegMaskWrite;
-}
-
-void e200z4_crfd_mcrxr::lockDDCWriteRegs(u64 &lock0){
 	lock0 = m_DDCRegMaskWrite;
 }
 

@@ -11,13 +11,2108 @@
 #include "utils.h"
 
 //instructions with a mnemo.
+const char* const e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"ge");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"le");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"ne");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"ns");
+	}
+	index += sprintf (result + index,"l");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"ge");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"le");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"ne");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"ns");
+	}
+	index += sprintf (result + index,"l");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"dnzt");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"dnzt");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"dnzf");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"dnzf");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((BI)==(0U))){
+		index += sprintf (result + index,"dnz");
+	}else{
+		index += sprintf (result + index,"c");
+	}
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((BI)!=(0U))){
+		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
+	}
+	if(((BI)!=(0U))){
+		if(((FIELD(BI,(4U),(2U)))!=(0U))){
+			index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+		}
+		if(((FIELD(BI,(1U),(0U)))==(0U))){
+			index += sprintf (result + index,"lt");
+		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+			index += sprintf (result + index,"gt");
+		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+			index += sprintf (result + index,"eq");
+		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+			index += sprintf (result + index,"so");
+		}
+		index += sprintf (result + index,",");
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((BI)==(0U))){
+		index += sprintf (result + index,"dnz");
+	}else{
+		index += sprintf (result + index,"c");
+	}
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((BI)!=(0U))){
+		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
+	}
+	if(((BI)!=(0U))){
+		if(((FIELD(BI,(4U),(2U)))!=(0U))){
+			index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+		}
+		if(((FIELD(BI,(1U),(0U)))==(0U))){
+			index += sprintf (result + index,"lt");
+		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+			index += sprintf (result + index,"gt");
+		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+			index += sprintf (result + index,"eq");
+		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+			index += sprintf (result + index,"so");
+		}
+		index += sprintf (result + index,",");
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"dzt");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"dzt");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"dzf");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"dzf");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((BI)==(0U))){
+		index += sprintf (result + index,"dz");
+	}else{
+		index += sprintf (result + index,"c");
+	}
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((BI)!=(0U))){
+		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
+	}
+	if(((BI)!=(0U))){
+		if(((FIELD(BI,(4U),(2U)))!=(0U))){
+			index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+		}
+		if(((FIELD(BI,(1U),(0U)))==(0U))){
+			index += sprintf (result + index,"lt");
+		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+			index += sprintf (result + index,"gt");
+		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+			index += sprintf (result + index,"eq");
+		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+			index += sprintf (result + index,"so");
+		}
+		index += sprintf (result + index,",");
+	}else if(((BO)==(20U))){
+		index += sprintf (result + index,"lt,");
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((BI)==(0U))){
+		index += sprintf (result + index,"dz");
+	}else{
+		index += sprintf (result + index,"c");
+	}
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((BI)!=(0U))){
+		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
+	}
+	if(((BI)!=(0U))){
+		if(((FIELD(BI,(4U),(2U)))!=(0U))){
+			index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+		}
+		if(((FIELD(BI,(1U),(0U)))==(0U))){
+			index += sprintf (result + index,"lt");
+		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+			index += sprintf (result + index,"gt");
+		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+			index += sprintf (result + index,"eq");
+		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+			index += sprintf (result + index,"so");
+		}
+		index += sprintf (result + index,",");
+	}else if(((BO)==(20U))){
+		index += sprintf (result + index,"lt,");
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"c");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"c");
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,",");
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"ge");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"le");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"ne");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"ns");
+	}
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"ge");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"le");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"ne");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"ns");
+	}
+	index += sprintf (result + index,"la");
+	if(((BD)<((u8)(0U)))){
+		index += sprintf (result + index,"+");
+	}else if(((BD)>=((u8)(0U)))){
+		index += sprintf (result + index,"-");
+	}
+	index += sprintf (result + index," ");
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	index += sprintf (result + index,"%x",(u32)((u32)(((BD)<<((s16)(2U))))));
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_nd_statPred_t::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_nd_statPred_t)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_ctr_f_nd_statPred::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_f_nd_statPred)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"cctrl");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_nd_revStatPred_t_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_nd_revStatPred_t_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_f_nd_revStatPred_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_f_nd_revStatPred_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_nd_statPred_t_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_nd_statPred_t_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_abs_bc_bi_bo_f_nd_statPred_tolr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clr");
+	index += sprintf (result + index,"-");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_f_nd_statPred_tolr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr)");
+	#endif
+	return result;
+}
+
+const char* const e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr::mnemo(){
+	char *result = new char[128];
+	int index = 0;
+	index += sprintf (result + index,"b");
+	index += sprintf (result + index,"clrl");
+	index += sprintf (result + index,"+");
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
+	if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	}
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+	#ifdef DEBUG_MNEMO
+		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr)");
+	#endif
+	return result;
+}
+
 const char* const e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z::mnemo(){
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"+");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -42,7 +2137,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z::
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"+");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -67,7 +2162,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatel
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"+");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -92,7 +2187,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_update
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"+");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -117,7 +2212,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr::m
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"+");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -142,7 +2237,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr::m
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"+");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -167,7 +2262,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr::mn
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -192,7 +2287,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr::mn
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -217,7 +2312,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatel
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -242,7 +2337,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z::mne
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -267,7 +2362,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z::mne
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -292,7 +2387,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -317,7 +2412,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr:
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -342,7 +2437,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr::mnem
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}
@@ -367,7 +2462,7 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr::mnem
 	index += sprintf (result + index,"b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"-");
-	index += sprintf (result + index," %u,",(u32)((u32)(BI)));
+	index += sprintf (result + index," %u,",(u32)((u32)(BO)));
 	if(((FIELD(BI,(4U),(2U)))!=(0U))){
 		index += sprintf (result + index,"4*cr%u+",(u32)((u32)(FIELD(BI,(4U),(2U)))));
 	}

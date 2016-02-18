@@ -13,10 +13,10 @@
 #include "macro.h"
 #include "instructionBase.h"
 #include "fifo.h"
-#include "componentTypeDef.h" //typedefs in components.
 #include <vector> 
 #include <string>
 #include <string.h> //required by Linux for memcpy...
+#include "componentTypeDef.h" //typedefs in components.
 
 #include <map> //used for breakpoints.
 class breakpointAction;
@@ -308,9 +308,9 @@ public:
 		 * updated to point to the next instruction address.
 		 **/
 		#ifdef SWIG /*Swig wrapper (for Python interface)*/		
-		        std::string *string getInstructionStaticInfo(unsigned int &INOUT);
+			std::string getInstructionStaticInfo(unsigned int &INOUT);
 		#else
-			staticInfo *getInstructionStaticInfo(unsigned int &p_addr);
+			staticInfo* getInstructionStaticInfo(unsigned int &p_addr);
 		#endif
 
 		/*******************************************************************
@@ -1359,93 +1359,93 @@ public:
 		}
 		inline void fetcher_test() {
 			// 'ppc_e200z4.hadl', l.33
-			gadl_type_fetcher_cacheLine lines[2]; //fetcher_cacheLine
+		  __attribute__((__unused__)) gadl_type_fetcher_cacheLine lines[2]; //fetcher_cacheLine
 			// 'ppc_e200z4.hadl', l.34
 			lines[0U].valid = (0U) & 0x1;
 
 		}
 		/*********** component gdbppc ************/
 		inline u8 gdbppc_getNBRegister() {
-			// 'ppc_e200z4.hadl', l.3490
+			// 'ppc_e200z4.hadl', l.3584
 			return 70U;
 		}
 		inline u32 gdbppc_getRegister(const u8 id, u8 &sizeInBits) {
-			// 'ppc_e200z4.hadl', l.3498
+			// 'ppc_e200z4.hadl', l.3592
 			u32 result; //u32
-			// 'ppc_e200z4.hadl', l.3525
+			// 'ppc_e200z4.hadl', l.3619
 			if(((id)<=(31U))){
-				// 'ppc_e200z4.hadl', l.3500
+				// 'ppc_e200z4.hadl', l.3594
 				result = (SRU_GPR_read32(id)) & 0xFFFFFFFF;
 
-				// 'ppc_e200z4.hadl', l.3501
+				// 'ppc_e200z4.hadl', l.3595
 				sizeInBits = (32U) & 0xFF;
 
 			} else {
-				// 'ppc_e200z4.hadl', l.3525
+				// 'ppc_e200z4.hadl', l.3619
 				if(((id)<=(63U))){
-					// 'ppc_e200z4.hadl', l.3504
+					// 'ppc_e200z4.hadl', l.3598
 					result = (0U) & 0xFFFFFFFF;
 
-					// 'ppc_e200z4.hadl', l.3505
+					// 'ppc_e200z4.hadl', l.3599
 					sizeInBits = (64U) & 0xFF;
 
 				} else {
-					// 'ppc_e200z4.hadl', l.3525
+					// 'ppc_e200z4.hadl', l.3619
 					if(((id)==(64U))){
-						// 'ppc_e200z4.hadl', l.3507
+						// 'ppc_e200z4.hadl', l.3601
 						result = ((PC())) & 0xFFFFFFFF;
 
-						// 'ppc_e200z4.hadl', l.3508
+						// 'ppc_e200z4.hadl', l.3602
 						sizeInBits = (32U) & 0xFF;
 
 					} else {
-						// 'ppc_e200z4.hadl', l.3525
+						// 'ppc_e200z4.hadl', l.3619
 						if(((id)==(65U))){
-							// 'ppc_e200z4.hadl', l.3510
+							// 'ppc_e200z4.hadl', l.3604
 							result = ((MSR())) & 0xFFFFFFFF;
 
-							// 'ppc_e200z4.hadl', l.3511
+							// 'ppc_e200z4.hadl', l.3605
 							sizeInBits = (32U) & 0xFF;
 
 						} else {
-							// 'ppc_e200z4.hadl', l.3525
+							// 'ppc_e200z4.hadl', l.3619
 							if(((id)==(66U))){
-								// 'ppc_e200z4.hadl', l.3513
+								// 'ppc_e200z4.hadl', l.3607
 								result = ((CR())) & 0xFFFFFFFF;
 
-								// 'ppc_e200z4.hadl', l.3514
+								// 'ppc_e200z4.hadl', l.3608
 								sizeInBits = (32U) & 0xFF;
 
 							} else {
-								// 'ppc_e200z4.hadl', l.3525
+								// 'ppc_e200z4.hadl', l.3619
 								if(((id)==(67U))){
-									// 'ppc_e200z4.hadl', l.3516
+									// 'ppc_e200z4.hadl', l.3610
 									result = ((LR())) & 0xFFFFFFFF;
 
-									// 'ppc_e200z4.hadl', l.3517
+									// 'ppc_e200z4.hadl', l.3611
 									sizeInBits = (32U) & 0xFF;
 
 								} else {
-									// 'ppc_e200z4.hadl', l.3525
+									// 'ppc_e200z4.hadl', l.3619
 									if(((id)==(68U))){
-										// 'ppc_e200z4.hadl', l.3519
+										// 'ppc_e200z4.hadl', l.3613
 										result = ((CTR())) & 0xFFFFFFFF;
 
-										// 'ppc_e200z4.hadl', l.3520
+										// 'ppc_e200z4.hadl', l.3614
 										sizeInBits = (32U) & 0xFF;
 
 									} else {
-										// 'ppc_e200z4.hadl', l.3525
+										// 'ppc_e200z4.hadl', l.3619
 										if(((id)==(69U))){
-											// 'ppc_e200z4.hadl', l.3522
+											// 'ppc_e200z4.hadl', l.3616
 											result = ((XER())) & 0xFFFFFFFF;
 
-											// 'ppc_e200z4.hadl', l.3523
+											// 'ppc_e200z4.hadl', l.3617
 											sizeInBits = (32U) & 0xFF;
 
 										} else {
-											// 'ppc_e200z4.hadl', l.3525
-											std::cerr << "RUNTIME WARNING at file '/Users/briday-m/Documents/ADLMateriel/HADL/branches/p2ac/gadl/examples/PPC/./ppc_e200z4.hadl', line 3525:55. Message is \"trying to read in a non described register\"" << std::endl;
+											// 'ppc_e200z4.hadl', l.3619
+											std::cerr << "RUNTIME WARNING at file '/Users/briday-m/Documents/ADLMateriel/HADL/branches/p2ac/gadl/examples/PPC/./ppc_e200z4.hadl', line 3619:55. Message is \"trying to read in a non described register\"" << std::endl;
 
 										}
 									}
@@ -1455,61 +1455,61 @@ public:
 					}
 				}
 			}
-			// 'ppc_e200z4.hadl', l.3528
+			// 'ppc_e200z4.hadl', l.3622
 			return result;
 		}
 		inline u8 gdbppc_read8(const u32 v_addr) {
-			// 'ppc_e200z4.hadl', l.3480
+			// 'ppc_e200z4.hadl', l.3574
 			return mem_read8(v_addr);
 		}
 		inline void gdbppc_setRegister(const u8 id, const u32 value) {
-			// 'ppc_e200z4.hadl', l.3550
+			// 'ppc_e200z4.hadl', l.3644
 			if(((id)<=(31U))){
-				// 'ppc_e200z4.hadl', l.3534
+				// 'ppc_e200z4.hadl', l.3628
 				SRU_GPR_write32(id, value);
 			} else {
-				// 'ppc_e200z4.hadl', l.3550
+				// 'ppc_e200z4.hadl', l.3644
 				if(((id)<=(63U))){
 
 				} else {
-					// 'ppc_e200z4.hadl', l.3550
+					// 'ppc_e200z4.hadl', l.3644
 					if(((id)==(64U))){
-						// 'ppc_e200z4.hadl', l.3538
+						// 'ppc_e200z4.hadl', l.3632
 						setPC((value) & 0xFFFFFFFF);
 
 					} else {
-						// 'ppc_e200z4.hadl', l.3550
+						// 'ppc_e200z4.hadl', l.3644
 						if(((id)==(65U))){
-							// 'ppc_e200z4.hadl', l.3540
+							// 'ppc_e200z4.hadl', l.3634
 							setMSR((value) & 0xFFFFFFFF);
 
 						} else {
-							// 'ppc_e200z4.hadl', l.3550
+							// 'ppc_e200z4.hadl', l.3644
 							if(((id)==(66U))){
-								// 'ppc_e200z4.hadl', l.3542
+								// 'ppc_e200z4.hadl', l.3636
 								setCR((value) & 0xFFFFFFFF);
 
 							} else {
-								// 'ppc_e200z4.hadl', l.3550
+								// 'ppc_e200z4.hadl', l.3644
 								if(((id)==(67U))){
-									// 'ppc_e200z4.hadl', l.3544
+									// 'ppc_e200z4.hadl', l.3638
 									setLR((value) & 0xFFFFFFFF);
 
 								} else {
-									// 'ppc_e200z4.hadl', l.3550
+									// 'ppc_e200z4.hadl', l.3644
 									if(((id)==(68U))){
-										// 'ppc_e200z4.hadl', l.3546
+										// 'ppc_e200z4.hadl', l.3640
 										setCTR((value) & 0xFFFFFFFF);
 
 									} else {
-										// 'ppc_e200z4.hadl', l.3550
+										// 'ppc_e200z4.hadl', l.3644
 										if(((id)==(69U))){
-											// 'ppc_e200z4.hadl', l.3548
+											// 'ppc_e200z4.hadl', l.3642
 											setXER((value) & 0xFFFFFFFF);
 
 										} else {
-											// 'ppc_e200z4.hadl', l.3550
-											std::cerr << "RUNTIME WARNING at file '/Users/briday-m/Documents/ADLMateriel/HADL/branches/p2ac/gadl/examples/PPC/./ppc_e200z4.hadl', line 3550:56. Message is \"trying to write in a non described register\"" << std::endl;
+											// 'ppc_e200z4.hadl', l.3644
+											std::cerr << "RUNTIME WARNING at file '/Users/briday-m/Documents/ADLMateriel/HADL/branches/p2ac/gadl/examples/PPC/./ppc_e200z4.hadl', line 3644:56. Message is \"trying to write in a non described register\"" << std::endl;
 
 										}
 									}
@@ -1521,7 +1521,7 @@ public:
 			}
 		}
 		inline void gdbppc_write8(const u32 v_addr, const u8 val) {
-			// 'ppc_e200z4.hadl', l.3485
+			// 'ppc_e200z4.hadl', l.3579
 			mem_write8(v_addr, val);
 		}
 		/*********** component mem ************/
@@ -1726,7 +1726,7 @@ public:
 			m_DDCreadRegAccess |= DDC_REGISTER_MASK_CR;
 			return FIELD(CR(),(31U),(28U));};
 		inline void setCR_CR0(const u8 value) {
-			u32 __temp = CR();
+			u32 __temp = __CR;
 			__temp = (FIELD_ASSIGN(__temp,(31U),(28U),(value))) & 0xFFFFFFFF;
 			setCR(__temp);
 			m_DDCwriteRegAccess |= DDC_REGISTER_MASK_CR;
@@ -1737,7 +1737,7 @@ public:
 			m_DDCreadRegAccess |= DDC_REGISTER_MASK_CR;
 			return FIELD(CR(),(27U),(24U));};
 		inline void setCR_CR1(const u8 value) {
-			u32 __temp = CR();
+			u32 __temp = __CR;
 			__temp = (FIELD_ASSIGN(__temp,(27U),(24U),(value))) & 0xFFFFFFFF;
 			setCR(__temp);
 			m_DDCwriteRegAccess |= DDC_REGISTER_MASK_CR;
@@ -1748,7 +1748,7 @@ public:
 			m_DDCreadRegAccess |= DDC_REGISTER_MASK_CR;
 			return FIELD(CR(),(23U),(20U));};
 		inline void setCR_CR2(const u8 value) {
-			u32 __temp = CR();
+			u32 __temp = __CR;
 			__temp = (FIELD_ASSIGN(__temp,(23U),(20U),(value))) & 0xFFFFFFFF;
 			setCR(__temp);
 			m_DDCwriteRegAccess |= DDC_REGISTER_MASK_CR;
@@ -1759,7 +1759,7 @@ public:
 			m_DDCreadRegAccess |= DDC_REGISTER_MASK_CR;
 			return FIELD(CR(),(19U),(16U));};
 		inline void setCR_CR3(const u8 value) {
-			u32 __temp = CR();
+			u32 __temp = __CR;
 			__temp = (FIELD_ASSIGN(__temp,(19U),(16U),(value))) & 0xFFFFFFFF;
 			setCR(__temp);
 			m_DDCwriteRegAccess |= DDC_REGISTER_MASK_CR;
@@ -1770,7 +1770,7 @@ public:
 			m_DDCreadRegAccess |= DDC_REGISTER_MASK_CR;
 			return FIELD(CR(),(15U),(12U));};
 		inline void setCR_CR4(const u8 value) {
-			u32 __temp = CR();
+			u32 __temp = __CR;
 			__temp = (FIELD_ASSIGN(__temp,(15U),(12U),(value))) & 0xFFFFFFFF;
 			setCR(__temp);
 			m_DDCwriteRegAccess |= DDC_REGISTER_MASK_CR;
@@ -1781,7 +1781,7 @@ public:
 			m_DDCreadRegAccess |= DDC_REGISTER_MASK_CR;
 			return FIELD(CR(),(11U),(8U));};
 		inline void setCR_CR5(const u8 value) {
-			u32 __temp = CR();
+			u32 __temp = __CR;
 			__temp = (FIELD_ASSIGN(__temp,(11U),(8U),(value))) & 0xFFFFFFFF;
 			setCR(__temp);
 			m_DDCwriteRegAccess |= DDC_REGISTER_MASK_CR;
@@ -1792,7 +1792,7 @@ public:
 			m_DDCreadRegAccess |= DDC_REGISTER_MASK_CR;
 			return FIELD(CR(),(7U),(4U));};
 		inline void setCR_CR6(const u8 value) {
-			u32 __temp = CR();
+			u32 __temp = __CR;
 			__temp = (FIELD_ASSIGN(__temp,(7U),(4U),(value))) & 0xFFFFFFFF;
 			setCR(__temp);
 			m_DDCwriteRegAccess |= DDC_REGISTER_MASK_CR;
@@ -1803,7 +1803,7 @@ public:
 			m_DDCreadRegAccess |= DDC_REGISTER_MASK_CR;
 			return FIELD(CR(),(3U),(0U));};
 		inline void setCR_CR7(const u8 value) {
-			u32 __temp = CR();
+			u32 __temp = __CR;
 			__temp = (FIELD_ASSIGN(__temp,(3U),(0U),(value))) & 0xFFFFFFFF;
 			setCR(__temp);
 			m_DDCwriteRegAccess |= DDC_REGISTER_MASK_CR;

@@ -10,6 +10,2070 @@
 
 #include "instructionBase.h"
 
+class e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	s16 SIMM;  /* s16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_simm() {return true;};
+};
+
+class e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u16 UIMM;  /* u16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_uimm() {return true;};
+};
+
+class e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR0_crfd_crfs_mcrf : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR0_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_crfd_crfs_mcrf() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrf() {return true;};
+};
+
+class e200z4_CR0_crfd_crfs_mcrfs : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+
+	public:
+	e200z4_CR0_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_crfd_crfs_mcrfs() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrfs() {return true;};
+};
+
+class e200z4_CR0_crfd_fcmpo_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR0_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_crfd_fcmpo_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpo() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR0_crfd_fcmpu_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR0_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_crfd_fcmpu_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpu() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR0_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR0_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_crfd_imm_mtfsfi_noStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_noStatus() {return true;};
+};
+
+class e200z4_CR0_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR0_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_crfd_imm_mtfsfi_useStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_useStatus() {return true;};
+};
+
+class e200z4_CR0_crfd_mcrxr : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR0_crfd_mcrxr(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR0_crfd_mcrxr() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR0() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_mcrxr() {return true;};
+};
+
+class e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	s16 SIMM;  /* s16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_simm() {return true;};
+};
+
+class e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u16 UIMM;  /* u16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_uimm() {return true;};
+};
+
+class e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR1_crfd_crfs_mcrf : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR1_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_crfd_crfs_mcrf() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrf() {return true;};
+};
+
+class e200z4_CR1_crfd_crfs_mcrfs : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+
+	public:
+	e200z4_CR1_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_crfd_crfs_mcrfs() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrfs() {return true;};
+};
+
+class e200z4_CR1_crfd_fcmpo_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR1_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_crfd_fcmpo_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpo() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR1_crfd_fcmpu_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR1_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_crfd_fcmpu_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpu() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR1_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR1_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_crfd_imm_mtfsfi_noStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_noStatus() {return true;};
+};
+
+class e200z4_CR1_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR1_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_crfd_imm_mtfsfi_useStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_useStatus() {return true;};
+};
+
+class e200z4_CR1_crfd_mcrxr : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR1_crfd_mcrxr(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR1_crfd_mcrxr() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR1() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_mcrxr() {return true;};
+};
+
+class e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	s16 SIMM;  /* s16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_simm() {return true;};
+};
+
+class e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u16 UIMM;  /* u16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_uimm() {return true;};
+};
+
+class e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR2_crfd_crfs_mcrf : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR2_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_crfd_crfs_mcrf() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrf() {return true;};
+};
+
+class e200z4_CR2_crfd_crfs_mcrfs : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+
+	public:
+	e200z4_CR2_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_crfd_crfs_mcrfs() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrfs() {return true;};
+};
+
+class e200z4_CR2_crfd_fcmpo_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR2_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_crfd_fcmpo_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpo() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR2_crfd_fcmpu_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR2_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_crfd_fcmpu_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpu() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR2_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR2_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_crfd_imm_mtfsfi_noStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_noStatus() {return true;};
+};
+
+class e200z4_CR2_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR2_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_crfd_imm_mtfsfi_useStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_useStatus() {return true;};
+};
+
+class e200z4_CR2_crfd_mcrxr : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR2_crfd_mcrxr(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR2_crfd_mcrxr() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR2() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_mcrxr() {return true;};
+};
+
+class e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	s16 SIMM;  /* s16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_simm() {return true;};
+};
+
+class e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u16 UIMM;  /* u16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_uimm() {return true;};
+};
+
+class e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR3_crfd_crfs_mcrf : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR3_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_crfd_crfs_mcrf() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrf() {return true;};
+};
+
+class e200z4_CR3_crfd_crfs_mcrfs : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+
+	public:
+	e200z4_CR3_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_crfd_crfs_mcrfs() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrfs() {return true;};
+};
+
+class e200z4_CR3_crfd_fcmpo_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR3_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_crfd_fcmpo_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpo() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR3_crfd_fcmpu_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR3_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_crfd_fcmpu_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpu() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR3_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR3_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_crfd_imm_mtfsfi_noStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_noStatus() {return true;};
+};
+
+class e200z4_CR3_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR3_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_crfd_imm_mtfsfi_useStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_useStatus() {return true;};
+};
+
+class e200z4_CR3_crfd_mcrxr : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR3_crfd_mcrxr(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR3_crfd_mcrxr() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR3() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_mcrxr() {return true;};
+};
+
+class e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	s16 SIMM;  /* s16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_simm() {return true;};
+};
+
+class e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u16 UIMM;  /* u16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_uimm() {return true;};
+};
+
+class e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR4_crfd_crfs_mcrf : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR4_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_crfd_crfs_mcrf() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrf() {return true;};
+};
+
+class e200z4_CR4_crfd_crfs_mcrfs : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+
+	public:
+	e200z4_CR4_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_crfd_crfs_mcrfs() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrfs() {return true;};
+};
+
+class e200z4_CR4_crfd_fcmpo_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR4_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_crfd_fcmpo_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpo() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR4_crfd_fcmpu_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR4_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_crfd_fcmpu_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpu() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR4_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR4_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_crfd_imm_mtfsfi_noStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_noStatus() {return true;};
+};
+
+class e200z4_CR4_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR4_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_crfd_imm_mtfsfi_useStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_useStatus() {return true;};
+};
+
+class e200z4_CR4_crfd_mcrxr : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR4_crfd_mcrxr(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR4_crfd_mcrxr() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR4() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_mcrxr() {return true;};
+};
+
+class e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	s16 SIMM;  /* s16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_simm() {return true;};
+};
+
+class e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u16 UIMM;  /* u16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_uimm() {return true;};
+};
+
+class e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR5_crfd_crfs_mcrf : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR5_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_crfd_crfs_mcrf() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrf() {return true;};
+};
+
+class e200z4_CR5_crfd_crfs_mcrfs : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+
+	public:
+	e200z4_CR5_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_crfd_crfs_mcrfs() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrfs() {return true;};
+};
+
+class e200z4_CR5_crfd_fcmpo_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR5_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_crfd_fcmpo_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpo() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR5_crfd_fcmpu_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR5_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_crfd_fcmpu_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpu() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR5_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR5_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_crfd_imm_mtfsfi_noStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_noStatus() {return true;};
+};
+
+class e200z4_CR5_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR5_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_crfd_imm_mtfsfi_useStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_useStatus() {return true;};
+};
+
+class e200z4_CR5_crfd_mcrxr : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR5_crfd_mcrxr(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR5_crfd_mcrxr() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR5() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_mcrxr() {return true;};
+};
+
+class e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	s16 SIMM;  /* s16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_simm() {return true;};
+};
+
+class e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u16 UIMM;  /* u16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_uimm() {return true;};
+};
+
+class e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR6_crfd_crfs_mcrf : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR6_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_crfd_crfs_mcrf() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrf() {return true;};
+};
+
+class e200z4_CR6_crfd_crfs_mcrfs : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+
+	public:
+	e200z4_CR6_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_crfd_crfs_mcrfs() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrfs() {return true;};
+};
+
+class e200z4_CR6_crfd_fcmpo_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR6_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_crfd_fcmpo_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpo() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR6_crfd_fcmpu_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR6_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_crfd_fcmpu_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpu() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR6_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR6_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_crfd_imm_mtfsfi_noStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_noStatus() {return true;};
+};
+
+class e200z4_CR6_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR6_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_crfd_imm_mtfsfi_useStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_useStatus() {return true;};
+};
+
+class e200z4_CR6_crfd_mcrxr : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR6_crfd_mcrxr(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR6_crfd_mcrxr() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR6() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_mcrxr() {return true;};
+};
+
+class e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	s16 SIMM;  /* s16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_simm() {return true;};
+};
+
+class e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_arith() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u16 UIMM;  /* u16 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_immediate() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_uimm() {return true;};
+};
+
+class e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 L;  /* u1 */
+	u8 rA;  /* u5 */
+	u8 rB;  /* u5 */
+	u64 m_DDCRegFileSRU_GPRMaskRead;
+	u64 m_DDCRegFileSRU_GPRMaskWrite;
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_cmp() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_l() {return true;};
+	virtual bool hasID_logical() {return true;};
+	virtual bool hasID_ra() {return true;};
+	virtual bool hasID_rb() {return true;};
+	virtual bool hasID_reg() {return true;};
+};
+
+class e200z4_CR7_crfd_crfs_mcrf : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR7_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_crfd_crfs_mcrf() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrf() {return true;};
+};
+
+class e200z4_CR7_crfd_crfs_mcrfs : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 crfS;  /* u3 */
+
+	public:
+	e200z4_CR7_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_crfd_crfs_mcrfs() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_crfs() {return true;};
+	virtual bool hasID_mcrfs() {return true;};
+};
+
+class e200z4_CR7_crfd_fcmpo_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR7_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_crfd_fcmpo_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpo() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR7_crfd_fcmpu_fra_frb : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 frA;  /* u5 */
+	u8 frB;  /* u5 */
+
+	public:
+	e200z4_CR7_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_crfd_fcmpu_fra_frb() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_fcmpu() {return true;};
+	virtual bool hasID_fra() {return true;};
+	virtual bool hasID_frb() {return true;};
+};
+
+class e200z4_CR7_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR7_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_crfd_imm_mtfsfi_noStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_noStatus() {return true;};
+};
+
+class e200z4_CR7_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u8 IMM;  /* u4 */
+
+	public:
+	e200z4_CR7_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_crfd_imm_mtfsfi_useStatus() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 0;};
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_imm() {return true;};
+	virtual bool hasID_mtfsfi() {return true;};
+	virtual bool hasID_useStatus() {return true;};
+};
+
+class e200z4_CR7_crfd_mcrxr : public e200z4_instruction {
+	u8 crfD;  /* u3 */
+	u64 m_DDCRegMaskRead;
+	u64 m_DDCRegMaskWrite;
+
+	public:
+	e200z4_CR7_crfd_mcrxr(const u32 pc, const u32 chunk1);
+	virtual ~e200z4_CR7_crfd_mcrxr() {};
+	virtual void execute(arch *);
+	virtual const char* const mnemo();
+	virtual unsigned char const size() {return 4;};
+	virtual unsigned char const chunks() {return 1;};
+	virtual unsigned int const instClass() {return 1;};
+	virtual void lockDDCWriteRegs(u64 &lock0);
+	virtual void getDDCReadRegs(u64 &regsMask0);
+	virtual bool hasID_CR7() {return true;};
+	virtual bool hasID_crfd() {return true;};
+	virtual bool hasID_mcrxr() {return true;};
+};
+
 class e200z4_SP_Check_abs_b_li_updatelr : public e200z4_instruction {
 	s32 LI;  /* s24 */
 	bool m_jumpTaken;
@@ -561,7 +2625,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr : public e2
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
 	virtual void detectBranch(arch *_arch);
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return false;}
 	virtual bool hasID_SP_Check() {return true;};
 	virtual bool hasID_abs() {return true;};
@@ -596,7 +2660,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr : public e200z
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
 	virtual void detectBranch(arch *_arch);
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return false;}
 	virtual bool hasID_SP_Check() {return true;};
 	virtual bool hasID_abs() {return true;};
@@ -1173,7 +3237,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr : public e
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return true;}
 	virtual bool hasID_SP_Check() {return true;};
 	virtual bool hasID_abs() {return true;};
@@ -1206,7 +3270,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr : public e200
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return true;}
 	virtual bool hasID_SP_Check() {return true;};
 	virtual bool hasID_abs() {return true;};
@@ -1779,7 +3843,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_updatelr : public 
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return true;}
 	virtual bool hasID_SP_Check() {return true;};
 	virtual bool hasID_abs() {return true;};
@@ -1812,7 +3876,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr : public e20
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return true;}
 	virtual bool hasID_SP_Check() {return true;};
 	virtual bool hasID_abs() {return true;};
@@ -2443,7 +4507,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_revStatPred_updatelr : public e2
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
 	virtual void detectBranch(arch *_arch);
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return false;}
 	virtual bool hasID_SP_Check() {return true;};
 	virtual bool hasID_bc() {return true;};
@@ -2478,7 +4542,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_statPred_updatelr : public e200z
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
 	virtual void detectBranch(arch *_arch);
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return false;}
 	virtual bool hasID_SP_Check() {return true;};
 	virtual bool hasID_bc() {return true;};
@@ -3107,7 +5171,7 @@ class e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred : public e200z4_instruction {
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
 	virtual void detectBranch(arch *_arch);
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return false;}
 	virtual bool hasID_abs() {return true;};
 	virtual bool hasID_bc() {return true;};
@@ -3140,7 +5204,7 @@ class e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred : public e200z4_instruction {
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
 	virtual void detectBranch(arch *_arch);
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return false;}
 	virtual bool hasID_abs() {return true;};
 	virtual bool hasID_bc() {return true;};
@@ -3683,7 +5747,7 @@ class e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred : public e200z4_instruction 
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return true;}
 	virtual bool hasID_abs() {return true;};
 	virtual bool hasID_bc() {return true;};
@@ -3714,7 +5778,7 @@ class e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return true;}
 	virtual bool hasID_abs() {return true;};
 	virtual bool hasID_bc() {return true;};
@@ -4253,7 +6317,7 @@ class e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr : public e200z4_instruction
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return true;}
 	virtual bool hasID_abs() {return true;};
 	virtual bool hasID_bc() {return true;};
@@ -4284,7 +6348,7 @@ class e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return true;}
 	virtual bool hasID_abs() {return true;};
 	virtual bool hasID_bc() {return true;};
@@ -5458,64 +7522,6 @@ class e200z4_and_notaftercomplemented_ra_rs_shifted_uimm_useStatus : public e200
 	virtual bool hasID_useStatus() {return true;};
 };
 
-class e200z4_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 L;  /* u1 */
-	u8 rA;  /* u5 */
-	s16 SIMM;  /* s16 */
-	u64 m_DDCRegFileSRU_GPRMaskRead;
-	u64 m_DDCRegFileSRU_GPRMaskWrite;
-	u64 m_DDCRegMaskRead;
-	u64 m_DDCRegMaskWrite;
-
-	public:
-	e200z4_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_arith_cmp_crfd_immediate_l_ra_simm() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 1;};
-	virtual void lockDDCWriteRegs(u64 &lock0);
-	virtual void getDDCReadRegs(u64 &regsMask0);
-	virtual bool hasID_arith() {return true;};
-	virtual bool hasID_cmp() {return true;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_immediate() {return true;};
-	virtual bool hasID_l() {return true;};
-	virtual bool hasID_ra() {return true;};
-	virtual bool hasID_simm() {return true;};
-};
-
-class e200z4_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 L;  /* u1 */
-	u8 rA;  /* u5 */
-	u8 rB;  /* u5 */
-	u64 m_DDCRegFileSRU_GPRMaskRead;
-	u64 m_DDCRegFileSRU_GPRMaskWrite;
-	u64 m_DDCRegMaskRead;
-	u64 m_DDCRegMaskWrite;
-
-	public:
-	e200z4_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_arith_cmp_crfd_l_ra_rb_reg() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 1;};
-	virtual void lockDDCWriteRegs(u64 &lock0);
-	virtual void getDDCReadRegs(u64 &regsMask0);
-	virtual bool hasID_arith() {return true;};
-	virtual bool hasID_cmp() {return true;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_l() {return true;};
-	virtual bool hasID_ra() {return true;};
-	virtual bool hasID_rb() {return true;};
-	virtual bool hasID_reg() {return true;};
-};
-
 class e200z4_b_li_rel : public e200z4_instruction {
 	s32 LI;  /* s24 */
 	bool m_jumpTaken;
@@ -6037,7 +8043,7 @@ class e200z4_bc_bd_bi_bo_nd_noCond_rel_revStatPred : public e200z4_instruction {
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
 	virtual void detectBranch(arch *_arch);
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return false;}
 	virtual bool hasID_bc() {return true;};
 	virtual bool hasID_bd() {return true;};
@@ -6070,7 +8076,7 @@ class e200z4_bc_bd_bi_bo_nd_noCond_rel_statPred : public e200z4_instruction {
 	virtual bool jumpTaken() {return m_jumpTaken;};
 	virtual bool isBranch() {return true;}
 	virtual void detectBranch(arch *_arch);
-	virtual bool isBranchUnconditional() {return false;}
+	virtual bool isBranchUnconditional() {return true;}
 	virtual bool isBranchStaticallyUnknown() {return false;}
 	virtual bool hasID_bc() {return true;};
 	virtual bool hasID_bd() {return true;};
@@ -6488,64 +8494,6 @@ class e200z4_c_notu_ra_rb_rs_store_useStatus_word_x : public e200z4_instruction 
 	virtual bool hasID_x() {return true;};
 };
 
-class e200z4_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 L;  /* u1 */
-	u8 rA;  /* u5 */
-	u16 UIMM;  /* u16 */
-	u64 m_DDCRegFileSRU_GPRMaskRead;
-	u64 m_DDCRegFileSRU_GPRMaskWrite;
-	u64 m_DDCRegMaskRead;
-	u64 m_DDCRegMaskWrite;
-
-	public:
-	e200z4_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_cmp_crfd_immediate_l_logical_ra_uimm() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 1;};
-	virtual void lockDDCWriteRegs(u64 &lock0);
-	virtual void getDDCReadRegs(u64 &regsMask0);
-	virtual bool hasID_cmp() {return true;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_immediate() {return true;};
-	virtual bool hasID_l() {return true;};
-	virtual bool hasID_logical() {return true;};
-	virtual bool hasID_ra() {return true;};
-	virtual bool hasID_uimm() {return true;};
-};
-
-class e200z4_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 L;  /* u1 */
-	u8 rA;  /* u5 */
-	u8 rB;  /* u5 */
-	u64 m_DDCRegFileSRU_GPRMaskRead;
-	u64 m_DDCRegFileSRU_GPRMaskWrite;
-	u64 m_DDCRegMaskRead;
-	u64 m_DDCRegMaskWrite;
-
-	public:
-	e200z4_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_cmp_crfd_l_logical_ra_rb_reg() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 1;};
-	virtual void lockDDCWriteRegs(u64 &lock0);
-	virtual void getDDCReadRegs(u64 &regsMask0);
-	virtual bool hasID_cmp() {return true;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_l() {return true;};
-	virtual bool hasID_logical() {return true;};
-	virtual bool hasID_ra() {return true;};
-	virtual bool hasID_rb() {return true;};
-	virtual bool hasID_reg() {return true;};
-};
-
 class e200z4_cntlzw_noStatus_ra_rs : public e200z4_instruction {
 	u8 rS;  /* u5 */
 	u8 rA;  /* u5 */
@@ -6892,137 +8840,6 @@ class e200z4_crbd_mtfsb1_useStatus : public e200z4_instruction {
 	virtual bool hasID_crbd() {return true;};
 	virtual bool hasID_mtfsb1() {return true;};
 	virtual bool hasID_useStatus() {return true;};
-};
-
-class e200z4_crfd_crfs_mcrf : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 crfS;  /* u3 */
-	u64 m_DDCRegMaskRead;
-	u64 m_DDCRegMaskWrite;
-
-	public:
-	e200z4_crfd_crfs_mcrf(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_crfd_crfs_mcrf() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 1;};
-	virtual void lockDDCWriteRegs(u64 &lock0);
-	virtual void getDDCReadRegs(u64 &regsMask0);
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_crfs() {return true;};
-	virtual bool hasID_mcrf() {return true;};
-};
-
-class e200z4_crfd_crfs_mcrfs : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 crfS;  /* u3 */
-
-	public:
-	e200z4_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_crfd_crfs_mcrfs() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 0;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_crfs() {return true;};
-	virtual bool hasID_mcrfs() {return true;};
-};
-
-class e200z4_crfd_fcmpo_fra_frb : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 frA;  /* u5 */
-	u8 frB;  /* u5 */
-
-	public:
-	e200z4_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_crfd_fcmpo_fra_frb() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 0;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_fcmpo() {return true;};
-	virtual bool hasID_fra() {return true;};
-	virtual bool hasID_frb() {return true;};
-};
-
-class e200z4_crfd_fcmpu_fra_frb : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 frA;  /* u5 */
-	u8 frB;  /* u5 */
-
-	public:
-	e200z4_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_crfd_fcmpu_fra_frb() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 0;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_fcmpu() {return true;};
-	virtual bool hasID_fra() {return true;};
-	virtual bool hasID_frb() {return true;};
-};
-
-class e200z4_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 IMM;  /* u4 */
-
-	public:
-	e200z4_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_crfd_imm_mtfsfi_noStatus() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 0;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_imm() {return true;};
-	virtual bool hasID_mtfsfi() {return true;};
-	virtual bool hasID_noStatus() {return true;};
-};
-
-class e200z4_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u8 IMM;  /* u4 */
-
-	public:
-	e200z4_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_crfd_imm_mtfsfi_useStatus() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 0;};
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_imm() {return true;};
-	virtual bool hasID_mtfsfi() {return true;};
-	virtual bool hasID_useStatus() {return true;};
-};
-
-class e200z4_crfd_mcrxr : public e200z4_instruction {
-	u8 crfD;  /* u3 */
-	u64 m_DDCRegMaskRead;
-	u64 m_DDCRegMaskWrite;
-
-	public:
-	e200z4_crfd_mcrxr(const u32 pc, const u32 chunk1);
-	virtual ~e200z4_crfd_mcrxr() {};
-	virtual void execute(arch *);
-	virtual const char* const mnemo();
-	virtual unsigned char const size() {return 4;};
-	virtual unsigned char const chunks() {return 1;};
-	virtual unsigned int const instClass() {return 1;};
-	virtual void lockDDCWriteRegs(u64 &lock0);
-	virtual void getDDCReadRegs(u64 &regsMask0);
-	virtual bool hasID_crfd() {return true;};
-	virtual bool hasID_mcrxr() {return true;};
 };
 
 class e200z4_crm_mtcrf_rs : public e200z4_instruction {

@@ -15,29 +15,1029 @@ using namespace std;
 
 // instruction execute code.
 
+void e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.980
+	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1003
+	_arch->setCR_CR0((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1003
+	_arch->setCR_CR0((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.986
+	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1003
+	_arch->setCR_CR0((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1003
+	_arch->setCR_CR0((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR0_crfd_crfs_mcrf::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1749
+	_arch->setCR_CR0((FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))) & 0xF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR0_crfd_mcrxr::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1764
+	_arch->setCR_CR0((FIELD((_arch->XER()),(31U),(27U))) & 0xF);
+
+	// 'ppc_e200z4.hadl', l.1774
+	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.980
+	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1004
+	_arch->setCR_CR1((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1004
+	_arch->setCR_CR1((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.986
+	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1004
+	_arch->setCR_CR1((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1004
+	_arch->setCR_CR1((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR1_crfd_crfs_mcrf::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1750
+	_arch->setCR_CR1((FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))) & 0xF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR1_crfd_mcrxr::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1765
+	_arch->setCR_CR1((FIELD((_arch->XER()),(31U),(27U))) & 0xF);
+
+	// 'ppc_e200z4.hadl', l.1774
+	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.980
+	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1005
+	_arch->setCR_CR2((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1005
+	_arch->setCR_CR2((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.986
+	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1005
+	_arch->setCR_CR2((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1005
+	_arch->setCR_CR2((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR2_crfd_crfs_mcrf::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1751
+	_arch->setCR_CR2((FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))) & 0xF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR2_crfd_mcrxr::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1766
+	_arch->setCR_CR2((FIELD((_arch->XER()),(31U),(27U))) & 0xF);
+
+	// 'ppc_e200z4.hadl', l.1774
+	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.980
+	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1006
+	_arch->setCR_CR3((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1006
+	_arch->setCR_CR3((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.986
+	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1006
+	_arch->setCR_CR3((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1006
+	_arch->setCR_CR3((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR3_crfd_crfs_mcrf::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1752
+	_arch->setCR_CR3((FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))) & 0xF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR3_crfd_mcrxr::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1767
+	_arch->setCR_CR3((FIELD((_arch->XER()),(31U),(27U))) & 0xF);
+
+	// 'ppc_e200z4.hadl', l.1774
+	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.980
+	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1007
+	_arch->setCR_CR4((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1007
+	_arch->setCR_CR4((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.986
+	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1007
+	_arch->setCR_CR4((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1007
+	_arch->setCR_CR4((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR4_crfd_crfs_mcrf::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1753
+	_arch->setCR_CR4((FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))) & 0xF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR4_crfd_mcrxr::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1768
+	_arch->setCR_CR4((FIELD((_arch->XER()),(31U),(27U))) & 0xF);
+
+	// 'ppc_e200z4.hadl', l.1774
+	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.980
+	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1008
+	_arch->setCR_CR5((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1008
+	_arch->setCR_CR5((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.986
+	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1008
+	_arch->setCR_CR5((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1008
+	_arch->setCR_CR5((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR5_crfd_crfs_mcrf::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1754
+	_arch->setCR_CR5((FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))) & 0xF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR5_crfd_mcrxr::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1769
+	_arch->setCR_CR5((FIELD((_arch->XER()),(31U),(27U))) & 0xF);
+
+	// 'ppc_e200z4.hadl', l.1774
+	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.980
+	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1009
+	_arch->setCR_CR6((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1009
+	_arch->setCR_CR6((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.986
+	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1009
+	_arch->setCR_CR6((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1009
+	_arch->setCR_CR6((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR6_crfd_crfs_mcrf::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1755
+	_arch->setCR_CR6((FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))) & 0xF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR6_crfd_mcrxr::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1770
+	_arch->setCR_CR6((FIELD((_arch->XER()),(31U),(27U))) & 0xF);
+
+	// 'ppc_e200z4.hadl', l.1774
+	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.980
+	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1010
+	_arch->setCR_CR7((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.993
+	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1010
+	_arch->setCR_CR7((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.986
+	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1010
+	_arch->setCR_CR7((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.962
+	u32 cmp_inst_op1; //u32
+	// 'ppc_e200z4.hadl', l.963
+	u32 cmp_inst_op2; //u32
+	// 'ppc_e200z4.hadl', l.964
+	u8 cmp_inst_result; //u4
+	// 'ppc_e200z4.hadl', l.967
+	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.974
+	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
+
+	// 'ppc_e200z4.hadl', l.998
+	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
+
+	// 'ppc_e200z4.hadl', l.1010
+	_arch->setCR_CR7((cmp_inst_result) & 0xF);
+
+	//Data Dependancy Controller related part
+	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR7_crfd_crfs_mcrf::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1756
+	_arch->setCR_CR7((FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))) & 0xF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
+void e200z4_CR7_crfd_mcrxr::execute(arch *_arch){
+	_arch->initDDCRegAccess();
+	//effective code
+	// 'ppc_e200z4.hadl', l.1771
+	_arch->setCR_CR7((FIELD((_arch->XER()),(31U),(27U))) & 0xF);
+
+	// 'ppc_e200z4.hadl', l.1774
+	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
+
+	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
+}
+
 void e200z4_SP_Check_abs_b_li_updatelr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1289
+	// 'ppc_e200z4.hadl', l.1295
 	branch_inst_doJump = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1329
+	// 'ppc_e200z4.hadl', l.1338
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->LI)<<((s32)(2U))),24U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -48,38 +1048,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -90,38 +1090,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr::execute(arch *_ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -132,38 +1132,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z::execute(arch *_
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -174,38 +1174,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z::execute(arch *_arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -216,38 +1216,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_updatelr::execute(a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -258,38 +1258,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr::execute(arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -300,38 +1300,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_z::execute(ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -342,38 +1342,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z::execute(arch 
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -384,38 +1384,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -426,38 +1426,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr::execute(arch *_ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -468,38 +1468,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z::execute(arch *_
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -510,38 +1510,38 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z::execute(arch *_arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -552,35 +1552,30 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr::execute(arch *_a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -591,35 +1586,30 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr::execute(arch *_arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -630,35 +1620,30 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr::execute(arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -669,35 +1654,30 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -708,35 +1688,30 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr::execute(arch *_a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -747,35 +1722,30 @@ void e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr::execute(arch *_arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -786,38 +1756,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr::execute(arch 
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -828,38 +1798,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr::execute(arch *_a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -870,38 +1840,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -912,38 +1882,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z::execute(arch *_ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -954,38 +1924,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr::execute(
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -996,38 +1966,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr::execute(arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1038,38 +2008,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z::execute(a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1080,38 +2050,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z::execute(arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1122,38 +2092,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr::execute(arch 
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1164,38 +2134,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr::execute(arch *_a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1206,38 +2176,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1248,38 +2218,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z::execute(arch *_ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1290,35 +2260,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr::execute(arch *_
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1329,35 +2294,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr::execute(arch *_arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1368,35 +2328,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr::execute(ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1407,35 +2362,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr::execute(arch 
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1446,35 +2396,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr::execute(arch *_
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1485,35 +2430,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr::execute(arch *_arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1524,38 +2464,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr::execute(arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1566,38 +2506,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr::execute(arch *_
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1608,38 +2548,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z::execute(arch 
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1650,38 +2590,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z::execute(arch *_a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1692,38 +2632,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr::execute
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1734,38 +2674,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatelr::execute(ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1776,38 +2716,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatelr_z::execute(
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1818,38 +2758,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z::execute(arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1860,38 +2800,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr::execute(arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1902,38 +2842,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr::execute(arch *_
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1944,38 +2884,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z::execute(arch 
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -1986,38 +2926,38 @@ void e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z::execute(arch *_a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2028,35 +2968,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2067,35 +3002,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr::execute(arch *_ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2106,35 +3036,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_updatelr::execute(a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2145,35 +3070,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr::execute(arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2184,35 +3104,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2223,35 +3138,30 @@ void e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr::execute(arch *_ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2262,25 +3172,25 @@ void e200z4_SP_Check_b_li_rel_updatelr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1289
+	// 'ppc_e200z4.hadl', l.1295
 	branch_inst_doJump = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1329
+	// 'ppc_e200z4.hadl', l.1338
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->LI)<<((s32)(2U))),24U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2291,38 +3201,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_revStatPred_updatelr::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2333,38 +3243,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_statPred_updatelr::execute(arch *_ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2375,38 +3285,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_revStatPred_updatelr_z::execute(arch *_
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2417,38 +3327,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_statPred_updatelr_z::execute(arch *_arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2459,38 +3369,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred_updatelr::execute(a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2501,38 +3411,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_statPred_updatelr::execute(arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2543,38 +3453,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_revStatPred_updatelr_z::execute(ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2585,38 +3495,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_statPred_updatelr_z::execute(arch 
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2627,38 +3537,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_revStatPred_t_updatelr::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2669,38 +3579,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_statPred_t_updatelr::execute(arch *_ar
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2711,38 +3621,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_rel_revStatPred_t_updatelr_z::execute(arch *_
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2753,38 +3663,38 @@ void e200z4_SP_Check_bc_bd_bi_bo_d_rel_statPred_t_updatelr_z::execute(arch *_arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2795,35 +3705,30 @@ void e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr::execute(arch *_a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2834,35 +3739,30 @@ void e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr::execute(arch *_arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2873,35 +3773,30 @@ void e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_revStatPred_updatelr::execute(arc
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2912,35 +3807,30 @@ void e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_statPred_updatelr::execute(arch *
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2951,35 +3841,30 @@ void e200z4_SP_Check_bc_bd_bi_bo_nd_rel_revStatPred_t_updatelr::execute(arch *_a
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -2990,35 +3875,30 @@ void e200z4_SP_Check_bc_bd_bi_bo_nd_rel_statPred_t_updatelr::execute(arch *_arch
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1349
+	// 'ppc_e200z4.hadl', l.1358
 	_arch->setLR(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3029,16 +3909,16 @@ void e200z4_SP_Check_sc::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1684
+	// 'ppc_e200z4.hadl', l.1693
 	_arch->setSRR0(((_arch->PC())) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1685
+	// 'ppc_e200z4.hadl', l.1694
 	_arch->setSRR1(((((((_arch->SRR1()))&((u32)(((~2017460083U) & 0x7FFFFFFF)))))|((((((_arch->MSR()))&(2277572607U)))&((u32)(2017460083U)))))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1687
+	// 'ppc_e200z4.hadl', l.1696
 	_arch->setMSR(((((((_arch->MSR()))&(4294644684U)))|((u32)(((_arch->MSR_ILE())) & 0xFFFFFFFF)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1693
+	// 'ppc_e200z4.hadl', l.1702
 	_arch->fetcher_absBranch(3072U, 1U);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3049,22 +3929,22 @@ void e200z4_abs_b_li::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1289
+	// 'ppc_e200z4.hadl', l.1295
 	branch_inst_doJump = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1329
+	// 'ppc_e200z4.hadl', l.1338
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->LI)<<((s32)(2U))),24U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3075,35 +3955,35 @@ void e200z4_abs_bc_bd_bi_bo_d_f_nz_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3114,35 +3994,35 @@ void e200z4_abs_bc_bd_bi_bo_d_f_nz_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3153,35 +4033,35 @@ void e200z4_abs_bc_bd_bi_bo_d_f_revStatPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3192,35 +4072,35 @@ void e200z4_abs_bc_bd_bi_bo_d_f_statPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3231,35 +4111,35 @@ void e200z4_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3270,35 +4150,35 @@ void e200z4_abs_bc_bd_bi_bo_d_noCond_nz_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3309,35 +4189,35 @@ void e200z4_abs_bc_bd_bi_bo_d_noCond_revStatPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3348,35 +4228,35 @@ void e200z4_abs_bc_bd_bi_bo_d_noCond_statPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3387,35 +4267,35 @@ void e200z4_abs_bc_bd_bi_bo_d_nz_revStatPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3426,35 +4306,35 @@ void e200z4_abs_bc_bd_bi_bo_d_nz_statPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3465,35 +4345,35 @@ void e200z4_abs_bc_bd_bi_bo_d_revStatPred_t_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3504,35 +4384,35 @@ void e200z4_abs_bc_bd_bi_bo_d_statPred_t_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3543,32 +4423,27 @@ void e200z4_abs_bc_bd_bi_bo_f_nd_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3579,32 +4454,27 @@ void e200z4_abs_bc_bd_bi_bo_f_nd_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3615,32 +4485,27 @@ void e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3651,32 +4516,27 @@ void e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3687,32 +4547,27 @@ void e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3723,32 +4578,27 @@ void e200z4_abs_bc_bd_bi_bo_nd_statPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3759,35 +4609,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3798,35 +4648,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3837,35 +4687,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3876,35 +4726,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3915,35 +4765,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3954,35 +4804,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -3993,35 +4843,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4032,35 +4882,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4071,35 +4921,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4110,35 +4960,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4149,35 +4999,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4188,35 +5038,35 @@ void e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4227,32 +5077,27 @@ void e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4263,32 +5108,27 @@ void e200z4_abs_bc_bi_bo_ctr_f_nd_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4299,32 +5139,27 @@ void e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4335,32 +5170,27 @@ void e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4371,32 +5201,27 @@ void e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4407,32 +5232,27 @@ void e200z4_abs_bc_bi_bo_ctr_nd_statPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
-	u32 branch_inst_value; //u32
 	// 'ppc_e200z4.hadl', l.1334
+	u32 branch_inst_value; //u32
+	// 'ppc_e200z4.hadl', l.1343
 	branch_inst_value = ((_arch->CTR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4443,35 +5263,35 @@ void e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4482,35 +5302,35 @@ void e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4521,35 +5341,35 @@ void e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4560,35 +5380,35 @@ void e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4599,35 +5419,35 @@ void e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4638,35 +5458,35 @@ void e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4677,35 +5497,35 @@ void e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4716,35 +5536,35 @@ void e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4755,35 +5575,35 @@ void e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4794,35 +5614,35 @@ void e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4833,35 +5653,35 @@ void e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4872,35 +5692,35 @@ void e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4911,32 +5731,27 @@ void e200z4_abs_bc_bi_bo_f_nd_revStatPred_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4947,32 +5762,27 @@ void e200z4_abs_bc_bi_bo_f_nd_statPred_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -4983,32 +5793,27 @@ void e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -5019,32 +5824,27 @@ void e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -5055,32 +5855,27 @@ void e200z4_abs_bc_bi_bo_nd_revStatPred_t_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -5091,32 +5886,27 @@ void e200z4_abs_bc_bi_bo_nd_statPred_t_tolr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1336
+	// 'ppc_e200z4.hadl', l.1345
 	branch_inst_value = ((_arch->LR())) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1342
+	// 'ppc_e200z4.hadl', l.1351
 	branch_inst_target_address = (branch_inst_value) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6019,25 +6809,25 @@ void e200z4_addze_ra_rd_useOv_useStatus_withCarry::execute(arch *_arch){
 void e200z4_aftercomplemented_and_noStatus_notcomplemented_ra_rb_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1050
+	// 'ppc_e200z4.hadl', l.1056
 	logical_inst_result = (((logical_inst_op1)&(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1056
+	// 'ppc_e200z4.hadl', l.1062
 	logical_inst_result = (((~logical_inst_result) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6046,27 +6836,27 @@ void e200z4_aftercomplemented_and_noStatus_notcomplemented_ra_rb_rs::execute(arc
 void e200z4_aftercomplemented_and_notcomplemented_ra_rb_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1050
+	// 'ppc_e200z4.hadl', l.1056
 	logical_inst_result = (((logical_inst_op1)&(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1056
+	// 'ppc_e200z4.hadl', l.1062
 	logical_inst_result = (((~logical_inst_result) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6076,25 +6866,25 @@ void e200z4_aftercomplemented_and_notcomplemented_ra_rb_rs_useStatus::execute(ar
 void e200z4_aftercomplemented_noStatus_notcomplemented_or_ra_rb_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1042
+	// 'ppc_e200z4.hadl', l.1048
 	logical_inst_result = (((logical_inst_op1)|(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1056
+	// 'ppc_e200z4.hadl', l.1062
 	logical_inst_result = (((~logical_inst_result) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6103,25 +6893,25 @@ void e200z4_aftercomplemented_noStatus_notcomplemented_or_ra_rb_rs::execute(arch
 void e200z4_aftercomplemented_noStatus_notcomplemented_ra_rb_rs_xor::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1046
+	// 'ppc_e200z4.hadl', l.1052
 	logical_inst_result = (((logical_inst_op1)^(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1056
+	// 'ppc_e200z4.hadl', l.1062
 	logical_inst_result = (((~logical_inst_result) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6130,27 +6920,27 @@ void e200z4_aftercomplemented_noStatus_notcomplemented_ra_rb_rs_xor::execute(arc
 void e200z4_aftercomplemented_notcomplemented_or_ra_rb_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1042
+	// 'ppc_e200z4.hadl', l.1048
 	logical_inst_result = (((logical_inst_op1)|(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1056
+	// 'ppc_e200z4.hadl', l.1062
 	logical_inst_result = (((~logical_inst_result) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6160,27 +6950,27 @@ void e200z4_aftercomplemented_notcomplemented_or_ra_rb_rs_useStatus::execute(arc
 void e200z4_aftercomplemented_notcomplemented_ra_rb_rs_useStatus_xor::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1046
+	// 'ppc_e200z4.hadl', l.1052
 	logical_inst_result = (((logical_inst_op1)^(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1056
+	// 'ppc_e200z4.hadl', l.1062
 	logical_inst_result = (((~logical_inst_result) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6190,43 +6980,43 @@ void e200z4_aftercomplemented_notcomplemented_ra_rb_rs_useStatus_xor::execute(ar
 void e200z4_algebraic_d_half_load_notu_ra_rd::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1593
+	// 'ppc_e200z4.hadl', l.1602
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1596
+	// 'ppc_e200z4.hadl', l.1605
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1628
+	// 'ppc_e200z4.hadl', l.1637
 	load_inst_value = ((u32)((s32)((SIGN_EXTEND((s16)((load_inst_value) & 0xFFFF),16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6235,38 +7025,38 @@ void e200z4_algebraic_d_half_load_notu_ra_rd::execute(arch *_arch){
 void e200z4_algebraic_d_half_load_ra_rd_u::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1593
+	// 'ppc_e200z4.hadl', l.1602
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1596
+	// 'ppc_e200z4.hadl', l.1605
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1628
+	// 'ppc_e200z4.hadl', l.1637
 	load_inst_value = ((u32)((s32)((SIGN_EXTEND((s16)((load_inst_value) & 0xFFFF),16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1650
+	// 'ppc_e200z4.hadl', l.1659
 	_arch->SRU_GPR_write32(this->rA, load_inst_effective_address);
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6275,43 +7065,43 @@ void e200z4_algebraic_d_half_load_ra_rd_u::execute(arch *_arch){
 void e200z4_algebraic_half_load_notu_ra_rb_rd_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1628
+	// 'ppc_e200z4.hadl', l.1637
 	load_inst_value = ((u32)((s32)((SIGN_EXTEND((s16)((load_inst_value) & 0xFFFF),16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6320,38 +7110,38 @@ void e200z4_algebraic_half_load_notu_ra_rb_rd_x::execute(arch *_arch){
 void e200z4_algebraic_half_load_ra_rb_rd_u_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1628
+	// 'ppc_e200z4.hadl', l.1637
 	load_inst_value = ((u32)((s32)((SIGN_EXTEND((s16)((load_inst_value) & 0xFFFF),16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1650
+	// 'ppc_e200z4.hadl', l.1659
 	_arch->SRU_GPR_write32(this->rA, load_inst_effective_address);
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6360,22 +7150,22 @@ void e200z4_algebraic_half_load_ra_rb_rd_u_x::execute(arch *_arch){
 void e200z4_and_complemented_noStatus_notaftercomplemented_ra_rb_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1024
+	// 'ppc_e200z4.hadl', l.1030
 	logical_inst_op2 = (((~_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1050
+	// 'ppc_e200z4.hadl', l.1056
 	logical_inst_result = (((logical_inst_op1)&(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6384,24 +7174,24 @@ void e200z4_and_complemented_noStatus_notaftercomplemented_ra_rb_rs::execute(arc
 void e200z4_and_complemented_notaftercomplemented_ra_rb_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1024
+	// 'ppc_e200z4.hadl', l.1030
 	logical_inst_op2 = (((~_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1050
+	// 'ppc_e200z4.hadl', l.1056
 	logical_inst_result = (((logical_inst_op1)&(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6411,22 +7201,22 @@ void e200z4_and_complemented_notaftercomplemented_ra_rb_rs_useStatus::execute(ar
 void e200z4_and_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1050
+	// 'ppc_e200z4.hadl', l.1056
 	logical_inst_result = (((logical_inst_op1)&(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6435,24 +7225,24 @@ void e200z4_and_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs::execute(
 void e200z4_and_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1050
+	// 'ppc_e200z4.hadl', l.1056
 	logical_inst_result = (((logical_inst_op1)&(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6462,24 +7252,24 @@ void e200z4_and_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus::execute
 void e200z4_and_notaftercomplemented_notshifted_ra_rs_uimm_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1035
+	// 'ppc_e200z4.hadl', l.1041
 	logical_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1050
+	// 'ppc_e200z4.hadl', l.1056
 	logical_inst_result = (((logical_inst_op1)&(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -6489,87 +7279,25 @@ void e200z4_and_notaftercomplemented_notshifted_ra_rs_uimm_useStatus::execute(ar
 void e200z4_and_notaftercomplemented_ra_rs_shifted_uimm_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1033
+	// 'ppc_e200z4.hadl', l.1039
 	logical_inst_op2 = (((this->UIMM)<<((u16)(16U)))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1050
+	// 'ppc_e200z4.hadl', l.1056
 	logical_inst_result = (((logical_inst_op1)&(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
-	//Data Dependancy Controller related part
-	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
-	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
-}
-
-void e200z4_arith_cmp_crfd_immediate_l_ra_simm::execute(arch *_arch){
-	_arch->initDDCRegAccess();
-	//effective code
-	// 'ppc_e200z4.hadl', l.962
-	u32 cmp_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.963
-	u32 cmp_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.964
-	u8 cmp_inst_result; //u4
-	// 'ppc_e200z4.hadl', l.967
-	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.980
-	cmp_inst_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.993
-	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
-
-	// 'ppc_e200z4.hadl', l.1003
-	u32 cmp_inst_mask; //u32
-	// 'ppc_e200z4.hadl', l.1003
-	cmp_inst_mask = (((4026531840U)>>((u32)((((u8)(4U))*((u8)(this->crfD))))))) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.1004
-	_arch->setCR(((((((_arch->CR()))&(((~cmp_inst_mask) & 0xFFFFFFFF))))|((u32)(((cmp_inst_result)<<(((28U)-((((u8)(4U))*((u8)(this->crfD))))))))))) & 0xFFFFFFFF);
-
-	//Data Dependancy Controller related part
-	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
-	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
-}
-
-void e200z4_arith_cmp_crfd_l_ra_rb_reg::execute(arch *_arch){
-	_arch->initDDCRegAccess();
-	//effective code
-	// 'ppc_e200z4.hadl', l.962
-	u32 cmp_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.963
-	u32 cmp_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.964
-	u8 cmp_inst_result; //u4
-	// 'ppc_e200z4.hadl', l.967
-	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.974
-	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.993
-	cmp_inst_result = (_arch->Integer_Unit_arithCompare((s32)(cmp_inst_op1), (s32)(cmp_inst_op2))) & 0xF;
-
-	// 'ppc_e200z4.hadl', l.1003
-	u32 cmp_inst_mask; //u32
-	// 'ppc_e200z4.hadl', l.1003
-	cmp_inst_mask = (((4026531840U)>>((u32)((((u8)(4U))*((u8)(this->crfD))))))) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.1004
-	_arch->setCR(((((((_arch->CR()))&(((~cmp_inst_mask) & 0xFFFFFFFF))))|((u32)(((cmp_inst_result)<<(((28U)-((((u8)(4U))*((u8)(this->crfD))))))))))) & 0xFFFFFFFF);
-
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
@@ -6579,22 +7307,22 @@ void e200z4_b_li_rel::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1289
+	// 'ppc_e200z4.hadl', l.1295
 	branch_inst_doJump = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1329
+	// 'ppc_e200z4.hadl', l.1338
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->LI)<<((s32)(2U))),24U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6605,35 +7333,35 @@ void e200z4_bc_bd_bi_bo_d_f_nz_rel_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6644,35 +7372,35 @@ void e200z4_bc_bd_bi_bo_d_f_nz_rel_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6683,35 +7411,35 @@ void e200z4_bc_bd_bi_bo_d_f_rel_revStatPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6722,35 +7450,35 @@ void e200z4_bc_bd_bi_bo_d_f_rel_statPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6761,35 +7489,35 @@ void e200z4_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6800,35 +7528,35 @@ void e200z4_bc_bd_bi_bo_d_noCond_nz_rel_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6839,35 +7567,35 @@ void e200z4_bc_bd_bi_bo_d_noCond_rel_revStatPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6878,35 +7606,35 @@ void e200z4_bc_bd_bi_bo_d_noCond_rel_statPred_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6917,35 +7645,35 @@ void e200z4_bc_bd_bi_bo_d_nz_rel_revStatPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6956,35 +7684,35 @@ void e200z4_bc_bd_bi_bo_d_nz_rel_statPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -6995,35 +7723,35 @@ void e200z4_bc_bd_bi_bo_d_rel_revStatPred_t_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -7034,35 +7762,35 @@ void e200z4_bc_bd_bi_bo_d_rel_statPred_t_z::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1280
+	// 'ppc_e200z4.hadl', l.1286
 	_arch->setCTR(((((_arch->CTR()))-((u32)(1U)))) & 0xFFFFFFFF);
 
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1310
+	u8 behavior_case_126_ctr_ok; //u1
+	// 'ppc_e200z4.hadl', l.1312
+	behavior_case_126_ctr_ok = ((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1313
+	branch_inst_doJump = (((behavior_case_126_ctr_ok)&(behavior_case_120_cond_ok))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -7073,32 +7801,27 @@ void e200z4_bc_bd_bi_bo_f_nd_rel_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -7109,32 +7832,27 @@ void e200z4_bc_bd_bi_bo_f_nd_rel_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1305
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(0U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -7145,32 +7863,27 @@ void e200z4_bc_bd_bi_bo_nd_noCond_rel_revStatPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -7181,32 +7894,27 @@ void e200z4_bc_bd_bi_bo_nd_noCond_rel_statPred::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1303
+	behavior_case_120_cond_ok = (1U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -7217,32 +7925,27 @@ void e200z4_bc_bd_bi_bo_nd_rel_revStatPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -7253,32 +7956,27 @@ void e200z4_bc_bd_bi_bo_nd_rel_statPred_t::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1287
+	// 'ppc_e200z4.hadl', l.1293
 	u8 branch_inst_doJump; //u1
-	// 'ppc_e200z4.hadl', l.1294
-	u8 behavior_case_111_ctr_ok; //u1
-	// 'ppc_e200z4.hadl', l.1295
-	u8 behavior_case_111_cond_ok; //u1
-	// 'ppc_e200z4.hadl', l.1298
-	behavior_case_111_ctr_ok = (((FIELD(this->BO,(2U),(2U)))|((((((_arch->CTR()))!=(0U)))^(FIELD(this->BO,(1U),(1U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1300
+	u8 behavior_case_120_cond_ok; //u1
+	// 'ppc_e200z4.hadl', l.1304
+	behavior_case_120_cond_ok = (((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(1U))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1299
-	behavior_case_111_cond_ok = (((FIELD(this->BO,(4U),(4U)))|(((FIELD((_arch->CR()),(((31U)-(this->BI))),(((31U)-(this->BI)))))==(FIELD(this->BO,(3U),(3U))))))) & 0x1;
+	// 'ppc_e200z4.hadl', l.1315
+	branch_inst_doJump = (behavior_case_120_cond_ok) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1301
-	branch_inst_doJump = (((behavior_case_111_ctr_ok)&(behavior_case_111_cond_ok))) & 0x1;
-
-	// 'ppc_e200z4.hadl', l.1325
+	// 'ppc_e200z4.hadl', l.1334
 	u32 branch_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1332
+	// 'ppc_e200z4.hadl', l.1341
 	branch_inst_value = ((u32)((s32)((SIGN_EXTEND(((this->BD)<<((s16)(2U))),14U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1339
+	// 'ppc_e200z4.hadl', l.1348
 	u32 branch_inst_target_address; //u32
-	// 'ppc_e200z4.hadl', l.1343
+	// 'ppc_e200z4.hadl', l.1352
 	branch_inst_target_address = ((u32)(((((((s64)(SIGN_EXTEND((s32)((_arch->PC())),32U,33U)))+((s64)(SIGN_EXTEND((s32)(branch_inst_value),32U,33U)))))-((s64)(SIGN_EXTEND(4U,4U,33U))))) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1356
+	// 'ppc_e200z4.hadl', l.1365
 	_arch->fetcher_absBranch(branch_inst_target_address, branch_inst_doJump);
 	//branch check.
 	m_jumpTaken = _arch->PC()-val_pc_before;
@@ -7288,43 +7986,43 @@ void e200z4_bc_bd_bi_bo_nd_rel_statPred_t::execute(arch *_arch){
 void e200z4_br_half_load_notu_ra_rb_rd_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1632
+	// 'ppc_e200z4.hadl', l.1641
 	load_inst_value = ((u32)((CAT(FIELD(load_inst_value,(7U),(0U)),FIELD(load_inst_value,(15U),(8U)),8)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7333,43 +8031,43 @@ void e200z4_br_half_load_notu_ra_rb_rd_x::execute(arch *_arch){
 void e200z4_br_half_notu_ra_rb_rs_store_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1521
+	// 'ppc_e200z4.hadl', l.1530
 	store_inst_value = ((u32)((CAT(FIELD(store_inst_value,(7U),(0U)),FIELD(store_inst_value,(15U),(8U)),8)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1540
+	// 'ppc_e200z4.hadl', l.1549
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1543
+	// 'ppc_e200z4.hadl', l.1552
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1554
+	// 'ppc_e200z4.hadl', l.1563
 	_arch->mem_write16(store_inst_effective_address, (u16)((store_inst_value) & 0xFFFF));
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7378,43 +8076,43 @@ void e200z4_br_half_notu_ra_rb_rs_store_x::execute(arch *_arch){
 void e200z4_br_load_notu_ra_rb_rd_word_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1610
+	// 'ppc_e200z4.hadl', l.1619
 	load_inst_value = (_arch->mem_read32(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1617
+	// 'ppc_e200z4.hadl', l.1626
 	load_inst_value = (CAT(CAT(CAT(FIELD(load_inst_value,(7U),(0U)),FIELD(load_inst_value,(15U),(8U)),8),FIELD(load_inst_value,(23U),(16U)),8),FIELD(load_inst_value,(31U),(24U)),8)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7423,43 +8121,43 @@ void e200z4_br_load_notu_ra_rb_rd_word_x::execute(arch *_arch){
 void e200z4_br_notu_ra_rb_rs_store_word_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1517
+	// 'ppc_e200z4.hadl', l.1526
 	store_inst_value = (CAT(CAT(CAT(FIELD(store_inst_value,(7U),(0U)),FIELD(store_inst_value,(15U),(8U)),8),FIELD(store_inst_value,(23U),(16U)),8),FIELD(store_inst_value,(31U),(24U)),8)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1540
+	// 'ppc_e200z4.hadl', l.1549
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1543
+	// 'ppc_e200z4.hadl', l.1552
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1550
+	// 'ppc_e200z4.hadl', l.1559
 	_arch->mem_write32(store_inst_effective_address, store_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7468,40 +8166,40 @@ void e200z4_br_notu_ra_rb_rs_store_word_x::execute(arch *_arch){
 void e200z4_byte_d_load_notu_ra_rd_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1593
+	// 'ppc_e200z4.hadl', l.1602
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1596
+	// 'ppc_e200z4.hadl', l.1605
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1637
+	// 'ppc_e200z4.hadl', l.1646
 	load_inst_value = (_arch->mem_read8(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7510,35 +8208,35 @@ void e200z4_byte_d_load_notu_ra_rd_zero::execute(arch *_arch){
 void e200z4_byte_d_load_ra_rd_u_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1593
+	// 'ppc_e200z4.hadl', l.1602
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1596
+	// 'ppc_e200z4.hadl', l.1605
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1637
+	// 'ppc_e200z4.hadl', l.1646
 	load_inst_value = (_arch->mem_read8(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1650
+	// 'ppc_e200z4.hadl', l.1659
 	_arch->SRU_GPR_write32(this->rA, load_inst_effective_address);
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7547,40 +8245,40 @@ void e200z4_byte_d_load_ra_rd_u_zero::execute(arch *_arch){
 void e200z4_byte_d_notu_ra_rs_store::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1532
+	// 'ppc_e200z4.hadl', l.1541
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1535
+	// 'ppc_e200z4.hadl', l.1544
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1558
+	// 'ppc_e200z4.hadl', l.1567
 	_arch->mem_write8(store_inst_effective_address, (u8)((store_inst_value) & 0xFF));
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7589,35 +8287,35 @@ void e200z4_byte_d_notu_ra_rs_store::execute(arch *_arch){
 void e200z4_byte_d_ra_rs_store_u::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1532
+	// 'ppc_e200z4.hadl', l.1541
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1535
+	// 'ppc_e200z4.hadl', l.1544
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1558
+	// 'ppc_e200z4.hadl', l.1567
 	_arch->mem_write8(store_inst_effective_address, (u8)((store_inst_value) & 0xFF));
-	// 'ppc_e200z4.hadl', l.1564
+	// 'ppc_e200z4.hadl', l.1573
 	_arch->SRU_GPR_write32(this->rA, store_inst_effective_address);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7626,40 +8324,40 @@ void e200z4_byte_d_ra_rs_store_u::execute(arch *_arch){
 void e200z4_byte_load_notu_ra_rb_rd_x_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1637
+	// 'ppc_e200z4.hadl', l.1646
 	load_inst_value = (_arch->mem_read8(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7668,35 +8366,35 @@ void e200z4_byte_load_notu_ra_rb_rd_x_zero::execute(arch *_arch){
 void e200z4_byte_load_ra_rb_rd_u_x_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1637
+	// 'ppc_e200z4.hadl', l.1646
 	load_inst_value = (_arch->mem_read8(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1650
+	// 'ppc_e200z4.hadl', l.1659
 	_arch->SRU_GPR_write32(this->rA, load_inst_effective_address);
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7705,40 +8403,40 @@ void e200z4_byte_load_ra_rb_rd_u_x_zero::execute(arch *_arch){
 void e200z4_byte_notu_ra_rb_rs_store_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1540
+	// 'ppc_e200z4.hadl', l.1549
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1543
+	// 'ppc_e200z4.hadl', l.1552
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1558
+	// 'ppc_e200z4.hadl', l.1567
 	_arch->mem_write8(store_inst_effective_address, (u8)((store_inst_value) & 0xFF));
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7747,138 +8445,76 @@ void e200z4_byte_notu_ra_rb_rs_store_x::execute(arch *_arch){
 void e200z4_byte_ra_rb_rs_store_u_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1540
+	// 'ppc_e200z4.hadl', l.1549
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1543
+	// 'ppc_e200z4.hadl', l.1552
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1558
+	// 'ppc_e200z4.hadl', l.1567
 	_arch->mem_write8(store_inst_effective_address, (u8)((store_inst_value) & 0xFF));
-	// 'ppc_e200z4.hadl', l.1564
+	// 'ppc_e200z4.hadl', l.1573
 	_arch->SRU_GPR_write32(this->rA, store_inst_effective_address);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
 }
 
-void e200z4_cmp_crfd_immediate_l_logical_ra_uimm::execute(arch *_arch){
-	_arch->initDDCRegAccess();
-	//effective code
-	// 'ppc_e200z4.hadl', l.962
-	u32 cmp_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.963
-	u32 cmp_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.964
-	u8 cmp_inst_result; //u4
-	// 'ppc_e200z4.hadl', l.967
-	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.986
-	cmp_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.998
-	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
-
-	// 'ppc_e200z4.hadl', l.1003
-	u32 cmp_inst_mask; //u32
-	// 'ppc_e200z4.hadl', l.1003
-	cmp_inst_mask = (((4026531840U)>>((u32)((((u8)(4U))*((u8)(this->crfD))))))) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.1004
-	_arch->setCR(((((((_arch->CR()))&(((~cmp_inst_mask) & 0xFFFFFFFF))))|((u32)(((cmp_inst_result)<<(((28U)-((((u8)(4U))*((u8)(this->crfD))))))))))) & 0xFFFFFFFF);
-
-	//Data Dependancy Controller related part
-	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
-	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
-}
-
-void e200z4_cmp_crfd_l_logical_ra_rb_reg::execute(arch *_arch){
-	_arch->initDDCRegAccess();
-	//effective code
-	// 'ppc_e200z4.hadl', l.962
-	u32 cmp_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.963
-	u32 cmp_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.964
-	u8 cmp_inst_result; //u4
-	// 'ppc_e200z4.hadl', l.967
-	cmp_inst_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.974
-	cmp_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.998
-	cmp_inst_result = (_arch->Integer_Unit_logicalCompare(cmp_inst_op1, cmp_inst_op2)) & 0xF;
-
-	// 'ppc_e200z4.hadl', l.1003
-	u32 cmp_inst_mask; //u32
-	// 'ppc_e200z4.hadl', l.1003
-	cmp_inst_mask = (((4026531840U)>>((u32)((((u8)(4U))*((u8)(this->crfD))))))) & 0xFFFFFFFF;
-
-	// 'ppc_e200z4.hadl', l.1004
-	_arch->setCR(((((((_arch->CR()))&(((~cmp_inst_mask) & 0xFFFFFFFF))))|((u32)(((cmp_inst_result)<<(((28U)-((((u8)(4U))*((u8)(this->crfD))))))))))) & 0xFFFFFFFF);
-
-	//Data Dependancy Controller related part
-	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
-	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
-}
-
 void e200z4_cntlzw_noStatus_ra_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1074
+	// 'ppc_e200z4.hadl', l.1080
 	u32 count_leading_zero_inst_op; //u32
-	// 'ppc_e200z4.hadl', l.1075
+	// 'ppc_e200z4.hadl', l.1081
 	u32 count_leading_zero_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1078
+	// 'ppc_e200z4.hadl', l.1084
 	u32 count_leading_zero_inst_i; //u32
-	// 'ppc_e200z4.hadl', l.1078
+	// 'ppc_e200z4.hadl', l.1084
 	count_leading_zero_inst_i = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1079
+	// 'ppc_e200z4.hadl', l.1085
 	count_leading_zero_inst_result = (32U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1080
+	// 'ppc_e200z4.hadl', l.1086
 	count_leading_zero_inst_op = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1086
+	// 'ppc_e200z4.hadl', l.1092
 	u32 __tmp_0__; //u32
 	__tmp_0__ = 0;
 
 	while((__tmp_0__ < 0x20) && (((((count_leading_zero_inst_i)<(32U)))&&(((count_leading_zero_inst_result)==(32U)))))) {
-		// 'ppc_e200z4.hadl', l.1084
+		// 'ppc_e200z4.hadl', l.1090
 		if(((FIELD(count_leading_zero_inst_op,(((31U)-(count_leading_zero_inst_i))),(((31U)-(count_leading_zero_inst_i)))))==(1U))){
-			// 'ppc_e200z4.hadl', l.1084
+			// 'ppc_e200z4.hadl', l.1090
 			count_leading_zero_inst_result = (count_leading_zero_inst_i) & 0xFFFFFFFF;
 
 		}
-		// 'ppc_e200z4.hadl', l.1086
+		// 'ppc_e200z4.hadl', l.1092
 		count_leading_zero_inst_i = ((((u64)(count_leading_zero_inst_i))+((u64)(1U)))) & 0xFFFFFFFF;
 
 		__tmp_0__++;
 
 	}
-	// 'ppc_e200z4.hadl', l.1095
+	// 'ppc_e200z4.hadl', l.1101
 	_arch->SRU_GPR_write32(this->rA, count_leading_zero_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7887,41 +8523,41 @@ void e200z4_cntlzw_noStatus_ra_rs::execute(arch *_arch){
 void e200z4_cntlzw_ra_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1074
+	// 'ppc_e200z4.hadl', l.1080
 	u32 count_leading_zero_inst_op; //u32
-	// 'ppc_e200z4.hadl', l.1075
+	// 'ppc_e200z4.hadl', l.1081
 	u32 count_leading_zero_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1078
+	// 'ppc_e200z4.hadl', l.1084
 	u32 count_leading_zero_inst_i; //u32
-	// 'ppc_e200z4.hadl', l.1078
+	// 'ppc_e200z4.hadl', l.1084
 	count_leading_zero_inst_i = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1079
+	// 'ppc_e200z4.hadl', l.1085
 	count_leading_zero_inst_result = (32U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1080
+	// 'ppc_e200z4.hadl', l.1086
 	count_leading_zero_inst_op = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1086
+	// 'ppc_e200z4.hadl', l.1092
 	u32 __tmp_0__; //u32
 	__tmp_0__ = 0;
 
 	while((__tmp_0__ < 0x20) && (((((count_leading_zero_inst_i)<(32U)))&&(((count_leading_zero_inst_result)==(32U)))))) {
-		// 'ppc_e200z4.hadl', l.1084
+		// 'ppc_e200z4.hadl', l.1090
 		if(((FIELD(count_leading_zero_inst_op,(((31U)-(count_leading_zero_inst_i))),(((31U)-(count_leading_zero_inst_i)))))==(1U))){
-			// 'ppc_e200z4.hadl', l.1084
+			// 'ppc_e200z4.hadl', l.1090
 			count_leading_zero_inst_result = (count_leading_zero_inst_i) & 0xFFFFFFFF;
 
 		}
-		// 'ppc_e200z4.hadl', l.1086
+		// 'ppc_e200z4.hadl', l.1092
 		count_leading_zero_inst_i = ((((u64)(count_leading_zero_inst_i))+((u64)(1U)))) & 0xFFFFFFFF;
 
 		__tmp_0__++;
 
 	}
-	// 'ppc_e200z4.hadl', l.1091
+	// 'ppc_e200z4.hadl', l.1097
 	_arch->Integer_Unit_updateStatus(count_leading_zero_inst_result);
-	// 'ppc_e200z4.hadl', l.1095
+	// 'ppc_e200z4.hadl', l.1101
 	_arch->SRU_GPR_write32(this->rA, count_leading_zero_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7931,22 +8567,22 @@ void e200z4_cntlzw_ra_rs_useStatus::execute(arch *_arch){
 void e200z4_complemented_noStatus_notaftercomplemented_or_ra_rb_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1024
+	// 'ppc_e200z4.hadl', l.1030
 	logical_inst_op2 = (((~_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1042
+	// 'ppc_e200z4.hadl', l.1048
 	logical_inst_result = (((logical_inst_op1)|(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7955,24 +8591,24 @@ void e200z4_complemented_noStatus_notaftercomplemented_or_ra_rb_rs::execute(arch
 void e200z4_complemented_notaftercomplemented_or_ra_rb_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1024
+	// 'ppc_e200z4.hadl', l.1030
 	logical_inst_op2 = (((~_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1042
+	// 'ppc_e200z4.hadl', l.1048
 	logical_inst_result = (((logical_inst_op1)|(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -7982,22 +8618,22 @@ void e200z4_complemented_notaftercomplemented_or_ra_rb_rs_useStatus::execute(arc
 void e200z4_crand_crba_crbb_crbd::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1703
+	// 'ppc_e200z4.hadl', l.1712
 	u8 CR_logical_operation_op1; //u1
-	// 'ppc_e200z4.hadl', l.1704
+	// 'ppc_e200z4.hadl', l.1713
 	u8 CR_logical_operation_op2; //u1
-	// 'ppc_e200z4.hadl', l.1705
+	// 'ppc_e200z4.hadl', l.1714
 	u8 CR_logical_operation_res; //u1
-	// 'ppc_e200z4.hadl', l.1709
+	// 'ppc_e200z4.hadl', l.1718
 	CR_logical_operation_op1 = (FIELD((_arch->CR()),(((31U)-(this->crbA))),(((31U)-(this->crbA))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1710
+	// 'ppc_e200z4.hadl', l.1719
 	CR_logical_operation_op2 = (FIELD((_arch->CR()),(((31U)-(this->crbB))),(((31U)-(this->crbB))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1716
+	// 'ppc_e200z4.hadl', l.1725
 	CR_logical_operation_res = (((CR_logical_operation_op1)&(CR_logical_operation_op2))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1733
+	// 'ppc_e200z4.hadl', l.1742
 	_arch->setCR((FIELD_ASSIGN((_arch->CR()),(((31U)-(this->crbD))),(((31U)-(this->crbD))),(CR_logical_operation_res))) & 0xFFFFFFFF);
 
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
@@ -8006,22 +8642,22 @@ void e200z4_crand_crba_crbb_crbd::execute(arch *_arch){
 void e200z4_crandc_crba_crbb_crbd::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1703
+	// 'ppc_e200z4.hadl', l.1712
 	u8 CR_logical_operation_op1; //u1
-	// 'ppc_e200z4.hadl', l.1704
+	// 'ppc_e200z4.hadl', l.1713
 	u8 CR_logical_operation_op2; //u1
-	// 'ppc_e200z4.hadl', l.1705
+	// 'ppc_e200z4.hadl', l.1714
 	u8 CR_logical_operation_res; //u1
-	// 'ppc_e200z4.hadl', l.1709
+	// 'ppc_e200z4.hadl', l.1718
 	CR_logical_operation_op1 = (FIELD((_arch->CR()),(((31U)-(this->crbA))),(((31U)-(this->crbA))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1710
+	// 'ppc_e200z4.hadl', l.1719
 	CR_logical_operation_op2 = (FIELD((_arch->CR()),(((31U)-(this->crbB))),(((31U)-(this->crbB))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1718
+	// 'ppc_e200z4.hadl', l.1727
 	CR_logical_operation_res = (((CR_logical_operation_op1)&(((~CR_logical_operation_op2) & 0x1)))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1733
+	// 'ppc_e200z4.hadl', l.1742
 	_arch->setCR((FIELD_ASSIGN((_arch->CR()),(((31U)-(this->crbD))),(((31U)-(this->crbD))),(CR_logical_operation_res))) & 0xFFFFFFFF);
 
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
@@ -8030,22 +8666,22 @@ void e200z4_crandc_crba_crbb_crbd::execute(arch *_arch){
 void e200z4_crba_crbb_crbd_creqv::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1703
+	// 'ppc_e200z4.hadl', l.1712
 	u8 CR_logical_operation_op1; //u1
-	// 'ppc_e200z4.hadl', l.1704
+	// 'ppc_e200z4.hadl', l.1713
 	u8 CR_logical_operation_op2; //u1
-	// 'ppc_e200z4.hadl', l.1705
+	// 'ppc_e200z4.hadl', l.1714
 	u8 CR_logical_operation_res; //u1
-	// 'ppc_e200z4.hadl', l.1709
+	// 'ppc_e200z4.hadl', l.1718
 	CR_logical_operation_op1 = (FIELD((_arch->CR()),(((31U)-(this->crbA))),(((31U)-(this->crbA))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1710
+	// 'ppc_e200z4.hadl', l.1719
 	CR_logical_operation_op2 = (FIELD((_arch->CR()),(((31U)-(this->crbB))),(((31U)-(this->crbB))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1720
+	// 'ppc_e200z4.hadl', l.1729
 	CR_logical_operation_res = (((CR_logical_operation_op1)==(CR_logical_operation_op2))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1733
+	// 'ppc_e200z4.hadl', l.1742
 	_arch->setCR((FIELD_ASSIGN((_arch->CR()),(((31U)-(this->crbD))),(((31U)-(this->crbD))),(CR_logical_operation_res))) & 0xFFFFFFFF);
 
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
@@ -8054,22 +8690,22 @@ void e200z4_crba_crbb_crbd_creqv::execute(arch *_arch){
 void e200z4_crba_crbb_crbd_crnand::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1703
+	// 'ppc_e200z4.hadl', l.1712
 	u8 CR_logical_operation_op1; //u1
-	// 'ppc_e200z4.hadl', l.1704
+	// 'ppc_e200z4.hadl', l.1713
 	u8 CR_logical_operation_op2; //u1
-	// 'ppc_e200z4.hadl', l.1705
+	// 'ppc_e200z4.hadl', l.1714
 	u8 CR_logical_operation_res; //u1
-	// 'ppc_e200z4.hadl', l.1709
+	// 'ppc_e200z4.hadl', l.1718
 	CR_logical_operation_op1 = (FIELD((_arch->CR()),(((31U)-(this->crbA))),(((31U)-(this->crbA))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1710
+	// 'ppc_e200z4.hadl', l.1719
 	CR_logical_operation_op2 = (FIELD((_arch->CR()),(((31U)-(this->crbB))),(((31U)-(this->crbB))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1722
+	// 'ppc_e200z4.hadl', l.1731
 	CR_logical_operation_res = (((~((CR_logical_operation_op1)&(CR_logical_operation_op2))) & 0x1)) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1733
+	// 'ppc_e200z4.hadl', l.1742
 	_arch->setCR((FIELD_ASSIGN((_arch->CR()),(((31U)-(this->crbD))),(((31U)-(this->crbD))),(CR_logical_operation_res))) & 0xFFFFFFFF);
 
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
@@ -8078,22 +8714,22 @@ void e200z4_crba_crbb_crbd_crnand::execute(arch *_arch){
 void e200z4_crba_crbb_crbd_crnor::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1703
+	// 'ppc_e200z4.hadl', l.1712
 	u8 CR_logical_operation_op1; //u1
-	// 'ppc_e200z4.hadl', l.1704
+	// 'ppc_e200z4.hadl', l.1713
 	u8 CR_logical_operation_op2; //u1
-	// 'ppc_e200z4.hadl', l.1705
+	// 'ppc_e200z4.hadl', l.1714
 	u8 CR_logical_operation_res; //u1
-	// 'ppc_e200z4.hadl', l.1709
+	// 'ppc_e200z4.hadl', l.1718
 	CR_logical_operation_op1 = (FIELD((_arch->CR()),(((31U)-(this->crbA))),(((31U)-(this->crbA))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1710
+	// 'ppc_e200z4.hadl', l.1719
 	CR_logical_operation_op2 = (FIELD((_arch->CR()),(((31U)-(this->crbB))),(((31U)-(this->crbB))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1724
+	// 'ppc_e200z4.hadl', l.1733
 	CR_logical_operation_res = (((~((CR_logical_operation_op1)|(CR_logical_operation_op2))) & 0x1)) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1733
+	// 'ppc_e200z4.hadl', l.1742
 	_arch->setCR((FIELD_ASSIGN((_arch->CR()),(((31U)-(this->crbD))),(((31U)-(this->crbD))),(CR_logical_operation_res))) & 0xFFFFFFFF);
 
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
@@ -8102,22 +8738,22 @@ void e200z4_crba_crbb_crbd_crnor::execute(arch *_arch){
 void e200z4_crba_crbb_crbd_cror::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1703
+	// 'ppc_e200z4.hadl', l.1712
 	u8 CR_logical_operation_op1; //u1
-	// 'ppc_e200z4.hadl', l.1704
+	// 'ppc_e200z4.hadl', l.1713
 	u8 CR_logical_operation_op2; //u1
-	// 'ppc_e200z4.hadl', l.1705
+	// 'ppc_e200z4.hadl', l.1714
 	u8 CR_logical_operation_res; //u1
-	// 'ppc_e200z4.hadl', l.1709
+	// 'ppc_e200z4.hadl', l.1718
 	CR_logical_operation_op1 = (FIELD((_arch->CR()),(((31U)-(this->crbA))),(((31U)-(this->crbA))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1710
+	// 'ppc_e200z4.hadl', l.1719
 	CR_logical_operation_op2 = (FIELD((_arch->CR()),(((31U)-(this->crbB))),(((31U)-(this->crbB))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1726
+	// 'ppc_e200z4.hadl', l.1735
 	CR_logical_operation_res = (((CR_logical_operation_op1)|(CR_logical_operation_op2))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1733
+	// 'ppc_e200z4.hadl', l.1742
 	_arch->setCR((FIELD_ASSIGN((_arch->CR()),(((31U)-(this->crbD))),(((31U)-(this->crbD))),(CR_logical_operation_res))) & 0xFFFFFFFF);
 
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
@@ -8126,22 +8762,22 @@ void e200z4_crba_crbb_crbd_cror::execute(arch *_arch){
 void e200z4_crba_crbb_crbd_crorc::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1703
+	// 'ppc_e200z4.hadl', l.1712
 	u8 CR_logical_operation_op1; //u1
-	// 'ppc_e200z4.hadl', l.1704
+	// 'ppc_e200z4.hadl', l.1713
 	u8 CR_logical_operation_op2; //u1
-	// 'ppc_e200z4.hadl', l.1705
+	// 'ppc_e200z4.hadl', l.1714
 	u8 CR_logical_operation_res; //u1
-	// 'ppc_e200z4.hadl', l.1709
+	// 'ppc_e200z4.hadl', l.1718
 	CR_logical_operation_op1 = (FIELD((_arch->CR()),(((31U)-(this->crbA))),(((31U)-(this->crbA))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1710
+	// 'ppc_e200z4.hadl', l.1719
 	CR_logical_operation_op2 = (FIELD((_arch->CR()),(((31U)-(this->crbB))),(((31U)-(this->crbB))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1728
+	// 'ppc_e200z4.hadl', l.1737
 	CR_logical_operation_res = (((CR_logical_operation_op1)|(((~CR_logical_operation_op2) & 0x1)))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1733
+	// 'ppc_e200z4.hadl', l.1742
 	_arch->setCR((FIELD_ASSIGN((_arch->CR()),(((31U)-(this->crbD))),(((31U)-(this->crbD))),(CR_logical_operation_res))) & 0xFFFFFFFF);
 
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
@@ -8150,44 +8786,23 @@ void e200z4_crba_crbb_crbd_crorc::execute(arch *_arch){
 void e200z4_crba_crbb_crbd_crxor::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1703
+	// 'ppc_e200z4.hadl', l.1712
 	u8 CR_logical_operation_op1; //u1
-	// 'ppc_e200z4.hadl', l.1704
+	// 'ppc_e200z4.hadl', l.1713
 	u8 CR_logical_operation_op2; //u1
-	// 'ppc_e200z4.hadl', l.1705
+	// 'ppc_e200z4.hadl', l.1714
 	u8 CR_logical_operation_res; //u1
-	// 'ppc_e200z4.hadl', l.1709
+	// 'ppc_e200z4.hadl', l.1718
 	CR_logical_operation_op1 = (FIELD((_arch->CR()),(((31U)-(this->crbA))),(((31U)-(this->crbA))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1710
+	// 'ppc_e200z4.hadl', l.1719
 	CR_logical_operation_op2 = (FIELD((_arch->CR()),(((31U)-(this->crbB))),(((31U)-(this->crbB))))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1730
+	// 'ppc_e200z4.hadl', l.1739
 	CR_logical_operation_res = (((CR_logical_operation_op1)^(CR_logical_operation_op2))) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1733
+	// 'ppc_e200z4.hadl', l.1742
 	_arch->setCR((FIELD_ASSIGN((_arch->CR()),(((31U)-(this->crbD))),(((31U)-(this->crbD))),(CR_logical_operation_res))) & 0xFFFFFFFF);
-
-	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
-}
-
-void e200z4_crfd_crfs_mcrf::execute(arch *_arch){
-	_arch->initDDCRegAccess();
-	//effective code
-	// 'ppc_e200z4.hadl', l.1741
-	_arch->setCR((FIELD_ASSIGN((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfD))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfD))))*((u8)(4U)))),(FIELD((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfS))))*((u8)(4U)))))))) & 0xFFFFFFFF);
-
-	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
-}
-
-void e200z4_crfd_mcrxr::execute(arch *_arch){
-	_arch->initDDCRegAccess();
-	//effective code
-	// 'ppc_e200z4.hadl', l.1749
-	_arch->setCR((FIELD_ASSIGN((_arch->CR()),((((u8)((((u8)(((7U)-(this->crfD))))*((u8)(4U)))))+((u8)(3U)))),((((u8)(((7U)-(this->crfD))))*((u8)(4U)))),(FIELD((_arch->XER()),(31U),(27U))))) & 0xFFFFFFFF);
-
-	// 'ppc_e200z4.hadl', l.1750
-	_arch->setXER((FIELD_ASSIGN((_arch->XER()),(31U),(27U),((u8)((0U) & 0xF)))) & 0xFFFFFFFF);
 
 	_arch->getDDCRegAccessMask(this->m_DDCRegMaskRead, this->m_DDCRegMaskWrite);
 }
@@ -8195,65 +8810,65 @@ void e200z4_crfd_mcrxr::execute(arch *_arch){
 void e200z4_crm_mtcrf_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1396
+	// 'ppc_e200z4.hadl', l.1405
 	u32 move_to_crf_mask; //u32
-	// 'ppc_e200z4.hadl', l.1397
+	// 'ppc_e200z4.hadl', l.1406
 	u32 move_to_crf_insert; //u32
-	// 'ppc_e200z4.hadl', l.1400
+	// 'ppc_e200z4.hadl', l.1409
 	move_to_crf_mask = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1402
+	// 'ppc_e200z4.hadl', l.1411
 	if(((((this->CRM)&((u8)(((1U)<<(7U))))))!=(0U))){
-		// 'ppc_e200z4.hadl', l.1402
+		// 'ppc_e200z4.hadl', l.1411
 		move_to_crf_mask = (((move_to_crf_mask)|((u32)(((15U)<<((((u8)(4U))*((u8)(7U))))))))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1405
+	// 'ppc_e200z4.hadl', l.1414
 	if(((((this->CRM)&((u8)(((1U)<<(6U))))))!=(0U))){
-		// 'ppc_e200z4.hadl', l.1405
+		// 'ppc_e200z4.hadl', l.1414
 		move_to_crf_mask = (((move_to_crf_mask)|((u32)(((15U)<<((((u8)(4U))*((u8)(6U))))))))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1408
+	// 'ppc_e200z4.hadl', l.1417
 	if(((((this->CRM)&((u8)(((1U)<<(5U))))))!=(0U))){
-		// 'ppc_e200z4.hadl', l.1408
+		// 'ppc_e200z4.hadl', l.1417
 		move_to_crf_mask = (((move_to_crf_mask)|((u32)(((15U)<<((((u8)(4U))*((u8)(5U))))))))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1411
+	// 'ppc_e200z4.hadl', l.1420
 	if(((((this->CRM)&((u8)(((1U)<<(4U))))))!=(0U))){
-		// 'ppc_e200z4.hadl', l.1411
+		// 'ppc_e200z4.hadl', l.1420
 		move_to_crf_mask = (((move_to_crf_mask)|((u32)(((15U)<<((((u8)(4U))*((u8)(4U))))))))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1414
+	// 'ppc_e200z4.hadl', l.1423
 	if(((((this->CRM)&((u8)(((1U)<<(3U))))))!=(0U))){
-		// 'ppc_e200z4.hadl', l.1414
+		// 'ppc_e200z4.hadl', l.1423
 		move_to_crf_mask = (((move_to_crf_mask)|((u32)(((15U)<<((((u8)(4U))*((u8)(3U))))))))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1417
+	// 'ppc_e200z4.hadl', l.1426
 	if(((((this->CRM)&((u8)(((1U)<<(2U))))))!=(0U))){
-		// 'ppc_e200z4.hadl', l.1417
+		// 'ppc_e200z4.hadl', l.1426
 		move_to_crf_mask = (((move_to_crf_mask)|((u32)(((15U)<<((((u8)(4U))*((u8)(2U))))))))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1420
+	// 'ppc_e200z4.hadl', l.1429
 	if(((((this->CRM)&((u8)(((1U)<<(1U))))))!=(0U))){
-		// 'ppc_e200z4.hadl', l.1420
+		// 'ppc_e200z4.hadl', l.1429
 		move_to_crf_mask = (((move_to_crf_mask)|((u32)(((15U)<<((((u8)(4U))*((u8)(1U))))))))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1423
+	// 'ppc_e200z4.hadl', l.1432
 	if(((((this->CRM)&((u8)(1U))))!=(0U))){
-		// 'ppc_e200z4.hadl', l.1423
+		// 'ppc_e200z4.hadl', l.1432
 		move_to_crf_mask = (((move_to_crf_mask)|((u32)(15U)))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1426
+	// 'ppc_e200z4.hadl', l.1435
 	move_to_crf_insert = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1428
+	// 'ppc_e200z4.hadl', l.1437
 	_arch->setCR((_arch->Integer_Unit_insertWithMask((_arch->CR()), move_to_crf_mask, move_to_crf_insert)) & 0xFFFFFFFF);
 
 	//Data Dependancy Controller related part
@@ -8264,42 +8879,42 @@ void e200z4_crm_mtcrf_rs::execute(arch *_arch){
 void e200z4_d_fd_frd_load_notu_ra::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1453
+	// 'ppc_e200z4.hadl', l.1462
 	u32 load_float_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1454
+	// 'ppc_e200z4.hadl', l.1463
 	u32 load_float_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1457
+	// 'ppc_e200z4.hadl', l.1466
 	u32 &getBaseAddress_base_addr = load_float_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1460
+	// 'ppc_e200z4.hadl', l.1469
 	u32 load_float_valueL; //u32
-	// 'ppc_e200z4.hadl', l.1461
+	// 'ppc_e200z4.hadl', l.1470
 	u32 load_float_valueH; //u32
-	// 'ppc_e200z4.hadl', l.1462
+	// 'ppc_e200z4.hadl', l.1471
 	_arch->effective_address_Unit_eff_addr_add(load_float_effective_address, load_float_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1463
+	// 'ppc_e200z4.hadl', l.1472
 	load_float_valueL = (_arch->mem_read32(load_float_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1464
+	// 'ppc_e200z4.hadl', l.1473
 	load_float_valueH = (_arch->mem_read32((((u64)(load_float_effective_address))+((u64)(4U))))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1465
+	// 'ppc_e200z4.hadl', l.1474
 	_arch->FSRU_FPR_write32(((this->frD)<<((u8)(1U))), load_float_valueL);
-	// 'ppc_e200z4.hadl', l.1466
+	// 'ppc_e200z4.hadl', l.1475
 	_arch->FSRU_FPR_write32(((this->frD)<<((u8)((((u8)(1U))+((u8)(1U)))))), load_float_valueH);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileFSRU_FPRAccessMask(this->m_DDCRegFileFSRU_FPRMaskRead, this->m_DDCRegFileFSRU_FPRMaskWrite);
@@ -8309,37 +8924,37 @@ void e200z4_d_fd_frd_load_notu_ra::execute(arch *_arch){
 void e200z4_d_fd_frd_load_ra_u::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1453
+	// 'ppc_e200z4.hadl', l.1462
 	u32 load_float_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1454
+	// 'ppc_e200z4.hadl', l.1463
 	u32 load_float_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1457
+	// 'ppc_e200z4.hadl', l.1466
 	u32 &getBaseAddress_base_addr = load_float_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1460
+	// 'ppc_e200z4.hadl', l.1469
 	u32 load_float_valueL; //u32
-	// 'ppc_e200z4.hadl', l.1461
+	// 'ppc_e200z4.hadl', l.1470
 	u32 load_float_valueH; //u32
-	// 'ppc_e200z4.hadl', l.1462
+	// 'ppc_e200z4.hadl', l.1471
 	_arch->effective_address_Unit_eff_addr_add(load_float_effective_address, load_float_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1463
+	// 'ppc_e200z4.hadl', l.1472
 	load_float_valueL = (_arch->mem_read32(load_float_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1464
+	// 'ppc_e200z4.hadl', l.1473
 	load_float_valueH = (_arch->mem_read32((((u64)(load_float_effective_address))+((u64)(4U))))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1465
+	// 'ppc_e200z4.hadl', l.1474
 	_arch->FSRU_FPR_write32(((this->frD)<<((u8)(1U))), load_float_valueL);
-	// 'ppc_e200z4.hadl', l.1466
+	// 'ppc_e200z4.hadl', l.1475
 	_arch->FSRU_FPR_write32(((this->frD)<<((u8)((((u8)(1U))+((u8)(1U)))))), load_float_valueH);
-	// 'ppc_e200z4.hadl', l.1469
+	// 'ppc_e200z4.hadl', l.1478
 	_arch->SRU_GPR_write32(this->rA, load_float_effective_address);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileFSRU_FPRAccessMask(this->m_DDCRegFileFSRU_FPRMaskRead, this->m_DDCRegFileFSRU_FPRMaskWrite);
@@ -8349,42 +8964,42 @@ void e200z4_d_fd_frd_load_ra_u::execute(arch *_arch){
 void e200z4_d_fd_frs_notu_ra_store::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1475
+	// 'ppc_e200z4.hadl', l.1484
 	u32 store_float_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1476
+	// 'ppc_e200z4.hadl', l.1485
 	u32 store_float_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1479
+	// 'ppc_e200z4.hadl', l.1488
 	u32 &getBaseAddress_base_addr = store_float_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1482
+	// 'ppc_e200z4.hadl', l.1491
 	u32 store_float_valueL; //u32
-	// 'ppc_e200z4.hadl', l.1483
+	// 'ppc_e200z4.hadl', l.1492
 	u32 store_float_valueH; //u32
-	// 'ppc_e200z4.hadl', l.1484
+	// 'ppc_e200z4.hadl', l.1493
 	_arch->effective_address_Unit_eff_addr_add(store_float_effective_address, store_float_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1485
+	// 'ppc_e200z4.hadl', l.1494
 	store_float_valueL = (_arch->FSRU_FPR_read32(((this->frS)<<((u8)(1U))))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1486
+	// 'ppc_e200z4.hadl', l.1495
 	store_float_valueH = (_arch->FSRU_FPR_read32(((this->frS)<<((u8)((((u8)(1U))+((u8)(1U)))))))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1487
+	// 'ppc_e200z4.hadl', l.1496
 	_arch->mem_write32(store_float_effective_address, store_float_valueL);
-	// 'ppc_e200z4.hadl', l.1488
+	// 'ppc_e200z4.hadl', l.1497
 	_arch->mem_write32((((u64)(store_float_effective_address))+((u64)(4U))), store_float_valueH);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileFSRU_FPRAccessMask(this->m_DDCRegFileFSRU_FPRMaskRead, this->m_DDCRegFileFSRU_FPRMaskWrite);
@@ -8394,37 +9009,37 @@ void e200z4_d_fd_frs_notu_ra_store::execute(arch *_arch){
 void e200z4_d_fd_frs_ra_store_u::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1475
+	// 'ppc_e200z4.hadl', l.1484
 	u32 store_float_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1476
+	// 'ppc_e200z4.hadl', l.1485
 	u32 store_float_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1479
+	// 'ppc_e200z4.hadl', l.1488
 	u32 &getBaseAddress_base_addr = store_float_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1482
+	// 'ppc_e200z4.hadl', l.1491
 	u32 store_float_valueL; //u32
-	// 'ppc_e200z4.hadl', l.1483
+	// 'ppc_e200z4.hadl', l.1492
 	u32 store_float_valueH; //u32
-	// 'ppc_e200z4.hadl', l.1484
+	// 'ppc_e200z4.hadl', l.1493
 	_arch->effective_address_Unit_eff_addr_add(store_float_effective_address, store_float_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1485
+	// 'ppc_e200z4.hadl', l.1494
 	store_float_valueL = (_arch->FSRU_FPR_read32(((this->frS)<<((u8)(1U))))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1486
+	// 'ppc_e200z4.hadl', l.1495
 	store_float_valueH = (_arch->FSRU_FPR_read32(((this->frS)<<((u8)((((u8)(1U))+((u8)(1U)))))))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1487
+	// 'ppc_e200z4.hadl', l.1496
 	_arch->mem_write32(store_float_effective_address, store_float_valueL);
-	// 'ppc_e200z4.hadl', l.1488
+	// 'ppc_e200z4.hadl', l.1497
 	_arch->mem_write32((((u64)(store_float_effective_address))+((u64)(4U))), store_float_valueH);
-	// 'ppc_e200z4.hadl', l.1491
+	// 'ppc_e200z4.hadl', l.1500
 	_arch->SRU_GPR_write32(this->rA, store_float_effective_address);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileFSRU_FPRAccessMask(this->m_DDCRegFileFSRU_FPRMaskRead, this->m_DDCRegFileFSRU_FPRMaskWrite);
@@ -8434,40 +9049,40 @@ void e200z4_d_fd_frs_ra_store_u::execute(arch *_arch){
 void e200z4_d_half_load_notu_ra_rd_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1593
+	// 'ppc_e200z4.hadl', l.1602
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1596
+	// 'ppc_e200z4.hadl', l.1605
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -8476,35 +9091,35 @@ void e200z4_d_half_load_notu_ra_rd_zero::execute(arch *_arch){
 void e200z4_d_half_load_ra_rd_u_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1593
+	// 'ppc_e200z4.hadl', l.1602
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1596
+	// 'ppc_e200z4.hadl', l.1605
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1650
+	// 'ppc_e200z4.hadl', l.1659
 	_arch->SRU_GPR_write32(this->rA, load_inst_effective_address);
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -8513,40 +9128,40 @@ void e200z4_d_half_load_ra_rd_u_zero::execute(arch *_arch){
 void e200z4_d_half_notu_ra_rs_store::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1532
+	// 'ppc_e200z4.hadl', l.1541
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1535
+	// 'ppc_e200z4.hadl', l.1544
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1554
+	// 'ppc_e200z4.hadl', l.1563
 	_arch->mem_write16(store_inst_effective_address, (u16)((store_inst_value) & 0xFFFF));
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -8555,35 +9170,35 @@ void e200z4_d_half_notu_ra_rs_store::execute(arch *_arch){
 void e200z4_d_half_ra_rs_store_u::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1532
+	// 'ppc_e200z4.hadl', l.1541
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1535
+	// 'ppc_e200z4.hadl', l.1544
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1554
+	// 'ppc_e200z4.hadl', l.1563
 	_arch->mem_write16(store_inst_effective_address, (u16)((store_inst_value) & 0xFFFF));
-	// 'ppc_e200z4.hadl', l.1564
+	// 'ppc_e200z4.hadl', l.1573
 	_arch->SRU_GPR_write32(this->rA, store_inst_effective_address);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -8592,40 +9207,40 @@ void e200z4_d_half_ra_rs_store_u::execute(arch *_arch){
 void e200z4_d_load_notu_ra_rd_word_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1593
+	// 'ppc_e200z4.hadl', l.1602
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1596
+	// 'ppc_e200z4.hadl', l.1605
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1610
+	// 'ppc_e200z4.hadl', l.1619
 	load_inst_value = (_arch->mem_read32(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -8634,35 +9249,35 @@ void e200z4_d_load_notu_ra_rd_word_zero::execute(arch *_arch){
 void e200z4_d_load_ra_rd_u_word_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1593
+	// 'ppc_e200z4.hadl', l.1602
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1596
+	// 'ppc_e200z4.hadl', l.1605
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1610
+	// 'ppc_e200z4.hadl', l.1619
 	load_inst_value = (_arch->mem_read32(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1650
+	// 'ppc_e200z4.hadl', l.1659
 	_arch->SRU_GPR_write32(this->rA, load_inst_effective_address);
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -8671,30 +9286,30 @@ void e200z4_d_load_ra_rd_u_word_zero::execute(arch *_arch){
 void e200z4_d_mw_notu_ra_rs_store::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1570
+	// 'ppc_e200z4.hadl', l.1579
 	u32 stm_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1571
+	// 'ppc_e200z4.hadl', l.1580
 	u32 stm_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1574
+	// 'ppc_e200z4.hadl', l.1583
 	u32 &getBaseAddress_base_addr = stm_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1576
+	// 'ppc_e200z4.hadl', l.1585
 	_arch->effective_address_Unit_eff_addr_add(stm_effective_address, stm_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1577
+	// 'ppc_e200z4.hadl', l.1586
 	_arch->SRU_storeMultiWord(stm_effective_address, this->rS);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -8703,40 +9318,40 @@ void e200z4_d_mw_notu_ra_rs_store::execute(arch *_arch){
 void e200z4_d_notu_ra_rs_store_word::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1532
+	// 'ppc_e200z4.hadl', l.1541
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1535
+	// 'ppc_e200z4.hadl', l.1544
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1550
+	// 'ppc_e200z4.hadl', l.1559
 	_arch->mem_write32(store_inst_effective_address, store_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -8745,35 +9360,35 @@ void e200z4_d_notu_ra_rs_store_word::execute(arch *_arch){
 void e200z4_d_ra_rs_store_u_word::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1532
+	// 'ppc_e200z4.hadl', l.1541
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, (u32)((this->D) & 0xFFFFFFFF));
-	// 'ppc_e200z4.hadl', l.1535
+	// 'ppc_e200z4.hadl', l.1544
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemOffset(this->D);
 	#endif
-	// 'ppc_e200z4.hadl', l.1550
+	// 'ppc_e200z4.hadl', l.1559
 	_arch->mem_write32(store_inst_effective_address, store_inst_value);
-	// 'ppc_e200z4.hadl', l.1564
+	// 'ppc_e200z4.hadl', l.1573
 	_arch->SRU_GPR_write32(this->rA, store_inst_effective_address);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -9048,119 +9663,119 @@ void e200z4_divwu_ra_rb_rd_useOv_useStatus::execute(arch *_arch){
 void e200z4_eq_imm_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -9172,119 +9787,119 @@ void e200z4_eq_imm_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_eq_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -9296,17 +9911,17 @@ void e200z4_eq_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_extsb_noStatus_ra_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1102
+	// 'ppc_e200z4.hadl', l.1108
 	u32 ext_sign_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1103
+	// 'ppc_e200z4.hadl', l.1109
 	u32 ext_sign_inst_op; //u32
-	// 'ppc_e200z4.hadl', l.1104
+	// 'ppc_e200z4.hadl', l.1110
 	ext_sign_inst_op = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1109
+	// 'ppc_e200z4.hadl', l.1115
 	ext_sign_inst_result = ((u32)((s32)((SIGN_EXTEND((s8)((((ext_sign_inst_op)&((u32)(255U)))) & 0xFF),8U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1123
+	// 'ppc_e200z4.hadl', l.1129
 	_arch->SRU_GPR_write32(this->rA, ext_sign_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -9315,19 +9930,19 @@ void e200z4_extsb_noStatus_ra_rs::execute(arch *_arch){
 void e200z4_extsb_ra_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1102
+	// 'ppc_e200z4.hadl', l.1108
 	u32 ext_sign_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1103
+	// 'ppc_e200z4.hadl', l.1109
 	u32 ext_sign_inst_op; //u32
-	// 'ppc_e200z4.hadl', l.1104
+	// 'ppc_e200z4.hadl', l.1110
 	ext_sign_inst_op = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1109
+	// 'ppc_e200z4.hadl', l.1115
 	ext_sign_inst_result = ((u32)((s32)((SIGN_EXTEND((s8)((((ext_sign_inst_op)&((u32)(255U)))) & 0xFF),8U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1119
+	// 'ppc_e200z4.hadl', l.1125
 	_arch->Integer_Unit_updateStatus(ext_sign_inst_result);
-	// 'ppc_e200z4.hadl', l.1123
+	// 'ppc_e200z4.hadl', l.1129
 	_arch->SRU_GPR_write32(this->rA, ext_sign_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -9337,17 +9952,17 @@ void e200z4_extsb_ra_rs_useStatus::execute(arch *_arch){
 void e200z4_extsh_noStatus_ra_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1102
+	// 'ppc_e200z4.hadl', l.1108
 	u32 ext_sign_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1103
+	// 'ppc_e200z4.hadl', l.1109
 	u32 ext_sign_inst_op; //u32
-	// 'ppc_e200z4.hadl', l.1104
+	// 'ppc_e200z4.hadl', l.1110
 	ext_sign_inst_op = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1114
+	// 'ppc_e200z4.hadl', l.1120
 	ext_sign_inst_result = ((u32)((s32)((SIGN_EXTEND((s16)((((ext_sign_inst_op)&((u32)(65535U)))) & 0xFFFF),16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1123
+	// 'ppc_e200z4.hadl', l.1129
 	_arch->SRU_GPR_write32(this->rA, ext_sign_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -9356,19 +9971,19 @@ void e200z4_extsh_noStatus_ra_rs::execute(arch *_arch){
 void e200z4_extsh_ra_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1102
+	// 'ppc_e200z4.hadl', l.1108
 	u32 ext_sign_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1103
+	// 'ppc_e200z4.hadl', l.1109
 	u32 ext_sign_inst_op; //u32
-	// 'ppc_e200z4.hadl', l.1104
+	// 'ppc_e200z4.hadl', l.1110
 	ext_sign_inst_op = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1114
+	// 'ppc_e200z4.hadl', l.1120
 	ext_sign_inst_result = ((u32)((s32)((SIGN_EXTEND((s16)((((ext_sign_inst_op)&((u32)(65535U)))) & 0xFFFF),16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1119
+	// 'ppc_e200z4.hadl', l.1125
 	_arch->Integer_Unit_updateStatus(ext_sign_inst_result);
-	// 'ppc_e200z4.hadl', l.1123
+	// 'ppc_e200z4.hadl', l.1129
 	_arch->SRU_GPR_write32(this->rA, ext_sign_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -9378,119 +9993,119 @@ void e200z4_extsh_ra_rs_useStatus::execute(arch *_arch){
 void e200z4_ge_imm_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -9502,119 +10117,119 @@ void e200z4_ge_imm_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_ge_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -9626,119 +10241,119 @@ void e200z4_ge_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_gt_imm_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -9750,119 +10365,119 @@ void e200z4_gt_imm_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_gt_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -9874,40 +10489,40 @@ void e200z4_gt_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_half_load_notu_ra_rb_rd_x_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -9916,35 +10531,35 @@ void e200z4_half_load_notu_ra_rb_rd_x_zero::execute(arch *_arch){
 void e200z4_half_load_ra_rb_rd_u_x_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1622
+	// 'ppc_e200z4.hadl', l.1631
 	load_inst_value = (_arch->mem_read16(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1650
+	// 'ppc_e200z4.hadl', l.1659
 	_arch->SRU_GPR_write32(this->rA, load_inst_effective_address);
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -9953,40 +10568,40 @@ void e200z4_half_load_ra_rb_rd_u_x_zero::execute(arch *_arch){
 void e200z4_half_notu_ra_rb_rs_store_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1540
+	// 'ppc_e200z4.hadl', l.1549
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1543
+	// 'ppc_e200z4.hadl', l.1552
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1554
+	// 'ppc_e200z4.hadl', l.1563
 	_arch->mem_write16(store_inst_effective_address, (u16)((store_inst_value) & 0xFFFF));
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -9995,35 +10610,35 @@ void e200z4_half_notu_ra_rb_rs_store_x::execute(arch *_arch){
 void e200z4_half_ra_rb_rs_store_u_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1540
+	// 'ppc_e200z4.hadl', l.1549
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1543
+	// 'ppc_e200z4.hadl', l.1552
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1554
+	// 'ppc_e200z4.hadl', l.1563
 	_arch->mem_write16(store_inst_effective_address, (u16)((store_inst_value) & 0xFFFF));
-	// 'ppc_e200z4.hadl', l.1564
+	// 'ppc_e200z4.hadl', l.1573
 	_arch->SRU_GPR_write32(this->rA, store_inst_effective_address);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -10032,119 +10647,119 @@ void e200z4_half_ra_rb_rs_store_u_x::execute(arch *_arch){
 void e200z4_imm_le_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -10156,119 +10771,119 @@ void e200z4_imm_le_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_imm_lge_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -10280,119 +10895,119 @@ void e200z4_imm_lge_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_imm_lgt_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -10404,119 +11019,119 @@ void e200z4_imm_lgt_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_imm_lle_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -10528,119 +11143,119 @@ void e200z4_imm_lle_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_imm_llt_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -10652,119 +11267,119 @@ void e200z4_imm_llt_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_imm_lt_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -10776,119 +11391,119 @@ void e200z4_imm_lt_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_imm_ne_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -10900,119 +11515,119 @@ void e200z4_imm_ne_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_imm_notSimple_ra_simm_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1768
+	// 'ppc_e200z4.hadl', l.1792
 	trap_instructions_op2 = ((u32)((s32)((SIGN_EXTEND(this->SIMM,16U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -11024,119 +11639,119 @@ void e200z4_imm_notSimple_ra_simm_to_f_tw::execute(arch *_arch){
 void e200z4_le_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -11148,119 +11763,119 @@ void e200z4_le_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_lge_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -11272,119 +11887,119 @@ void e200z4_lge_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_lgt_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -11396,119 +12011,119 @@ void e200z4_lgt_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_lle_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -11520,119 +12135,119 @@ void e200z4_lle_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_llt_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -11644,40 +12259,40 @@ void e200z4_llt_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_load_notu_ra_rb_rd_word_x_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1610
+	// 'ppc_e200z4.hadl', l.1619
 	load_inst_value = (_arch->mem_read32(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -11686,35 +12301,35 @@ void e200z4_load_notu_ra_rb_rd_word_x_zero::execute(arch *_arch){
 void e200z4_load_ra_rb_rd_u_word_x_zero::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1584
+	// 'ppc_e200z4.hadl', l.1593
 	u32 load_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1585
+	// 'ppc_e200z4.hadl', l.1594
 	u32 load_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1586
+	// 'ppc_e200z4.hadl', l.1595
 	u32 load_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1587
+	// 'ppc_e200z4.hadl', l.1596
 	u32 &getBaseAddress_base_addr = load_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1600
+	// 'ppc_e200z4.hadl', l.1609
 	_arch->effective_address_Unit_eff_addr_add(load_inst_effective_address, load_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1603
+	// 'ppc_e200z4.hadl', l.1612
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1610
+	// 'ppc_e200z4.hadl', l.1619
 	load_inst_value = (_arch->mem_read32(load_inst_effective_address)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1650
+	// 'ppc_e200z4.hadl', l.1659
 	_arch->SRU_GPR_write32(this->rA, load_inst_effective_address);
-	// 'ppc_e200z4.hadl', l.1655
+	// 'ppc_e200z4.hadl', l.1664
 	_arch->SRU_GPR_write32(this->rD, load_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -11723,119 +12338,119 @@ void e200z4_load_ra_rb_rd_u_word_x_zero::execute(arch *_arch){
 void e200z4_lt_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -11847,39 +12462,39 @@ void e200z4_lt_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_mb_me_noStatus_ra_rb_rlwnm_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1132
+	// 'ppc_e200z4.hadl', l.1138
 	u8 rotate_inst_n; //u5
-	// 'ppc_e200z4.hadl', l.1140
+	// 'ppc_e200z4.hadl', l.1146
 	rotate_inst_n = ((u8)((_arch->SRU_GPR_read32(this->rB)) & 0x1F)) & 0x1F;
 
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	u32 rotate_inst_rs2; //u32
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	rotate_inst_rs2 = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1152
+	// 'ppc_e200z4.hadl', l.1158
 	u32 rotate_inst_r; //u32
-	// 'ppc_e200z4.hadl', l.1154
+	// 'ppc_e200z4.hadl', l.1160
 	rotate_inst_r = (ROTATION_ROL(_arch->SRU_GPR_read32(this->rS),32,rotate_inst_n)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1157
+	// 'ppc_e200z4.hadl', l.1163
 	u32 rotate_inst_m; //u32
-	// 'ppc_e200z4.hadl', l.1162
+	// 'ppc_e200z4.hadl', l.1168
 	if(((this->MB)<=(this->ME))){
-		// 'ppc_e200z4.hadl', l.1160
+		// 'ppc_e200z4.hadl', l.1166
 		rotate_inst_m = (((((((1U)<<((((u8)(((this->ME)-(this->MB))))+((u8)(1U))))))-(1U)))<<(((31U)-(this->ME))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1162
+		// 'ppc_e200z4.hadl', l.1168
 		rotate_inst_m = (((~(u32)((((((((1U)<<(((((this->MB)-(this->ME)))-((u8)(1U))))))-(1U)))<<(((32U)-((u8)(this->MB)))))) & 0xFFFFFFFF)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1166
+	// 'ppc_e200z4.hadl', l.1172
 	u32 rotate_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1178
+	// 'ppc_e200z4.hadl', l.1184
 	rotate_inst_result = (((rotate_inst_m)&(rotate_inst_r))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1191
+	// 'ppc_e200z4.hadl', l.1197
 	_arch->SRU_GPR_write32(this->rA, rotate_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -11888,42 +12503,42 @@ void e200z4_mb_me_noStatus_ra_rb_rlwnm_rs::execute(arch *_arch){
 void e200z4_mb_me_noStatus_ra_rlw_rlwimi_rs_sh::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1132
+	// 'ppc_e200z4.hadl', l.1138
 	u8 rotate_inst_n; //u5
-	// 'ppc_e200z4.hadl', l.1136
+	// 'ppc_e200z4.hadl', l.1142
 	rotate_inst_n = (this->SH) & 0x1F;
 
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	u32 rotate_inst_rs2; //u32
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	rotate_inst_rs2 = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1147
+	// 'ppc_e200z4.hadl', l.1153
 	rotate_inst_rs2 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1152
+	// 'ppc_e200z4.hadl', l.1158
 	u32 rotate_inst_r; //u32
-	// 'ppc_e200z4.hadl', l.1154
+	// 'ppc_e200z4.hadl', l.1160
 	rotate_inst_r = (ROTATION_ROL(_arch->SRU_GPR_read32(this->rS),32,rotate_inst_n)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1157
+	// 'ppc_e200z4.hadl', l.1163
 	u32 rotate_inst_m; //u32
-	// 'ppc_e200z4.hadl', l.1162
+	// 'ppc_e200z4.hadl', l.1168
 	if(((this->MB)<=(this->ME))){
-		// 'ppc_e200z4.hadl', l.1160
+		// 'ppc_e200z4.hadl', l.1166
 		rotate_inst_m = (((((((1U)<<((((u8)(((this->ME)-(this->MB))))+((u8)(1U))))))-(1U)))<<(((31U)-(this->ME))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1162
+		// 'ppc_e200z4.hadl', l.1168
 		rotate_inst_m = (((~(u32)((((((((1U)<<(((((this->MB)-(this->ME)))-((u8)(1U))))))-(1U)))<<(((32U)-((u8)(this->MB)))))) & 0xFFFFFFFF)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1166
+	// 'ppc_e200z4.hadl', l.1172
 	u32 rotate_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1168
+	// 'ppc_e200z4.hadl', l.1174
 	rotate_inst_result = (_arch->Integer_Unit_insertWithMask(rotate_inst_rs2, rotate_inst_m, rotate_inst_r)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1191
+	// 'ppc_e200z4.hadl', l.1197
 	_arch->SRU_GPR_write32(this->rA, rotate_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -11932,39 +12547,39 @@ void e200z4_mb_me_noStatus_ra_rlw_rlwimi_rs_sh::execute(arch *_arch){
 void e200z4_mb_me_noStatus_ra_rlwinm_rs_sh::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1132
+	// 'ppc_e200z4.hadl', l.1138
 	u8 rotate_inst_n; //u5
-	// 'ppc_e200z4.hadl', l.1136
+	// 'ppc_e200z4.hadl', l.1142
 	rotate_inst_n = (this->SH) & 0x1F;
 
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	u32 rotate_inst_rs2; //u32
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	rotate_inst_rs2 = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1152
+	// 'ppc_e200z4.hadl', l.1158
 	u32 rotate_inst_r; //u32
-	// 'ppc_e200z4.hadl', l.1154
+	// 'ppc_e200z4.hadl', l.1160
 	rotate_inst_r = (ROTATION_ROL(_arch->SRU_GPR_read32(this->rS),32,rotate_inst_n)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1157
+	// 'ppc_e200z4.hadl', l.1163
 	u32 rotate_inst_m; //u32
-	// 'ppc_e200z4.hadl', l.1162
+	// 'ppc_e200z4.hadl', l.1168
 	if(((this->MB)<=(this->ME))){
-		// 'ppc_e200z4.hadl', l.1160
+		// 'ppc_e200z4.hadl', l.1166
 		rotate_inst_m = (((((((1U)<<((((u8)(((this->ME)-(this->MB))))+((u8)(1U))))))-(1U)))<<(((31U)-(this->ME))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1162
+		// 'ppc_e200z4.hadl', l.1168
 		rotate_inst_m = (((~(u32)((((((((1U)<<(((((this->MB)-(this->ME)))-((u8)(1U))))))-(1U)))<<(((32U)-((u8)(this->MB)))))) & 0xFFFFFFFF)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1166
+	// 'ppc_e200z4.hadl', l.1172
 	u32 rotate_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1171
+	// 'ppc_e200z4.hadl', l.1177
 	rotate_inst_result = (((rotate_inst_m)&(rotate_inst_r))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1191
+	// 'ppc_e200z4.hadl', l.1197
 	_arch->SRU_GPR_write32(this->rA, rotate_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -11973,41 +12588,41 @@ void e200z4_mb_me_noStatus_ra_rlwinm_rs_sh::execute(arch *_arch){
 void e200z4_mb_me_ra_rb_rlwnm_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1132
+	// 'ppc_e200z4.hadl', l.1138
 	u8 rotate_inst_n; //u5
-	// 'ppc_e200z4.hadl', l.1140
+	// 'ppc_e200z4.hadl', l.1146
 	rotate_inst_n = ((u8)((_arch->SRU_GPR_read32(this->rB)) & 0x1F)) & 0x1F;
 
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	u32 rotate_inst_rs2; //u32
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	rotate_inst_rs2 = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1152
+	// 'ppc_e200z4.hadl', l.1158
 	u32 rotate_inst_r; //u32
-	// 'ppc_e200z4.hadl', l.1154
+	// 'ppc_e200z4.hadl', l.1160
 	rotate_inst_r = (ROTATION_ROL(_arch->SRU_GPR_read32(this->rS),32,rotate_inst_n)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1157
+	// 'ppc_e200z4.hadl', l.1163
 	u32 rotate_inst_m; //u32
-	// 'ppc_e200z4.hadl', l.1162
+	// 'ppc_e200z4.hadl', l.1168
 	if(((this->MB)<=(this->ME))){
-		// 'ppc_e200z4.hadl', l.1160
+		// 'ppc_e200z4.hadl', l.1166
 		rotate_inst_m = (((((((1U)<<((((u8)(((this->ME)-(this->MB))))+((u8)(1U))))))-(1U)))<<(((31U)-(this->ME))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1162
+		// 'ppc_e200z4.hadl', l.1168
 		rotate_inst_m = (((~(u32)((((((((1U)<<(((((this->MB)-(this->ME)))-((u8)(1U))))))-(1U)))<<(((32U)-((u8)(this->MB)))))) & 0xFFFFFFFF)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1166
+	// 'ppc_e200z4.hadl', l.1172
 	u32 rotate_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1181
+	// 'ppc_e200z4.hadl', l.1187
 	rotate_inst_result = (((rotate_inst_m)&(rotate_inst_r))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1182
+	// 'ppc_e200z4.hadl', l.1188
 	_arch->Integer_Unit_updateStatus(rotate_inst_result);
-	// 'ppc_e200z4.hadl', l.1191
+	// 'ppc_e200z4.hadl', l.1197
 	_arch->SRU_GPR_write32(this->rA, rotate_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -12017,42 +12632,42 @@ void e200z4_mb_me_ra_rb_rlwnm_rs_useStatus::execute(arch *_arch){
 void e200z4_mb_me_ra_rlw_rlwimi_rs_sh_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1132
+	// 'ppc_e200z4.hadl', l.1138
 	u8 rotate_inst_n; //u5
-	// 'ppc_e200z4.hadl', l.1136
+	// 'ppc_e200z4.hadl', l.1142
 	rotate_inst_n = (this->SH) & 0x1F;
 
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	u32 rotate_inst_rs2; //u32
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	rotate_inst_rs2 = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1147
+	// 'ppc_e200z4.hadl', l.1153
 	rotate_inst_rs2 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1152
+	// 'ppc_e200z4.hadl', l.1158
 	u32 rotate_inst_r; //u32
-	// 'ppc_e200z4.hadl', l.1154
+	// 'ppc_e200z4.hadl', l.1160
 	rotate_inst_r = (ROTATION_ROL(_arch->SRU_GPR_read32(this->rS),32,rotate_inst_n)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1157
+	// 'ppc_e200z4.hadl', l.1163
 	u32 rotate_inst_m; //u32
-	// 'ppc_e200z4.hadl', l.1162
+	// 'ppc_e200z4.hadl', l.1168
 	if(((this->MB)<=(this->ME))){
-		// 'ppc_e200z4.hadl', l.1160
+		// 'ppc_e200z4.hadl', l.1166
 		rotate_inst_m = (((((((1U)<<((((u8)(((this->ME)-(this->MB))))+((u8)(1U))))))-(1U)))<<(((31U)-(this->ME))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1162
+		// 'ppc_e200z4.hadl', l.1168
 		rotate_inst_m = (((~(u32)((((((((1U)<<(((((this->MB)-(this->ME)))-((u8)(1U))))))-(1U)))<<(((32U)-((u8)(this->MB)))))) & 0xFFFFFFFF)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1166
+	// 'ppc_e200z4.hadl', l.1172
 	u32 rotate_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1169
+	// 'ppc_e200z4.hadl', l.1175
 	rotate_inst_result = (_arch->Integer_Unit_insertWithMaskAndUpdateStatus(rotate_inst_rs2, rotate_inst_m, rotate_inst_r)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1191
+	// 'ppc_e200z4.hadl', l.1197
 	_arch->SRU_GPR_write32(this->rA, rotate_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -12062,41 +12677,41 @@ void e200z4_mb_me_ra_rlw_rlwimi_rs_sh_useStatus::execute(arch *_arch){
 void e200z4_mb_me_ra_rlwinm_rs_sh_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1132
+	// 'ppc_e200z4.hadl', l.1138
 	u8 rotate_inst_n; //u5
-	// 'ppc_e200z4.hadl', l.1136
+	// 'ppc_e200z4.hadl', l.1142
 	rotate_inst_n = (this->SH) & 0x1F;
 
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	u32 rotate_inst_rs2; //u32
-	// 'ppc_e200z4.hadl', l.1143
+	// 'ppc_e200z4.hadl', l.1149
 	rotate_inst_rs2 = (0U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1152
+	// 'ppc_e200z4.hadl', l.1158
 	u32 rotate_inst_r; //u32
-	// 'ppc_e200z4.hadl', l.1154
+	// 'ppc_e200z4.hadl', l.1160
 	rotate_inst_r = (ROTATION_ROL(_arch->SRU_GPR_read32(this->rS),32,rotate_inst_n)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1157
+	// 'ppc_e200z4.hadl', l.1163
 	u32 rotate_inst_m; //u32
-	// 'ppc_e200z4.hadl', l.1162
+	// 'ppc_e200z4.hadl', l.1168
 	if(((this->MB)<=(this->ME))){
-		// 'ppc_e200z4.hadl', l.1160
+		// 'ppc_e200z4.hadl', l.1166
 		rotate_inst_m = (((((((1U)<<((((u8)(((this->ME)-(this->MB))))+((u8)(1U))))))-(1U)))<<(((31U)-(this->ME))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1162
+		// 'ppc_e200z4.hadl', l.1168
 		rotate_inst_m = (((~(u32)((((((((1U)<<(((((this->MB)-(this->ME)))-((u8)(1U))))))-(1U)))<<(((32U)-((u8)(this->MB)))))) & 0xFFFFFFFF)) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1166
+	// 'ppc_e200z4.hadl', l.1172
 	u32 rotate_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1174
+	// 'ppc_e200z4.hadl', l.1180
 	rotate_inst_result = (((rotate_inst_m)&(rotate_inst_r))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1175
+	// 'ppc_e200z4.hadl', l.1181
 	_arch->Integer_Unit_updateStatus(rotate_inst_result);
-	// 'ppc_e200z4.hadl', l.1191
+	// 'ppc_e200z4.hadl', l.1197
 	_arch->SRU_GPR_write32(this->rA, rotate_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -12106,7 +12721,7 @@ void e200z4_mb_me_ra_rlwinm_rs_sh_useStatus::execute(arch *_arch){
 void e200z4_mfcr_rd::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1388
+	// 'ppc_e200z4.hadl', l.1397
 	_arch->SRU_GPR_write32(this->rD, (_arch->CR()));
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -12116,7 +12731,7 @@ void e200z4_mfcr_rd::execute(arch *_arch){
 void e200z4_mfmsr_rd::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1671
+	// 'ppc_e200z4.hadl', l.1680
 	_arch->SRU_GPR_write32(this->rD, (_arch->MSR()));
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -12126,12 +12741,12 @@ void e200z4_mfmsr_rd::execute(arch *_arch){
 void e200z4_mfspr_rd_spr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1377
+	// 'ppc_e200z4.hadl', l.1386
 	u32 move_from_spr_value; //u32
-	// 'ppc_e200z4.hadl', l.1379
+	// 'ppc_e200z4.hadl', l.1388
 	move_from_spr_value = (_arch->SRU_spr_read(this->SPR)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1380
+	// 'ppc_e200z4.hadl', l.1389
 	_arch->SRU_GPR_write32(this->rD, move_from_spr_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -12141,7 +12756,7 @@ void e200z4_mfspr_rd_spr::execute(arch *_arch){
 void e200z4_mtmsr_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1678
+	// 'ppc_e200z4.hadl', l.1687
 	_arch->setMSR((_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF);
 
 	//Data Dependancy Controller related part
@@ -12152,12 +12767,12 @@ void e200z4_mtmsr_rs::execute(arch *_arch){
 void e200z4_mtspr_rs_spr::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1366
+	// 'ppc_e200z4.hadl', l.1375
 	u32 move_to_spr_value; //u32
-	// 'ppc_e200z4.hadl', l.1368
+	// 'ppc_e200z4.hadl', l.1377
 	move_to_spr_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1369
+	// 'ppc_e200z4.hadl', l.1378
 	_arch->SRU_spr_write(this->SPR, move_to_spr_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -12443,119 +13058,119 @@ void e200z4_mullw_ra_rb_rd_useOv_useStatus::execute(arch *_arch){
 void e200z4_ne_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -13116,22 +13731,22 @@ void e200z4_noOv_ra_rd_subfze_useStatus_withCarry::execute(arch *_arch){
 void e200z4_noStatus_notaftercomplemented_notcomplemented_or_ra_rb_rs::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1042
+	// 'ppc_e200z4.hadl', l.1048
 	logical_inst_result = (((logical_inst_op1)|(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13140,22 +13755,22 @@ void e200z4_noStatus_notaftercomplemented_notcomplemented_or_ra_rb_rs::execute(a
 void e200z4_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs_xor::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1046
+	// 'ppc_e200z4.hadl', l.1052
 	logical_inst_result = (((logical_inst_op1)^(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13164,22 +13779,22 @@ void e200z4_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs_xor::execute(
 void e200z4_noStatus_notaftercomplemented_notshifted_or_ra_rs_uimm::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1035
+	// 'ppc_e200z4.hadl', l.1041
 	logical_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1042
+	// 'ppc_e200z4.hadl', l.1048
 	logical_inst_result = (((logical_inst_op1)|(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13188,22 +13803,22 @@ void e200z4_noStatus_notaftercomplemented_notshifted_or_ra_rs_uimm::execute(arch
 void e200z4_noStatus_notaftercomplemented_notshifted_ra_rs_uimm_xor::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1035
+	// 'ppc_e200z4.hadl', l.1041
 	logical_inst_op2 = ((u32)((this->UIMM) & 0xFFFFFFFF)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1046
+	// 'ppc_e200z4.hadl', l.1052
 	logical_inst_result = (((logical_inst_op1)^(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13212,22 +13827,22 @@ void e200z4_noStatus_notaftercomplemented_notshifted_ra_rs_uimm_xor::execute(arc
 void e200z4_noStatus_notaftercomplemented_or_ra_rs_shifted_uimm::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1033
+	// 'ppc_e200z4.hadl', l.1039
 	logical_inst_op2 = (((this->UIMM)<<((u16)(16U)))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1042
+	// 'ppc_e200z4.hadl', l.1048
 	logical_inst_result = (((logical_inst_op1)|(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13236,22 +13851,22 @@ void e200z4_noStatus_notaftercomplemented_or_ra_rs_shifted_uimm::execute(arch *_
 void e200z4_noStatus_notaftercomplemented_ra_rs_shifted_uimm_xor::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1033
+	// 'ppc_e200z4.hadl', l.1039
 	logical_inst_op2 = (((this->UIMM)<<((u16)(16U)))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1046
+	// 'ppc_e200z4.hadl', l.1052
 	logical_inst_result = (((logical_inst_op1)^(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13371,29 +13986,29 @@ void e200z4_noStatus_ra_rb_rd_subfe_useOv_withCarry::execute(arch *_arch){
 void e200z4_noStatus_ra_rb_rs_slw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1201
+	// 'ppc_e200z4.hadl', l.1207
 	u32 shift_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1202
+	// 'ppc_e200z4.hadl', l.1208
 	u32 shift_inst_src; //u32
-	// 'ppc_e200z4.hadl', l.1204
+	// 'ppc_e200z4.hadl', l.1210
 	shift_inst_src = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1206
+	// 'ppc_e200z4.hadl', l.1212
 	u8 shift_inst_n; //u6
-	// 'ppc_e200z4.hadl', l.1210
+	// 'ppc_e200z4.hadl', l.1216
 	shift_inst_n = ((u8)((_arch->SRU_GPR_read32(this->rB)) & 0x3F)) & 0x3F;
 
-	// 'ppc_e200z4.hadl', l.1222
+	// 'ppc_e200z4.hadl', l.1228
 	if(((FIELD(shift_inst_n,(5U),(5U)))==(0U))){
-		// 'ppc_e200z4.hadl', l.1220
+		// 'ppc_e200z4.hadl', l.1226
 		shift_inst_result = (((shift_inst_src)<<((u32)((u8)((shift_inst_n) & 0x1F))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1222
+		// 'ppc_e200z4.hadl', l.1228
 		shift_inst_result = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1272
+	// 'ppc_e200z4.hadl', l.1278
 	_arch->SRU_GPR_write32(this->rA, shift_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13402,39 +14017,39 @@ void e200z4_noStatus_ra_rb_rs_slw::execute(arch *_arch){
 void e200z4_noStatus_ra_rb_rs_sraw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1201
+	// 'ppc_e200z4.hadl', l.1207
 	u32 shift_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1202
+	// 'ppc_e200z4.hadl', l.1208
 	u32 shift_inst_src; //u32
-	// 'ppc_e200z4.hadl', l.1204
+	// 'ppc_e200z4.hadl', l.1210
 	shift_inst_src = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1206
+	// 'ppc_e200z4.hadl', l.1212
 	u8 shift_inst_n; //u6
-	// 'ppc_e200z4.hadl', l.1210
+	// 'ppc_e200z4.hadl', l.1216
 	shift_inst_n = ((u8)((_arch->SRU_GPR_read32(this->rB)) & 0x3F)) & 0x3F;
 
-	// 'ppc_e200z4.hadl', l.1240
+	// 'ppc_e200z4.hadl', l.1246
 	if(((FIELD(shift_inst_n,(5U),(5U)))==(0U))){
-		// 'ppc_e200z4.hadl', l.1238
+		// 'ppc_e200z4.hadl', l.1244
 		shift_inst_result = ((u32)((((s32)(shift_inst_src))>>((s32)((u8)((shift_inst_n) & 0x1F)))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1240
+		// 'ppc_e200z4.hadl', l.1246
 		shift_inst_result = ((u32)((s32)((SIGN_EXTEND((s8)(FIELD(shift_inst_src,(31U),(31U))),1U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1246
+	// 'ppc_e200z4.hadl', l.1252
 	if(((((shift_inst_n)!=(0U)))&&(((((shift_inst_src)&((u32)(((((1U)<<(shift_inst_n)))-(1U))))))!=(0U))))){
-		// 'ppc_e200z4.hadl', l.1244
+		// 'ppc_e200z4.hadl', l.1250
 		_arch->setXER_CA((FIELD(shift_inst_result,(31U),(31U))) & 0x1);
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1246
+		// 'ppc_e200z4.hadl', l.1252
 		_arch->setXER_CA((0U) & 0x1);
 
 	}
-	// 'ppc_e200z4.hadl', l.1272
+	// 'ppc_e200z4.hadl', l.1278
 	_arch->SRU_GPR_write32(this->rA, shift_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13444,29 +14059,29 @@ void e200z4_noStatus_ra_rb_rs_sraw::execute(arch *_arch){
 void e200z4_noStatus_ra_rb_rs_srw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1201
+	// 'ppc_e200z4.hadl', l.1207
 	u32 shift_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1202
+	// 'ppc_e200z4.hadl', l.1208
 	u32 shift_inst_src; //u32
-	// 'ppc_e200z4.hadl', l.1204
+	// 'ppc_e200z4.hadl', l.1210
 	shift_inst_src = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1206
+	// 'ppc_e200z4.hadl', l.1212
 	u8 shift_inst_n; //u6
-	// 'ppc_e200z4.hadl', l.1210
+	// 'ppc_e200z4.hadl', l.1216
 	shift_inst_n = ((u8)((_arch->SRU_GPR_read32(this->rB)) & 0x3F)) & 0x3F;
 
-	// 'ppc_e200z4.hadl', l.1231
+	// 'ppc_e200z4.hadl', l.1237
 	if(((FIELD(shift_inst_n,(5U),(5U)))==(0U))){
-		// 'ppc_e200z4.hadl', l.1229
+		// 'ppc_e200z4.hadl', l.1235
 		shift_inst_result = (((shift_inst_src)>>((u32)((u8)((shift_inst_n) & 0x1F))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1231
+		// 'ppc_e200z4.hadl', l.1237
 		shift_inst_result = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1272
+	// 'ppc_e200z4.hadl', l.1278
 	_arch->SRU_GPR_write32(this->rA, shift_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13549,39 +14164,39 @@ void e200z4_noStatus_ra_rd_subfze_useOv_withCarry::execute(arch *_arch){
 void e200z4_noStatus_ra_rs_sh_sraw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1201
+	// 'ppc_e200z4.hadl', l.1207
 	u32 shift_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1202
+	// 'ppc_e200z4.hadl', l.1208
 	u32 shift_inst_src; //u32
-	// 'ppc_e200z4.hadl', l.1204
+	// 'ppc_e200z4.hadl', l.1210
 	shift_inst_src = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1206
+	// 'ppc_e200z4.hadl', l.1212
 	u8 shift_inst_n; //u6
-	// 'ppc_e200z4.hadl', l.1213
+	// 'ppc_e200z4.hadl', l.1219
 	shift_inst_n = ((u8)((this->SH) & 0x3F)) & 0x3F;
 
-	// 'ppc_e200z4.hadl', l.1240
+	// 'ppc_e200z4.hadl', l.1246
 	if(((FIELD(shift_inst_n,(5U),(5U)))==(0U))){
-		// 'ppc_e200z4.hadl', l.1238
+		// 'ppc_e200z4.hadl', l.1244
 		shift_inst_result = ((u32)((((s32)(shift_inst_src))>>((s32)((u8)((shift_inst_n) & 0x1F)))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1240
+		// 'ppc_e200z4.hadl', l.1246
 		shift_inst_result = ((u32)((s32)((SIGN_EXTEND((s8)(FIELD(shift_inst_src,(31U),(31U))),1U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1246
+	// 'ppc_e200z4.hadl', l.1252
 	if(((((shift_inst_n)!=(0U)))&&(((((shift_inst_src)&((u32)(((((1U)<<(shift_inst_n)))-(1U))))))!=(0U))))){
-		// 'ppc_e200z4.hadl', l.1244
+		// 'ppc_e200z4.hadl', l.1250
 		_arch->setXER_CA((FIELD(shift_inst_result,(31U),(31U))) & 0x1);
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1246
+		// 'ppc_e200z4.hadl', l.1252
 		_arch->setXER_CA((0U) & 0x1);
 
 	}
-	// 'ppc_e200z4.hadl', l.1272
+	// 'ppc_e200z4.hadl', l.1278
 	_arch->SRU_GPR_write32(this->rA, shift_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13591,119 +14206,119 @@ void e200z4_noStatus_ra_rs_sh_sraw::execute(arch *_arch){
 void e200z4_notSimple_ra_rb_reg_to_f_tw::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1759
+	// 'ppc_e200z4.hadl', l.1783
 	u32 trap_instructions_op1; //u32
-	// 'ppc_e200z4.hadl', l.1760
+	// 'ppc_e200z4.hadl', l.1784
 	trap_instructions_op1 = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1761
+	// 'ppc_e200z4.hadl', l.1785
 	u32 trap_instructions_op2; //u32
-	// 'ppc_e200z4.hadl', l.1765
+	// 'ppc_e200z4.hadl', l.1789
 	trap_instructions_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1790
+	// 'ppc_e200z4.hadl', l.1814
 	u8 trap_instructions_do_TRAP; //u1
-	// 'ppc_e200z4.hadl', l.1792
+	// 'ppc_e200z4.hadl', l.1816
 	trap_instructions_do_TRAP = (0U) & 0x1;
 
-	// 'ppc_e200z4.hadl', l.1794
+	// 'ppc_e200z4.hadl', l.1818
 	if((((((s32)(trap_instructions_op1))<((s32)(trap_instructions_op2))))&(FIELD(this->TO,(4U),(4U))))){
-		// 'ppc_e200z4.hadl', l.1794
+		// 'ppc_e200z4.hadl', l.1818
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1797
+	// 'ppc_e200z4.hadl', l.1821
 	if((((((s32)(trap_instructions_op1))>((s32)(trap_instructions_op2))))&(FIELD(this->TO,(3U),(3U))))){
-		// 'ppc_e200z4.hadl', l.1797
+		// 'ppc_e200z4.hadl', l.1821
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1800
+	// 'ppc_e200z4.hadl', l.1824
 	if(((((trap_instructions_op1)==(trap_instructions_op2)))&(FIELD(this->TO,(2U),(2U))))){
-		// 'ppc_e200z4.hadl', l.1800
+		// 'ppc_e200z4.hadl', l.1824
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1803
+	// 'ppc_e200z4.hadl', l.1827
 	if(((((trap_instructions_op1)<(trap_instructions_op2)))&(FIELD(this->TO,(1U),(1U))))){
-		// 'ppc_e200z4.hadl', l.1803
+		// 'ppc_e200z4.hadl', l.1827
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1806
+	// 'ppc_e200z4.hadl', l.1830
 	if(((((trap_instructions_op1)>(trap_instructions_op2)))&(FIELD(this->TO,(0U),(0U))))){
-		// 'ppc_e200z4.hadl', l.1806
+		// 'ppc_e200z4.hadl', l.1830
 		trap_instructions_do_TRAP = (1U) & 0x1;
 
 	}
-	// 'ppc_e200z4.hadl', l.1835
+	// 'ppc_e200z4.hadl', l.1859
 	if(trap_instructions_do_TRAP){
-		// 'ppc_e200z4.hadl', l.1810
+		// 'ppc_e200z4.hadl', l.1834
 		_arch->setSRR0(((((_arch->PC()))-((u32)(4U)))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1811
+		// 'ppc_e200z4.hadl', l.1835
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(30U),(27U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1812
+		// 'ppc_e200z4.hadl', l.1836
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(21U),(13U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1813
+		// 'ppc_e200z4.hadl', l.1837
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(17U),(17U),(1U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1814
+		// 'ppc_e200z4.hadl', l.1838
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(16U),(16U),(0U))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1815
+		// 'ppc_e200z4.hadl', l.1839
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(15U),(8U),(FIELD((_arch->MSR()),(15U),(8U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1816
+		// 'ppc_e200z4.hadl', l.1840
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(6U),(4U),(FIELD((_arch->MSR()),(6U),(4U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1817
+		// 'ppc_e200z4.hadl', l.1841
 		_arch->setSRR1((FIELD_ASSIGN((_arch->SRR1()),(1U),(0U),(FIELD((_arch->MSR()),(1U),(0U))))) & 0xFFFFFFFF);
 
-		// 'ppc_e200z4.hadl', l.1818
+		// 'ppc_e200z4.hadl', l.1842
 		_arch->setMSR_POW((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1819
+		// 'ppc_e200z4.hadl', l.1843
 		_arch->setMSR_EE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1820
+		// 'ppc_e200z4.hadl', l.1844
 		_arch->setMSR_PR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1821
+		// 'ppc_e200z4.hadl', l.1845
 		_arch->setMSR_FP((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1822
+		// 'ppc_e200z4.hadl', l.1846
 		_arch->setMSR_FE0((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1823
+		// 'ppc_e200z4.hadl', l.1847
 		_arch->setMSR_SE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1824
+		// 'ppc_e200z4.hadl', l.1848
 		_arch->setMSR_BE((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1825
+		// 'ppc_e200z4.hadl', l.1849
 		_arch->setMSR_FE1((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1826
+		// 'ppc_e200z4.hadl', l.1850
 		_arch->setMSR_IR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1827
+		// 'ppc_e200z4.hadl', l.1851
 		_arch->setMSR_DR((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1828
+		// 'ppc_e200z4.hadl', l.1852
 		_arch->setMSR_RI((0U) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1829
+		// 'ppc_e200z4.hadl', l.1853
 		_arch->setMSR_LE(((_arch->MSR_ILE())) & 0x1);
 
-		// 'ppc_e200z4.hadl', l.1834
+		// 'ppc_e200z4.hadl', l.1858
 		if((((_arch->MSR_IP()))==(1U))){
-			// 'ppc_e200z4.hadl', l.1832
+			// 'ppc_e200z4.hadl', l.1856
 			_arch->fetcher_absBranch(4293920512U, 1U);
 		} else {
-			// 'ppc_e200z4.hadl', l.1834
+			// 'ppc_e200z4.hadl', l.1858
 			_arch->fetcher_absBranch(1792U, 1U);
 		}
 	}
@@ -13715,24 +14330,24 @@ void e200z4_notSimple_ra_rb_reg_to_f_tw::execute(arch *_arch){
 void e200z4_notaftercomplemented_notcomplemented_or_ra_rb_rs_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1042
+	// 'ppc_e200z4.hadl', l.1048
 	logical_inst_result = (((logical_inst_op1)|(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13742,24 +14357,24 @@ void e200z4_notaftercomplemented_notcomplemented_or_ra_rb_rs_useStatus::execute(
 void e200z4_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus_xor::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1011
+	// 'ppc_e200z4.hadl', l.1017
 	u32 logical_inst_op1; //u32
-	// 'ppc_e200z4.hadl', l.1012
+	// 'ppc_e200z4.hadl', l.1018
 	u32 logical_inst_op2; //u32
-	// 'ppc_e200z4.hadl', l.1013
+	// 'ppc_e200z4.hadl', l.1019
 	u32 logical_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1016
+	// 'ppc_e200z4.hadl', l.1022
 	logical_inst_op1 = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1026
+	// 'ppc_e200z4.hadl', l.1032
 	logical_inst_op2 = (_arch->SRU_GPR_read32(this->rB)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1046
+	// 'ppc_e200z4.hadl', l.1052
 	logical_inst_result = (((logical_inst_op1)^(logical_inst_op2))) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1063
+	// 'ppc_e200z4.hadl', l.1069
 	_arch->Integer_Unit_updateStatus(logical_inst_result);
-	// 'ppc_e200z4.hadl', l.1067
+	// 'ppc_e200z4.hadl', l.1073
 	_arch->SRU_GPR_write32(this->rA, logical_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13769,40 +14384,40 @@ void e200z4_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus_xor::execute
 void e200z4_notu_ra_rb_rs_store_word_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1444
+	// 'ppc_e200z4.hadl', l.1453
 	if(((this->rA)!=(0U))){
-		// 'ppc_e200z4.hadl', l.1442
+		// 'ppc_e200z4.hadl', l.1451
 		getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1444
+		// 'ppc_e200z4.hadl', l.1453
 		getBaseAddress_base_addr = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1540
+	// 'ppc_e200z4.hadl', l.1549
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1543
+	// 'ppc_e200z4.hadl', l.1552
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1550
+	// 'ppc_e200z4.hadl', l.1559
 	_arch->mem_write32(store_inst_effective_address, store_inst_value);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13922,31 +14537,31 @@ void e200z4_ra_rb_rd_subfe_useOv_useStatus_withCarry::execute(arch *_arch){
 void e200z4_ra_rb_rs_slw_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1201
+	// 'ppc_e200z4.hadl', l.1207
 	u32 shift_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1202
+	// 'ppc_e200z4.hadl', l.1208
 	u32 shift_inst_src; //u32
-	// 'ppc_e200z4.hadl', l.1204
+	// 'ppc_e200z4.hadl', l.1210
 	shift_inst_src = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1206
+	// 'ppc_e200z4.hadl', l.1212
 	u8 shift_inst_n; //u6
-	// 'ppc_e200z4.hadl', l.1210
+	// 'ppc_e200z4.hadl', l.1216
 	shift_inst_n = ((u8)((_arch->SRU_GPR_read32(this->rB)) & 0x3F)) & 0x3F;
 
-	// 'ppc_e200z4.hadl', l.1222
+	// 'ppc_e200z4.hadl', l.1228
 	if(((FIELD(shift_inst_n,(5U),(5U)))==(0U))){
-		// 'ppc_e200z4.hadl', l.1220
+		// 'ppc_e200z4.hadl', l.1226
 		shift_inst_result = (((shift_inst_src)<<((u32)((u8)((shift_inst_n) & 0x1F))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1222
+		// 'ppc_e200z4.hadl', l.1228
 		shift_inst_result = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1268
+	// 'ppc_e200z4.hadl', l.1274
 	_arch->Integer_Unit_updateStatus(shift_inst_result);
-	// 'ppc_e200z4.hadl', l.1272
+	// 'ppc_e200z4.hadl', l.1278
 	_arch->SRU_GPR_write32(this->rA, shift_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -13956,41 +14571,41 @@ void e200z4_ra_rb_rs_slw_useStatus::execute(arch *_arch){
 void e200z4_ra_rb_rs_sraw_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1201
+	// 'ppc_e200z4.hadl', l.1207
 	u32 shift_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1202
+	// 'ppc_e200z4.hadl', l.1208
 	u32 shift_inst_src; //u32
-	// 'ppc_e200z4.hadl', l.1204
+	// 'ppc_e200z4.hadl', l.1210
 	shift_inst_src = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1206
+	// 'ppc_e200z4.hadl', l.1212
 	u8 shift_inst_n; //u6
-	// 'ppc_e200z4.hadl', l.1210
+	// 'ppc_e200z4.hadl', l.1216
 	shift_inst_n = ((u8)((_arch->SRU_GPR_read32(this->rB)) & 0x3F)) & 0x3F;
 
-	// 'ppc_e200z4.hadl', l.1240
+	// 'ppc_e200z4.hadl', l.1246
 	if(((FIELD(shift_inst_n,(5U),(5U)))==(0U))){
-		// 'ppc_e200z4.hadl', l.1238
+		// 'ppc_e200z4.hadl', l.1244
 		shift_inst_result = ((u32)((((s32)(shift_inst_src))>>((s32)((u8)((shift_inst_n) & 0x1F)))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1240
+		// 'ppc_e200z4.hadl', l.1246
 		shift_inst_result = ((u32)((s32)((SIGN_EXTEND((s8)(FIELD(shift_inst_src,(31U),(31U))),1U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1246
+	// 'ppc_e200z4.hadl', l.1252
 	if(((((shift_inst_n)!=(0U)))&&(((((shift_inst_src)&((u32)(((((1U)<<(shift_inst_n)))-(1U))))))!=(0U))))){
-		// 'ppc_e200z4.hadl', l.1244
+		// 'ppc_e200z4.hadl', l.1250
 		_arch->setXER_CA((FIELD(shift_inst_result,(31U),(31U))) & 0x1);
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1246
+		// 'ppc_e200z4.hadl', l.1252
 		_arch->setXER_CA((0U) & 0x1);
 
 	}
-	// 'ppc_e200z4.hadl', l.1268
+	// 'ppc_e200z4.hadl', l.1274
 	_arch->Integer_Unit_updateStatus(shift_inst_result);
-	// 'ppc_e200z4.hadl', l.1272
+	// 'ppc_e200z4.hadl', l.1278
 	_arch->SRU_GPR_write32(this->rA, shift_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -14000,31 +14615,31 @@ void e200z4_ra_rb_rs_sraw_useStatus::execute(arch *_arch){
 void e200z4_ra_rb_rs_srw_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1201
+	// 'ppc_e200z4.hadl', l.1207
 	u32 shift_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1202
+	// 'ppc_e200z4.hadl', l.1208
 	u32 shift_inst_src; //u32
-	// 'ppc_e200z4.hadl', l.1204
+	// 'ppc_e200z4.hadl', l.1210
 	shift_inst_src = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1206
+	// 'ppc_e200z4.hadl', l.1212
 	u8 shift_inst_n; //u6
-	// 'ppc_e200z4.hadl', l.1210
+	// 'ppc_e200z4.hadl', l.1216
 	shift_inst_n = ((u8)((_arch->SRU_GPR_read32(this->rB)) & 0x3F)) & 0x3F;
 
-	// 'ppc_e200z4.hadl', l.1231
+	// 'ppc_e200z4.hadl', l.1237
 	if(((FIELD(shift_inst_n,(5U),(5U)))==(0U))){
-		// 'ppc_e200z4.hadl', l.1229
+		// 'ppc_e200z4.hadl', l.1235
 		shift_inst_result = (((shift_inst_src)>>((u32)((u8)((shift_inst_n) & 0x1F))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1231
+		// 'ppc_e200z4.hadl', l.1237
 		shift_inst_result = (0U) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1268
+	// 'ppc_e200z4.hadl', l.1274
 	_arch->Integer_Unit_updateStatus(shift_inst_result);
-	// 'ppc_e200z4.hadl', l.1272
+	// 'ppc_e200z4.hadl', l.1278
 	_arch->SRU_GPR_write32(this->rA, shift_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -14034,35 +14649,35 @@ void e200z4_ra_rb_rs_srw_useStatus::execute(arch *_arch){
 void e200z4_ra_rb_rs_store_u_word_x::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1497
+	// 'ppc_e200z4.hadl', l.1506
 	u32 store_inst_value; //u32
-	// 'ppc_e200z4.hadl', l.1498
+	// 'ppc_e200z4.hadl', l.1507
 	u32 store_inst_base_addr; //u32
-	// 'ppc_e200z4.hadl', l.1499
+	// 'ppc_e200z4.hadl', l.1508
 	u32 store_inst_effective_address; //u32
-	// 'ppc_e200z4.hadl', l.1500
+	// 'ppc_e200z4.hadl', l.1509
 	u32 &getBaseAddress_base_addr = store_inst_base_addr; // u32
-	// 'ppc_e200z4.hadl', l.1437
+	// 'ppc_e200z4.hadl', l.1446
 	getBaseAddress_base_addr = (_arch->SRU_GPR_read32(this->rA)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1448
+	// 'ppc_e200z4.hadl', l.1457
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemReg(this->rA);
 	#endif
-	// 'ppc_e200z4.hadl', l.1506
+	// 'ppc_e200z4.hadl', l.1515
 	store_inst_value = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1540
+	// 'ppc_e200z4.hadl', l.1549
 	_arch->effective_address_Unit_eff_addr_add(store_inst_effective_address, store_inst_base_addr, _arch->SRU_GPR_read32(this->rB));
-	// 'ppc_e200z4.hadl', l.1543
+	// 'ppc_e200z4.hadl', l.1552
 	//-> code memAccess for p2ac
 	#ifdef __P2AC_MEM__
 		setP2ACMemRegOffset(this->rB);
 	#endif
-	// 'ppc_e200z4.hadl', l.1550
+	// 'ppc_e200z4.hadl', l.1559
 	_arch->mem_write32(store_inst_effective_address, store_inst_value);
-	// 'ppc_e200z4.hadl', l.1564
+	// 'ppc_e200z4.hadl', l.1573
 	_arch->SRU_GPR_write32(this->rA, store_inst_effective_address);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -14145,41 +14760,41 @@ void e200z4_ra_rd_subfze_useOv_useStatus_withCarry::execute(arch *_arch){
 void e200z4_ra_rs_sh_sraw_useStatus::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1201
+	// 'ppc_e200z4.hadl', l.1207
 	u32 shift_inst_result; //u32
-	// 'ppc_e200z4.hadl', l.1202
+	// 'ppc_e200z4.hadl', l.1208
 	u32 shift_inst_src; //u32
-	// 'ppc_e200z4.hadl', l.1204
+	// 'ppc_e200z4.hadl', l.1210
 	shift_inst_src = (_arch->SRU_GPR_read32(this->rS)) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1206
+	// 'ppc_e200z4.hadl', l.1212
 	u8 shift_inst_n; //u6
-	// 'ppc_e200z4.hadl', l.1213
+	// 'ppc_e200z4.hadl', l.1219
 	shift_inst_n = ((u8)((this->SH) & 0x3F)) & 0x3F;
 
-	// 'ppc_e200z4.hadl', l.1240
+	// 'ppc_e200z4.hadl', l.1246
 	if(((FIELD(shift_inst_n,(5U),(5U)))==(0U))){
-		// 'ppc_e200z4.hadl', l.1238
+		// 'ppc_e200z4.hadl', l.1244
 		shift_inst_result = ((u32)((((s32)(shift_inst_src))>>((s32)((u8)((shift_inst_n) & 0x1F)))))) & 0xFFFFFFFF;
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1240
+		// 'ppc_e200z4.hadl', l.1246
 		shift_inst_result = ((u32)((s32)((SIGN_EXTEND((s8)(FIELD(shift_inst_src,(31U),(31U))),1U,32U)) & 0xFFFFFFFF))) & 0xFFFFFFFF;
 
 	}
-	// 'ppc_e200z4.hadl', l.1246
+	// 'ppc_e200z4.hadl', l.1252
 	if(((((shift_inst_n)!=(0U)))&&(((((shift_inst_src)&((u32)(((((1U)<<(shift_inst_n)))-(1U))))))!=(0U))))){
-		// 'ppc_e200z4.hadl', l.1244
+		// 'ppc_e200z4.hadl', l.1250
 		_arch->setXER_CA((FIELD(shift_inst_result,(31U),(31U))) & 0x1);
 
 	} else {
-		// 'ppc_e200z4.hadl', l.1246
+		// 'ppc_e200z4.hadl', l.1252
 		_arch->setXER_CA((0U) & 0x1);
 
 	}
-	// 'ppc_e200z4.hadl', l.1268
+	// 'ppc_e200z4.hadl', l.1274
 	_arch->Integer_Unit_updateStatus(shift_inst_result);
-	// 'ppc_e200z4.hadl', l.1272
+	// 'ppc_e200z4.hadl', l.1278
 	_arch->SRU_GPR_write32(this->rA, shift_inst_result);
 	//Data Dependancy Controller related part
 	_arch->getDDCRegFileSRU_GPRAccessMask(this->m_DDCRegFileSRU_GPRMaskRead, this->m_DDCRegFileSRU_GPRMaskWrite);
@@ -14190,14 +14805,14 @@ void e200z4_rfi::execute(arch *_arch){
 	_arch->initDDCRegAccess();
 	u32 val_pc_before = _arch->PC();
 	//effective code
-	// 'ppc_e200z4.hadl', l.1660
+	// 'ppc_e200z4.hadl', l.1669
 	u32 return_from_interrupt_mask; //u32
-	// 'ppc_e200z4.hadl', l.1662
+	// 'ppc_e200z4.hadl', l.1671
 	return_from_interrupt_mask = (65395U) & 0xFFFFFFFF;
 
-	// 'ppc_e200z4.hadl', l.1663
+	// 'ppc_e200z4.hadl', l.1672
 	_arch->fetcher_absBranch((((_arch->SRR0()))&(4294967292U)), 1U);
-	// 'ppc_e200z4.hadl', l.1664
+	// 'ppc_e200z4.hadl', l.1673
 	_arch->setMSR((_arch->Integer_Unit_insertWithMask((_arch->MSR()), return_from_interrupt_mask, (_arch->SRR1()))) & 0xFFFFFFFF);
 
 	//branch check.

@@ -22,6 +22,766 @@ e200z4_instruction::e200z4_instruction(const u32 instructionPointer) : m_pc(inst
 	#endif
 }
 
+e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm::e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct SIMM (s16)
+	SIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg::e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct UIMM (u16)
+	UIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg::e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR0_crfd_crfs_mcrf::e200z4_CR0_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR0_crfd_crfs_mcrfs::e200z4_CR0_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR0_crfd_fcmpo_fra_frb::e200z4_CR0_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR0_crfd_fcmpu_fra_frb::e200z4_CR0_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR0_crfd_imm_mtfsfi_noStatus::e200z4_CR0_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR0_crfd_imm_mtfsfi_useStatus::e200z4_CR0_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR0_crfd_mcrxr::e200z4_CR0_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+}
+ 
+e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm::e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct SIMM (s16)
+	SIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg::e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct UIMM (u16)
+	UIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg::e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR1_crfd_crfs_mcrf::e200z4_CR1_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR1_crfd_crfs_mcrfs::e200z4_CR1_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR1_crfd_fcmpo_fra_frb::e200z4_CR1_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR1_crfd_fcmpu_fra_frb::e200z4_CR1_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR1_crfd_imm_mtfsfi_noStatus::e200z4_CR1_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR1_crfd_imm_mtfsfi_useStatus::e200z4_CR1_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR1_crfd_mcrxr::e200z4_CR1_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+}
+ 
+e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm::e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct SIMM (s16)
+	SIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg::e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct UIMM (u16)
+	UIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg::e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR2_crfd_crfs_mcrf::e200z4_CR2_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR2_crfd_crfs_mcrfs::e200z4_CR2_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR2_crfd_fcmpo_fra_frb::e200z4_CR2_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR2_crfd_fcmpu_fra_frb::e200z4_CR2_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR2_crfd_imm_mtfsfi_noStatus::e200z4_CR2_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR2_crfd_imm_mtfsfi_useStatus::e200z4_CR2_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR2_crfd_mcrxr::e200z4_CR2_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+}
+ 
+e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm::e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct SIMM (s16)
+	SIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg::e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct UIMM (u16)
+	UIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg::e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR3_crfd_crfs_mcrf::e200z4_CR3_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR3_crfd_crfs_mcrfs::e200z4_CR3_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR3_crfd_fcmpo_fra_frb::e200z4_CR3_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR3_crfd_fcmpu_fra_frb::e200z4_CR3_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR3_crfd_imm_mtfsfi_noStatus::e200z4_CR3_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR3_crfd_imm_mtfsfi_useStatus::e200z4_CR3_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR3_crfd_mcrxr::e200z4_CR3_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+}
+ 
+e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm::e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct SIMM (s16)
+	SIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg::e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct UIMM (u16)
+	UIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg::e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR4_crfd_crfs_mcrf::e200z4_CR4_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR4_crfd_crfs_mcrfs::e200z4_CR4_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR4_crfd_fcmpo_fra_frb::e200z4_CR4_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR4_crfd_fcmpu_fra_frb::e200z4_CR4_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR4_crfd_imm_mtfsfi_noStatus::e200z4_CR4_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR4_crfd_imm_mtfsfi_useStatus::e200z4_CR4_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR4_crfd_mcrxr::e200z4_CR4_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+}
+ 
+e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm::e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct SIMM (s16)
+	SIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg::e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct UIMM (u16)
+	UIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg::e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR5_crfd_crfs_mcrf::e200z4_CR5_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR5_crfd_crfs_mcrfs::e200z4_CR5_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR5_crfd_fcmpo_fra_frb::e200z4_CR5_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR5_crfd_fcmpu_fra_frb::e200z4_CR5_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR5_crfd_imm_mtfsfi_noStatus::e200z4_CR5_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR5_crfd_imm_mtfsfi_useStatus::e200z4_CR5_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR5_crfd_mcrxr::e200z4_CR5_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+}
+ 
+e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm::e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct SIMM (s16)
+	SIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg::e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct UIMM (u16)
+	UIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg::e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR6_crfd_crfs_mcrf::e200z4_CR6_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR6_crfd_crfs_mcrfs::e200z4_CR6_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR6_crfd_fcmpo_fra_frb::e200z4_CR6_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR6_crfd_fcmpu_fra_frb::e200z4_CR6_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR6_crfd_imm_mtfsfi_noStatus::e200z4_CR6_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR6_crfd_imm_mtfsfi_useStatus::e200z4_CR6_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR6_crfd_mcrxr::e200z4_CR6_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+}
+ 
+e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm::e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct SIMM (s16)
+	SIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg::e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct UIMM (u16)
+	UIMM = FIELD(chunk1,(15U),(0U));
+}
+ 
+e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg::e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct L (u1)
+	L = FIELD(chunk1,(21U),(21U));
+	// construct rA (u5)
+	rA = FIELD(chunk1,(20U),(16U));
+	// construct rB (u5)
+	rB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR7_crfd_crfs_mcrf::e200z4_CR7_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR7_crfd_crfs_mcrfs::e200z4_CR7_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct crfS (u3)
+	crfS = FIELD(chunk1,(20U),(18U));
+}
+ 
+e200z4_CR7_crfd_fcmpo_fra_frb::e200z4_CR7_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR7_crfd_fcmpu_fra_frb::e200z4_CR7_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct frA (u5)
+	frA = FIELD(chunk1,(20U),(16U));
+	// construct frB (u5)
+	frB = FIELD(chunk1,(15U),(11U));
+}
+ 
+e200z4_CR7_crfd_imm_mtfsfi_noStatus::e200z4_CR7_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR7_crfd_imm_mtfsfi_useStatus::e200z4_CR7_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+	// construct IMM (u4)
+	IMM = FIELD(chunk1,(15U),(12U));
+}
+ 
+e200z4_CR7_crfd_mcrxr::e200z4_CR7_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
+	// construct crfD (u3)
+	crfD = FIELD(chunk1,(25U),(23U));
+}
+ 
 e200z4_SP_Check_abs_b_li_updatelr::e200z4_SP_Check_abs_b_li_updatelr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
 	// construct LI (s24)
 	LI = SIGN_EXTEND(FIELD(chunk1,(25U),(2U)), 24, 32);
@@ -1383,28 +2143,6 @@ e200z4_and_notaftercomplemented_ra_rs_shifted_uimm_useStatus::e200z4_and_notafte
 	UIMM = FIELD(chunk1,(15U),(0U));
 }
  
-e200z4_arith_cmp_crfd_immediate_l_ra_simm::e200z4_arith_cmp_crfd_immediate_l_ra_simm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct L (u1)
-	L = FIELD(chunk1,(21U),(21U));
-	// construct rA (u5)
-	rA = FIELD(chunk1,(20U),(16U));
-	// construct SIMM (s16)
-	SIMM = FIELD(chunk1,(15U),(0U));
-}
- 
-e200z4_arith_cmp_crfd_l_ra_rb_reg::e200z4_arith_cmp_crfd_l_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct L (u1)
-	L = FIELD(chunk1,(21U),(21U));
-	// construct rA (u5)
-	rA = FIELD(chunk1,(20U),(16U));
-	// construct rB (u5)
-	rB = FIELD(chunk1,(15U),(11U));
-}
- 
 e200z4_b_li_rel::e200z4_b_li_rel(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
 	// construct LI (s24)
 	LI = SIGN_EXTEND(FIELD(chunk1,(25U),(2U)), 24, 32);
@@ -1689,28 +2427,6 @@ e200z4_c_notu_ra_rb_rs_store_useStatus_word_x::e200z4_c_notu_ra_rb_rs_store_useS
 	rB = FIELD(chunk1,(15U),(11U));
 }
  
-e200z4_cmp_crfd_immediate_l_logical_ra_uimm::e200z4_cmp_crfd_immediate_l_logical_ra_uimm(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct L (u1)
-	L = FIELD(chunk1,(21U),(21U));
-	// construct rA (u5)
-	rA = FIELD(chunk1,(20U),(16U));
-	// construct UIMM (u16)
-	UIMM = FIELD(chunk1,(15U),(0U));
-}
- 
-e200z4_cmp_crfd_l_logical_ra_rb_reg::e200z4_cmp_crfd_l_logical_ra_rb_reg(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct L (u1)
-	L = FIELD(chunk1,(21U),(21U));
-	// construct rA (u5)
-	rA = FIELD(chunk1,(20U),(16U));
-	// construct rB (u5)
-	rB = FIELD(chunk1,(15U),(11U));
-}
- 
 e200z4_cntlzw_noStatus_ra_rs::e200z4_cntlzw_noStatus_ra_rs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
 	// construct rS (u5)
 	rS = FIELD(chunk1,(25U),(21U));
@@ -1833,57 +2549,6 @@ e200z4_crbd_mtfsb1_noStatus::e200z4_crbd_mtfsb1_noStatus(const u32 pc, const u32
 e200z4_crbd_mtfsb1_useStatus::e200z4_crbd_mtfsb1_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
 	// construct crbD (u5)
 	crbD = FIELD(chunk1,(25U),(21U));
-}
- 
-e200z4_crfd_crfs_mcrf::e200z4_crfd_crfs_mcrf(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct crfS (u3)
-	crfS = FIELD(chunk1,(20U),(18U));
-}
- 
-e200z4_crfd_crfs_mcrfs::e200z4_crfd_crfs_mcrfs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct crfS (u3)
-	crfS = FIELD(chunk1,(20U),(18U));
-}
- 
-e200z4_crfd_fcmpo_fra_frb::e200z4_crfd_fcmpo_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct frA (u5)
-	frA = FIELD(chunk1,(20U),(16U));
-	// construct frB (u5)
-	frB = FIELD(chunk1,(15U),(11U));
-}
- 
-e200z4_crfd_fcmpu_fra_frb::e200z4_crfd_fcmpu_fra_frb(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct frA (u5)
-	frA = FIELD(chunk1,(20U),(16U));
-	// construct frB (u5)
-	frB = FIELD(chunk1,(15U),(11U));
-}
- 
-e200z4_crfd_imm_mtfsfi_noStatus::e200z4_crfd_imm_mtfsfi_noStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct IMM (u4)
-	IMM = FIELD(chunk1,(15U),(12U));
-}
- 
-e200z4_crfd_imm_mtfsfi_useStatus::e200z4_crfd_imm_mtfsfi_useStatus(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
-	// construct IMM (u4)
-	IMM = FIELD(chunk1,(15U),(12U));
-}
- 
-e200z4_crfd_mcrxr::e200z4_crfd_mcrxr(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {
-	// construct crfD (u3)
-	crfD = FIELD(chunk1,(25U),(23U));
 }
  
 e200z4_crm_mtcrf_rs::e200z4_crm_mtcrf_rs(const u32 pc, const u32 chunk1) : e200z4_instruction(pc) {

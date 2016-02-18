@@ -23,6 +23,126 @@ void e200z4_instructionStall::execute(arch *_arch){}
 
 // instructions without any behavior...
 
+void e200z4_CR0_crfd_crfs_mcrfs::execute(arch *_arch){
+	cerr << "instruction e200z4_CR0_crfd_crfs_mcrfs have no behavior defined" << endl;
+}
+void e200z4_CR0_crfd_fcmpo_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR0_crfd_fcmpo_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR0_crfd_fcmpu_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR0_crfd_fcmpu_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR0_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR0_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
+}
+void e200z4_CR0_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR0_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
+}
+void e200z4_CR1_crfd_crfs_mcrfs::execute(arch *_arch){
+	cerr << "instruction e200z4_CR1_crfd_crfs_mcrfs have no behavior defined" << endl;
+}
+void e200z4_CR1_crfd_fcmpo_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR1_crfd_fcmpo_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR1_crfd_fcmpu_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR1_crfd_fcmpu_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR1_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR1_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
+}
+void e200z4_CR1_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR1_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
+}
+void e200z4_CR2_crfd_crfs_mcrfs::execute(arch *_arch){
+	cerr << "instruction e200z4_CR2_crfd_crfs_mcrfs have no behavior defined" << endl;
+}
+void e200z4_CR2_crfd_fcmpo_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR2_crfd_fcmpo_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR2_crfd_fcmpu_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR2_crfd_fcmpu_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR2_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR2_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
+}
+void e200z4_CR2_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR2_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
+}
+void e200z4_CR3_crfd_crfs_mcrfs::execute(arch *_arch){
+	cerr << "instruction e200z4_CR3_crfd_crfs_mcrfs have no behavior defined" << endl;
+}
+void e200z4_CR3_crfd_fcmpo_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR3_crfd_fcmpo_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR3_crfd_fcmpu_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR3_crfd_fcmpu_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR3_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR3_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
+}
+void e200z4_CR3_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR3_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
+}
+void e200z4_CR4_crfd_crfs_mcrfs::execute(arch *_arch){
+	cerr << "instruction e200z4_CR4_crfd_crfs_mcrfs have no behavior defined" << endl;
+}
+void e200z4_CR4_crfd_fcmpo_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR4_crfd_fcmpo_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR4_crfd_fcmpu_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR4_crfd_fcmpu_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR4_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR4_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
+}
+void e200z4_CR4_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR4_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
+}
+void e200z4_CR5_crfd_crfs_mcrfs::execute(arch *_arch){
+	cerr << "instruction e200z4_CR5_crfd_crfs_mcrfs have no behavior defined" << endl;
+}
+void e200z4_CR5_crfd_fcmpo_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR5_crfd_fcmpo_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR5_crfd_fcmpu_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR5_crfd_fcmpu_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR5_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR5_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
+}
+void e200z4_CR5_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR5_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
+}
+void e200z4_CR6_crfd_crfs_mcrfs::execute(arch *_arch){
+	cerr << "instruction e200z4_CR6_crfd_crfs_mcrfs have no behavior defined" << endl;
+}
+void e200z4_CR6_crfd_fcmpo_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR6_crfd_fcmpo_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR6_crfd_fcmpu_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR6_crfd_fcmpu_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR6_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR6_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
+}
+void e200z4_CR6_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR6_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
+}
+void e200z4_CR7_crfd_crfs_mcrfs::execute(arch *_arch){
+	cerr << "instruction e200z4_CR7_crfd_crfs_mcrfs have no behavior defined" << endl;
+}
+void e200z4_CR7_crfd_fcmpo_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR7_crfd_fcmpo_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR7_crfd_fcmpu_fra_frb::execute(arch *_arch){
+	cerr << "instruction e200z4_CR7_crfd_fcmpu_fra_frb have no behavior defined" << endl;
+}
+void e200z4_CR7_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR7_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
+}
+void e200z4_CR7_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
+	cerr << "instruction e200z4_CR7_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
+}
 void e200z4_algebraic_load_notu_r_ra_rb_rd_word_x::execute(arch *_arch){
 	cerr << "instruction e200z4_algebraic_load_notu_r_ra_rb_rd_word_x have no behavior defined" << endl;
 }
@@ -40,21 +160,6 @@ void e200z4_crbd_mtfsb1_noStatus::execute(arch *_arch){
 }
 void e200z4_crbd_mtfsb1_useStatus::execute(arch *_arch){
 	cerr << "instruction e200z4_crbd_mtfsb1_useStatus have no behavior defined" << endl;
-}
-void e200z4_crfd_crfs_mcrfs::execute(arch *_arch){
-	cerr << "instruction e200z4_crfd_crfs_mcrfs have no behavior defined" << endl;
-}
-void e200z4_crfd_fcmpo_fra_frb::execute(arch *_arch){
-	cerr << "instruction e200z4_crfd_fcmpo_fra_frb have no behavior defined" << endl;
-}
-void e200z4_crfd_fcmpu_fra_frb::execute(arch *_arch){
-	cerr << "instruction e200z4_crfd_fcmpu_fra_frb have no behavior defined" << endl;
-}
-void e200z4_crfd_imm_mtfsfi_noStatus::execute(arch *_arch){
-	cerr << "instruction e200z4_crfd_imm_mtfsfi_noStatus have no behavior defined" << endl;
-}
-void e200z4_crfd_imm_mtfsfi_useStatus::execute(arch *_arch){
-	cerr << "instruction e200z4_crfd_imm_mtfsfi_useStatus have no behavior defined" << endl;
 }
 void e200z4_d_frd_fs_load_notu_ra::execute(arch *_arch){
 	cerr << "instruction e200z4_d_frd_fs_load_notu_ra have no behavior defined" << endl;

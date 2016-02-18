@@ -106,49 +106,57 @@ e200z4_instruction* e200z4_decode_35(e200z4_instDecoder *decoder, arch *_arch, u
 
 e200z4_instruction* e200z4_decode_40(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
-	if(((chunk_32_0 & 0xFC000000) == 0x28000000)) return new e200z4_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x28000000)) return new e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x28800000)) return new e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
 	return NULL;
 }
 
 e200z4_instruction* e200z4_decode_41(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
-	if(((chunk_32_0 & 0xFC000000) == 0x28000000)) return new e200z4_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x29000000)) return new e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x29800000)) return new e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
 	return NULL;
 }
 
 e200z4_instruction* e200z4_decode_42(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
-	if(((chunk_32_0 & 0xFC000000) == 0x28000000)) return new e200z4_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2A000000)) return new e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2A800000)) return new e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
 	return NULL;
 }
 
 e200z4_instruction* e200z4_decode_43(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
-	if(((chunk_32_0 & 0xFC000000) == 0x28000000)) return new e200z4_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2B000000)) return new e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2B800000)) return new e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm(pcBase,chunk1);
 	return NULL;
 }
 
 e200z4_instruction* e200z4_decode_44(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
-	if(((chunk_32_0 & 0xFC000000) == 0x2C000000)) return new e200z4_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2C000000)) return new e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2C800000)) return new e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
 	return NULL;
 }
 
 e200z4_instruction* e200z4_decode_45(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
-	if(((chunk_32_0 & 0xFC000000) == 0x2C000000)) return new e200z4_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2D000000)) return new e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2D800000)) return new e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
 	return NULL;
 }
 
 e200z4_instruction* e200z4_decode_46(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
-	if(((chunk_32_0 & 0xFC000000) == 0x2C000000)) return new e200z4_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2E000000)) return new e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2E800000)) return new e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
 	return NULL;
 }
 
 e200z4_instruction* e200z4_decode_47(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
-	if(((chunk_32_0 & 0xFC000000) == 0x2C000000)) return new e200z4_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2F000000)) return new e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF800000) == 0x2F800000)) return new e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm(pcBase,chunk1);
 	return NULL;
 }
 
@@ -408,6 +416,8 @@ e200z4_instruction* e200z4_decode_75(e200z4_instDecoder *decoder, arch *_arch, u
 
 e200z4_instruction* e200z4_decode_76(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFF8007FE) == 0x4C000000)) return new e200z4_CR0_crfd_crfs_mcrf(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x4C800000)) return new e200z4_CR1_crfd_crfs_mcrf(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFFE007FF) == 0x4C200421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFFE007FF) == 0x4C000421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFFE007FF) == 0x4C600421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z(pcBase,chunk1);
@@ -440,7 +450,6 @@ e200z4_instruction* e200z4_decode_76(e200z4_instDecoder *decoder, arch *_arch, u
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000382)) return new e200z4_crba_crbb_crbd_cror(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000342)) return new e200z4_crba_crbb_crbd_crorc(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000182)) return new e200z4_crba_crbb_crbd_crxor(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000000)) return new e200z4_crfd_crfs_mcrf(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C00012C)) return new e200z4_isync(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000064)) return new e200z4_rfi(pcBase,chunk1);
 	return NULL;
@@ -448,6 +457,8 @@ e200z4_instruction* e200z4_decode_76(e200z4_instDecoder *decoder, arch *_arch, u
 
 e200z4_instruction* e200z4_decode_77(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFF8007FE) == 0x4D000000)) return new e200z4_CR2_crfd_crfs_mcrf(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x4D800000)) return new e200z4_CR3_crfd_crfs_mcrf(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFFE007FF) == 0x4D200421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFFE007FF) == 0x4D000421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFFE007FF) == 0x4D600421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z(pcBase,chunk1);
@@ -480,7 +491,6 @@ e200z4_instruction* e200z4_decode_77(e200z4_instDecoder *decoder, arch *_arch, u
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000382)) return new e200z4_crba_crbb_crbd_cror(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000342)) return new e200z4_crba_crbb_crbd_crorc(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000182)) return new e200z4_crba_crbb_crbd_crxor(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000000)) return new e200z4_crfd_crfs_mcrf(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C00012C)) return new e200z4_isync(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000064)) return new e200z4_rfi(pcBase,chunk1);
 	return NULL;
@@ -488,6 +498,8 @@ e200z4_instruction* e200z4_decode_77(e200z4_instDecoder *decoder, arch *_arch, u
 
 e200z4_instruction* e200z4_decode_78(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFF8007FE) == 0x4E000000)) return new e200z4_CR4_crfd_crfs_mcrf(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x4E800000)) return new e200z4_CR5_crfd_crfs_mcrf(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFEE007FF) == 0x4E200421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFEE007FF) == 0x4E000421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFEE007FF) == 0x4E600421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z(pcBase,chunk1);
@@ -520,7 +532,6 @@ e200z4_instruction* e200z4_decode_78(e200z4_instDecoder *decoder, arch *_arch, u
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000382)) return new e200z4_crba_crbb_crbd_cror(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000342)) return new e200z4_crba_crbb_crbd_crorc(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000182)) return new e200z4_crba_crbb_crbd_crxor(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000000)) return new e200z4_crfd_crfs_mcrf(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C00012C)) return new e200z4_isync(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000064)) return new e200z4_rfi(pcBase,chunk1);
 	return NULL;
@@ -528,6 +539,8 @@ e200z4_instruction* e200z4_decode_78(e200z4_instDecoder *decoder, arch *_arch, u
 
 e200z4_instruction* e200z4_decode_79(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFF8007FE) == 0x4F000000)) return new e200z4_CR6_crfd_crfs_mcrf(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x4F800000)) return new e200z4_CR7_crfd_crfs_mcrf(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFEE007FF) == 0x4E200421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFEE007FF) == 0x4E000421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFEE007FF) == 0x4E600421)) return new e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z(pcBase,chunk1);
@@ -560,7 +573,6 @@ e200z4_instruction* e200z4_decode_79(e200z4_instDecoder *decoder, arch *_arch, u
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000382)) return new e200z4_crba_crbb_crbd_cror(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000342)) return new e200z4_crba_crbb_crbd_crorc(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000182)) return new e200z4_crba_crbb_crbd_crxor(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000000)) return new e200z4_crfd_crfs_mcrf(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C00012C)) return new e200z4_isync(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x4C000064)) return new e200z4_rfi(pcBase,chunk1);
 	return NULL;
@@ -796,6 +808,12 @@ e200z4_instruction* e200z4_decode_119(e200z4_instDecoder *decoder, arch *_arch, 
 
 e200z4_instruction* e200z4_decode_124(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7C000000)) return new e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7C000040)) return new e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7C000400)) return new e200z4_CR0_crfd_mcrxr(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7C800000)) return new e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7C800040)) return new e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7C800400)) return new e200z4_CR1_crfd_mcrxr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000214)) return new e200z4_add_noOv_noStatus_ra_rb_rd(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000014)) return new e200z4_add_noOv_noStatus_ra_rb_rd_withCarry(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000215)) return new e200z4_add_noOv_ra_rb_rd_useStatus(pcBase,chunk1);
@@ -829,7 +847,6 @@ e200z4_instruction* e200z4_decode_124(e200z4_instDecoder *decoder, arch *_arch, 
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000079)) return new e200z4_and_complemented_notaftercomplemented_ra_rb_rs_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000038)) return new e200z4_and_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000039)) return new e200z4_and_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000000)) return new e200z4_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00062C)) return new e200z4_br_half_load_notu_ra_rb_rd_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00072C)) return new e200z4_br_half_notu_ra_rb_rs_store_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00042C)) return new e200z4_br_load_notu_ra_rb_rd_word_x(pcBase,chunk1);
@@ -839,12 +856,10 @@ e200z4_instruction* e200z4_decode_124(e200z4_instDecoder *decoder, arch *_arch, 
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C0001AE)) return new e200z4_byte_notu_ra_rb_rs_store_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C0001EE)) return new e200z4_byte_ra_rb_rs_store_u_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C00012D)) return new e200z4_c_notu_ra_rb_rs_store_useStatus_word_x(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000040)) return new e200z4_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000034)) return new e200z4_cntlzw_noStatus_ra_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000035)) return new e200z4_cntlzw_ra_rs_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000338)) return new e200z4_complemented_noStatus_notaftercomplemented_or_ra_rb_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000339)) return new e200z4_complemented_notaftercomplemented_or_ra_rb_rs_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000400)) return new e200z4_crfd_mcrxr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000120)) return new e200z4_crm_mtcrf_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C0005EC)) return new e200z4_dcba_ra_rb(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C0000AC)) return new e200z4_dcbf_ra_rb(pcBase,chunk1);
@@ -959,6 +974,12 @@ e200z4_instruction* e200z4_decode_124(e200z4_instDecoder *decoder, arch *_arch, 
 
 e200z4_instruction* e200z4_decode_125(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7D000000)) return new e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7D000040)) return new e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7D000400)) return new e200z4_CR2_crfd_mcrxr(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7D800000)) return new e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7D800040)) return new e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7D800400)) return new e200z4_CR3_crfd_mcrxr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000214)) return new e200z4_add_noOv_noStatus_ra_rb_rd(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000014)) return new e200z4_add_noOv_noStatus_ra_rb_rd_withCarry(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000215)) return new e200z4_add_noOv_ra_rb_rd_useStatus(pcBase,chunk1);
@@ -992,7 +1013,6 @@ e200z4_instruction* e200z4_decode_125(e200z4_instDecoder *decoder, arch *_arch, 
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000079)) return new e200z4_and_complemented_notaftercomplemented_ra_rb_rs_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000038)) return new e200z4_and_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000039)) return new e200z4_and_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000000)) return new e200z4_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00062C)) return new e200z4_br_half_load_notu_ra_rb_rd_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00072C)) return new e200z4_br_half_notu_ra_rb_rs_store_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00042C)) return new e200z4_br_load_notu_ra_rb_rd_word_x(pcBase,chunk1);
@@ -1002,12 +1022,10 @@ e200z4_instruction* e200z4_decode_125(e200z4_instDecoder *decoder, arch *_arch, 
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C0001AE)) return new e200z4_byte_notu_ra_rb_rs_store_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C0001EE)) return new e200z4_byte_ra_rb_rs_store_u_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C00012D)) return new e200z4_c_notu_ra_rb_rs_store_useStatus_word_x(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000040)) return new e200z4_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000034)) return new e200z4_cntlzw_noStatus_ra_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000035)) return new e200z4_cntlzw_ra_rs_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000338)) return new e200z4_complemented_noStatus_notaftercomplemented_or_ra_rb_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000339)) return new e200z4_complemented_notaftercomplemented_or_ra_rb_rs_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000400)) return new e200z4_crfd_mcrxr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000120)) return new e200z4_crm_mtcrf_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C0005EC)) return new e200z4_dcba_ra_rb(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C0000AC)) return new e200z4_dcbf_ra_rb(pcBase,chunk1);
@@ -1119,6 +1137,12 @@ e200z4_instruction* e200z4_decode_125(e200z4_instDecoder *decoder, arch *_arch, 
 
 e200z4_instruction* e200z4_decode_126(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7E000000)) return new e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7E000040)) return new e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7E000400)) return new e200z4_CR4_crfd_mcrxr(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7E800000)) return new e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7E800040)) return new e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7E800400)) return new e200z4_CR5_crfd_mcrxr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000214)) return new e200z4_add_noOv_noStatus_ra_rb_rd(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000014)) return new e200z4_add_noOv_noStatus_ra_rb_rd_withCarry(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000215)) return new e200z4_add_noOv_ra_rb_rd_useStatus(pcBase,chunk1);
@@ -1152,7 +1176,6 @@ e200z4_instruction* e200z4_decode_126(e200z4_instDecoder *decoder, arch *_arch, 
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000079)) return new e200z4_and_complemented_notaftercomplemented_ra_rb_rs_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000038)) return new e200z4_and_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000039)) return new e200z4_and_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000000)) return new e200z4_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00062C)) return new e200z4_br_half_load_notu_ra_rb_rd_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00072C)) return new e200z4_br_half_notu_ra_rb_rs_store_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00042C)) return new e200z4_br_load_notu_ra_rb_rd_word_x(pcBase,chunk1);
@@ -1162,12 +1185,10 @@ e200z4_instruction* e200z4_decode_126(e200z4_instDecoder *decoder, arch *_arch, 
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C0001AE)) return new e200z4_byte_notu_ra_rb_rs_store_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C0001EE)) return new e200z4_byte_ra_rb_rs_store_u_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C00012D)) return new e200z4_c_notu_ra_rb_rs_store_useStatus_word_x(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000040)) return new e200z4_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000034)) return new e200z4_cntlzw_noStatus_ra_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000035)) return new e200z4_cntlzw_ra_rs_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000338)) return new e200z4_complemented_noStatus_notaftercomplemented_or_ra_rb_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000339)) return new e200z4_complemented_notaftercomplemented_or_ra_rb_rs_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000400)) return new e200z4_crfd_mcrxr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000120)) return new e200z4_crm_mtcrf_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C0005EC)) return new e200z4_dcba_ra_rb(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C0000AC)) return new e200z4_dcbf_ra_rb(pcBase,chunk1);
@@ -1279,6 +1300,12 @@ e200z4_instruction* e200z4_decode_126(e200z4_instDecoder *decoder, arch *_arch, 
 
 e200z4_instruction* e200z4_decode_127(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7F000000)) return new e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7F000040)) return new e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7F000400)) return new e200z4_CR6_crfd_mcrxr(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7F800000)) return new e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7F800040)) return new e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFF8007FE) == 0x7F800400)) return new e200z4_CR7_crfd_mcrxr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000214)) return new e200z4_add_noOv_noStatus_ra_rb_rd(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000014)) return new e200z4_add_noOv_noStatus_ra_rb_rd_withCarry(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000215)) return new e200z4_add_noOv_ra_rb_rd_useStatus(pcBase,chunk1);
@@ -1312,7 +1339,6 @@ e200z4_instruction* e200z4_decode_127(e200z4_instDecoder *decoder, arch *_arch, 
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000079)) return new e200z4_and_complemented_notaftercomplemented_ra_rb_rs_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000038)) return new e200z4_and_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000039)) return new e200z4_and_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000000)) return new e200z4_arith_cmp_crfd_l_ra_rb_reg(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00062C)) return new e200z4_br_half_load_notu_ra_rb_rd_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00072C)) return new e200z4_br_half_notu_ra_rb_rs_store_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C00042C)) return new e200z4_br_load_notu_ra_rb_rd_word_x(pcBase,chunk1);
@@ -1322,12 +1348,10 @@ e200z4_instruction* e200z4_decode_127(e200z4_instDecoder *decoder, arch *_arch, 
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C0001AE)) return new e200z4_byte_notu_ra_rb_rs_store_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C0001EE)) return new e200z4_byte_ra_rb_rs_store_u_x(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C00012D)) return new e200z4_c_notu_ra_rb_rs_store_useStatus_word_x(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000040)) return new e200z4_cmp_crfd_l_logical_ra_rb_reg(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000034)) return new e200z4_cntlzw_noStatus_ra_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000035)) return new e200z4_cntlzw_ra_rs_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000338)) return new e200z4_complemented_noStatus_notaftercomplemented_or_ra_rb_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0x7C000339)) return new e200z4_complemented_notaftercomplemented_or_ra_rb_rs_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000400)) return new e200z4_crfd_mcrxr(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C000120)) return new e200z4_crm_mtcrf_rs(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C0005EC)) return new e200z4_dcba_ra_rb(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FE) == 0x7C0000AC)) return new e200z4_dcbf_ra_rb(pcBase,chunk1);
@@ -2114,15 +2138,20 @@ e200z4_instruction* e200z4_decode_239(e200z4_instDecoder *decoder, arch *_arch, 
 
 e200z4_instruction* e200z4_decode_252(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFFE3FFFF) == 0xFC000080)) return new e200z4_CR0_crfd_crfs_mcrfs(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFC000040)) return new e200z4_CR0_crfd_fcmpo_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFC000000)) return new e200z4_CR0_crfd_fcmpu_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFC00010C)) return new e200z4_CR0_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFC00010D)) return new e200z4_CR0_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE3FFFF) == 0xFC800080)) return new e200z4_CR1_crfd_crfs_mcrfs(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFC800040)) return new e200z4_CR1_crfd_fcmpo_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFC800000)) return new e200z4_CR1_crfd_fcmpu_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFC80010C)) return new e200z4_CR1_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFC80010D)) return new e200z4_CR1_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00008C)) return new e200z4_crbd_mtfsb0_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00008D)) return new e200z4_crbd_mtfsb0_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00004C)) return new e200z4_crbd_mtfsb1_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00004D)) return new e200z4_crbd_mtfsb1_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC63FFFF) == 0xFC000080)) return new e200z4_crfd_crfs_mcrfs(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC6007FF) == 0xFC000040)) return new e200z4_crfd_fcmpo_fra_frb(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC6007FF) == 0xFC000000)) return new e200z4_crfd_fcmpu_fra_frb(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC7F0FFF) == 0xFC00010C)) return new e200z4_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC7F0FFF) == 0xFC00010D)) return new e200z4_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1F07FF) == 0xFC000210)) return new e200z4_fabs_frb_frd_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1F07FF) == 0xFC000211)) return new e200z4_fabs_frb_frd_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0xFC00002A)) return new e200z4_fadd_fra_frb_frd_noStatus(pcBase,chunk1);
@@ -2168,15 +2197,20 @@ e200z4_instruction* e200z4_decode_252(e200z4_instDecoder *decoder, arch *_arch, 
 
 e200z4_instruction* e200z4_decode_253(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFFE3FFFF) == 0xFD000080)) return new e200z4_CR2_crfd_crfs_mcrfs(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFD000040)) return new e200z4_CR2_crfd_fcmpo_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFD000000)) return new e200z4_CR2_crfd_fcmpu_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFD00010C)) return new e200z4_CR2_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFD00010D)) return new e200z4_CR2_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE3FFFF) == 0xFD800080)) return new e200z4_CR3_crfd_crfs_mcrfs(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFD800040)) return new e200z4_CR3_crfd_fcmpo_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFD800000)) return new e200z4_CR3_crfd_fcmpu_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFD80010C)) return new e200z4_CR3_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFD80010D)) return new e200z4_CR3_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00008C)) return new e200z4_crbd_mtfsb0_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00008D)) return new e200z4_crbd_mtfsb0_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00004C)) return new e200z4_crbd_mtfsb1_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00004D)) return new e200z4_crbd_mtfsb1_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC63FFFF) == 0xFC000080)) return new e200z4_crfd_crfs_mcrfs(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC6007FF) == 0xFC000040)) return new e200z4_crfd_fcmpo_fra_frb(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC6007FF) == 0xFC000000)) return new e200z4_crfd_fcmpu_fra_frb(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC7F0FFF) == 0xFC00010C)) return new e200z4_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC7F0FFF) == 0xFC00010D)) return new e200z4_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1F07FF) == 0xFC000210)) return new e200z4_fabs_frb_frd_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1F07FF) == 0xFC000211)) return new e200z4_fabs_frb_frd_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0xFC00002A)) return new e200z4_fadd_fra_frb_frd_noStatus(pcBase,chunk1);
@@ -2222,15 +2256,20 @@ e200z4_instruction* e200z4_decode_253(e200z4_instDecoder *decoder, arch *_arch, 
 
 e200z4_instruction* e200z4_decode_254(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFFE3FFFF) == 0xFE000080)) return new e200z4_CR4_crfd_crfs_mcrfs(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFE000040)) return new e200z4_CR4_crfd_fcmpo_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFE000000)) return new e200z4_CR4_crfd_fcmpu_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFE00010C)) return new e200z4_CR4_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFE00010D)) return new e200z4_CR4_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE3FFFF) == 0xFE800080)) return new e200z4_CR5_crfd_crfs_mcrfs(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFE800040)) return new e200z4_CR5_crfd_fcmpo_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFE800000)) return new e200z4_CR5_crfd_fcmpu_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFE80010C)) return new e200z4_CR5_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFE80010D)) return new e200z4_CR5_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00008C)) return new e200z4_crbd_mtfsb0_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00008D)) return new e200z4_crbd_mtfsb0_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00004C)) return new e200z4_crbd_mtfsb1_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00004D)) return new e200z4_crbd_mtfsb1_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC63FFFF) == 0xFC000080)) return new e200z4_crfd_crfs_mcrfs(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC6007FF) == 0xFC000040)) return new e200z4_crfd_fcmpo_fra_frb(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC6007FF) == 0xFC000000)) return new e200z4_crfd_fcmpu_fra_frb(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC7F0FFF) == 0xFC00010C)) return new e200z4_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC7F0FFF) == 0xFC00010D)) return new e200z4_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1F07FF) == 0xFC000210)) return new e200z4_fabs_frb_frd_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1F07FF) == 0xFC000211)) return new e200z4_fabs_frb_frd_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0xFC00002A)) return new e200z4_fadd_fra_frb_frd_noStatus(pcBase,chunk1);
@@ -2272,15 +2311,20 @@ e200z4_instruction* e200z4_decode_254(e200z4_instDecoder *decoder, arch *_arch, 
 
 e200z4_instruction* e200z4_decode_255(e200z4_instDecoder *decoder, arch *_arch, u32 &pc, const u32 pcBase, const u32 chunk1) {
 	u32 chunk_32_0 = chunk1;
+	if(((chunk_32_0 & 0xFFE3FFFF) == 0xFF000080)) return new e200z4_CR6_crfd_crfs_mcrfs(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFF000040)) return new e200z4_CR6_crfd_fcmpo_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFF000000)) return new e200z4_CR6_crfd_fcmpu_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFF00010C)) return new e200z4_CR6_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFF00010D)) return new e200z4_CR6_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE3FFFF) == 0xFF800080)) return new e200z4_CR7_crfd_crfs_mcrfs(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFF800040)) return new e200z4_CR7_crfd_fcmpo_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFE007FF) == 0xFF800000)) return new e200z4_CR7_crfd_fcmpu_fra_frb(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFF80010C)) return new e200z4_CR7_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
+	if(((chunk_32_0 & 0xFFFF0FFF) == 0xFF80010D)) return new e200z4_CR7_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00008C)) return new e200z4_crbd_mtfsb0_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00008D)) return new e200z4_crbd_mtfsb0_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00004C)) return new e200z4_crbd_mtfsb1_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1FFFFF) == 0xFC00004D)) return new e200z4_crbd_mtfsb1_useStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC63FFFF) == 0xFC000080)) return new e200z4_crfd_crfs_mcrfs(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC6007FF) == 0xFC000040)) return new e200z4_crfd_fcmpo_fra_frb(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC6007FF) == 0xFC000000)) return new e200z4_crfd_fcmpu_fra_frb(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC7F0FFF) == 0xFC00010C)) return new e200z4_crfd_imm_mtfsfi_noStatus(pcBase,chunk1);
-	if(((chunk_32_0 & 0xFC7F0FFF) == 0xFC00010D)) return new e200z4_crfd_imm_mtfsfi_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1F07FF) == 0xFC000210)) return new e200z4_fabs_frb_frd_noStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC1F07FF) == 0xFC000211)) return new e200z4_fabs_frb_frd_useStatus(pcBase,chunk1);
 	if(((chunk_32_0 & 0xFC0007FF) == 0xFC00002A)) return new e200z4_fadd_fra_frb_frd_noStatus(pcBase,chunk1);

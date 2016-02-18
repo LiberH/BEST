@@ -13,6 +13,230 @@ using namespace std;
 
 // instructions that require registers for the data dependency controller.
 
+void e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR0_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR0_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR1_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR1_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR2_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR2_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR3_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR3_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR4_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR4_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR5_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR5_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR6_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR6_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
+}
+
+void e200z4_CR7_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
+void e200z4_CR7_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
+	regsMask0 = m_DDCRegMaskRead;
+}
+
 void e200z4_SP_Check_abs_b_li_updatelr::getDDCReadRegs(u64 &regsMask0){
 	regsMask0 = m_DDCRegMaskRead;
 }
@@ -374,11 +598,11 @@ void e200z4_abs_bc_bd_bi_bo_f_nd_statPred::getDDCReadRegs(u64 &regsMask0){
 }
 
 void e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred::getDDCReadRegs(u64 &regsMask0){
-	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 = 0;
 }
 
 void e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred::getDDCReadRegs(u64 &regsMask0){
-	regsMask0 = m_DDCRegMaskRead;
+	regsMask0 = 0;
 }
 
 void e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t::getDDCReadRegs(u64 &regsMask0){
@@ -733,16 +957,6 @@ void e200z4_and_notaftercomplemented_ra_rs_shifted_uimm_useStatus::getDDCReadReg
 	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
 }
 
-void e200z4_arith_cmp_crfd_immediate_l_ra_simm::getDDCReadRegs(u64 &regsMask0){
-	regsMask0 = m_DDCRegMaskRead;
-	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
-}
-
-void e200z4_arith_cmp_crfd_l_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
-	regsMask0 = m_DDCRegMaskRead;
-	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
-}
-
 void e200z4_b_li_rel::getDDCReadRegs(u64 &regsMask0){
 	regsMask0 = m_DDCRegMaskRead;
 }
@@ -879,16 +1093,6 @@ void e200z4_byte_ra_rb_rs_store_u_x::getDDCReadRegs(u64 &regsMask0){
 	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
 }
 
-void e200z4_cmp_crfd_immediate_l_logical_ra_uimm::getDDCReadRegs(u64 &regsMask0){
-	regsMask0 = m_DDCRegMaskRead;
-	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
-}
-
-void e200z4_cmp_crfd_l_logical_ra_rb_reg::getDDCReadRegs(u64 &regsMask0){
-	regsMask0 = m_DDCRegMaskRead;
-	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
-}
-
 void e200z4_cntlzw_noStatus_ra_rs::getDDCReadRegs(u64 &regsMask0){
 	regsMask0 = 0;
 	regsMask0 |= m_DDCRegFileSRU_GPRMaskRead<<30;
@@ -938,14 +1142,6 @@ void e200z4_crba_crbb_crbd_crorc::getDDCReadRegs(u64 &regsMask0){
 }
 
 void e200z4_crba_crbb_crbd_crxor::getDDCReadRegs(u64 &regsMask0){
-	regsMask0 = m_DDCRegMaskRead;
-}
-
-void e200z4_crfd_crfs_mcrf::getDDCReadRegs(u64 &regsMask0){
-	regsMask0 = m_DDCRegMaskRead;
-}
-
-void e200z4_crfd_mcrxr::getDDCReadRegs(u64 &regsMask0){
 	regsMask0 = m_DDCRegMaskRead;
 }
 

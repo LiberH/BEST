@@ -113,7 +113,15 @@ class executeInstAction : public e200z4_instruction
 	virtual bool jumpTaken()			{return m_inst->jumpTaken();};
    
 	virtual unsigned int const instClass() {return m_inst->instClass();};
-		virtual bool hasID_SP_Check() {return m_inst->hasID_SP_Check();};
+		virtual bool hasID_CR0() {return m_inst->hasID_CR0();};
+	virtual bool hasID_CR1() {return m_inst->hasID_CR1();};
+	virtual bool hasID_CR2() {return m_inst->hasID_CR2();};
+	virtual bool hasID_CR3() {return m_inst->hasID_CR3();};
+	virtual bool hasID_CR4() {return m_inst->hasID_CR4();};
+	virtual bool hasID_CR5() {return m_inst->hasID_CR5();};
+	virtual bool hasID_CR6() {return m_inst->hasID_CR6();};
+	virtual bool hasID_CR7() {return m_inst->hasID_CR7();};
+	virtual bool hasID_SP_Check() {return m_inst->hasID_SP_Check();};
 	virtual bool hasID_abs() {return m_inst->hasID_abs();};
 	virtual bool hasID_add() {return m_inst->hasID_add();};
 	virtual bool hasID_adde() {return m_inst->hasID_adde();};
