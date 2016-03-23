@@ -79,8 +79,7 @@ int lms_rand()
   return (unsigned int)(next/65536) % 32768;
 }
 
-static float lms_log(r)
-float r;
+static float lms_log()
 {
   return 4.5;
 }
@@ -177,7 +176,7 @@ static float gaussian()
         }       /* make radius less than 1 */
 
 /* remap v1 and v2 to two Gaussian numbers */
-        fac = lms_sqrt(-2.0f*lms_log(r)/r);
+        fac = lms_sqrt(-2.0f*lms_log()/r);
         gstore = v1*fac;        /* store one */
         gaus = v2*fac;          /* return one */
         ready = 1;              /* set ready flag */

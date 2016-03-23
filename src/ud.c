@@ -76,7 +76,7 @@
 
 long int a[50][50], b[50], x[50];
 
-int ludcmp(int nmax, int n);
+int ludcmp(int n);
 
 
 /*  static double fabs(double n) */
@@ -88,9 +88,9 @@ int ludcmp(int nmax, int n);
 /*    return f; */
 /*  } */
 
-void main()
+int main()
 {
-  int      i, j, nmax = 50, n = 5, chkerr;
+  int      i, j, n = 5, chkerr;
   long int /* eps, */ w;
 
   /* eps = 1.0e-6; */
@@ -110,10 +110,11 @@ void main()
     }
 
   /*  chkerr = ludcmp(nmax, n, eps); */
-  chkerr = ludcmp(nmax,n);
+  chkerr = ludcmp(n);
+  return chkerr;
 }
 
-int ludcmp(int nmax, int n)
+int ludcmp(int n)
 {
   int i, j, k;
   long w, y[100];

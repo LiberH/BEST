@@ -61,7 +61,10 @@ unsigned short icrc1(unsigned short crc, unsigned char onech)
 
 	for (i=0;i<8;i++) {
 		if (ans & 0x8000)
-			ans = (ans <<= 1) ^ 4129;
+		  {
+			ans <<= 1;
+			ans ^= 4129;
+		  }
 		else
 			ans <<= 1;
 	}
@@ -121,7 +124,7 @@ int main(void)
   lin[n+1]=HIBYTE(i1);
   lin[n+2]=LOBYTE(i1);
   i2=icrc(i1,n+2,(short)0,1);
-  return 0;
+  return i2;
 }
 
 

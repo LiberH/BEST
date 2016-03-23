@@ -358,7 +358,7 @@ jpeg_fdct_islow ()
    The switching latency, including the function call/return time,
    is measured to be equal to 1.1us (22 clock cycles).
 */
-void main(void)
+int main(void)
 {
   int i, seed;
 
@@ -371,4 +371,5 @@ void main(void)
   }
 
   jpeg_fdct_islow();
+  return 0;
 }

@@ -227,11 +227,9 @@ void initbuffer(void)
 {
    int seed = 1;
    int i;
-   int tabort;
 
    for (i = 0 ; i < BUFFERSIZE ; i++) {
       /* Generates random integers between 0 and 8095 */
-      tabort = i;
       seed = ((seed * 133) + 81) % 8095;
 
       orig_text_buffer[i] = seed % 256;

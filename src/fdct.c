@@ -4,30 +4,30 @@
  *  - main() declared as int.
  *  - Unused variables removed.
  */
-// *********************************************************************************************************
-// *                        FDCT.C                                                                         *
-// *                                                                                                       *
-// * Forward Discrete Cosine Transform                                                                     * 
-// * Used on 8x8 image blocks                                                                              *    
-// * to reassemble blocks in order to ease quantization compressing image information on the more          *
-// * significant frequency components                                                                      *
-// *                                                                                                       * 
-// *  Expected Result -> short int block[64]= { 699,164,-51,-16, 31,-15,-19,  8,                           *
-// *                                             71, 14,-61, -2,-11,-12,  7, 12,                           *
-// *                                            -58,-55, 13, 28,-20, -7, 14,-18,                           *
-// *                                             29, 22,  3,  3,-11,  7, 11,-22,                           *
-// *                                             -1,-28,-27, 10,  0, -7, 11,  6,                           *
-// *                                              7,  6, 21, 21,-10, -8,  2,-14,                           *
-// *                                              1, -7,-15,-15,-10, 15, 16,-10,                           *
-// *                                              0, -1,  0, 15,  4,-13, -5,  4 };                         *
-// *                                                                                                       *
-// *  Exadecimal results: Block -> 02bb00a4 ffcdfff0 001ffff1 ffed0008 0047000e ffc3fffe 000bfff4 0007000c *
-// *                               ffc6ffc9 000d001c ffecfff9 000effee 001d0016 00030003 fff50007 000bffea *
-// *                               ffffffe4 ffe5000a 0000fff9 000b0006 00070006 00150015 fff6fff8 0002fff2 *
-// *                               0001fff9 fff1fff1 fff6000f 0010fff6 0000ffff 0000000f 0004fff3 fffb0004 *
-// *                                                                                                       * 
-// *  Number of clock cycles (with these inputs) -> 2132                                                   * 
-// *********************************************************************************************************
+/*********************************************************************************************************
+ *                        FDCT.C                                                                         *
+ *                                                                                                       *
+ * Forward Discrete Cosine Transform                                                                     * 
+ * Used on 8x8 image blocks                                                                              *    
+ * to reassemble blocks in order to ease quantization compressing image information on the more          *
+ * significant frequency components                                                                      *
+ *                                                                                                       * 
+ *  Expected Result -> short int block[64]= { 699,164,-51,-16, 31,-15,-19,  8,                           *
+ *                                             71, 14,-61, -2,-11,-12,  7, 12,                           *
+ *                                            -58,-55, 13, 28,-20, -7, 14,-18,                           *
+ *                                             29, 22,  3,  3,-11,  7, 11,-22,                           *
+ *                                             -1,-28,-27, 10,  0, -7, 11,  6,                           *
+ *                                              7,  6, 21, 21,-10, -8,  2,-14,                           *
+ *                                              1, -7,-15,-15,-10, 15, 16,-10,                           *
+ *                                              0, -1,  0, 15,  4,-13, -5,  4 };                         *
+ *                                                                                                       *
+ *  Exadecimal results: Block -> 02bb00a4 ffcdfff0 001ffff1 ffed0008 0047000e ffc3fffe 000bfff4 0007000c *
+ *                               ffc6ffc9 000d001c ffecfff9 000effee 001d0016 00030003 fff50007 000bffea *
+ *                               ffffffe4 ffe5000a 0000fff9 000b0006 00070006 00150015 fff6fff8 0002fff2 *
+ *                               0001fff9 fff1fff1 fff6000f 0010fff6 0000ffff 0000000f 0004fff3 fffb0004 *
+ *                                                                                                       * 
+ *  Number of clock cycles (with these inputs) -> 2132                                                   * 
+ *********************************************************************************************************/
 
 #ifdef IO
 #include "libp.c"
@@ -35,7 +35,7 @@
 #include "string.c"
 #endif
 
-// Cosine Transform Coefficients
+/* Cosine Transform Coefficients */
 
 #define W1 2841                 /* 2048*sqrt(2)*cos(1*pi/16) */
 #define W2 2676                 /* 2048*sqrt(2)*cos(2*pi/16) */
@@ -44,13 +44,13 @@
 #define W6 1108                 /* 2048*sqrt(2)*cos(6*pi/16) */
 #define W7 565                  /* 2048*sqrt(2)*cos(7*pi/16) */
 
-// Other FDCT Parameters
+/* Other FDCT Parameters */
 #define CONST_BITS  13
 #define PASS1_BITS  2
 
 int out;
 
-// Image block to be transformed:
+/* Image block to be transformed: */
 short int block[64]=
 { 99 ,104 ,109 ,113 ,115 ,115 , 55 , 55,
   104 ,111 ,113 ,116 ,119 , 56 , 56 , 56,
@@ -234,7 +234,7 @@ int main(void)
 {
 /*  int i; */
 
-  fdct (block, 8);  // 8x8 Blocks, DC precision value = 0, Quantization coefficient (mquant) = 64   
+  fdct (block, 8);  /* 8x8 Blocks, DC precision value = 0, Quantization coefficient (mquant) = 64    */
   
   #ifdef IO
     for(i=0;i<64;i+=2) printf("block[%2d] -> %8d . block[%2d] -> %8d\n",i,block[i],i+1,block[i+1]);

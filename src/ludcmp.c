@@ -100,7 +100,7 @@ main(void)
 
 	chkerr = ludcmp( /* nmax, */ n, eps);
 
-	return 0;
+	return chkerr;
 
 }
 

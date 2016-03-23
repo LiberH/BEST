@@ -50,10 +50,11 @@ void initialize( char *arr, int length)
 char source[ARRAYSIZE];
 char target[ARRAYSIZE];
 
-void main(void)
+int main(void)
 {
   initialize( source, ARRAYSIZE );
   duffcopy( source, target, INVOCATION_COUNT );
+  return 0;
 }
 
 

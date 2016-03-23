@@ -10,9 +10,11 @@
 #define UNKNOWN_VALUE (int)(*((char *)0x80200003))
 
 
+#ifndef WCSIM
 #include <sys/types.h>
 #include <sys/times.h>
 #include <stdio.h>
+#endif
 
 #define WORSTCASE 1
 #define FALSE 0
@@ -26,13 +28,16 @@
  * randomly generated integers.
  */
 
+void Initialize(int []);
+void BubbleSort(int []);
+
 int Array[MAXDIM], Seed;
 int factor;
 
-main()
+int main()
 {
-   long  StartTime, StopTime;
-   float TotalTime;
+   /*long  StartTime, StopTime; */
+   /*float TotalTime; */
 
 #ifndef WCSIM
    printf("\n *** BUBBLE SORT BENCHMARK TEST ***\n\n");
@@ -47,9 +52,10 @@ main()
    printf("     - Number of elements sorted is %d\n", NUMELEMS);
    printf("     - Total time sorting is %3.3f seconds\n\n", TotalTime);
 #endif
+   return 0;
 }
 
-
+#ifndef WCSIM
 int ttime()
 /*
  * This function returns in milliseconds the amount of compiler time
@@ -63,9 +69,9 @@ int ttime()
    utime = (buffer.tms_utime / 60.0) * 1000.0;
    return(utime);
 }
+#endif
 
-
-Initialize(Array)
+void Initialize(Array)
 int Array[];
 /*
  * Initializes given array with randomly generated integers.
@@ -86,14 +92,14 @@ for (Index = 1; Index <= NUMELEMS; Index ++)
 
 
 
-BubbleSort(Array)
+void BubbleSort(Array)
 int Array[];
 /*
  * Sorts an array of integers of size NUMELEMS in ascending order.
  */
 {
    int Sorted = FALSE;
-   int Temp, LastIndex, Index, i;
+   int Temp, Index, i;
 
    for (i = 1;
 	i <= NUMELEMS-1;           /* apsim_loop 1 0 */

@@ -192,7 +192,7 @@ long out_data[720]={
 0x6f, 0x6a, 0x66, 0x5c, 0x4b, 0x3a, 0x33, 0x36, 0x38, 0x2c,
 0 };
 
-// To match size of input
+/* To match size of input */
 #define OUTSIZE 720
 
 
@@ -215,7 +215,7 @@ int main()
   long  output[OUTSIZE];
 
   fir_filter_int(in_data,output,700,fir_int,35,285); 
-//  fir_filter_int(in_data,output,10,fir_int,35,285);Changed JG/Ebbe
+/*  fir_filter_int(in_data,output,10,fir_int,35,285);Changed JG/Ebbe */
 
   /* Verify results */
   /*for(i=0;i<700;i++)*/

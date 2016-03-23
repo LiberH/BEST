@@ -49,7 +49,7 @@ void Initialize(matrix Array);
 int RandomInteger(void);
 #endif
 
-void main()
+int main()
 {
    InitSeed();
 /* ***UPPSALA WCET***:
@@ -59,6 +59,7 @@ void main()
    printf("RESULTS OF THE TEST:\n");
 #endif
    Test(ArrayA, ArrayB, ResultArray);
+   return 0;
 }
 
 

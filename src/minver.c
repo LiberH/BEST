@@ -51,7 +51,7 @@
 /*************************************************************************/
 
 
-int minver(int row, int col, double eps);
+int minver(int row, double eps);
 int  mmul(int  row_a, int col_a, int row_b, int col_b);
 
 static double  a[3][3] = {
@@ -82,7 +82,7 @@ int main()
 	  for(j = 0; j < 3; j++)
 	    aa[i][j] = a[i][j];
 
-	minver(3, 3, eps);
+	minver(3, eps);
 	for(i = 0; i < 3; i++)
 	  for(j = 0; j < 3; j++)
 	    a_i[i][j] = a[i][j];
@@ -116,10 +116,10 @@ int  mmul(int row_a, int col_a, int row_b, int col_b)
 }
 
 
-int minver(int row, int col, double eps)
+int minver(int row, double eps)
 {
 
-	int work[500], i, j, k, r, iw, s, t, u, v;
+	int work[500], i, j, k, r, iw;
 	double w, wmax, pivot, api, w1;
 
 	if(row < 2 || row > 500 || eps <= 0.0) return(999);
@@ -146,8 +146,6 @@ int minver(int row, int col, double eps)
 		return(1);
 	      }
 	    w1 *= pivot;
-	    u = k * col;
-	    v = r * col;
 	    if(r != k)
 	      {
 		w1 = -w;
@@ -156,8 +154,6 @@ int minver(int row, int col, double eps)
 		work[r] = iw;
 		for(j = 0; j < row; j++)
 		  {
-		    s = u + j;
-		    t = v + j;
 		    w = a[k][j];
 		    a[k][j] = a[r][j];
 		    a[r][j] = w;
@@ -169,8 +165,6 @@ int minver(int row, int col, double eps)
 	      {
 		if(i != k)
 		  {
-		    v = i * col;
-		    s = v + k;
 		    w = a[i][k];
 		    if(w != 0.0)
 		      {
@@ -193,9 +187,6 @@ int minver(int row, int col, double eps)
 		work[i] = iw;
 		for(j = 0; j < row; j++)
 		  {
-		    u = j * col;
-		    s = u + i;
-		    t = u + k;
 		    w = a[k][i];
 		    a[k][i] = a[k][k];
 		    a[k][k] = w;

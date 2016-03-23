@@ -21,9 +21,9 @@
 *
 
 ***************************************************************************/
-// #define DO_TRACING
+/* #define DO_TRACING */
 
-#ifdef DO_TRACING   // ON PC
+#ifdef DO_TRACING   /* ON PC */
 
 #include <stdio.h>
 #define TRACE(x) trace((x))
@@ -33,7 +33,7 @@ void trace(char *s)
    printf("%s\n",s);
 }
 
-#else               // ON TARGET
+#else               /* ON TARGET */
 
 #define TRACE(x)
 #undef TEST

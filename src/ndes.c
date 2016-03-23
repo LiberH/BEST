@@ -75,16 +75,16 @@ void des(immense inp, immense key, int * newkey, int isw, immense * out) {
       *newkey=0;
       icd.r=icd.l=0L;
       for (j=28,k=56;j>=1;j--,k--) {
-         icd.r = (icd.r <<= 1) | getbit(key,ipc1[j],32);
-         icd.l = (icd.l <<= 1) | getbit(key,ipc1[k],32);
+	 icd.r <<= 1; icd.r |= getbit(key,ipc1[j],32);
+         icd.l <<= 1; icd.l |= getbit(key,ipc1[k],32);
          }
 
       for(i=1;i<=16;i++) {pg = kns[i]; ks(/* key,*/ i, &pg); kns[i] = pg;}
       }
    itmp.r=itmp.l=0L;
    for (j=32,k=64;j>=1;j--,k--) {
-      itmp.r = (itmp.r <<= 1) | getbit(inp,ip[j],32);
-      itmp.l = (itmp.l <<= 1) | getbit(inp,ip[k],32);
+      itmp.r <<= 1; itmp.r |= getbit(inp,ip[j],32);
+      itmp.l <<= 1; itmp.l |= getbit(inp,ip[k],32);
       }
    for (i=1;i<=16;i++) {
       ii = (isw == 1 ? 17-i : i);
@@ -98,8 +98,8 @@ void des(immense inp, immense key, int * newkey, int isw, immense * out) {
    itmp.l=ic;
    (*out).r=(*out).l=0L;
    for (j=32,k=64; j >= 1; j--, k--) {
-      (*out).r = ((*out).r <<= 1) | getbit(itmp,ipm[j],32);
-      (*out).l = ((*out).l <<= 1) | getbit(itmp,ipm[k],32);
+      (*out).r <<= 1; (*out).r |= getbit(itmp,ipm[j],32);
+      (*out).l <<= 1; (*out).l |= getbit(itmp,ipm[k],32);
       }
 }
 unsigned long getbit(immense source, int bitno, int nbits) {
@@ -123,12 +123,9 @@ void ks(/*immense key, */int n, great * kn) {
          }
    (*kn).r=(*kn).c=(*kn).l=0;
    for (j=16,k=32,l=48; j>=1; j--,k--,l--) {
-      (*kn).r=((*kn).r <<= 1) | (unsigned short)
-          getbit(icd,ipc2[j],28);
-      (*kn).c=((*kn).c <<= 1) | (unsigned short)
-          getbit(icd,ipc2[k],28);
-      (*kn).l=((*kn).l <<= 1) | (unsigned short)
-          getbit(icd,ipc2[l],28);
+      (*kn).r <<= 1; (*kn).r |= (unsigned short) getbit(icd,ipc2[j],28);
+      (*kn).c <<= 1; (*kn).c |= (unsigned short) getbit(icd,ipc2[k],28);
+      (*kn).l <<= 1; (*kn).l |= (unsigned short) getbit(icd,ipc2[l],28);
       }
 }
 
@@ -183,9 +180,9 @@ void cyfun(unsigned long ir, great k, unsigned long * iout) {
    p = bit;
    ie.r=ie.c=ie.l=0;
    for (j=16,l=32,m=48;j>=1;j--,l--,m--) {
-      ie.r = (ie.r <<=1) | (p[iet[j]] & ir ? 1 : 0);
-      ie.c = (ie.c <<=1) | (p[iet[l]] & ir ? 1 : 0);
-      ie.l = (ie.l <<=1) | (p[iet[m]] & ir ? 1 : 0);
+      ie.r <<= 1; ie.r |= (p[iet[j]] & ir ? 1 : 0);
+      ie.c <<= 1; ie.c |= (p[iet[l]] & ir ? 1 : 0);
+      ie.l <<= 1; ie.l |= (p[iet[m]] & ir ? 1 : 0);
       }
    ie.r ^= k.r;
    ie.c ^= k.c;
@@ -205,12 +202,13 @@ void cyfun(unsigned long ir, great k, unsigned long * iout) {
       icol=((j & 0x2) << 2)+(j & 0x4)
           +((j & 0x8) >> 2)+((j & 0x10) >> 4);
       iss=is[icol][irow][jj];
-      itmp = (itmp <<= 4) | ibin[iss];
+      itmp <<= 4; itmp |= ibin[iss];
       }
    *iout=0L;
    p = bit;
-   for (j=32;j>=1;j--)
-      *iout = (*iout <<= 1) | (p[ipp[j]] & itmp ? 1 : 0);
+   for (j=32;j>=1;j--) {
+      *iout <<= 1; *iout |= (p[ipp[j]] & itmp ? 1 : 0);
+      }
 }
 #ifdef WORSTCASE
    int value = 1;

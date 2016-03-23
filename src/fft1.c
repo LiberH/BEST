@@ -64,7 +64,7 @@ static double fabs(double n)
   return f;
 }
 
-static double log(double n)
+static double log()
 {
   return(4.5);
 }
@@ -106,7 +106,7 @@ static double cos(double rad)
 }
 
 
-void main()
+int main()
 {
 
 	int  i, n = 8, flag, chkerr;
@@ -123,7 +123,7 @@ void main()
 	/* inverse fft */
 	flag = 1;
 	chkerr = fft1(n, flag);
-
+	return chkerr;
 }
 
 

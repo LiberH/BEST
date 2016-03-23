@@ -105,8 +105,8 @@ float select(unsigned long k, unsigned long n)
 	return arr[k];
 }
 
-main()
+int main()
 {
-  select(10, 20);
+  return (int) select(10, 20);
 }
 
