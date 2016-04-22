@@ -1,5 +1,5 @@
 CC       = g++
-CPPFLAGS = -I./inc -I../p2a -Wall -Werror -g3
+CPPFLAGS = -I./inc -I../p2a -Wall -Werror -ggdb
 LDFLAGS  = -lemon -L../p2a/lib -lp2a -lelf
 
 SRC   = src
@@ -44,26 +44,33 @@ test: target
 	@for f in $(TEST)/*.elf; do \
 	  echo "Testing ... `basename $$f`"; \
 	  $(TRGT) $$f; \
-	  for g in $(TEST)/`basename $$f .elf`*.dot; do \
-	    dot -Tpng $$g > $${g%.*}.png; \
-	  done; \
 	done
 
 # Benchmarks:
 bench: target
 	@for f in $(BENCH)/*.elf; do \
-	  echo "Benchmarking ... `basename $$f`"; \
-	  $(TRGT) $$f; \
-	  for g in $(BENCH)/`basename $$f .elf`*.dot; do \
-	    dot -Tpng $$g > $${g%.*}.png; \
-	  done; \
+	  echo -n "`basename $$f` ... "; \
+	  $(TRGT) $$f 2> /dev/null; \
+	  if [ $$? -ne 0 ]; then \
+	    echo "Fail"; \
+	  else \
+	    echo "Pass"; \
+	  fi; \
 	done
 
 # Clean:
-clean:
-	rm -f ./$(TEST)/*.dmp ./$(TEST)/*.dot ./$(TEST)/*.png
-	rm -f ./$(BENCH)/*.dmp ./$(BENCH)/*.dot ./$(BENCH)/*.png
-
-fullclean: clean
+clean: testclean benchclean
 	rm -rf ./$(OBJ)
 	rm -rf ./$(BIN)
+
+testclean:
+	rm -f ./$(TEST)/*.dmp
+	rm -f ./$(TEST)/*.dot
+	rm -f ./$(TEST)/*.png
+	rm -f ./$(TEST)/*.xml
+
+benchclean:
+	rm -f ./$(BENCH)/*.dmp
+	rm -f ./$(BENCH)/*.dot
+	rm -f ./$(BENCH)/*.png
+	rm -f ./$(BENCH)/*.xml

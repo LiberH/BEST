@@ -1,4 +1,4 @@
-bin/*
-obj/*
-test/*
-*.elf
+bin/
+obj/
+test/
+bench/

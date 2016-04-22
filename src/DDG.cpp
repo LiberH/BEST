@@ -76,12 +76,13 @@ DDG::DDG (CFG *cfg)
   vector<Inst *> w;
   set<Inst *>::iterator it;
   w.push_back ((*cfg -> m_bbs)[cfg -> m_entry] -> m_insts -> front ());
+  ListDigraph::Node bb10 = (*cfg -> m_nodes)[0x3050];
   while (!w.empty ())
     {
       // pick and remove an inst from the worklist.
       Inst *inst = w.front ();
       w.erase (w.begin ());
-      
+	
       // assign 'OUT' to 'OLDOUT'.
       set<Inst *> *oldout = new set<Inst *> ();
       set<Inst *>::iterator it = (*m_outs)[inst -> m_addr] -> begin ();
@@ -168,12 +169,50 @@ DDG::DDG (CFG *cfg)
 	}
     }
 
+  if (DEBUG)
+    {
+      ListDigraph::NodeIt n (*cfg -> m_graph);
+      for (; n != INVALID; ++n)
+	{
+	  BB *bb = (*cfg -> m_bbs)[n];
+	  cout << bb -> m_label << endl;
+
+	  vector<Inst *>::iterator inst_it = bb -> m_insts -> begin ();
+	  for (; inst_it != bb -> m_insts -> end (); ++inst_it)
+	    {
+	      // TODO: retreivable form Inst::FromFile function.
+	      Inst *inst = *inst_it;
+	      cout << hex << inst -> m_addr << ": " << inst -> m_disass
+		   << " ( ";
+	      
+	      bitset<64> bs (inst -> m_refs);
+	      for (int b = 0; b < 64; ++b)
+		if (b != 7 && b != 11 && bs[b])
+		  cout << reg_names[b] << " ";
+	      cout << ")" << endl;
+	      
+	      set<Inst *> *ins = (*m_ins)[inst -> m_addr];
+	      set<Inst *>::iterator in_it = ins -> begin ();
+	      for (; in_it != ins -> end (); ++in_it)
+		{
+		  Inst *in = *in_it;
+		  ListDigraph::Node m = (*cfg -> m_nodes)[in -> m_addr];
+		  BB *cc = (*cfg -> m_bbs)[m];
+		  cout << "  "
+		       << cc -> m_label << " "
+		       << hex << in -> m_addr << ": " << in -> m_disass << endl;
+		}
+	      
+	      cout << endl;
+	    }
+	}
+    }
+
   for (int i = 0; i < size; ++i)
     {
       Inst *inst = (*insts)[i];
       bitset<64> bs (inst -> m_refs);
       // TODO: which registers to filter?
-      if (DEBUG) cout << hex << inst -> m_addr << ": " << inst -> m_disass << endl;
       for (int b = 0; b < 64; ++b)
 	if (b != 7 && bs[b])
 	  {
@@ -184,11 +223,7 @@ DDG::DDG (CFG *cfg)
 		Inst *in = *in_it;
 		bitset<64> bs (in -> m_defs);
 		if (bs[b])
-		  {
-		    if (DEBUG) cout << "  " << reg_names[b] << " - "
-		                    << hex << in -> m_addr << ": " << in -> m_disass << endl;
-		    (*m_deps)[inst -> m_addr] -> insert (in);
-		  }
+		  (*m_deps)[inst -> m_addr] -> insert (in);
 	      }
 	  }
     }
@@ -218,7 +253,7 @@ DDG::ToFile (string fn, vector<Inst *> *insts, DDG *ddg)
       f << hex << inst -> m_addr << ":   "
 	<< mnemo << spaces << args;
 
-      spaces = string (12 - args.length (), ' ');
+      spaces = string (17 - args.length (), ' ');
       f << spaces << "| ";
 
       string srefs, sdefs;
@@ -226,7 +261,7 @@ DDG::ToFile (string fn, vector<Inst *> *insts, DDG *ddg)
 	if (b != 7 && refs[b])
 	  srefs += reg_names[b] + " ";
 
-      spaces = string (14 - srefs.length (), ' ');
+      spaces = string (16 - srefs.length (), ' ');
       f << srefs << spaces << "-> ";
       for (int b = 0; b < 64; ++b)
 	if (b != 7 && defs[b])

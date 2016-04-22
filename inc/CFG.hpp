@@ -20,10 +20,10 @@ class CFG {
 public:
   CFG ();
   
-  lemon::ListDigraph::Node          addBB   (BB &);
-  lemon::ListDigraph::Arc           addEdge (BB &, BB &);
-    std::             vector<BB *> *bbs     ();
-  
+  lemon::ListDigraph::Node            addBB   (BB &);
+  lemon::ListDigraph::Arc             addEdge (BB &, BB &);
+    std::             vector<BB *>   *bbs     ();
+    std::             vector<Inst *> *insts   ();
   static CFG  *Reverse  (const CFG *);
   static CFG  *FromFile (std::string);
   static void  ToFile   (std::string, CFG *);
@@ -43,8 +43,11 @@ protected:
   lemon::ListDigraph::Node                               m_exit;
 
 private:
+  lemon::ListDigraph::Node findByLabel (std::string);
   void findSuccs (std::vector<BB *> &);
+  void deadcode_patch ();
   void blr_patch ();
+  void print_state (struct state);
 };
 
 #endif // _CFG_HPP_

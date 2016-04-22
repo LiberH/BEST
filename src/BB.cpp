@@ -37,10 +37,10 @@ BB::addInst (Inst &i)
 
 // static
 vector<BB *> *
-BB::FromFile (string f)
+BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
 {
   vector<BB   *> *bbs     = new vector<BB *> ();  
-  vector<Inst *> *insts   = Inst::FromFile ( f    );
+  vector<Inst *> *insts   = Inst::FromFile (f, entry_addr, exit_addr);
   vector<u32   > *leaders =   BB::Leaders  (*insts);
   
   Inst *inst = insts -> front ();
@@ -83,13 +83,13 @@ BB::ToFile (string fn, vector<BB *> *bbs)
   ofstream f;
   f.open (C(fn));
 
-  f << "-------------------------------" << endl;
   sort (bbs -> begin (), bbs -> end (), byAddr);
   vector<BB *>::iterator bb_it = bbs -> begin ();
   for (; bb_it != bbs -> end (); ++bb_it)
     {
       BB *bb = *bb_it;
 
+      f << "------------------------------- " << bb -> m_label << endl;
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it = insts -> begin ();  
       for (; inst_it != insts -> end (); ++inst_it)
@@ -106,8 +106,6 @@ BB::ToFile (string fn, vector<BB *> *bbs)
 	    << mnemo << spaces << args
 	    << endl;
 	}
-      
-      f << "-------------------------------" << endl;
     }
     
   f.close ();

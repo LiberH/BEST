@@ -15,6 +15,8 @@ public:
   std::vector<Inst *> *slice (u32);
   std::vector<Inst *> *slice (std::vector<Inst *> *);
   
+  static std::vector<Inst *> *MinimizeSlice (std::vector<Inst *> *);
+  
 protected:
   const PDG *m_pdg;
   const CFG *m_cfg;

@@ -59,9 +59,28 @@ Inst::Inst (const staticInfo &si)
     }
 }
 
+Inst::Inst (const Inst &inst)
+{
+  m_name    = inst.m_name;
+  m_label   = inst.m_label;
+  
+  m_addr    = inst.m_addr;
+  m_disass  = inst.m_disass;
+  m_refs    = inst.m_refs;
+  m_defs    = inst.m_defs;
+  m_prev    = inst.m_prev;
+  m_next    = inst.m_next;
+  
+  m_branch  = inst.m_branch;
+  m_unknown = inst.m_unknown;
+  m_link    = inst.m_link;
+  m_uncond  = inst.m_uncond;
+  m_target  = inst.m_target;  
+}
+
 // static
 vector<Inst *> *
-Inst::FromFile (string f)
+Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
 {
   arch a;
   codeReader *reader;
@@ -74,6 +93,8 @@ Inst::FromFile (string f)
   
   insts = new vector<Inst *> ();
   a.readCodeFile (f.c_str ());
+  a.getFunctionName ("_start", *entry_addr);
+  a.getFunctionName ("shouldNotHappen", *exit_addr);
   reader = a.getCodeReader ();
   nbCodeSection = reader -> getNbCodeSection ();
   for (int i = 0; i < nbCodeSection; ++i)
@@ -81,11 +102,16 @@ Inst::FromFile (string f)
       section = reader -> getCodeSection (i);
       addr = section -> v_addr ();
       end_addr = addr + section -> size ();
-      
+
       prev = NULL;
       while (addr < end_addr)
 	{
 	  info = a.getInstructionStaticInfo (addr);
+	  /*
+	    size_t pos = info -> mnemo.find("Stall");
+	    if (pos != string::npos)
+	      break;
+	  */
 	  inst = new Inst (*info);
 	  inst -> m_prev = prev;
 	  insts -> push_back (inst);
@@ -95,7 +121,7 @@ Inst::FromFile (string f)
 	  prev = inst;
 	}
     }
-
+  
   return insts;
 }
 
@@ -155,11 +181,11 @@ Inst::CountRegs (vector<Inst *> *insts)
   for (int b = 0; b < 64; ++b)
     if (bs[b])
       {
-	cout << reg_names[b] << " ";
+	//cout << reg_names[b] << " ";
 	count++;
       }
 
-  cout << endl;
+  //cout << endl;
   return count;
 }
 

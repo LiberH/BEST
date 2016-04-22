@@ -5,6 +5,7 @@
 
 class CFG;
 class DFS {
+  friend class CFG;
   friend class DT;
   friend class PDT;
   
