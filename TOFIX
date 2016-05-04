@@ -1,3 +1,1 @@
-src/recursion.c : undefined reference to `In' (extern volatile int In;)
-src/edn.c       : undefined reference to `memcpy'
-src/st.c        : undefined reference to `sqrt'
+src/edn.c : undefined reference to `memcpy'

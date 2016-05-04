@@ -66,8 +66,7 @@ int main()
   int a;
 
   a = 30;
-  fib(a);
-  return a;
+  return fib(a);
 }
 
 
