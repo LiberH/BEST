@@ -1,12 +1,13 @@
-CC       = g++
-CPPFLAGS = -I./inc -I../p2a -Wall -Werror -ggdb
-LDFLAGS  = -lemon -L../p2a/lib -lp2a -lelf
+CC = g++
+CPPFLAGS = -I./inc -I./ppcmod -Wall -Werror -O3 #-ggdb
+LDFLAGS  = -lemon -L./ppcmod/lib -lppcmod -lelf
 
 SRC   = src
 OBJ   = obj
 BIN   = bin
-TEST  = test
-BENCH = bench/bin
+BENCH_GCC = bench/bin-gcc
+BENCH_CSM = bench/bin-csm
+BENCH_TPL = bench/bin-tpl
 
 # Default:
 all: dirs target
@@ -39,38 +40,21 @@ target: objs $(TRGT)
 $(TRGT): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS) `pkg-config libgvc --libs`
 
-# Test:
-test: target
-	@for f in $(TEST)/*.elf; do \
-	  echo "Testing ... `basename $$f`"; \
-	  $(TRGT) $$f; \
+# Benchmarks:
+bench-gcc: target
+	@for f in $(BENCH_GCC)/*.elf; do \
+	  $(TRGT) $$f 2> /dev/null; \
 	done
 
-# Benchmarks:
-bench: target
-	@for f in $(BENCH)/*.elf; do \
-	  echo -n "`basename $$f` ... "; \
+bench-csm: target
+	@for f in $(BENCH_CSM)/*.elf; do \
 	  $(TRGT) $$f 2> /dev/null; \
-	  if [ $$? -ne 0 ]; then \
-	    echo "Fail"; \
-	  else \
-	    echo "Pass"; \
-	  fi; \
 	done
+
+bench-tpl: target
+	$(TRGT) $(BENCH_TPL)/testActivateTask.elf 2> /dev/null
 
 # Clean:
-clean: testclean benchclean
+clean:
 	rm -rf ./$(OBJ)
 	rm -rf ./$(BIN)
-
-testclean:
-	rm -f ./$(TEST)/*.dmp
-	rm -f ./$(TEST)/*.dot
-	rm -f ./$(TEST)/*.png
-	rm -f ./$(TEST)/*.xml
-
-benchclean:
-	rm -f ./$(BENCH)/*.dmp
-	rm -f ./$(BENCH)/*.dot
-	rm -f ./$(BENCH)/*.png
-	rm -f ./$(BENCH)/*.xml

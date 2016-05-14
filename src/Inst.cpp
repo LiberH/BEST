@@ -93,8 +93,9 @@ Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
   
   insts = new vector<Inst *> ();
   a.readCodeFile (f.c_str ());
-  a.getFunctionName ("_start", *entry_addr);
+  a.getFunctionName ("launchTest", *entry_addr);
   a.getFunctionName ("shouldNotHappen", *exit_addr);
+  
   reader = a.getCodeReader ();
   nbCodeSection = reader -> getNbCodeSection ();
   for (int i = 0; i < nbCodeSection; ++i)

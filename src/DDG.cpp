@@ -261,11 +261,14 @@ DDG::ToFile (string fn, vector<Inst *> *insts, DDG *ddg)
 	if (b != 7 && refs[b])
 	  srefs += reg_names[b] + " ";
 
-      spaces = string (16 - srefs.length (), ' ');
-      f << srefs << spaces << "-> ";
-      for (int b = 0; b < 64; ++b)
-	if (b != 7 && defs[b])
-	  f << reg_names[b] << " ";
+      if (srefs.length () < 16)
+	{
+	  spaces = string (16 - srefs.length (), ' ');
+	  f << srefs << spaces << "-> ";
+	  for (int b = 0; b < 64; ++b)
+	    if (b != 7 && defs[b])
+	      f << reg_names[b] << " ";
+	}
       
       f << endl;
     }

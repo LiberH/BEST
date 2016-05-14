@@ -7,7 +7,9 @@
 #include "DDG.hpp"
 #include "PDG.hpp"
 #include "Slicer.hpp"
+
 #include <vector>
+#include <ctime>
 
 using namespace std;
 
@@ -19,7 +21,67 @@ main (int argc, char *argv[])
       cerr << "Usage: " << argv[0] << " FILE" << endl;
       return EXIT_FAILURE;
     }
+  
+  string path     = string (argv[1]);
+  string filename = path.substr (path.find_last_of ("/") +1);
+  string basename = filename.substr (0, filename.find_last_of ("."));
+  string name     = basename.substr (0, basename.find_last_of ("-"));
+  string optim    = basename.substr (basename.find_last_of ("-") +1);
+  
+  clock_t begin = clock ();
+  ////////////////////
+  
+  CFG *cfg = CFG::FromFile (path);
+  vector<Inst *> *dump = cfg -> insts ();
+  vector<BB   *> *bbs  = cfg -> bbs   ();
 
+  CFG *gfc = CFG::Reverse (cfg);
+  DFS *dfs = new DFS (gfc);
+  PDT *pdt = new PDT (cfg);
+  CDG *cdg = new CDG (cfg , pdt);
+  DDG *ddg = new DDG (cfg);
+  PDG *pdg = new PDG (cfg, cdg , ddg);
+  
+  Slicer *slicer = new Slicer (cfg, pdg);
+  vector<Inst *> *slice = slicer -> slice ();
+  
+  int dump_regs  = Inst::CountRegs (dump);
+  int slice_regs = Inst::CountRegs (slice);
+  
+  ////////////////////
+  clock_t end = clock ();
+  double time = double (end - begin) / CLOCKS_PER_SEC;
+
+  cout << name       << ","
+       << optim      << ","
+       << dump_regs  << ","
+       << slice_regs << ","
+       << time       << endl;
+
+  Inst::ToFile (path + "-dump"    , dump);
+  Inst::ToFile (path + "-slice"   , slice);
+    BB::ToFile (path + "-bbs"     , bbs);
+   CFG::ToFile (path + "-cfg.dot" , cfg);
+   
+   DFS::ToFile (path + "-dfs.dot" , gfc, dfs);
+    DT::ToFile (path + "-dt.dot"  , pdt);
+   PDT::ToFile (path + "-pdt.dot" , pdt);
+   CDG::ToFile (path + "-cdg.dot" , cdg);
+   PDG::ToFile (path + "-pdg.dot" , pdg);
+
+  return EXIT_SUCCESS;
+}
+
+/*
+int
+main (int argc, char *argv[])
+{
+  if (argc != 2)
+    {
+      cerr << "Usage: " << argv[0] << " FILE" << endl;
+      return EXIT_FAILURE;
+    }
+  
   string filename = string (argv[1]);
   string basename = filename.substr (0, filename.find_last_of(".")); 
   string prefix   = basename + "-";;
@@ -59,3 +121,4 @@ main (int argc, char *argv[])
 
   return EXIT_SUCCESS;
 }
+*/

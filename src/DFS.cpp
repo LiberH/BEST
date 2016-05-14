@@ -26,7 +26,7 @@ DFS::DFS (const CFG *cfg)
   dfs.addSource (cfg -> m_entry);
   (*m_order )[cfg -> m_entry] = i;
   (*m_parent)[cfg -> m_entry] = INVALID;
-  (*m_list  )[i]           = cfg -> m_entry;
+  (*m_list  )[i]              = cfg -> m_entry;
   while (!dfs.emptyQueue ())
     {
       ListDigraph::Arc  a = dfs.nextArc ();

@@ -163,7 +163,7 @@ CFG::FromFile (string f)
   cfg -> m_exit  = (*cfg -> m_nodes)[exit_addr];
   
   cfg -> blr_patch ();  
-  //cfg -> deadcode_patch ();
+  cfg -> deadcode_patch ();
   return cfg;
 }
 
@@ -382,7 +382,8 @@ CFG::findSuccs (vector<BB *> &bbs)
       Inst *inst = bb -> m_insts -> back ();
       
       // TODO: hacky ; to clean
-      if (inst -> m_disass == "bclr- 20,lt")
+      size_t bclr_pos = inst -> m_disass.find ("bclr- ");
+      if (bclr_pos != string::npos)
 	continue;
       
       if (inst -> m_branch)
@@ -558,20 +559,8 @@ CFG::blr_patch ()
 	}
       //**/cout << endl;
 
-      
-      // trg does a call:
-      size_t bl_pos = last_inst -> m_disass.find ("bl ");
-      if (bl_pos != string::npos)
-	{
-	  ListDigraph::Node ret = (*m_nodes)[last_inst -> m_addr +4];
-	  stack_t.push_back (ret);
-
-	  //**/BB *ret_bb = (*m_bbs)[ret];
-	  //**/cout << " push  : " << ret_bb -> m_label << endl;
-	}    
-
       // trg does a return:
-      size_t bclr_pos = last_inst -> m_disass.find ("bclr");
+      size_t bclr_pos = last_inst -> m_disass.find ("bclr- ");
       if (bclr_pos != string::npos)
 	{
 	  if (stack_t.empty ())
@@ -597,16 +586,6 @@ CFG::blr_patch ()
 	      addEdge (*trg_bb, *ret_bb);
 	      //**/cout << " add   : " << trg_bb -> m_label << " -> "  << ret_bb -> m_label << endl;
 	    }
-	  
-	  (*m_preds)[ret] -> push_back (trg_bb);
-	  (*m_succs)[trg] -> push_back (ret_bb);
-	  
-	  // TODO: hacky ; to clean
-	  //last_inst -> m_disass = "blr";
-	  last_inst -> m_refs   = 0x80; // sets pc
-	  last_inst -> m_defs   = 0x80; // id.
-	  last_inst -> m_link   = false;
-	  last_inst -> m_uncond = true;
 
 	  ListDigraph::Arc a;
 	  m_graph -> firstOut (a, trg);
@@ -625,68 +604,125 @@ CFG::blr_patch ()
 	  //**/cout << " next  :";	  
 	  //**/BB *ubb = (*m_bbs)[ret];
 	  //**/cout << " " << ubb -> m_label;
+
+	  if (!last_inst -> m_uncond)
+	    {
+	      //**/cout << hex << last_inst -> m_addr << ": " << last_inst -> m_disass << endl;
+	      
+	      ListDigraph::Node target = (*m_nodes)[last_inst -> m_target];
+	      BB *target_bb = (*m_bbs)[target];
+	      //**/cout << " target: " << target_bb -> m_label << endl;
+	      
+	      bool exists_arc = false;
+	      ListDigraph::OutArcIt arc (*m_graph, trg);
+	      for (; arc != INVALID; ++arc)
+		if (m_graph -> target (arc) == target)
+		  exists_arc = true;
+	      
+	      if (!exists_arc)
+		{
+		  addEdge (*trg_bb, *target_bb);
+		  //**/cout << " add   : " << trg_bb -> m_label << " -> "  << target_bb -> m_label << endl;
+		}
+
+	      ListDigraph::Arc a;
+	      m_graph -> firstOut (a, trg);
+	      while (a != INVALID)
+		{
+		  if (m_graph -> target (a) == target)
+		    break;
+		  
+		  m_graph -> nextOut (a);
+		}
+	  
+	      state.arc = a;
+	      state.stack = stack_t;
+	      state.stack.push_back (ret);
+	      w.push_back (state);
+	    }
+
+	  (*m_preds)[ret] -> push_back (trg_bb);
+	  (*m_succs)[trg] -> push_back (ret_bb);
+	  
+	  // TODO: hacky ; to clean
+	  //last_inst -> m_disass = "blr";
+	  last_inst -> m_refs   = 0x80; // sets pc
+	  last_inst -> m_defs   = 0x80; // id.
+	  last_inst -> m_link   = false;
+	  last_inst -> m_uncond = true;
 	}
       else
 	{
-      // add states too w if not yet reached:
-      ListDigraph::Arc arc;
-      m_graph -> firstOut (arc, trg);
-      state.stack = stack_t;
-      //**/cout << " next  :";
-      while (arc != INVALID)
-	{
-	  ListDigraph::Node u = m_graph -> target (arc);
-	  state.arc = arc;
-	  //**/cout << endl;
-	  //**/print_state (state);
-	  //**/cout << "---" << endl;
-	  
-	  bool found = false;
-	  vector<struct state>::iterator reach_it = reached.begin ();
-	  for (; reach_it != reached.end (); ++reach_it)
+	  // trg does a call:
+	  size_t bl_pos = last_inst -> m_disass.find ("bl ");
+	  if (bl_pos != string::npos)
 	    {
-	      struct state reach = *reach_it;
-	      //**/print_state (reach);
+	      ListDigraph::Node ret = (*m_nodes)[last_inst -> m_addr +4];
+	      stack_t.push_back (ret);
 	      
-	      if (state.arc == reach.arc)
+	      //**/BB *ret_bb = (*m_bbs)[ret];
+	      //**/cout << " push  : " << ret_bb -> m_label << endl;
+	    } 
+
+	  // add states too w if not yet reached:
+	  ListDigraph::Arc arc;
+	  m_graph -> firstOut (arc, trg);
+	  state.stack = stack_t;
+	  //**/cout << " next  :";
+	  while (arc != INVALID)
+	    {
+	      ListDigraph::Node u = m_graph -> target (arc);
+	      state.arc = arc;
+	      //**/cout << endl;
+	      //**/print_state (state);
+	      //**/cout << "---" << endl;
+	      
+	      bool found = false;
+	      vector<struct state>::iterator reach_it = reached.begin ();
+	      for (; reach_it != reached.end (); ++reach_it)
 		{
-		  //**/cout << "same arc" << endl;
-		  if (state.stack.size () == reach.stack.size ())
+		  struct state reach = *reach_it;
+		  //**/print_state (reach);
+	      
+		  if (state.arc == reach.arc)
 		    {
-		      //**/cout << "same stack size" << endl;
-                      bool equals = true;
-		      vector<ListDigraph::Node>::iterator state_ret_it = state.stack.begin ();
-		      vector<ListDigraph::Node>::iterator reach_ret_it = reach.stack.begin ();
-		      for (; state_ret_it != state.stack.end (); ++state_ret_it, ++reach_ret_it)
+		      //**/cout << "same arc" << endl;
+		      if (state.stack.size () == reach.stack.size ())
 			{
-			  ListDigraph::Node state_ret = *state_ret_it;
-			  ListDigraph::Node reach_ret = *reach_ret_it;
-			  if (state_ret != reach_ret)
+			  //**/cout << "same stack size" << endl;
+			  bool equals = true;
+			  vector<ListDigraph::Node>::iterator state_ret_it = state.stack.begin ();
+			  vector<ListDigraph::Node>::iterator reach_ret_it = reach.stack.begin ();
+			  for (; state_ret_it != state.stack.end (); ++state_ret_it, ++reach_ret_it)
 			    {
-			    equals = false;
-			    break;
+			      ListDigraph::Node state_ret = *state_ret_it;
+			      ListDigraph::Node reach_ret = *reach_ret_it;
+			      if (state_ret != reach_ret)
+				{
+				  equals = false;
+				  break;
+				}
 			    }
-			}
-		      
-		      if (equals)
-			{
-			  found = true;
-			  break;
+			  
+			  if (equals)
+			    {
+			      found = true;
+			      break;
+			    }
 			}
 		    }
 		}
-	    }
 	  
-	  if (!found)
-	    {
-	      w.push_back (state);
+	      if (!found)
+		{
+		  w.push_back (state);
+		  
+		  //**/BB *ubb = (*m_bbs)[u];
+		  //**/cout << " " << ubb -> m_label;
+		}
 	      
-	      //**/BB *ubb = (*m_bbs)[u];
-	      //**/cout << " " << ubb -> m_label;
+	      m_graph -> nextOut (arc);
 	    }
-	  
-	  m_graph -> nextOut (arc);
-	}
 	}
       //**/cout << endl;
     }
