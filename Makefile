@@ -1,13 +1,14 @@
-CC = g++
-CPPFLAGS = -I./inc -I./ppcmod -Wall -Werror -O3 #-ggdb
-LDFLAGS  = -lemon -L./ppcmod/lib -lppcmod -lelf
+CC       = g++
+CPPFLAGS = -I./inc -I$(BEST_MODULE_PATH) -Wall -Werror -O3 #-ggdb
+LDFLAGS  = -lemon -L$(BEST_MODULE_PATH)/lib -lppcmod -lelf
 
-SRC   = src
-OBJ   = obj
-BIN   = bin
-BENCH_GCC = bench/bin-gcc
-BENCH_CSM = bench/bin-csm
-BENCH_TPL = bench/bin-tpl
+SRC = src
+OBJ = obj
+BIN = bin
+
+BENCH_GCC = $(BEST_BENCH_PATH)/bin-gcc
+BENCH_CSM = $(BEST_BENCH_PATH)/bin-csm
+BENCH_TPL = $(BEST_BENCH_PATH)/bin-tpl
 
 # Default:
 all: dirs target
@@ -42,17 +43,24 @@ $(TRGT): $(OBJS)
 
 # Benchmarks:
 bench-gcc: target
+	@make -C $(BEST_BENCH_PATH) gcc-bins
 	@for f in $(BENCH_GCC)/*.elf; do \
 	  $(TRGT) $$f 2> /dev/null; \
 	done
+bench-gcc-pngs:
+	@make -C $(BEST_BENCH_PATH) gcc-pngs
 
 bench-csm: target
 	@for f in $(BENCH_CSM)/*.elf; do \
 	  $(TRGT) $$f 2> /dev/null; \
 	done
+bench-csm-pngs:
+	@make -C $(BEST_BENCH_PATH) csm-pngs
 
 bench-tpl: target
 	$(TRGT) $(BENCH_TPL)/testActivateTask.elf 2> /dev/null
+bench-tpl-pngs:
+	@make -C $(BEST_BENCH_PATH) tpl-pngs
 
 # Clean:
 clean:
