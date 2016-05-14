@@ -14,7 +14,7 @@
 
 STACK_SIZE = 100k;
 
-ENTRY(_start)
+ENTRY(launchTest)
 
 MEMORY
 {
