@@ -1,0 +1,2 @@
+add COSMIC build commands in Makefile
+fix src/edn.c: undefined reference to `memcpy'

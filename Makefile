@@ -11,14 +11,6 @@ BIN_TPL = bin-tpl
 
 # Default:
 all: dirs gcc-bins
-	@rm -f $(BIN_GCC)/nsichneu*.elf    # too big for Dot export
-	@rm -f $(BIN_CSM)/nsichneu*.elf
-
-	@rm -f $(BIN_GCC)/insertsort*.elf  # (HARMLESS-)Stall in -O3.elf
-	@rm -f $(BIN_CSM)/insertsort*.elf
-
-	@rm -f $(BIN_GCC)/ud*.elf          # bug at COSMIC compile time
-	@rm -f $(BIN_CSM)/ud*.elf
 
 # Directories:
 DIRS = $(OBJ) $(BIN_GCC)
@@ -35,6 +27,9 @@ $(OBJ)/crt0.o: $(SRC)/crt0.S
 SRCS = $(wildcard $(SRC)/*.c)
 BINS = $(SRCS:$(SRC)/%.c=$(BIN_GCC)/%)
 gcc-bins: crt0 $(BINS)
+	@rm -f $(BIN_GCC)/nsichneu*.elf    # too big for Dot export
+	@rm -f $(BIN_GCC)/insertsort*.elf  # (HARMLESS-)Stall in -O3.elf
+	@rm -f $(BIN_GCC)/ud*.elf          # bug at COSMIC compile time
 $(BIN_GCC)/%: $(SRC)/%.c
 	@echo "Making ELF files for ... `basename $@`"
 	@$(CC) $< -o $@-O0.elf -O0 $(CFLAGS) $(LDFLAGS)
