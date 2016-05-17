@@ -59,7 +59,8 @@ $(BIN_TPL)/%.png: $(BIN_TPL)/%.dot
 # Cleaning:
 clean:
 	rm -rf ./$(OBJ)
-	rm -rf ./$(BIN_GCC)
+	rm -rf ./$(BIN_GCC)/*.dot
+	rm -rf ./$(BIN_GCC)/*.elf-*
 	rm -rf ./$(BIN_CSM)/*.dot
 	rm -rf ./$(BIN_CSM)/*.elf-*
 	rm -rf ./$(BIN_TPL)/*.dot
