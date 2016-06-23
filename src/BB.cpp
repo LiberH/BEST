@@ -45,7 +45,7 @@ BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
   
   Inst *inst = insts -> front ();
   insts   -> erase (insts   -> begin ());
-  leaders -> erase (leaders -> begin ());
+  //leaders -> erase (leaders -> begin ());
   
   BB *bb = new BB ();  
   bb -> addInst (*inst);

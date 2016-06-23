@@ -58,7 +58,9 @@ bench-csm-pngs:
 	@make -C $(BEST_BENCH_PATH) csm-pngs
 
 bench-tpl: target
-	$(TRGT) $(BENCH_TPL)/testActivateTask.elf 2> /dev/null
+	@for f in $(BENCH_TPL)/*.elf; do \
+	  $(TRGT) $$f 2> /dev/null; \
+	done
 bench-tpl-pngs:
 	@make -C $(BEST_BENCH_PATH) tpl-pngs
 
