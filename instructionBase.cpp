@@ -35,21 +35,40 @@ e200z4_instruction::getStaticInfo (arch *_arch)
   i -> is_unknown = this -> isBranchStaticallyUnknown ();
   i -> do_link = this -> hasID_SP_Check ();
   i -> is_uncond = this -> isBranchUnconditional ();
-  
+
+  i -> test = 0;
+  if (i -> is_branch  &&
+      this -> hasID_bo() && this -> getBO() != 0 &&
+      this -> hasID_bi() && this -> getBI() != 0)
+    {
+      int BO = this -> getBO();
+      int BI = this -> getBI();
+      int cr = BI / 4;
+      int tt = BI - ((cr * 4) -1);
+      bool cond = (((BO >> 3) & 0x01) == 1);
+      
+      if (cond)
+	i -> test = tt;
+      else
+	i -> test = tt +4;
+    }
+  else if (i -> is_branch  &&
+	   this -> hasID_z ())
+    i -> test = 9;
+  else if (i -> is_branch  &&
+	   this -> hasID_nz ())
+    i -> test = 10;
+    
   _arch -> setProgramCounter (i -> pc + this -> size ());
   this -> detectBranch (_arch);
   i -> target = _arch -> programCounter ();
   
-  /*
-    #ifdef __P2AC_MEM__
-    if (this -> m_memOffset != 0 || this -> m_memReg!=0 || this -> m_memRegOffset!=0)
-      {
-        this -> m_memOffset;
-        this -> m_memReg;
-        this -> m_memRegOffset;
-      }
-    #endif
-  */
+  #ifdef __P2AC_MEM__
+  if (this -> m_memReg       != 0
+  ||  this -> m_memOffset    != 0
+  ||  this -> m_memRegOffset != 0)
+    i -> do_memory = true;
+  #endif
   
   return i;
 }

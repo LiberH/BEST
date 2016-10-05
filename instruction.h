@@ -2110,7 +2110,9 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr : public e200z
 	u64 m_DDCRegMaskRead;
 	u64 m_DDCRegMaskWrite;
 
-	public:
+ public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2147,6 +2149,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr : public e200z4_i
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2183,6 +2187,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z : public e200z4
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2219,6 +2225,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z : public e200z4_in
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2255,6 +2263,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_updatelr : public 
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2291,6 +2301,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr : public e20
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2327,6 +2339,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_z : public e
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2363,6 +2377,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z : public e200
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2399,6 +2415,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -2435,6 +2453,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr : public e200z4_i
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -2471,6 +2491,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z : public e200z4
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2507,6 +2529,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z : public e200z4_in
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2543,6 +2567,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr : public e200z4_
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2578,6 +2604,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr : public e200z4_ins
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2613,6 +2641,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr : public e2
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2648,6 +2678,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2683,6 +2715,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr : public e200z4_
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -2718,6 +2752,8 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr : public e200z4_ins
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -2752,6 +2788,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr : public e200
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2786,6 +2824,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr : public e200z4_
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2820,6 +2860,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2854,6 +2896,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z : public e200z4_i
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2888,6 +2932,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr : public
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2922,6 +2968,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr : public e2
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -2956,6 +3004,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z : public 
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -2990,6 +3040,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z : public e20
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3024,6 +3076,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr : public e200
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -3058,6 +3112,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr : public e200z4_
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -3092,6 +3148,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3126,6 +3184,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z : public e200z4_i
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3160,6 +3220,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr : public e200z4
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -3193,6 +3255,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr : public e200z4_in
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -3226,6 +3290,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr : public e
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -3259,6 +3325,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr : public e200
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -3292,6 +3360,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr : public e200z4
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -3325,6 +3395,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr : public e200z4_in
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -3358,6 +3430,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr : public e20
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3392,6 +3466,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr : public e200z4
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3426,6 +3502,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z : public e200
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3460,6 +3538,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z : public e200z4_
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3494,6 +3574,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr : publi
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3528,6 +3610,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatelr : public e
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3562,6 +3646,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatelr_z : public
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3596,6 +3682,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z : public e2
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3630,6 +3718,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr : public e20
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3664,6 +3754,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr : public e200z4
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3698,6 +3790,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z : public e200
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3732,6 +3826,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z : public e200z4_
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z() {};
 	virtual void execute(arch *);
@@ -3766,6 +3862,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3799,6 +3897,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr : public e200z4_i
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3832,6 +3932,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_updatelr : public 
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3865,6 +3967,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr : public e20
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3898,6 +4002,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3931,6 +4037,8 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr : public e200z4_i
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr() {};
 	virtual void execute(arch *);
@@ -3993,6 +4101,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_revStatPred_updatelr : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -4029,6 +4139,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_statPred_updatelr : public e200z4_i
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -4065,6 +4177,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_revStatPred_updatelr_z : public e200z4
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_revStatPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -4101,6 +4215,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_statPred_updatelr_z : public e200z4_in
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_statPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_statPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -4137,6 +4253,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred_updatelr : public 
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -4173,6 +4291,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_statPred_updatelr : public e20
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -4209,6 +4329,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_revStatPred_updatelr_z : public e
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_revStatPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -4245,6 +4367,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_statPred_updatelr_z : public e200
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_statPred_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_statPred_updatelr_z() {};
 	virtual void execute(arch *);
@@ -4281,6 +4405,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_revStatPred_t_updatelr : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_revStatPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -4317,6 +4443,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_statPred_t_updatelr : public e200z4_i
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_statPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_statPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -4353,6 +4481,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_rel_revStatPred_t_updatelr_z : public e200z4
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_rel_revStatPred_t_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_rel_revStatPred_t_updatelr_z() {};
 	virtual void execute(arch *);
@@ -4389,6 +4519,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_rel_statPred_t_updatelr_z : public e200z4_in
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_d_rel_statPred_t_updatelr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_rel_statPred_t_updatelr_z() {};
 	virtual void execute(arch *);
@@ -4425,6 +4557,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr : public e200z4_
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -4460,6 +4594,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr : public e200z4_ins
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -4495,6 +4631,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_revStatPred_updatelr : public e2
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_revStatPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_revStatPred_updatelr() {};
 	virtual void execute(arch *);
@@ -4530,6 +4668,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_statPred_updatelr : public e200z
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_statPred_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_statPred_updatelr() {};
 	virtual void execute(arch *);
@@ -4565,6 +4705,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_rel_revStatPred_t_updatelr : public e200z4_
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_nd_rel_revStatPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_nd_rel_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -4600,6 +4742,8 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_rel_statPred_t_updatelr : public e200z4_ins
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_SP_Check_bc_bd_bi_bo_nd_rel_statPred_t_updatelr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_nd_rel_statPred_t_updatelr() {};
 	virtual void execute(arch *);
@@ -4685,6 +4829,8 @@ class e200z4_abs_bc_bd_bi_bo_d_f_nz_revStatPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_f_nz_revStatPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_f_nz_revStatPred() {};
 	virtual void execute(arch *);
@@ -4719,6 +4865,8 @@ class e200z4_abs_bc_bd_bi_bo_d_f_nz_statPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_f_nz_statPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_f_nz_statPred() {};
 	virtual void execute(arch *);
@@ -4753,6 +4901,8 @@ class e200z4_abs_bc_bd_bi_bo_d_f_revStatPred_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_f_revStatPred_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_f_revStatPred_z() {};
 	virtual void execute(arch *);
@@ -4787,6 +4937,8 @@ class e200z4_abs_bc_bd_bi_bo_d_f_statPred_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_f_statPred_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_f_statPred_z() {};
 	virtual void execute(arch *);
@@ -4821,6 +4973,8 @@ class e200z4_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred : public e200z4_instruction
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred() {};
 	virtual void execute(arch *);
@@ -4855,6 +5009,8 @@ class e200z4_abs_bc_bd_bi_bo_d_noCond_nz_statPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_noCond_nz_statPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_noCond_nz_statPred() {};
 	virtual void execute(arch *);
@@ -4889,6 +5045,8 @@ class e200z4_abs_bc_bd_bi_bo_d_noCond_revStatPred_z : public e200z4_instruction 
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_noCond_revStatPred_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_noCond_revStatPred_z() {};
 	virtual void execute(arch *);
@@ -4923,6 +5081,8 @@ class e200z4_abs_bc_bd_bi_bo_d_noCond_statPred_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_noCond_statPred_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_noCond_statPred_z() {};
 	virtual void execute(arch *);
@@ -4957,6 +5117,8 @@ class e200z4_abs_bc_bd_bi_bo_d_nz_revStatPred_t : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_nz_revStatPred_t(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_nz_revStatPred_t() {};
 	virtual void execute(arch *);
@@ -4991,6 +5153,8 @@ class e200z4_abs_bc_bd_bi_bo_d_nz_statPred_t : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_nz_statPred_t(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_nz_statPred_t() {};
 	virtual void execute(arch *);
@@ -5025,6 +5189,8 @@ class e200z4_abs_bc_bd_bi_bo_d_revStatPred_t_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_revStatPred_t_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_revStatPred_t_z() {};
 	virtual void execute(arch *);
@@ -5059,6 +5225,8 @@ class e200z4_abs_bc_bd_bi_bo_d_statPred_t_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_d_statPred_t_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_statPred_t_z() {};
 	virtual void execute(arch *);
@@ -5093,6 +5261,8 @@ class e200z4_abs_bc_bd_bi_bo_f_nd_revStatPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_f_nd_revStatPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_f_nd_revStatPred() {};
 	virtual void execute(arch *);
@@ -5126,6 +5296,8 @@ class e200z4_abs_bc_bd_bi_bo_f_nd_statPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_f_nd_statPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_f_nd_statPred() {};
 	virtual void execute(arch *);
@@ -5159,6 +5331,8 @@ class e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred() {};
 	virtual void execute(arch *);
@@ -5192,6 +5366,8 @@ class e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred() {};
 	virtual void execute(arch *);
@@ -5225,6 +5401,8 @@ class e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t() {};
 	virtual void execute(arch *);
@@ -5258,6 +5436,8 @@ class e200z4_abs_bc_bd_bi_bo_nd_statPred_t : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bd_bi_bo_nd_statPred_t(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bd_bi_bo_nd_statPred_t() {};
 	virtual void execute(arch *);
@@ -5290,6 +5470,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred() {};
 	virtual void execute(arch *);
@@ -5322,6 +5504,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred() {};
 	virtual void execute(arch *);
@@ -5354,6 +5538,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z() {};
 	virtual void execute(arch *);
@@ -5386,6 +5572,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z() {};
 	virtual void execute(arch *);
@@ -5418,6 +5606,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred : public e200z4_instructio
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred() {};
 	virtual void execute(arch *);
@@ -5450,6 +5640,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred() {};
 	virtual void execute(arch *);
@@ -5482,6 +5674,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z : public e200z4_instruction
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z() {};
 	virtual void execute(arch *);
@@ -5514,6 +5708,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z() {};
 	virtual void execute(arch *);
@@ -5546,6 +5742,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t() {};
 	virtual void execute(arch *);
@@ -5578,6 +5776,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t() {};
 	virtual void execute(arch *);
@@ -5610,6 +5810,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z() {};
 	virtual void execute(arch *);
@@ -5642,6 +5844,8 @@ class e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z() {};
 	virtual void execute(arch *);
@@ -5674,6 +5878,8 @@ class e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred() {};
 	virtual void execute(arch *);
@@ -5705,6 +5911,8 @@ class e200z4_abs_bc_bi_bo_ctr_f_nd_statPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_f_nd_statPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_f_nd_statPred() {};
 	virtual void execute(arch *);
@@ -5736,6 +5944,8 @@ class e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred : public e200z4_instruction 
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred() {};
 	virtual void execute(arch *);
@@ -5767,6 +5977,8 @@ class e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred() {};
 	virtual void execute(arch *);
@@ -5798,6 +6010,8 @@ class e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t() {};
 	virtual void execute(arch *);
@@ -5829,6 +6043,8 @@ class e200z4_abs_bc_bi_bo_ctr_nd_statPred_t : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_ctr_nd_statPred_t(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_ctr_nd_statPred_t() {};
 	virtual void execute(arch *);
@@ -5860,6 +6076,8 @@ class e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr() {};
 	virtual void execute(arch *);
@@ -5892,6 +6110,8 @@ class e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr() {};
 	virtual void execute(arch *);
@@ -5924,6 +6144,8 @@ class e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z() {};
 	virtual void execute(arch *);
@@ -5956,6 +6178,8 @@ class e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z() {};
 	virtual void execute(arch *);
@@ -5988,6 +6212,8 @@ class e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr : public e200z4_instructi
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr() {};
 	virtual void execute(arch *);
@@ -6020,6 +6246,8 @@ class e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr : public e200z4_instruction 
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr() {};
 	virtual void execute(arch *);
@@ -6052,6 +6280,8 @@ class e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z : public e200z4_instructio
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z() {};
 	virtual void execute(arch *);
@@ -6084,6 +6314,8 @@ class e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z() {};
 	virtual void execute(arch *);
@@ -6116,6 +6348,8 @@ class e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr() {};
 	virtual void execute(arch *);
@@ -6148,6 +6382,8 @@ class e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr() {};
 	virtual void execute(arch *);
@@ -6180,6 +6416,8 @@ class e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z() {};
 	virtual void execute(arch *);
@@ -6212,6 +6450,8 @@ class e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z : public e200z4_instruction {
 	u64 m_DDCRegMaskWrite;
 
 	public:
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z(const u32 pc, const u32 chunk1);
 	virtual ~e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z() {};
 	virtual void execute(arch *);
@@ -6261,6 +6501,8 @@ class e200z4_abs_bc_bi_bo_f_nd_revStatPred_tolr : public e200z4_instruction {
 	virtual bool hasID_bc() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	virtual bool hasID_f() {return true;};
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_revStatPred() {return true;};
@@ -6292,6 +6534,8 @@ class e200z4_abs_bc_bi_bo_f_nd_statPred_tolr : public e200z4_instruction {
 	virtual bool hasID_bc() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	virtual bool hasID_f() {return true;};
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_statPred() {return true;};
@@ -6323,6 +6567,8 @@ class e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr : public e200z4_instruction
 	virtual bool hasID_bc() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_noCond() {return true;};
 	virtual bool hasID_revStatPred() {return true;};
@@ -6354,6 +6600,8 @@ class e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr : public e200z4_instruction {
 	virtual bool hasID_bc() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+	virtual u32 getBO() { return BO; };
+	virtual u32 getBI() { return BI; };
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_noCond() {return true;};
 	virtual bool hasID_statPred() {return true;};
@@ -6385,6 +6633,8 @@ class e200z4_abs_bc_bi_bo_nd_revStatPred_t_tolr : public e200z4_instruction {
 	virtual bool hasID_bc() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_revStatPred() {return true;};
 	virtual bool hasID_t() {return true;};
@@ -6416,6 +6666,8 @@ class e200z4_abs_bc_bi_bo_nd_statPred_t_tolr : public e200z4_instruction {
 	virtual bool hasID_bc() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_statPred() {return true;};
 	virtual bool hasID_t() {return true;};
@@ -7575,6 +7827,8 @@ class e200z4_bc_bd_bi_bo_d_f_nz_rel_revStatPred : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_f() {return true;};
 	virtual bool hasID_nz() {return true;};
@@ -7609,6 +7863,8 @@ class e200z4_bc_bd_bi_bo_d_f_nz_rel_statPred : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_f() {return true;};
 	virtual bool hasID_nz() {return true;};
@@ -7643,6 +7899,8 @@ class e200z4_bc_bd_bi_bo_d_f_rel_revStatPred_z : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_f() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -7677,6 +7935,8 @@ class e200z4_bc_bd_bi_bo_d_f_rel_statPred_z : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_f() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -7711,6 +7971,8 @@ class e200z4_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred : public e200z4_instruction
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_noCond() {return true;};
 	virtual bool hasID_nz() {return true;};
@@ -7745,6 +8007,8 @@ class e200z4_bc_bd_bi_bo_d_noCond_nz_rel_statPred : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_noCond() {return true;};
 	virtual bool hasID_nz() {return true;};
@@ -7779,6 +8043,8 @@ class e200z4_bc_bd_bi_bo_d_noCond_rel_revStatPred_z : public e200z4_instruction 
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_noCond() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -7813,6 +8079,8 @@ class e200z4_bc_bd_bi_bo_d_noCond_rel_statPred_z : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_noCond() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -7847,6 +8115,8 @@ class e200z4_bc_bd_bi_bo_d_nz_rel_revStatPred_t : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_nz() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -7881,6 +8151,8 @@ class e200z4_bc_bd_bi_bo_d_nz_rel_statPred_t : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_nz() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -7915,6 +8187,8 @@ class e200z4_bc_bd_bi_bo_d_rel_revStatPred_t_z : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_rel() {return true;};
 	virtual bool hasID_revStatPred() {return true;};
@@ -7949,6 +8223,8 @@ class e200z4_bc_bd_bi_bo_d_rel_statPred_t_z : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_d() {return true;};
 	virtual bool hasID_rel() {return true;};
 	virtual bool hasID_statPred() {return true;};
@@ -7983,6 +8259,8 @@ class e200z4_bc_bd_bi_bo_f_nd_rel_revStatPred : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_f() {return true;};
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -8016,6 +8294,8 @@ class e200z4_bc_bd_bi_bo_f_nd_rel_statPred : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_f() {return true;};
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -8049,6 +8329,8 @@ class e200z4_bc_bd_bi_bo_nd_noCond_rel_revStatPred : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_noCond() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -8082,6 +8364,8 @@ class e200z4_bc_bd_bi_bo_nd_noCond_rel_statPred : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_noCond() {return true;};
 	virtual bool hasID_rel() {return true;};
@@ -8115,6 +8399,8 @@ class e200z4_bc_bd_bi_bo_nd_rel_revStatPred_t : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_rel() {return true;};
 	virtual bool hasID_revStatPred() {return true;};
@@ -8148,6 +8434,8 @@ class e200z4_bc_bd_bi_bo_nd_rel_statPred_t : public e200z4_instruction {
 	virtual bool hasID_bd() {return true;};
 	virtual bool hasID_bi() {return true;};
 	virtual bool hasID_bo() {return true;};
+virtual u32 getBO() { return BO; };
+virtual u32 getBI() { return BI; };
 	virtual bool hasID_nd() {return true;};
 	virtual bool hasID_rel() {return true;};
 	virtual bool hasID_statPred() {return true;};

@@ -134,6 +134,8 @@ class e200z4_instruction {
 	 * WARNING: update the simulation context!
      */
     staticInfo *getStaticInfo(arch *_arch);
+    virtual u32 getBI() { return 0; };
+    virtual u32 getBO() { return 0; };
 
 	//***************************
 	// instruction Tags related methods
