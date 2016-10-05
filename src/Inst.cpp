@@ -34,10 +34,13 @@ Inst::Inst (const staticInfo &si)
   m_next    = NULL;
   
   m_branch  = si.is_branch;
+  m_test    = si.test;
   m_unknown = si.is_unknown;
   m_link    = si.do_link;
   m_uncond  = si.is_uncond;
   m_target  = si.target;
+  
+  m_memory  = si.do_memory;
 
   // Fix bad branch target in disassembly:
   if (m_branch &&

@@ -69,6 +69,8 @@ main (int argc, char *argv[])
    CDG::ToFile (path + "-cdg.dot" , cdg);
    PDG::ToFile (path + "-pdg.dot" , pdg);
 
+   CFG::ToUPPAAL (path + "-model.xml", cfg, slice);
+   
   return EXIT_SUCCESS;
 }
 

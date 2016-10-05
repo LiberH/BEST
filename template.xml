@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>
+////////////////////////
+////////////////////////
+
+/* Constants declarations: */
+
+// Number of words to store the register file
+const int N_REGWS  = 8; 
+
+const int F        = 0;
+const int D        = 1;
+const int E        = 2;
+const int M        = 3;
+const int W        = 4;
+const int N_STAGES = 5;
+
+/* Definitions: */
+
+typedef struct {
+ int  addr;
+ int  cycles;
+ bool do_branch;
+ bool do_memory;
+ int  read_regs[N_REGWS];
+ int  write_regs[N_REGWS];
+} inst_t;
+
+typedef struct {
+  int value;
+  int[-1, N_INSTS -1] index;
+} pc_t;
+
+/* Channels declarations: */
+
+broadcast chan initialize;
+
+   urgent chan fetch;
+   urgent chan decode;
+   urgent chan execute;
+   urgent chan memory;
+   urgent chan writeback;
+
+   urgent chan cache_read;
+   urgent chan mem_access;
+          chan read_cache;
+          chan accessed_mem;
+
+   urgent chan stop[N_STAGES];
+
+// Handle the ansynchronous copy to next pipeline stage:
+chan priority fetch &lt; decode &lt; execute &lt; memory &lt; writeback; 
+
+/* Variables declarations: */
+
+clock t;
+pc_t pc = {-1, -1};
+int[-1, N_INSTS -1] pipeline[N_STAGES] = {-1, -1, -1, -1, -1};
+
+
+/* Functions: */
+
+void to_stage(const int[-1, N_STAGES -1] stage) {
+  // Copy current instruction to next pipeline stage:
+
+  if (stage != -1) {
+    int[-1, N_STAGES -1] current_stage = stage - 1;
+    int[-1, N_INSTS  -1] current_inst  = pipeline[current_stage];
+
+    pipeline[stage]         = current_inst;
+    pipeline[current_stage] = -1;
+  } else {
+    // No next pipeline stage (clean writeback stage)
+    pipeline[W] = -1;
+  }
+}
+
+////////////////////////
+////////////////////////
+</declaration>
+	<template>
+		<name>Binary</name>
+		<declaration>////////////////////////
+////// SEMANTICS: //////
+////////////////////////
+
+void jmp(int addr) {
+  int[0, N_INSTS] i;
+  bool found = false;
+
+  pc.value = addr;
+  for (i = 0; i &lt; N_INSTS; ++i) {
+    if (!found &amp;&amp; insts[i].addr == pc.value) {
+      pc.index = i;
+      found = true;
+    }
+  }
+}
+
+void update() {
+  // update pipeline structure
+  inst_t inst;
+
+  pipeline[F] = pc.index;
+  inst = insts[pc.index];
+  if (!inst.do_branch) {
+    pc.index = pc.index +1;
+    pc.value = insts[pc.index].addr;
+  } else {
+    pc.index = -1;
+    pc.value = -1;
+  }
+}
+
+/* Compare instructions: */
+
+typedef struct {
+  int index; // in bit field
+  int value; // when set alone
+} bit_of_field_t;
+
+const bit_of_field_t SO = { 0, 1 }; // == 0b0001
+const bit_of_field_t EQ = { 1, 2 }; // == 0b0010
+const bit_of_field_t GT = { 2, 4 }; // == 0b0100
+const bit_of_field_t LT = { 3, 8 }; // == 0b1000
+
+bool _bit(int field, int n) { return (((field &gt;&gt; n) % 2) == 1); }
+void cmp  (int &amp;cr,int rA, int rB  ) { if (rA &lt; rB) { cr = LT.value; }
+                                  else if (rA &gt; rB) { cr = GT.value; }
+                                  else              { cr = EQ.value; } }
+void cmpw (int &amp;cr,int rA, int rB  ) { cmp(cr, rA, rB);                }
+void cmpi (int &amp;cr,int rA, int SIMM) { cmp(cr, rA, SIMM);              }
+
+bool  z  () { return ((ctr -1) == 0);    }
+bool eq  () { return _bit(cr, EQ.index); }
+bool gt  () { return _bit(cr, GT.index); }
+bool lt  () { return _bit(cr, LT.index); }
+bool nz  () { return !z();               }
+bool neq () { return !eq();              }
+bool le  () { return !gt();              }
+bool ge  () { return !lt();              }
+
+/* Arithmetic instructions: */
+
+void add   ( int &amp;rD, int rA, int rB   ) { rD = rA + rB;         }
+void addi  ( int &amp;rD, int rA, int SIMM ) { add  (rD, rA,  SIMM); }
+void sub   ( int &amp;rD, int rA, int rB   ) { add  (rD, rA, -rB  ); }
+void subi  ( int &amp;rD, int rA, int SIMM ) { addi (rD, rA, -SIMM); }
+void li    ( int &amp;rD,         int SIMM ) { addi (rD,  0,  SIMM); }
+void mtctr (          int rS           ) { ctr = rS;             } // Not really arithmetic.
+
+/* Branch instructions: */
+
+const int BO_not_ctr_not_cond =  0;
+const int BO_____ctr_not_cond =  2;
+const int BO_________not_cond =  4;
+const int BO_not_ctr_____cond =  8;
+const int BO_____ctr_____cond = 10;
+const int BO_____________cond = 12;
+const int BO_not_ctr_________ = 16;
+const int BO_____ctr_________ = 18;
+
+void bc(int BO, int BI, int target_addr) {
+  bool ctr_ok, cond_ok;
+  if (!_bit(BO, 2)) { ctr = ctr -1; }
+  ctr_ok  = _bit(BO, 2) || ((ctr != 0) ^ _bit(BO, 1)); // ^ is XOR
+  cond_ok = _bit(BO, 4) || (_bit(cr, BI) == _bit(BO, 3));
+  if (ctr_ok &amp;&amp; cond_ok) {
+    jmp(target_addr);
+  }
+}
+
+void be   (int target_addr) { bc(BO_____________cond, EQ.index, target_addr); }
+void bgt  (int target_addr) { bc(BO_____________cond, GT.index, target_addr); }
+void blt  (int target_addr) { bc(BO_____________cond, LT.index, target_addr); }
+void bz   (int target_addr) { bc(BO_____ctr_________, 0,        target_addr); }
+void bdz  (int target_addr) { bc(BO_____ctr_________, 0,        target_addr); }
+
+void bne  (int target_addr) { bc(BO_________not_cond, EQ.index, target_addr); }
+void bge  (int target_addr) { bc(BO_________not_cond, LT.index, target_addr); }
+void ble  (int target_addr) { bc(BO_________not_cond, GT.index, target_addr); }
+void bnz  (int target_addr) { bc(BO_not_ctr_________, 0,        target_addr); }
+void bdnz (int target_addr) { bc(BO_not_ctr_________, 0,        target_addr); }
+
+// TODO: generate from tool (currently hand written)
+void execute_3004() { li(r10, 3);        }
+void execute_300c() { li(r7, 28);        }
+void execute_3010() { mtctr(r7);         }
+void execute_3014() { cmpi(cr, r3, 1);   }
+void execute_3018() { bgt(12340);        }
+void execute_3024() { addi(r10, r10, 1); }
+void execute_302c() { bdz(12352);        }
+void execute_3034() { cmpw(cr, r3, r10); }
+void execute_3038() { bge(12320);        }
+void execute_3058() { li(r3, 30);        }
+</declaration>
+	</template>
+	<template>
+		<name x="5" y="5">Pipeline_Fetch</name>
+		<declaration>/* Functions: */
+
+bool stall() {
+  // check if there is a stall wrt. which are the types of the instructions in the pipeline
+
+  int[-1, N_INSTS -1] index;
+  inst_t inst;
+  bool do_stall = false;
+
+  // BRANCH delays the immediately next FETCH:
+  index = pipeline[D]; // index of the instruction at decode stage
+  if (index != -1) {
+    inst = insts[index];
+    if (inst.do_branch)
+      do_stall = true;
+  }
+
+  /* FETCH and MEMORY access can not be simultaneous:
+  index = pipeline[MEMORY_STAGE].inst_index; // index of the instruction at memory stage
+  if (index != -1) {
+    inst = insts[index];
+    if (inst.does_mem_access)
+      do_stall = true;
+  }//*/
+
+  return do_stall;
+}
+</declaration>
+		<location id="id0" x="-136" y="-17">
+		</location>
+		<location id="id1" x="-136" y="17">
+		</location>
+		<location id="id2" x="-51" y="17">
+		</location>
+		<location id="id3" x="170" y="0">
+		</location>
+		<location id="id4" x="306" y="0">
+		</location>
+		<location id="id5" x="170" y="-51">
+		</location>
+		<location id="id6" x="34" y="0">
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-119" y="-42">initialize?</label>
+			<nail x="17" y="-17"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-119" y="25">stop[D]!</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-34" y="25">stop[F]?</label>
+			<nail x="17" y="17"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="51" y="8">decode!</label>
+			<label kind="assignment" x="51" y="25">to_stage(D)</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="187" y="8">read_cache?</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="187" y="-76">cache_read!</label>
+			<nail x="306" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="guard" x="42" y="-110">!stall()</label>
+			<label kind="synchronisation" x="42" y="-93">fetch?</label>
+			<nail x="34" y="-51"/>
+		</transition>
+	</template>
+	<template>
+		<name>Pipeline_Decode</name>
+		<declaration>/* Variables declarations: */
+
+clock t;
+
+/* Functions: */
+
+bool stall() {
+  // check if there is a stall wrt. which are the types of the instructions in the pipeline
+
+  int[-1, N_INSTS -1] index;
+  inst_t inst;
+  bool do_stall = false;
+
+  // TODO: check for data dependencies with multi-cycle instructions
+
+  return do_stall;
+}
+</declaration>
+		<location id="id7" x="-170" y="-17">
+		</location>
+		<location id="id8" x="-170" y="17">
+		</location>
+		<location id="id9" x="-85" y="17">
+		</location>
+		<location id="id10" x="136" y="0">
+		</location>
+		<location id="id11" x="272" y="0">
+			<label kind="invariant" x="238" y="17">t &lt;= 1</label>
+		</location>
+		<location id="id12" x="0" y="0">
+		</location>
+		<init ref="id7"/>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-153" y="-42">initialize?</label>
+			<nail x="-17" y="-17"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-153" y="25">stop[E]!</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-68" y="25">stop[D]?</label>
+			<nail x="-17" y="17"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="17" y="8">execute!</label>
+			<label kind="assignment" x="17" y="25">to_stage(E)</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="guard" x="153" y="8">t == 1</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="guard" x="8" y="-110">!stall()</label>
+			<label kind="synchronisation" x="8" y="-93">decode?</label>
+			<label kind="assignment" x="8" y="-76">t = 0</label>
+			<nail x="0" y="-51"/>
+			<nail x="272" y="-51"/>
+		</transition>
+	</template>
+	<template>
+		<name>Pipeline_Execute</name>
+		<declaration>/* Variables declarations: */
+
+clock t;
+int[1,8] n; // Variable execution time latency (from 1 to 8 cycles)
+
+/* Functions: */
+
+bool stall() {
+  // check if there is a stall wrt. which are the types of the instructions in the pipeline
+
+  int[0, N_REGWS] i;
+  int[-1, N_INSTS -1] index;
+  int[-1, N_INSTS -1] current_index;
+  inst_t inst, current_inst;
+  bool do_stall = false;
+
+  // an EXECUTE after a LOAD is delayed in case of data dependencies:
+  index = pipeline[M]; // index of the instruction at memory stage
+  current_index = pipeline[D]; // index of the instruction at decode stage (soon to be copied to this stage instruction)
+  if (index != -1 &amp;&amp; current_index != -1) {
+    inst = insts[index];
+    current_inst = insts[current_index];
+    if (inst.do_memory)
+      for (i = 0; i &lt; N_REGWS; ++i) // for each words that store the whole register file
+        if (inst.write_regs[i] &amp; current_inst.read_regs[i])
+          do_stall = true;
+  }
+
+  return do_stall;
+}
+
+int cycles () {
+  // Number of cycles needed to execute the current instruction:
+
+  int[-1, N_INSTS -1] index = pipeline[E];
+  return insts[index].cycles;
+}
+</declaration>
+		<location id="id13" x="-136" y="51">
+		</location>
+		<location id="id14" x="-136" y="85">
+		</location>
+		<location id="id15" x="-51" y="85">
+		</location>
+		<location id="id16" x="170" y="68">
+		</location>
+		<location id="id17" x="34" y="68">
+		</location>
+		<location id="id18" x="306" y="68">
+			<label kind="invariant" x="272" y="85">t &lt;= n</label>
+		</location>
+		<init ref="id13"/>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-119" y="25">initialize?</label>
+			<nail x="17" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-119" y="93">stop[M]!</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-34" y="93">stop[E]?</label>
+			<nail x="17" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="51" y="76">memory!</label>
+			<label kind="assignment" x="51" y="93">to_stage(M)</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id16"/>
+			<label kind="guard" x="187" y="76">t == n</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id18"/>
+			<label kind="guard" x="42" y="-42">!stall()</label>
+			<label kind="synchronisation" x="42" y="-25">execute?</label>
+			<label kind="assignment" x="42" y="-8">t = 0, n = cycles()</label>
+			<nail x="34" y="17"/>
+			<nail x="306" y="17"/>
+		</transition>
+	</template>
+	<template>
+		<name>Pipeline_Memory</name>
+		<declaration>/* Variables declarations: */
+
+clock t;
+
+/* Functions: */
+
+bool do_mem() {
+  // return wether the current instruction is a load or a store
+
+  int[-1, N_INSTS -1] index;
+  inst_t inst;
+  bool do_memory = false;
+
+  index = pipeline[E]; // index of the instruction at execute stage (soon to be copied to this stage instruction)
+  if (index != -1) {
+    inst = insts[index];
+    do_memory = inst.do_memory;
+  }
+
+  return do_memory;
+} </declaration>
+		<location id="id19" x="-136" y="-51">
+		</location>
+		<location id="id20" x="-51" y="-17">
+		</location>
+		<location id="id21" x="-136" y="-17">
+		</location>
+		<location id="id22" x="306" y="-170">
+		</location>
+		<location id="id23" x="136" y="-170">
+		</location>
+		<location id="id24" x="306" y="-34">
+		</location>
+		<location id="id25" x="170" y="-85">
+			<label kind="invariant" x="136" y="-68">t &lt;= 1</label>
+		</location>
+		<location id="id26" x="34" y="-34">
+		</location>
+		<init ref="id19"/>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="-119" y="-76">initialize?</label>
+			<nail x="17" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-119" y="-8">stop[W]!</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-34" y="-8">stop[M]?</label>
+			<nail x="17" y="-17"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="187" y="-136">accessed_mem?</label>
+			<nail x="306" y="-153"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="153" y="-195">mem_access!</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id23"/>
+			<label kind="guard" x="42" y="-229">do_mem()</label>
+			<label kind="synchronisation" x="42" y="-212">memory?</label>
+			<label kind="assignment" x="42" y="-195">t = 0</label>
+			<nail x="34" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="51" y="-8">writeback!</label>
+			<label kind="assignment" x="51" y="8">to_stage(W)</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id24"/>
+			<label kind="guard" x="51" y="-25">t == 1</label>
+			<nail x="289" y="-85"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id25"/>
+			<label kind="guard" x="59" y="-144">!do_mem()</label>
+			<label kind="synchronisation" x="59" y="-127">memory?</label>
+			<label kind="assignment" x="59" y="-110">t = 0</label>
+			<nail x="51" y="-85"/>
+		</transition>
+	</template>
+	<template>
+		<name>Pipeline_Writeback</name>
+		<declaration>/* Variables declarations: */
+
+clock t;
+</declaration>
+		<location id="id27" x="-272" y="-85">
+		</location>
+		<location id="id28" x="-272" y="-51">
+			<urgent/>
+		</location>
+		<location id="id29" x="-102" y="-68">
+		</location>
+		<location id="id30" x="170" y="-68">
+			<label kind="invariant" x="136" y="-51">t &lt;= 1</label>
+		</location>
+		<init ref="id27"/>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="-255" y="-110">initialize?</label>
+			<nail x="-119" y="-85"/>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="-255" y="-42">stop[W]?</label>
+			<label kind="assignment" x="-255" y="-25">t = 0</label>
+			<nail x="-119" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id29"/>
+			<label kind="guard" x="-85" y="-59">t == 1</label>
+			<label kind="assignment" x="-85" y="-42">to_stage(-1)</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id30"/>
+			<label kind="guard" x="-93" y="-178">true</label>
+			<label kind="synchronisation" x="-93" y="-161">writeback?</label>
+			<label kind="assignment" x="-93" y="-144">t = 0</label>
+			<nail x="-102" y="-119"/>
+			<nail x="170" y="-119"/>
+		</transition>
+	</template>
+	<template>
+		<name>Cache</name>
+		<declaration>/* Constants declarations: */
+
+const int N_WAYS =  2; // Or N_WAYS = 4 and N_SETS = 32
+const int N_SETS = 64;
+
+const int latency = 1; // TODO: may not be "1"; taken form ARM models
+
+/* Definitions: */
+
+typedef struct {
+  int tag;
+  bool locked;
+  bool valid;
+} cache_line_t;
+
+/* Variables declarations: */
+
+clock t;
+bool hit;
+int[0, N_WAYS -1] replacement_policy_index = 0; // Max. value: N_WAYS -1
+cache_line_t cache[N_WAYS][N_SETS]; // TODO: Set a range
+
+int cache_default = 0; // for monitoring purpose
+
+/* Functions: */
+
+void setup() {
+  // initialize the instruction cache
+
+  int[0, N_WAYS] w;
+  int[0, N_SETS] s;
+  cache_line_t initial_cache_line;
+
+  initial_cache_line.tag    = -1;
+  initial_cache_line.locked = false;
+  initial_cache_line.valid  = false;
+
+  for (s = 0; s &lt; N_SETS ; ++s)
+    for (w = 0; w &lt; N_WAYS; ++w)
+      cache[w][s] = initial_cache_line;
+}
+
+bool lookup() {
+  // return wether the current instruction is in the instruction cache or not
+
+  int[0, N_WAYS] w;
+  int[0, N_INSTS -1] current_inst = pipeline[F];
+  int current_addr = insts[current_inst].addr;
+  int[0, N_SETS -1] current_set  = (current_addr / 32) % N_SETS;
+  int current_tag  = current_addr / (32 * N_SETS);
+
+  for (w = 0; w &lt; N_WAYS; ++w)
+    if (cache[w][current_set].valid)
+      if (cache[w][current_set].tag == current_tag)
+        return true;
+
+  return false;
+}
+
+void insert() {
+  // on a miss, insert the current instruction on the instruction cache
+  
+  int[0, N_WAYS] w;
+  int[0, N_INSTS -1] current_inst = pipeline[F];
+  int current_addr = insts[current_inst].addr;
+  int[0, N_SETS -1] current_set  = (current_addr / 32) % N_SETS;
+  int current_tag  = current_addr / (32 * N_SETS);
+  bool found = false;
+  cache_line_t cache_line;
+
+  cache_line.tag    = current_tag;
+  cache_line.locked = false;
+  cache_line.valid  = true;
+
+  w = 0;
+  while (!found &amp;&amp; w &lt; N_WAYS)
+    if (!cache[w][current_set].valid)
+      found = true;
+    else ++w; // conditional increment (thus not a for loop)
+
+  if (found) {
+    // free slot found
+    cache[w][current_set] = cache_line;
+
+  } else {
+    // no free slot found (pseudo round-robin replacement policy)
+    cache[replacement_policy_index][current_set] = cache_line;
+    replacement_policy_index = (replacement_policy_index +1) % N_WAYS;
+  }
+}
+</declaration>
+		<location id="id31" x="-170" y="-17">
+		</location>
+		<location id="id32" x="272" y="-136">
+		</location>
+		<location id="id33" x="272" y="0">
+			<label kind="invariant" x="195" y="17">t &lt;= latency</label>
+		</location>
+		<location id="id34" x="0" y="-51">
+			<urgent/>
+		</location>
+		<location id="id35" x="0" y="0">
+		</location>
+		<init ref="id31"/>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id35"/>
+			<label kind="synchronisation" x="-153" y="-59">initialize?</label>
+			<label kind="assignment" x="-153" y="-42">setup()</label>
+			<nail x="-17" y="-17"/>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id33"/>
+			<label kind="synchronisation" x="153" y="-102">accessed_mem?</label>
+			<label kind="assignment" x="153" y="-119">t = 0</label>
+			<nail x="272" y="-119"/>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id35"/>
+			<label kind="guard" x="17" y="8">t == latency</label>
+			<label kind="synchronisation" x="17" y="25">read_cache!</label>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id32"/>
+			<label kind="guard" x="8" y="-195">!hit</label>
+			<label kind="synchronisation" x="8" y="-178">mem_access!</label>
+			<label kind="assignment" x="8" y="-161">insert(), cache_default++</label>
+			<nail x="0" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id33"/>
+			<label kind="guard" x="17" y="-93">hit</label>
+			<label kind="assignment" x="17" y="-76">t = 0</label>
+			<nail x="255" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id34"/>
+			<label kind="synchronisation" x="17" y="-42">cache_read?</label>
+			<label kind="assignment" x="17" y="-25">hit = lookup()</label>
+		</transition>
+	</template>
+	<template>
+		<name>Main_Memory</name>
+		<declaration>/* Constants declarations: */
+
+const int latency = 34; // TODO: may not be "34"; taken form ARM models
+
+/* Variables declarations: */
+
+clock t;
+int memory_access = 0; // for monitoring purpose</declaration>
+		<location id="id36" x="-170" y="-17">
+		</location>
+		<location id="id37" x="272" y="0">
+			<label kind="invariant" x="195" y="17">t &lt;= latency</label>
+		</location>
+		<location id="id38" x="0" y="0">
+		</location>
+		<init ref="id36"/>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id38"/>
+			<label kind="synchronisation" x="-153" y="-42">initialize?</label>
+			<nail x="-17" y="-17"/>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id38"/>
+			<label kind="guard" x="17" y="8">t == latency</label>
+			<label kind="synchronisation" x="17" y="25">accessed_mem!</label>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id37"/>
+			<label kind="guard" x="0" y="-110">true</label>
+			<label kind="synchronisation" x="0" y="-93">mem_access?</label>
+			<label kind="assignment" x="0" y="-76">t = 0, memory_access++</label>
+			<nail x="0" y="-51"/>
+			<nail x="272" y="-51"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+binary = Binary();
+pipeline_fetch = Pipeline_Fetch();
+pipeline_decode = Pipeline_Decode();
+pipeline_execute = Pipeline_Execute();
+pipeline_memory = Pipeline_Memory();
+pipeline_writeback = Pipeline_Writeback();
+cache = Cache();
+main_memory = Main_Memory();
+
+// List one or more processes to be composed into a system.
+system pipeline_writeback &lt; pipeline_memory &lt; pipeline_execute &lt; pipeline_decode &lt; pipeline_fetch &lt; cache &lt; main_memory &lt; binary;
+</system>
+	<queries>
+	</queries>
+</nta>

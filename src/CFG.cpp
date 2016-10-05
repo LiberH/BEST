@@ -4,6 +4,7 @@
 #include "Inst.hpp"
 #include "BB.hpp"
 #include "DFS.hpp"
+#include "tinyxml2.h"
 
 #include <cstdio>
 #include <graphviz/cgraph.h>
@@ -16,6 +17,7 @@
 
 using namespace std;
 using namespace lemon;
+using namespace tinyxml2;
 
 /* PUBLIC: */
 
@@ -213,13 +215,14 @@ string reg_names[] = {
   "r24" , "r25" , "r26" , "r27" , "r28" , "r29" , "r30" , "r31" };
 
 struct pos {int x; int y;};
+
 // static
 void
 CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
 {
   ListDigraph::NodeMap<struct pos> pz (*cfg -> m_graph);
   {
-    FILE *f = fopen ("test/fibcall-O2-cfg-extra.dot", "r");
+    FILE *f = fopen ("bench/bin-gcc/fibcall-O1.elf-cfg-extra.dot", "r");
     Agraph_t* g = agread (f, NULL);
 
     Agnode_t *n = agfstnode(g);
@@ -244,33 +247,181 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
     agclose (g);
     fclose (f);
   }
-  //////////////
-  ofstream f;
-  f.open (C(fn));
-  f << "<?xml version=\"1.0\" encoding=\"utf-8\"?>" << endl;
-  f << "<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' "
-    << "'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>" << endl;
-  f << "<nta>" << endl;
-  f << "<declaration>";
 
+  //////////////
+
+  ostringstream oss;
+  XMLDocument *doc = new XMLDocument ();
+  doc -> LoadFile ("template.xml");
+
+  // <nta> 
+  XMLElement *nta = doc -> FirstChildElement ("nta");
+
+  // <declaration>
+  XMLElement *nta_decl = nta -> FirstChildElement ("declaration");
+  const char *nta_decl_txt = nta_decl -> GetText ();
+
+  oss.str ("");
+  vector<Inst *> *insts = cfg -> insts ();
   u64 refs = 0;
   vector<Inst *>::iterator inst_it = slice -> begin ();  
   for (; inst_it != slice -> end (); ++inst_it)
     {
       Inst *inst = *inst_it;
-      refs |= inst -> m_refs;
+	refs |= inst -> m_refs;
     }
-  
+
+  oss << "int";
   bitset<64> bs (refs);
   for (int b = 0; b < 64; ++b)
-    if (bs[b])
-      f << "int " << reg_names[b] << " = 0;" << endl;
-  
-  f << "</declaration>" << endl;
-  f << "<template>" << endl;
-  f << "<name>Template</name>" << endl;
-  f << "<declaration></declaration>" << endl;
+    if (b != 7 && bs[b])
+      oss << " " << reg_names[b] << ",";
+  oss.seekp (-1, oss.cur);
+  oss << ";" << endl;
 
+  int n_insts = insts -> size ();
+  oss << "const int N_INSTS = " << n_insts << ";" << endl;
+  oss << nta_decl_txt << endl;
+  oss << "const inst_t insts[N_INSTS] = {";
+  
+  ListDigraph::NodeIt o (*cfg -> m_graph);
+  for (; o != INVALID; ++o)
+    {
+      BB *bb = (*cfg -> m_bbs)[o];
+      string label, spaces;
+      ostringstream o;
+      o.str ("");
+      o << bb -> m_label;
+      label = o.str ();
+      spaces = string (23 - label.length (), ' ');
+
+      oss << endl;
+      oss << endl << "  /* " << label << spaces << " */";
+       
+      vector<Inst *> *insts = bb -> m_insts;
+      vector<Inst *>::iterator inst_it = insts -> begin ();
+      for (; inst_it != insts -> end (); ++inst_it)
+	{
+	  Inst *inst = *inst_it;
+	  string disass, spaces;
+	  ostringstream o;
+	  o.str ("");
+	  o << hex << inst -> m_addr << ": " << inst -> m_disass;
+	  disass = o.str ();
+	  spaces = string (22 - disass.length (), ' ');
+	  
+	  oss << endl;
+	  oss << "  /*  " << disass << spaces << " */ { ";
+	  oss << dec << inst -> m_addr                    << ", ";
+	  oss << 1                                        << ", "; // latency;
+	  oss << (inst -> m_branch ? "true, " : "false,") << " ";
+	  oss << (inst -> m_memory ? "true, " : "false,") << " "; // does_mem_access
+	  oss << "{ ";
+
+	  {
+	    int i = 64;
+	    ostringstream o;
+	    string byte, spaces;
+	    bool first = true;
+	    do
+	      {
+		i -= 8;
+		
+		o.str ("");
+		o << ((inst -> m_refs >> i) & 0xff);
+		byte = o.str ();
+		
+		spaces = string (3 - byte.length (), ' ');
+		oss << (first ? "" : ", ") << spaces << byte;
+		first = false;
+	      }
+	    while (i);
+	  }
+	  
+	  oss << " }, { ";
+
+	  {
+	    int i = 64;
+	    ostringstream o;
+	    string byte, spaces;
+	    bool first = true;
+	    do
+	      {
+		i -= 8;
+		
+		o.str ("");
+		o << ((inst -> m_defs >> i) & 0xff);
+		byte = o.str ();
+		
+		spaces = string (3 - byte.length (), ' ');
+		oss << (first ? "" : ", ") << spaces << byte;
+		first = false;
+	      }
+	    while (i);
+	  }
+	  
+	  oss << " } },";
+	}
+    }
+
+  oss.seekp (-1, oss.cur);
+  oss << endl << "};" << endl;
+  oss << endl;
+
+  /*
+  oss << "/ * Functions: * /" << endl;
+  oss << endl;
+  oss << "int dumb;" << endl;
+  inst_it = slice -> begin ();
+  for (; inst_it != slice -> end (); ++inst_it)
+    {
+      Inst *inst = *inst_it;
+      if (inst -> m_branch) continue;
+      
+      oss << "void execute_" << hex << inst -> m_addr << "() {" << endl;
+      oss << "  // TODO" << endl;
+      oss << "  dumb = 0;" << endl;
+      oss << "}" << endl;
+      oss << endl;
+    }
+  oss.seekp (-1, oss.cur);
+  */
+  nta_decl -> SetText (C(oss.str ()));
+  // </declaration>
+  
+  //////
+
+  // <tempalte>
+  XMLElement *tmplt = nta -> FirstChildElement ("template");
+  //XMLElement *tmplt = doc -> NewElement ("template");
+  //XMLElement *tmplt_name = doc -> NewElement ("name");  
+  //tmplt_name -> SetText ("Binary");
+  //tmplt -> InsertEndChild (tmplt_name);
+  
+  //XMLElement *tmplt_decl = doc -> NewElement ("declaration");
+  //tmplt -> InsertEndChild (tmplt_decl);
+
+  // <location id="idinit">
+  Inst *entry = (*cfg -> m_bbs)[cfg -> m_entry] -> m_insts -> front ();
+  ListDigraph::Node entry_n = (*cfg -> m_nodes)[entry -> m_addr];
+  XMLElement *tmplt_loc_init = doc -> NewElement ("location");	  
+  XMLElement *tmplt_urg = doc -> NewElement ("urgent");	  
+  tmplt_loc_init -> SetAttribute ("id", "idinit");
+  tmplt_loc_init -> SetAttribute ("x", pz[entry_n].x);
+  tmplt_loc_init -> SetAttribute ("y", -pz[entry_n].y);
+  tmplt_loc_init -> InsertEndChild (tmplt_urg);
+  tmplt -> InsertEndChild (tmplt_loc_init);
+
+  // <location id="idexit">
+  Inst *exit = (*cfg -> m_bbs)[cfg -> m_exit] -> m_insts -> back ();
+  ListDigraph::Node exit_n = (*cfg -> m_nodes)[exit -> m_addr];
+  XMLElement *tmplt_loc_exit = doc -> NewElement ("location");	  
+  tmplt_loc_exit -> SetAttribute ("id", "idexit");
+  tmplt_loc_exit -> SetAttribute ("x", pz[exit_n].x);
+  tmplt_loc_exit -> SetAttribute ("y", -pz[exit_n].y);
+  tmplt -> InsertEndChild (tmplt_loc_exit);
+
+  // <location id="id...">
   ListDigraph::NodeIt n (*cfg -> m_graph);
   for (; n != INVALID; ++n)
     {
@@ -280,21 +431,80 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
       for (; inst_it != insts -> end (); ++inst_it)
 	{
 	  Inst *inst = *inst_it;
+	  
+	  XMLElement *tmplt_loc = doc -> NewElement ("location");	  
+	  oss.str ("");
+	  oss << "id" << hex << inst -> m_addr;
+	  tmplt_loc -> SetAttribute ("id", C(oss.str ()));
+	  tmplt_loc -> SetAttribute ("x", pz[n].x);
+	  tmplt_loc -> SetAttribute ("y", -pz[n].y);
+	  tmplt -> InsertEndChild (tmplt_loc);
 
-	  f << "<location id=\"id" << hex << inst -> m_addr << "\""
-	    << dec << " x=\"" << pz[n].x << "\" y=\"" << -pz[n].y << "\">" << endl;
-	  f << "<name>_" << hex << inst -> m_addr << "</name>" << endl;
-	  f << "<label kind=\"comments\">";
-	  if (inst -> m_addr == bb -> m_entry)
-	    f << bb -> m_label << endl;
-	  f << inst -> m_disass << "</label>" << endl;
-	  f << "</location>" << endl;
+	  if (inst == bb -> m_insts -> front ())
+	    {
+	      XMLElement *tmplt_loc_name = doc -> NewElement ("name");
+	      oss.str ("");
+	      oss << bb -> m_label;
+	      //oss << "_" << hex << inst -> m_addr;
+	      tmplt_loc_name -> SetText (C(oss.str ()));
+	      tmplt_loc -> InsertEndChild (tmplt_loc_name);
+	    }
 	}
     }
-      
-  Inst *entry = (*cfg -> m_bbs)[cfg -> m_entry] -> m_insts -> front ();
-  f << "<init ref=\"id" << hex << entry -> m_addr << "\" />" << endl;
 
+  // <init ref="idinit">
+  XMLElement *tmplt_init = doc -> NewElement ("init");	  
+  tmplt_init -> SetAttribute ("ref", "idinit");
+  tmplt -> InsertEndChild (tmplt_init);
+
+
+  // First transition:
+  XMLElement *tmplt_ftr = doc -> NewElement ("transition");
+  XMLElement *tmplt_ftr_src = doc -> NewElement ("source");
+  tmplt_ftr_src -> SetAttribute ("ref", "idinit");
+  tmplt_ftr -> InsertEndChild (tmplt_ftr_src);
+  
+  XMLElement *tmplt_ftr_trg = doc -> NewElement ("target");
+  oss.str ("");
+  oss << "id" << hex << entry -> m_addr;
+  tmplt_ftr_trg -> SetAttribute ("ref", C(oss.str ()));
+  tmplt_ftr -> InsertEndChild (tmplt_ftr_trg);
+  
+  XMLElement *tmplt_ftr_label0 = doc -> NewElement ("label");
+  tmplt_ftr_label0 -> SetAttribute ("kind", "synchronisation");
+  tmplt_ftr_label0 -> SetText ("initialize!");
+  tmplt_ftr -> InsertEndChild (tmplt_ftr_label0);
+
+  XMLElement *tmplt_ftr_label1 = doc -> NewElement ("label");
+  oss.str ("");
+  oss << "t = 0,\n";
+  oss << "jmp(" << dec << entry -> m_addr << ")\n";
+  tmplt_ftr_label1 -> SetAttribute ("kind", "assignment");
+  tmplt_ftr_label1 -> SetText (C(oss.str ()));
+  tmplt_ftr -> InsertEndChild (tmplt_ftr_label1);
+
+  tmplt -> InsertEndChild (tmplt_ftr);
+
+  // Last transition:
+  XMLElement *tmplt_ltr = doc -> NewElement ("transition");
+  XMLElement *tmplt_ltr_src = doc -> NewElement ("source");
+  oss.str ("");
+  oss << "id" << hex << exit -> m_addr;
+  tmplt_ltr_src -> SetAttribute ("ref", C(oss.str ()));
+  tmplt_ltr -> InsertEndChild (tmplt_ltr_src);
+  
+  XMLElement *tmplt_ltr_trg = doc -> NewElement ("target");
+  tmplt_ltr_trg -> SetAttribute ("ref", "idexit");
+  tmplt_ltr -> InsertEndChild (tmplt_ltr_trg);
+  
+  XMLElement *tmplt_ltr_label0 = doc -> NewElement ("label");
+  tmplt_ltr_label0 -> SetAttribute ("kind", "synchronisation");
+  tmplt_ltr_label0 -> SetText ("stop[F]!");
+  tmplt_ltr -> InsertEndChild (tmplt_ltr_label0);
+    
+  tmplt -> InsertEndChild (tmplt_ltr);
+
+  // Other transitions:
   ListDigraph::NodeIt m (*cfg -> m_graph);
   for (; m != INVALID; ++m)
     {
@@ -304,23 +514,45 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
       for (; inst_it != bb -> m_insts -> end (); ++inst_it)
 	{
 	  Inst *inst = *inst_it;
-
+	  
 	  if (prev)
 	    {
-	      f << "<transition>" << endl;
-	      f << "<source ref=\"id" << hex << prev -> m_addr << "\"/>" << endl;
-	      f << "<target ref=\"id" << hex << inst -> m_addr << "\"/>" << endl;
+	      XMLElement *tmplt_tr = doc -> NewElement ("transition");
+	      XMLElement *tmplt_tr_src = doc -> NewElement ("source");
+	      oss.str ("");
+	      oss << "id" << hex << prev -> m_addr;
+	      tmplt_tr_src -> SetAttribute ("ref", C(oss.str ()));
+	      tmplt_tr -> InsertEndChild (tmplt_tr_src);
 	      
-	      if (find (slice -> begin (), slice -> end (), inst ) != slice -> end ())
+	      XMLElement *tmplt_tr_trg = doc -> NewElement ("target");
+	      oss.str ("");
+	      oss << "id" << hex << inst -> m_addr;
+	      tmplt_tr_trg -> SetAttribute ("ref", C(oss.str ()));
+	      tmplt_tr -> InsertEndChild (tmplt_tr_trg);
+	      
+	      XMLElement *tmplt_tr_label0 = doc -> NewElement ("label");
+	      tmplt_tr_label0 -> SetAttribute ("kind", "synchronisation");
+	      tmplt_tr_label0 -> SetText ("fetch!");
+	      tmplt_tr -> InsertEndChild (tmplt_tr_label0);
+	      
+	      XMLElement *tmplt_tr_label1 = doc -> NewElement ("label");
+	      tmplt_tr_label1 -> SetAttribute ("kind", "assignment");
+	      if (find (slice -> begin (), slice -> end (), prev ) != slice -> end ())
 		{
-		  bitset<64> defs (inst -> m_defs);
-		  for (int b = 0; b < 64; ++b)
-		    if (b != 7 && defs[b])
-		      f << "<label kind=\"assignment\">"
-			<<  reg_names[b] << " = 42" << "</label>" << endl;
+		  oss.str ("");
+		  oss << "update(),\n";
+		  oss << "execute_" << hex << prev -> m_addr << "()";
+		  tmplt_tr_label1 -> SetText (C(oss.str ()));
 		}
-
-	      f << "</transition>" << endl;
+	      else
+		{
+		  oss.str ("");
+		  oss << "update()";
+		  tmplt_tr_label1 -> SetText (C(oss.str ()));
+		}
+	      
+	      tmplt_tr -> InsertEndChild (tmplt_tr_label1);
+	      tmplt -> InsertEndChild (tmplt_tr);
 	    }
 	  
 	  prev = inst;
@@ -333,20 +565,87 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
 	{
 	  BB *succ = *succ_it;
 	  Inst *inst = succ -> m_insts -> front ();
-	  f << "<transition>" << endl;
-	  f << "<source ref=\"id" << hex << last -> m_addr << "\"/>" << endl;
-	  f << "<target ref=\"id" << hex << inst -> m_addr << "\"/>" << endl;
-	  f << "</transition>" << endl;	  
+
+	  // remove last self loop
+	  if (last -> m_next == NULL)
+	    continue;
+	  
+	  XMLElement *tmplt_tr = doc -> NewElement ("transition");
+	  XMLElement *tmplt_tr_src = doc -> NewElement ("source");
+	  oss.str ("");
+	  oss << "id" << hex << last -> m_addr;
+	  tmplt_tr_src -> SetAttribute ("ref", C(oss.str ()));
+	  tmplt_tr -> InsertEndChild (tmplt_tr_src);
+	  
+	  XMLElement *tmplt_tr_trg = doc -> NewElement ("target");
+	  oss.str ("");
+	  oss << "id" << hex << inst -> m_addr;
+	  tmplt_tr_trg -> SetAttribute ("ref", C(oss.str ()));
+	  tmplt_tr -> InsertEndChild (tmplt_tr_trg);
+
+	  XMLElement *tmplt_tr_label_ = doc -> NewElement ("label");
+	  tmplt_tr_label_ -> SetAttribute ("kind", "guard");
+	  if (last -> m_branch
+	  &&  last -> m_test   != 0)
+	    {
+	      oss.str ("");
+	      switch (last -> m_test)
+		{
+		case  1: oss <<  "lt()"; break;
+		case  2: oss <<  "gt()"; break;
+		case  3: oss <<  "eq()"; break;
+		case  4: oss <<  "so()"; break;
+		  
+		case  5: oss <<  "ge()"; break;
+		case  6: oss <<  "le()"; break;
+		case  7: oss <<  "ne()"; break;
+		case  8: oss <<  "--()"; break;
+		  
+		case  9: oss <<   "z()"; break;
+		case 10: oss <<  "nz()"; break;
+		default: oss << "false"; break;
+		}		  
+	      
+	      if (inst -> m_addr != last -> m_addr +4)
+		tmplt_tr_label_ -> SetText (C(oss.str ()));
+	      else
+		tmplt_tr_label_ -> SetText (C("!"+oss.str ()));
+	    }
+	  
+	  tmplt_tr -> InsertEndChild (tmplt_tr_label_);
+	  
+	  XMLElement *tmplt_tr_label0 = doc -> NewElement ("label");
+	  tmplt_tr_label0 -> SetAttribute ("kind", "synchronisation");
+	  tmplt_tr_label0 -> SetText ("fetch!");
+	  tmplt_tr -> InsertEndChild (tmplt_tr_label0);
+
+	  XMLElement *tmplt_tr_label1 = doc -> NewElement ("label");
+	  tmplt_tr_label1 -> SetAttribute ("kind", "assignment");
+	  if (find (slice -> begin (), slice -> end (), last) != slice -> end ())
+	    {
+	      oss.str ("");
+	      oss << "update(),\n";
+	      oss << "execute_" << hex << last -> m_addr << "(),\n";
+	      oss << "jmp(" << dec << inst -> m_addr << ")" << endl;
+	      tmplt_tr_label1 -> SetText (C(oss.str ()));
+	    }
+	  else
+	    {
+	      oss.str ("");
+	      oss << "update(),\n";
+	      oss << "jmp(" << dec << inst -> m_addr << ")" << endl;
+	      tmplt_tr_label1 -> SetText (C(oss.str ()));
+	    }
+	  
+	  tmplt_tr -> InsertEndChild (tmplt_tr_label1);
+	  tmplt -> InsertEndChild (tmplt_tr);	  
 	}
     }
-  
-  f << "</template>" << endl;
-  f << "<system>// ... \n\
-Process = Template(); \n\
-system Process;" << endl;
-  f << "</system>" << endl;
-  f << "</nta>" << endl;
-  f.close ();
+  nta -> InsertFirstChild (tmplt);
+  nta -> InsertFirstChild (nta_decl);
+  // </template>
+	  
+  doc -> SaveFile (C(fn));
 }
 
 /* PRIVATE: */

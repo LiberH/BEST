@@ -1,6 +1,7 @@
 CC       = g++
-CPPFLAGS = -I./inc -I$(BEST_MODULE_PATH) -Wall -Werror -O3 #-ggdb
-LDFLAGS  = -lemon -L$(BEST_MODULE_PATH)/lib -lppcmod -lelf
+CPPFLAGS = -I./inc -I$(BEST_MODULE_PATH) -Wall -Werror -O3 -ggdb
+LDFLAGS  = -lemon -L$(BEST_MODULE_PATH)/lib -lppcmod -lelf -L./lib -ltinyxml2
+
 
 SRC = src
 OBJ = obj

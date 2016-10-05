@@ -34,10 +34,13 @@ protected:
          Inst   *m_next;
   
          bool    m_branch;
+         u32     m_test;
          bool    m_unknown;
          bool    m_link;
          bool    m_uncond;
          u32     m_target;
+
+         bool    m_memory;
   
 private:
   static int m_id;
