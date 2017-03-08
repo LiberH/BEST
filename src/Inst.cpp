@@ -22,7 +22,8 @@ Inst::Inst (const staticInfo &si)
   ostringstream ss_name, ss_label;
   ss_name  << "i" << id;
   ss_label << hex << si.pc << ": " << si.mnemo;
-  
+
+  m_num     = id;
   m_name    = ss_name.str ();
   m_label   = ss_label.str ();
   
@@ -64,6 +65,7 @@ Inst::Inst (const staticInfo &si)
 
 Inst::Inst (const Inst &inst)
 {
+  m_num     = inst.m_num;
   m_name    = inst.m_name;
   m_label   = inst.m_label;
   

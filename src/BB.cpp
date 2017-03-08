@@ -170,14 +170,14 @@ BB::Leaders (vector<Inst *> &insts)
   return leaders;
 }
 
-/* PRIVATE */
-
-// static
-int BB::m_id = 0;
-
 // static
 bool
 BB::byAddr (const BB *bb, const BB *cc)
 {
   return bb -> m_entry < cc -> m_entry;
 }
+
+/* PRIVATE */
+
+// static
+int BB::m_id = 0;

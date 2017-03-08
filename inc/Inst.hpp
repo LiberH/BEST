@@ -23,6 +23,7 @@ public:
   static      int             CountRegs (std::vector<Inst *> *);
   
 protected:
+         int     m_num;
     std::string  m_name;
     std::string  m_label;
   
