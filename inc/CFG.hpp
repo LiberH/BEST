@@ -27,7 +27,7 @@ public:
   static CFG  *Reverse  (const CFG *);
   static CFG  *FromFile (std::string);
   static void  ToFile   (std::string, CFG *);
-  static void  ToUPPAAL (std::string, CFG *, std::vector<Inst *> *);
+  static void  ToUPPAAL (std::string, std::string, CFG *, std::vector<Inst *> *);
   
 protected:
     std::             string                             m_name;

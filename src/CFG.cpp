@@ -234,7 +234,7 @@ newElementWrapper (XMLDocument *doc,
 }
 
 static
-string reg_names[] = {
+string reg_names[62] = {
   "cr"      , "ctr"   , "l1csr0" , "l1csr1" , "l1finv1" , "lr"   , "msr"  , "pc"   ,
   "serial0" , "srr0"  , "srr1"   , "xer"    , "hit"     , "miss" , "fpr0" , "fpr1" ,
   "fpr2"    , "fpr3"  , "fpr4"   , "fpr5"   , "fpr6"    , "fpr7" , "fpr8" , "fpr9" ,
@@ -249,13 +249,16 @@ struct pos {int x; int y;};
 
 // static
 void
-CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
+CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 {
   ListDigraph::NodeMap<struct pos> pz (*cfg -> m_graph);
   {
-    FILE *f = fopen ("bench/bin-gcc/fibcall-O1.elf-cfg-extra.dot", "r");
+    string pos_fn;
+    pos_fn = fn.substr (0, fn.find_last_of ("-")) + ".dot";
+
+    FILE *f = fopen (C(pos_fn), "r");
     if (f == NULL) {
-      cerr << "CFG::ToUPPAAL: bench/bin-gcc/fibcall-O1.elf-cfg-extra.dot not found." << endl;
+      cerr << "CFG::ToUPPAAL: " << pos_fn << " not found." << endl;
       return;
     }
     
@@ -287,7 +290,7 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
 
   ostringstream oss;
   XMLDocument *doc = new XMLDocument ();
-  doc -> LoadFile ("template.xml");
+  doc -> LoadFile (C(template_fn));
 
   // <nta> 
   XMLElement *nta = doc -> FirstChildElement ("nta");
@@ -307,17 +310,17 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
     }
 
   oss << "int";
-  bitset<64> bs (refs);
-  for (int b = 0; b < 64; ++b)
+  bitset<64> bs (refs | 0x03);
+  for (int b = 0; b < 62; ++b)
     if (b != 7 && bs[b])
       oss << " " << reg_names[b] << ",";
   oss.seekp (-1, oss.cur);
   oss << ";" << endl;
   oss << endl;
 
-  int n_insts = insts -> size () +32;
+  int n_insts = insts -> size ();
   oss << "const int _REGS_MAX = 8;" << endl;
-  oss << "const int _INST_MAX = " << n_insts << ";" << endl;
+  oss << "const int _INST_MAX = " << n_insts +32 << ";" << endl;
   oss << "typedef struct {"               << endl;
   oss << "  int  addr;"                  << endl;
   oss << "  int  cycles;"                << endl;
@@ -368,14 +371,20 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
 	  o.str ("");
 	  o << hex << inst -> m_addr << ": " << inst -> m_disass;
 	  disass = o.str ();
-	  spaces = string (22 - disass.length (), ' ');
+	  spaces = string (30 - disass.length (), ' ');
 	  
 	  oss << endl;
 	  oss << "  /*  " << disass << spaces << " - " << dec << inst -> m_num << " */ { ";
 	  oss << dec << inst -> m_addr                    << ", ";
 	  oss << 1                                        << ", "; // latency;
 	  oss << (inst -> m_branch ? "true, " : "false,") << " ";
-	  if (inst -> m_branch) oss << dec << target_num;
+	  if (inst -> m_branch)
+	    {
+	      o.str ("");
+	      o << dec << target_num;
+	      spaces = string (9 - o.str ().length (), ' ');
+	      oss << spaces << dec << target_num;
+	    }
 	  else oss << "_INST_MAX";
 	  oss << ", ";
 	  oss << (inst -> m_memory ? "true, " : "false,") << " "; // does_mem_access
@@ -428,10 +437,10 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
     }
 
   oss << endl;
-  oss << endl << "  /* Nops: */";
+  oss << endl << "  /* Nops */";
   for (int i = 0; i < 32; ++i)
     {
-      oss << endl << "  /*  xxxx: ---              - " << dec << (i +32) << " */";
+      oss << endl << "  /*  xxxx: ---                      - " << dec << n_insts +i << " */";
       oss << " { " << dec << (last_addr + (i +1)*4) << ", 1, false, _INST_MAX, false,";
       oss << " {   0,   0,   0,   0,   0,   0,   0,   0 },";
       oss << " {   0,   0,   0,   0,   0,   0,   0,   0 } },";
@@ -441,7 +450,30 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
   oss << endl << "};" << endl;
   oss << endl;
   oss << nta_decl_txt << endl;
-  oss << endl;
+
+  oss << "int junk;" << endl;
+  inst_it = slice -> begin ();  
+  for (; inst_it != slice -> end (); ++inst_it)
+    {
+      Inst *inst = *inst_it;
+      oss << "void execute_" << hex << inst -> m_addr << "() {junk=0;}" << endl;
+    }
+  
+/*
+// TODO: generate from tool (currently hand written)
+void execute_3004() { li(r10, 3);        }
+void execute_300c() { li(r7, 4);         } // TODO: modified for simulation
+					   // ease; set back to "28" for real
+					   // testing
+void execute_3010() { mtctr(r7);         }
+void execute_3014() { cmpi(cr, r3, 1);   }
+void execute_3018() { bgt(12340);        }
+void execute_3024() { addi(r10, r10, 1); }
+void execute_302c() { bdz(12352);        }
+void execute_3034() { cmpw(cr, r3, r10); }
+void execute_3038() { bge(12320);        }
+void execute_3058() { li(r3, 30);        }
+*/
 
   /*
   oss << "/ * Functions: * /" << endl;
@@ -601,7 +633,7 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
   attr_t ftr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
   attr_t ftr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
   
-  oss.str (""); oss << "B_Init(),\n InCU.PC = " << dec << entry -> m_num << ",\n_clock = 0";
+  oss.str (""); oss << "InCU.PC = " << dec << entry -> m_num << ",\n_clock = 0";
   XMLElement *ftr_src = newElementWrapper (doc, "source" , NULL             , ftr_src_attrs , NULL);
   XMLElement *ftr_trg = newElementWrapper (doc, "target" , NULL             , ftr_trg_attrs , NULL);
   XMLElement *ftr_syn = newElementWrapper (doc, "label"  , "_doInitialize?" , ftr_syn_attrs , NULL);
@@ -1168,6 +1200,7 @@ CFG::blr_patch ()
 	  stack_t.pop_back ();
 	  
 	  BB *ret_bb = (*m_bbs)[ret];
+	  Inst *ret_inst = ret_bb -> m_insts -> front ();
 	  //**/cout << " pop   : " << ret_bb -> m_label << endl;
 	  
 	  bool exists_arc = false;
@@ -1245,6 +1278,7 @@ CFG::blr_patch ()
 	  last_inst -> m_defs   = 0x80; // id.
 	  last_inst -> m_link   = false;
 	  last_inst -> m_uncond = true;
+	  last_inst -> m_target = ret_inst -> m_addr;
 	}
       else
 	{

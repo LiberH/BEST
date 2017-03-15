@@ -1,24 +1,29 @@
 CC       = g++
-CPPFLAGS = -I./inc -I$(BEST_MODULE_PATH) -Wall -Werror -O3 -ggdb
-LDFLAGS  = -lemon -L$(BEST_MODULE_PATH)/lib -lppcmod -lelf -L./lib -ltinyxml2
-
+CPPFLAGS = -Wall -Werror -ggdb -O2 -I./inc -I$(BEST_PLUGIN_PATH)
+LDFLAGS  = -lemon -L./lib -ltinyxml2 -L$(BEST_PLUGIN_PATH)/lib -lbest-$(BEST_PLUGIN) -lelf
 
 SRC = src
 OBJ = obj
 BIN = bin
 
-BENCH_GCC = $(BEST_BENCH_PATH)/bin-gcc
-BENCH_CSM = $(BEST_BENCH_PATH)/bin-csm
-BENCH_TPL = $(BEST_BENCH_PATH)/bin-tpl
-
 # Default:
-all: dirs target
+all: check-env dirs objs target
 
 # Directories:
 DIRS = $(OBJ) $(BIN)
 dirs: | $(OBJ)
 $(DIRS):
 	mkdir -p $(DIRS)
+
+# Check ENV variables:
+check-env:
+	@if [ "${BEST_PLUGIN}"      = "" ] ||      \
+            [ "${BEST_PLUGIN_PATH}" = "" ]; then   \
+	  echo "Environment variable(s) not set:"; \
+          echo "    BEST_PLUGIN                 "; \
+	  echo " or BEST_PLUGIN_PATH            "; \
+	  exit 1;                                  \
+	fi
 
 # Object files:
 OBJS =	$(OBJ)/main.o	\
@@ -42,28 +47,9 @@ target: objs $(TRGT)
 $(TRGT): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS) `pkg-config libgvc --libs`
 
-# Benchmarks:
-bench-gcc: target
-	@make -C $(BEST_BENCH_PATH) gcc-bins
-	@for f in $(BENCH_GCC)/*.elf; do \
-	  $(TRGT) $$f 2> /dev/null; \
-	done
-bench-gcc-pngs:
-	@make -C $(BEST_BENCH_PATH) gcc-pngs
-
-bench-csm: target
-	@for f in $(BENCH_CSM)/*.elf; do \
-	  $(TRGT) $$f 2> /dev/null; \
-	done
-bench-csm-pngs:
-	@make -C $(BEST_BENCH_PATH) csm-pngs
-
-bench-tpl: target
-	@for f in $(BENCH_TPL)/*.elf; do \
-	  $(TRGT) $$f 2> /dev/null; \
-	done
-bench-tpl-pngs:
-	@make -C $(BEST_BENCH_PATH) tpl-pngs
+# Run the benchmark suite:
+benchmarks: target
+	BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARKS)
 
 # Clean:
 clean:

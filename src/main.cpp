@@ -16,25 +16,59 @@ using namespace std;
 int
 main (int argc, char *argv[])
 {
-  if (argc != 2)
+  string template_path   = "";
+  string executable_path = "";
+  string option          = "";
+  bool   print_usage     = false;
+  bool   cfg_only        = false;
+
+  // TODO: getopt
+  switch (argc)
     {
-      cerr << "Usage: " << argv[0] << " FILE" << endl;
-      return EXIT_FAILURE;
+    case 3:
+      template_path   = argv[1];
+      template_path   = template_path.substr (template_path.find_last_of ("=") +1);
+      executable_path = argv[2];
+      break;
+      
+    case 4:
+      template_path   = argv[1];
+      template_path   = template_path.substr (template_path.find_last_of ("=") +1);
+      executable_path = argv[2];
+      option          = argv[3]; cfg_only = true;
+      break;
+      
+    default:
+      print_usage = true;
+      break;
+    }
+
+  if (print_usage)
+    {
+      cerr << "Usage: " << argv[0] << " --template=TEMPLATE_FILE EXECUTABLE_FILE [--cfg-only]" << endl;
+      return EXIT_FAILURE;      
     }
   
-  string path     = string (argv[1]);
-  string filename = path.substr (path.find_last_of ("/") +1);
+  string filename = executable_path.substr (executable_path.find_last_of ("/") +1);
   string basename = filename.substr (0, filename.find_last_of ("."));
   string name     = basename.substr (0, basename.find_last_of ("-"));
   string optim    = basename.substr (basename.find_last_of ("-") +1);
-  
+    
+  if (cfg_only)
+    {
+      CFG *cfg = CFG::FromFile (executable_path);
+      CFG::ToFile (executable_path + "-cfg.dot" , cfg);
+
+      return EXIT_SUCCESS;
+    }
+
   clock_t begin = clock ();
+      
   ////////////////////
-  
-  CFG *cfg = CFG::FromFile (path);
+  CFG *cfg = CFG::FromFile (executable_path);
   vector<Inst *> *dump = cfg -> insts ();
   vector<BB   *> *bbs  = cfg -> bbs   ();
-
+  
   CFG *gfc = CFG::Reverse (cfg);
   DFS *dfs = new DFS (gfc);
   PDT *pdt = new PDT (cfg);
@@ -47,30 +81,30 @@ main (int argc, char *argv[])
   
   int dump_regs  = Inst::CountRegs (dump);
   int slice_regs = Inst::CountRegs (slice);
-  
   ////////////////////
+  
   clock_t end = clock ();
   double time = double (end - begin) / CLOCKS_PER_SEC;
-
+  
   cout << name       << ","
        << optim      << ","
        << dump_regs  << ","
        << slice_regs << ","
        << time       << endl;
-
-  Inst::ToFile (path + "-dump"    , dump);
-  Inst::ToFile (path + "-slice"   , slice);
-    BB::ToFile (path + "-bbs"     , bbs);
-   CFG::ToFile (path + "-cfg.dot" , cfg);
+  
+  Inst::ToFile (executable_path + "-dump"    , dump);
+  Inst::ToFile (executable_path + "-slice"   , slice);
+    BB::ToFile (executable_path + "-bbs"     , bbs);
+   CFG::ToFile (executable_path + "-cfg.dot" , cfg);
    
-   DFS::ToFile (path + "-dfs.dot" , gfc, dfs);
-    DT::ToFile (path + "-dt.dot"  , pdt);
-   PDT::ToFile (path + "-pdt.dot" , pdt);
-   CDG::ToFile (path + "-cdg.dot" , cdg);
-   PDG::ToFile (path + "-pdg.dot" , pdg);
+   DFS::ToFile (executable_path + "-dfs.dot" , gfc, dfs);
+    DT::ToFile (executable_path + "-dt.dot"  , pdt);
+   PDT::ToFile (executable_path + "-pdt.dot" , pdt);
+   CDG::ToFile (executable_path + "-cdg.dot" , cdg);
+   PDG::ToFile (executable_path + "-pdg.dot" , pdg);
 
-   CFG::ToUPPAAL (path + "-model.xml", cfg, slice);
-   
+   CFG::ToUPPAAL (executable_path + "-model.xml", template_path, cfg, slice);
+  
   return EXIT_SUCCESS;
 }
 
