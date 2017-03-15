@@ -17,7 +17,7 @@
 #It can be called either by a simple 'make' command, or 'make OPTIM=1' to turn on optimisation flags.
 
 #stand-alone simulator name
-STAND_ALONE_LIBRARY_NAME = libppcmod.a
+STAND_ALONE_LIBRARY_NAME = libbest-ppc.a
 STAND_ALONE_EXEC_NAME = p2aFileReader
 #gdb server simulator name
 GDB_SERVER_EXEC_NAME = e200z4_gdb
@@ -162,7 +162,7 @@ endif
 
 CFLAGS += $(DEFINES)
 ########################################################
-OBJ_DIR = .build
+OBJ_DIR = build
 
 .PHONY: ALL
 ALL: OBJ_DIR_CREATE $(STAND_ALONE_EXEC_NAME)

@@ -62,7 +62,8 @@ e200z4_instruction::getStaticInfo (arch *_arch)
   _arch -> setProgramCounter (i -> pc + this -> size ());
   this -> detectBranch (_arch);
   i -> target = _arch -> programCounter ();
-  
+
+  i -> do_memory = false;
   #ifdef __P2AC_MEM__
   if (this -> m_memReg       != 0
   ||  this -> m_memOffset    != 0
