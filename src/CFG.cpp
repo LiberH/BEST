@@ -297,7 +297,6 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
   const char *nta_decl_txt = nta_decl -> GetText ();
 
   oss.str ("");
-  /*
   vector<Inst *> *insts = cfg -> insts ();
   u64 refs = 0;
   vector<Inst *>::iterator inst_it = slice -> begin ();  
@@ -314,14 +313,24 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
       oss << " " << reg_names[b] << ",";
   oss.seekp (-1, oss.cur);
   oss << ";" << endl;
+  oss << endl;
 
-  int n_insts = insts -> size ();
-  oss << "const int N_INSTS = " << n_insts << ";" << endl;
-  */
-  oss << nta_decl_txt << endl;
-  /*
-  oss << "const inst_t insts[N_INSTS] = {";
+  int n_insts = insts -> size () +32;
+  oss << "const int _REGS_MAX = 8;" << endl;
+  oss << "const int _INST_MAX = " << n_insts << ";" << endl;
+  oss << "typedef struct {"               << endl;
+  oss << "  int  addr;"                  << endl;
+  oss << "  int  cycles;"                << endl;
+  oss << "  bool do_branch;"             << endl;
+  oss << "  int  target;"                << endl;
+  oss << "  bool do_memory;"             << endl;
+  oss << "  int  read_regs[_REGS_MAX];"  << endl;
+  oss << "  int  write_regs[_REGS_MAX];" << endl;
+  oss << "} _Inst_t;"                    << endl;
+  oss << endl;
+  oss << "const _Inst_t _INSTS[_INST_MAX] = {";
 
+  int last_addr = -1;
   vector<BB *> *bbs = cfg -> bbs ();
   sort (bbs -> begin (), bbs -> end (), BB::byAddr);
   vector<BB *>::iterator bb_it = bbs -> begin ();  
@@ -330,17 +339,10 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
     //for (; o != INVALID; ++o)
     {
       BB *bb = *bb_it;
-      //BB *bb = (*cfg -> m_bbs)[o];
-      string label, spaces;
-      ostringstream o;
-      o.str ("");
-      o << bb -> m_label;
-      label = o.str ();
-      spaces = string (23 - label.length (), ' ');
 
       oss << endl;
-      oss << endl << "  /-* " << label << spaces << " *-/";
-       
+      oss << endl << "  /* " << bb -> m_label << " */";
+
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it = insts -> begin ();
       for (; inst_it != insts -> end (); ++inst_it)
@@ -348,16 +350,34 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
 	  Inst *inst = *inst_it;
 	  string disass, spaces;
 	  ostringstream o;
+
+	  if (next(inst_it) == insts -> end ())
+	    last_addr = inst -> m_addr;
+	  
+	  int target_num = -1;
+	  vector<Inst *> *targets = cfg -> insts ();
+	  vector<Inst *>::iterator target_it = targets -> begin ();
+	  for (; target_it != targets -> end (); ++target_it)
+	    {
+	      Inst *target = *target_it;
+	      if (inst -> m_branch
+	       && target -> m_addr == inst -> m_target)
+		target_num = target -> m_num; 
+	    }
+
 	  o.str ("");
 	  o << hex << inst -> m_addr << ": " << inst -> m_disass;
 	  disass = o.str ();
 	  spaces = string (22 - disass.length (), ' ');
 	  
 	  oss << endl;
-	  oss << "  /-*  " << disass << spaces << " *-/ { ";
+	  oss << "  /*  " << disass << spaces << " - " << dec << inst -> m_num << " */ { ";
 	  oss << dec << inst -> m_addr                    << ", ";
 	  oss << 1                                        << ", "; // latency;
 	  oss << (inst -> m_branch ? "true, " : "false,") << " ";
+	  if (inst -> m_branch) oss << dec << target_num;
+	  else oss << "_INST_MAX";
+	  oss << ", ";
 	  oss << (inst -> m_memory ? "true, " : "false,") << " "; // does_mem_access
 	  oss << "{ ";
 
@@ -407,10 +427,22 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
 	}
     }
 
+  oss << endl;
+  oss << endl << "  /* Nops: */";
+  for (int i = 0; i < 32; ++i)
+    {
+      oss << endl << "  /*  xxxx: ---              - " << dec << (i +32) << " */";
+      oss << " { " << dec << (last_addr + (i +1)*4) << ", 1, false, _INST_MAX, false,";
+      oss << " {   0,   0,   0,   0,   0,   0,   0,   0 },";
+      oss << " {   0,   0,   0,   0,   0,   0,   0,   0 } },";
+    }
+  
   oss.seekp (-1, oss.cur);
   oss << endl << "};" << endl;
   oss << endl;
-  */
+  oss << nta_decl_txt << endl;
+  oss << endl;
+
   /*
   oss << "/ * Functions: * /" << endl;
   oss << endl;
@@ -429,6 +461,7 @@ CFG::ToUPPAAL (string fn, CFG *cfg, vector<Inst *> *slice)
     }
   oss.seekp (-1, oss.cur);
   */
+  
   nta_decl -> SetText (C(oss.str ()));
   // </declaration>
   
