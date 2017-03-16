@@ -17,7 +17,7 @@
 #It can be called either by a simple 'make' command, or 'make OPTIM=1' to turn on optimisation flags.
 
 #stand-alone simulator name
-STAND_ALONE_LIBRARY_NAME = libbest-ppc.a
+STAND_ALONE_LIBRARY_NAME = libe200z4.a
 STAND_ALONE_EXEC_NAME = p2aFileReader
 #gdb server simulator name
 GDB_SERVER_EXEC_NAME = e200z4_gdb
@@ -84,7 +84,7 @@ DEFINES += -D__P2AC_MEM__
 #DEFINES += -DDEBUG_STORAGE_ADDRESS_RANGE
 #DEFINES += -DGADL_SP_CHECK_ALLOWED
 #DEFINES += -DGADL_SP_FAILURE_CHECK_ALLOWED
-EXTRA_FILES_CLEAN= build/ 
+EXTRA_FILES_CLEAN= $(OBJ_DIR) 
 
 ############# Temporal tools (automata) configuration
 P2A=bin/p2a
@@ -162,7 +162,7 @@ endif
 
 CFLAGS += $(DEFINES)
 ########################################################
-OBJ_DIR = build
+OBJ_DIR = obj
 
 .PHONY: ALL
 ALL: OBJ_DIR_CREATE $(STAND_ALONE_EXEC_NAME)
