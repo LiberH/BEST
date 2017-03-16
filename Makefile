@@ -1,6 +1,6 @@
 CC       = g++
-CPPFLAGS = -Wall -Werror -ggdb -O2 -I./inc -I$(BEST_PLUGIN_PATH)
-LDFLAGS  = -lemon -L./lib -ltinyxml2 -L$(BEST_PLUGIN_PATH)/lib -lbest-$(BEST_PLUGIN) -lelf
+CPPFLAGS = -Wall -Werror -ggdb -O2 -I./inc -I$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/core
+LDFLAGS  = -lemon -L./lib -ltinyxml2 -L$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/core/lib -l$(BEST_PLUGIN) -lelf
 
 SRC = src
 OBJ = obj
@@ -17,11 +17,11 @@ $(DIRS):
 
 # Check ENV variables:
 check-env:
-	@if [ "${BEST_PLUGIN}"      = "" ] ||      \
-            [ "${BEST_PLUGIN_PATH}" = "" ]; then   \
+	@if [ "${BEST_PLUGINS_PATH}" = "" ] ||     \
+	    [ "${BEST_PLUGIN}"       = "" ]; then  \
 	  echo "Environment variable(s) not set:"; \
-          echo "    BEST_PLUGIN                 "; \
-	  echo " or BEST_PLUGIN_PATH            "; \
+	  echo "    BEST_PLUGINS_PATH           "; \
+	  echo " or BEST_PLUGIN                 "; \
 	  exit 1;                                  \
 	fi
 
@@ -49,7 +49,7 @@ $(TRGT): $(OBJS)
 
 # Run the benchmark suite:
 benchmarks: target
-	BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARKS)
+	BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)
 
 # Clean:
 clean:
