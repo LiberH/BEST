@@ -2,13 +2,14 @@
 
 ### Building BEST:
 
-* Set **BEST_PLUGIN** and **BEST_PLUGIN_PATH** ;
+* Set `BEST_PLUGINS_PATH` and `BEST_PLUGIN`;
 * Make the executable.
 
 Example :
 
-> \$ export BEST_PLUGIN=ppc
-> \$ export BEST_PLUGIN_PATH=/path/to/best-ppc
+
+> \$ export BEST_PLUGINS_PATH=/path/to/best/plugins
+> \$ export BEST_PLUGIN=e200z4
 > \$ make -j5
 > [...]
 > \$ ls ./bin
@@ -18,21 +19,25 @@ Example :
 
 #### Using the benchmark suite for BEST:
 
-* Set **BEST_BENCHMARKS** and **BEST_BENCHMARKS_PATH** ;
-* Set **BEST_PLUGIN_PATH** ;
+* Set `BEST_PLUGINS_PATH` and `BEST_PLUGIN`;
+* Set `BEST_BENCHMARKS_PATH` and `BEST_BENCHMARK`;
 * Run the benchmark suite.
  
 Example :
 
-> \$ export BEST_BENCHMARKS=malardalen
-> \$ export BEST_BENCHMARKS_PATH=/path/to/best-benchmarks
-> \$ export BEST_PLUGIN_PATH=/path/to/best-ppc
+> \$ export BEST_PLUGINS_PATH=/path/to/best/plugins
+> \$ export BEST_PLUGIN=e200z4
+> \$ export BEST_BENCHMARKS_PATH=/path/to/best/benchmarks
+> \$ export BEST_BENCHMARK=malardalen
 > \$ make benchmarks
 > [...]
 
 #### Using an arbitrary binary executable file:
 
+BEST needs an architecure-specific UPPAAL template file to produce an output
+UPPAAL model. Such template files can be found in the BEST plugins directories.
+
 Example :
 
-> \$ ./bin/main --template=/path/to/template.xml arbitrary.elf
+> \$ ./bin/main --template=/path/to/best/plugins/template.xml arbitrary.elf
 > [...]
