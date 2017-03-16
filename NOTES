@@ -1,0 +1,17 @@
+removed src/des.c        : missing header files
+removed src/whet.c       : missing header files
+removed src/cover.c      : has switch statement(s)
+removed src/duff.c       : has switch statement(s)
+removed src/lcdnum.c     : has switch statement(s)
+removed src/statemate.c  : has switch statement(s)
+removed src/fft1.c       : has floating point arithmetic
+removed src/lms.c        : has floating point arithmetic
+removed src/ludcmp.c     : has floating point arithmetic
+removed src/minver.c     : has floating point arithmetic
+removed src/qsort-exam.c : has floating point arithmetic
+removed src/qurt.c       : has floating point arithmetic
+removed src/select.c     : has floating point arithmetic
+removed src/sqrt.c       : has floating point arithmetic
+removed src/st.c         : has floating point arithmetic ; use external library
+removed src/recursion.c  : recursive
+removed src/fac.c        : recursive
