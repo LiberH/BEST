@@ -1,6 +1,2 @@
-*-dump
-*-bbs
-*-slice
-*.dot
-*.xml
 obj/
+*.elf*

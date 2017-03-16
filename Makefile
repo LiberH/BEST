@@ -42,9 +42,9 @@ $(BIN_MDL)/%: $(SRC)/%.c
 # Benchmark suite:
 malardalen:
 	@for elf in $(BIN_MDL)/*.elf; do \
-	  $(BEST_TRGT) --template=$(BEST_PLUGIN_PATH)/template.xml $$elf --cfg-only; \
+	  $(BEST_TRGT) --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $$elf --cfg-only; \
 	  dot -Tdot $$elf-cfg.dot -o $$elf.dot; \
-	  $(BEST_TRGT) --template=$(BEST_PLUGIN_PATH)/template.xml $$elf; \
+	  $(BEST_TRGT) --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $$elf; \
 	done
 
 # Cleaning:
