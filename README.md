@@ -7,13 +7,11 @@
 
 Example :
 
-
-> \$ export BEST_PLUGINS_PATH=/path/to/best/plugins
-> \$ export BEST_PLUGIN=e200z4
-> \$ make -j5
-> [...]
-> \$ ls ./bin
-> main
+```bash
+$ export BEST_PLUGINS_PATH=/path/to/best/plugins
+$ export BEST_PLUGIN=e200z4
+$ make
+```
 
 ### Testing BEST:
 
@@ -25,12 +23,13 @@ Example :
  
 Example :
 
-> \$ export BEST_PLUGINS_PATH=/path/to/best/plugins
-> \$ export BEST_PLUGIN=e200z4
-> \$ export BEST_BENCHMARKS_PATH=/path/to/best/benchmarks
-> \$ export BEST_BENCHMARK=malardalen
-> \$ make benchmarks
-> [...]
+```bash
+$ export BEST_PLUGINS_PATH=/path/to/best/plugins
+$ export BEST_PLUGIN=e200z4
+$ export BEST_BENCHMARKS_PATH=/path/to/best/benchmarks
+$ export BEST_BENCHMARK=malardalen
+$ make benchmarks
+```
 
 #### Using an arbitrary binary executable file:
 
@@ -39,5 +38,6 @@ UPPAAL model. Such template files can be found in the BEST plugins directories.
 
 Example :
 
-> \$ ./bin/main --template=/path/to/best/plugins/template.xml arbitrary.elf
-> [...]
+```bash
+$ ./bin/main --template=/path/to/best/plugins/template.xml arbitrary.elf
+```
