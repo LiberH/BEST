@@ -7,6 +7,7 @@ class staticInfo {
 public:
   u32 pc;
   std::string mnemo;
+  std::string funct;
   u64 write_regs;
   u64 read_regs;
   bool is_branch;

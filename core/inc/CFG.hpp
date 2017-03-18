@@ -2,6 +2,8 @@
 #define _CFG_HPP_
 
 #include "types.h"
+#include "tinyxml2.h"
+
 #include <lemon/list_graph.h>
 #include <map>
 
@@ -18,6 +20,9 @@ class CFG {
   friend class Slicer;
 
 public:
+  static const int COARSE_GRAIN = 0;
+  static const int FINE_GRAIN   = 1;
+  
   CFG ();
   
   lemon::ListDigraph::Node            addBB   (BB &);
@@ -26,7 +31,7 @@ public:
     std::             vector<Inst *> *insts   ();
   static CFG  *Reverse  (const CFG *);
   static CFG  *FromFile (std::string);
-  static void  ToFile   (std::string, CFG *);
+  static void  ToFile   (std::string, CFG *, int);
   static void  ToUPPAAL (std::string, std::string, CFG *, std::vector<Inst *> *);
   
 protected:
@@ -42,12 +47,17 @@ protected:
   lemon::ListDigraph::Node                               m_entry;
   lemon::ListDigraph::Node                               m_exit;
 
+
 private:
   lemon::ListDigraph::Node findByLabel (std::string);
   void findSuccs (std::vector<BB *> &);
   void deadcode_patch ();
   void blr_patch ();
   void print_state (struct state);
+
+  static tinyxml2::XMLElement *fall_through (tinyxml2::XMLDocument *, Inst *, Inst *, bool);
+  static tinyxml2::XMLElement *pre_jump (tinyxml2::XMLDocument *, Inst *, std::string, bool);
+  static tinyxml2::XMLElement *jump (tinyxml2::XMLDocument *, std::string, Inst *, Inst *, bool);
 };
 
 #endif // _CFG_HPP_

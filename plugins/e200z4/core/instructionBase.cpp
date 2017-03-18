@@ -26,6 +26,7 @@ e200z4_instruction::getStaticInfo (arch *_arch)
   
   i -> pc = this -> getInstructionPointer ();
   i -> mnemo = string (this -> mnemo ());
+  i -> funct = string (this -> funct ());
   
   this -> execute (_arch);
   i -> write_regs; this -> lockDDCWriteRegs (i -> write_regs);

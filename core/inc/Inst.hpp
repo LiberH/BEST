@@ -29,6 +29,7 @@ protected:
   
          u32     m_addr;
     std::string  m_disass;
+    std::string  m_function;
          u64     m_refs;
          u64     m_defs;
          Inst   *m_prev;
@@ -42,6 +43,9 @@ protected:
          u32     m_target;
 
          bool    m_memory;
+
+         int     m_x;
+         int     m_y;
   
 private:
   static int m_id;

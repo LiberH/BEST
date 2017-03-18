@@ -23,25 +23,26 @@ Inst::Inst (const staticInfo &si)
   ss_name  << "i" << id;
   ss_label << hex << si.pc << ": " << si.mnemo;
 
-  m_num     = id;
-  m_name    = ss_name.str ();
-  m_label   = ss_label.str ();
+  m_num      = id;
+  m_name     = ss_name.str ();
+  m_label    = ss_label.str ();
   
-  m_addr    = si.pc;
-  m_disass  = si.mnemo;
-  m_refs    = si.read_regs;
-  m_defs    = si.write_regs;
-  m_prev    = NULL;
-  m_next    = NULL;
+  m_addr     = si.pc;
+  m_disass   = si.mnemo;
+  m_function = si.funct;
+  m_refs     = si.read_regs;
+  m_defs     = si.write_regs;
+  m_prev     = NULL;
+  m_next     = NULL;
   
-  m_branch  = si.is_branch;
-  m_test    = si.test;
-  m_unknown = si.is_unknown;
-  m_link    = si.do_link;
-  m_uncond  = si.is_uncond;
-  m_target  = si.target;
+  m_branch   = si.is_branch;
+  m_test     = si.test;
+  m_unknown  = si.is_unknown;
+  m_link     = si.do_link;
+  m_uncond   = si.is_uncond;
+  m_target   = si.target;
   
-  m_memory  = si.do_memory;
+  m_memory   = si.do_memory;
 
   // Fix bad branch target in disassembly:
   if (m_branch &&
@@ -65,22 +66,23 @@ Inst::Inst (const staticInfo &si)
 
 Inst::Inst (const Inst &inst)
 {
-  m_num     = inst.m_num;
-  m_name    = inst.m_name;
-  m_label   = inst.m_label;
+  m_num      = inst.m_num;
+  m_name     = inst.m_name;
+  m_label    = inst.m_label;
   
-  m_addr    = inst.m_addr;
-  m_disass  = inst.m_disass;
-  m_refs    = inst.m_refs;
-  m_defs    = inst.m_defs;
-  m_prev    = inst.m_prev;
-  m_next    = inst.m_next;
+  m_addr     = inst.m_addr;
+  m_disass   = inst.m_disass;
+  m_function = inst.m_function;
+  m_refs     = inst.m_refs;
+  m_defs     = inst.m_defs;
+  m_prev     = inst.m_prev;
+  m_next     = inst.m_next;
   
-  m_branch  = inst.m_branch;
-  m_unknown = inst.m_unknown;
-  m_link    = inst.m_link;
-  m_uncond  = inst.m_uncond;
-  m_target  = inst.m_target;  
+  m_branch   = inst.m_branch;
+  m_unknown  = inst.m_unknown;
+  m_link     = inst.m_link;
+  m_uncond   = inst.m_uncond;
+  m_target   = inst.m_target;  
 }
 
 // static

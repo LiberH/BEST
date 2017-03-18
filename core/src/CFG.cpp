@@ -172,7 +172,7 @@ CFG::FromFile (string f)
 
 // static
 void
-CFG::ToFile (string fn, CFG *cfg)
+CFG::ToFile (string fn, CFG *cfg, int grain)
 {
   FILE *f = fopen (C(fn), "w");
   Agraph_t *agraph = agopen (C(cfg -> m_label), Agdirected, NULL);
@@ -182,20 +182,93 @@ CFG::ToFile (string fn, CFG *cfg)
   ListDigraph *graph = cfg -> m_graph;
   ListDigraph::NodeMap<Agnode_t *> *agnodes = new ListDigraph::NodeMap<Agnode_t *> (*graph);
 
-  ListDigraph::NodeIt n (*graph);
-  for (; n != INVALID; ++n)
+  if (grain == CFG::COARSE_GRAIN)
     {
-      BB *bb = (*cfg -> m_bbs)[n];
-      (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
-      agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
-    }
+      ListDigraph::NodeIt n (*graph);
+      for (; n != INVALID; ++n)
+	{
+	  BB *bb = (*cfg -> m_bbs)[n];
+	  (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
+	  agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
+	}
   
-  ListDigraph::ArcIt a (*graph);
-  for (; a != INVALID; ++a)
+      ListDigraph::ArcIt a (*graph);
+      for (; a != INVALID; ++a)
+	{
+	  ListDigraph::Node n = graph -> source (a);
+	  ListDigraph::Node m = graph -> target (a);
+	  agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
+	}
+    }
+  else
     {
-      ListDigraph::Node n = graph -> source (a);
-      ListDigraph::Node m = graph -> target (a);
-      agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
+      vector<Inst *> *insts = cfg -> insts ();
+      sort (insts -> begin (), insts -> end (), Inst::byAddr);
+      vector<Inst *>::iterator inst_it = insts -> begin ();
+      for (; inst_it != insts -> end (); ++inst_it)
+	{
+	  Inst *inst = *inst_it;
+	  ostringstream oss;
+	  oss.str (""); oss << hex << inst -> m_addr;
+
+	  Agnode_t *src = agnode (agraph, C(inst -> m_name), TRUE);
+	  agsafeset (src, "label", C(oss.str ()), "error");
+	  
+	  if(!inst -> m_branch)
+	    {
+	      Agnode_t *nxt = agnode (agraph, C(inst -> m_next -> m_name), TRUE);
+	      agedge (agraph, src, nxt, NULL, TRUE);
+	    }
+	  else if (inst -> m_uncond)
+	    {
+	      Inst *target = NULL;
+	      vector<Inst *> *targets = cfg -> insts ();
+	      vector<Inst *>::iterator target_it = targets -> begin ();
+	      for (; target_it != targets -> end (); ++target_it)
+		{
+		  target = *target_it;
+		  if (target -> m_addr == inst -> m_target)
+		    break;
+		}
+
+	      Agnode_t *trg = agnode (agraph, C(target -> m_name), TRUE);
+	      agedge (agraph, src, trg, NULL, TRUE);
+	    }
+	  else
+	    {
+	      Agnode_t *nxt = agnode (agraph, C(inst -> m_next -> m_name), TRUE);
+	      agedge (agraph, src, nxt, NULL, TRUE);
+	      
+	      Inst *target = NULL;
+	      vector<Inst *> *targets = cfg -> insts ();
+	      vector<Inst *>::iterator target_it = targets -> begin ();
+	      for (; target_it != targets -> end (); ++target_it)
+		{
+		  target = *target_it;
+		  if (target -> m_addr == inst -> m_target)
+		    break;
+		}
+
+	      Agnode_t *trg = agnode (agraph, C(target -> m_name), TRUE);
+	      agedge (agraph, src, trg, NULL, TRUE);
+	    }
+	}
+
+      /*
+      vector<Inst *> *insts = cfg -> insts ();
+      sort (insts -> begin (), insts -> end (), Inst::byAddr);
+      vector<Inst *>::iterator inst_it = insts -> begin ();
+      for (; inst_it != insts -> end (); ++inst_it)
+	{
+	  Inst *inst = *inst_it;
+	  cout << hex << inst -> m_addr << ": " << inst -> m_disass << endl;
+	  if      (!inst -> m_branch) cout << " next   : " << inst -> m_next -> m_addr << endl;
+	  else if ( inst -> m_uncond) cout << " target : " << inst -> m_target << endl;
+	  else                      { cout << " next   : " << inst -> m_next -> m_addr << endl;
+                                      cout << " target : " << inst -> m_target << endl; }
+	  cout << endl;
+	}
+      */
     }
   
   agwrite (agraph, f);
@@ -233,6 +306,115 @@ newElementWrapper (XMLDocument *doc,
   return elm;
 }
 
+XMLElement *
+CFG::fall_through (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_slice)
+{
+  XMLElement *tr;
+  string src, trg, grd, upd;
+  ostringstream oss;
+  
+  oss.str (""); oss << "id" << hex << src_inst -> m_addr; src = oss.str ();
+  oss.str (""); oss << "id" << hex << trg_inst -> m_addr; trg = oss.str ();
+  attr_t tr_src_attrs[] = {{"ref"  , C(src)           } , {NULL , NULL}};
+  attr_t tr_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
+  attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
+  attr_t tr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
+  attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
+  
+  if (in_slice)
+  { oss.str (""); oss << "execute_"        << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
+    oss.str (""); oss << "IMU_IsAccessed(" << dec << src_inst -> m_num << ")";   grd = oss.str ();
+  
+  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
+  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
+  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)            , tr_grd_attrs , NULL);
+  XMLElement *tr_syn = newElementWrapper (doc, "label"  , "IMU_doneAccess?" , tr_syn_attrs , NULL);
+  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)            , tr_upd_attrs , NULL);
+  
+  XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_syn, tr_upd, NULL};
+  tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
+  
+  return tr;
+}
+
+XMLElement *
+CFG::pre_jump (XMLDocument *doc, Inst *src_inst, string trg_id, bool taken)
+{
+  XMLElement *tr;
+  string src, trg, grd, upd;
+  ostringstream oss;
+  
+  oss.str (""); oss << "id" << hex << src_inst -> m_addr; src = oss.str ();
+  oss.str (""); oss << "id" << trg_id;                    trg = oss.str ();
+  attr_t tr_src_attrs[] = {{"ref"  , C(src)           } , {NULL , NULL}};
+  attr_t tr_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
+  attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
+  attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
+  
+  grd = (taken ? "" : "!");
+  upd = "_taken = ";
+  upd += (taken ? "true" : "false");
+  switch (src_inst -> m_test)
+    {
+    case  0: grd += "true"; break;
+      
+    case  1: grd += "lt()"; break;
+    case  2: grd += "gt()"; break;
+    case  3: grd += "eq()"; break;
+    case  4: grd += "so()"; break;
+      
+    case  5: grd += "ge()"; break;
+    case  6: grd += "le()"; break;
+    case  7: grd += "ne()"; break;
+      
+    case  9: grd +=  "z()"; break;
+    case 10: grd += "nz()"; break;
+      
+    default: grd += "####"; break;
+    }
+  
+  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL   , tr_src_attrs , NULL);
+  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL   , tr_trg_attrs , NULL);
+  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd) , tr_grd_attrs , NULL);
+  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd) , tr_upd_attrs , NULL);
+  
+  XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_upd, NULL};
+  tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
+  
+  return tr;
+}
+
+XMLElement *
+CFG::jump (XMLDocument *doc, string src_id, Inst *src_inst, Inst *trg_inst, bool in_slice)
+{
+  XMLElement *tr;
+  string src, trg, grd, upd;
+  ostringstream oss;
+  
+  oss.str (""); oss << "id" << src_id;                    src = oss.str ();
+  oss.str (""); oss << "id" << hex << trg_inst -> m_addr; trg = oss.str ();
+  attr_t tr_src_attrs[] = {{"ref"  , C(src)           } , {NULL , NULL}};
+  attr_t tr_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
+  attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
+  attr_t tr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
+  attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
+  
+  oss.str (""); oss << "IMU_IsAccessed(" << dec << src_inst -> m_num << ")"; grd = oss.str ();
+  if (in_slice)
+    { oss.str (""); oss << "execute_" << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
+  
+  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
+  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
+  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)            , tr_grd_attrs , NULL);
+  XMLElement *tr_syn = newElementWrapper (doc, "label"  , "IMU_doneAccess?" , tr_syn_attrs , NULL);
+  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)            , tr_upd_attrs , NULL);
+  
+  XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_syn, tr_upd, NULL};
+  tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
+  
+  return tr;
+}
+
 static
 string reg_names[62] = {
   "cr"      , "ctr"   , "l1csr0" , "l1csr1" , "l1finv1" , "lr"   , "msr"  , "pc"   ,
@@ -251,7 +433,6 @@ struct pos {int x; int y;};
 void
 CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 {
-  ListDigraph::NodeMap<struct pos> pz (*cfg -> m_graph);
   {
     string pos_fn;
     pos_fn = fn.substr (0, fn.find_last_of ("-")) + ".dot";
@@ -270,16 +451,31 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 	char *pos   = agget (n, "pos");
 	pos = (pos ? pos : (char *) "null");
 
-	string sx, sy;
+	string x, y;
 	stringstream ss (pos);
-	getline (ss, sx, ',');
-	getline (ss, sy, ',');
-	
-	ListDigraph::Node node = cfg -> findByLabel (label);
-	stringstream ssx (sx);
-	stringstream ssy (sy);
-	ssx >> pz[node].x; pz[node].x *= 2;
-	ssy >> pz[node].y; pz[node].y *= 2; 
+	getline (ss, x, ',');
+	getline (ss, y, ',');
+
+	u32 addr;
+	stringstream ss_label (label);
+	stringstream ss_x (x);
+	stringstream ss_y (y);
+	ss_label >> hex >> addr;
+
+	Inst *inst = NULL;
+	vector<Inst *> *insts = cfg -> insts ();
+	vector<Inst *>::iterator inst_it = insts -> begin ();
+	for (; inst_it != insts -> end (); ++inst_it)
+	  {
+	    inst = *inst_it;
+	    if (inst -> m_addr == addr)
+	      break;
+	  }
+
+	ss_x >> dec >> inst -> m_x;
+	ss_y >> dec >> inst -> m_y;
+	inst -> m_x *=  5;
+	inst -> m_y *= -1;
       }
     
     agclose (g);
@@ -451,12 +647,13 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   oss << endl;
   oss << nta_decl_txt << endl;
 
-  oss << "int junk;" << endl;
   inst_it = slice -> begin ();  
   for (; inst_it != slice -> end (); ++inst_it)
     {
       Inst *inst = *inst_it;
-      oss << "void execute_" << hex << inst -> m_addr << "() {junk=0;}" << endl;
+      oss << "void execute_" << hex << inst -> m_addr << "() {"
+	  << " " << inst -> m_function << "; "
+	  << "}" << endl;
     }
   
 /*
@@ -520,20 +717,23 @@ void execute_3058() { li(r3, 30);        }
                Inst *entry   = (*cfg -> m_bbs  )[cfg   -> m_entry] -> m_insts -> front ();
   ListDigraph::Node  entry_n = (*cfg -> m_nodes)[entry -> m_addr ];
   attr_t entry_attrs[] = {{"id" , "idinit"            },
-			  {"x"  , C(S( pz[entry_n].x))},
-			  {"y"  , C(S(-pz[entry_n].y))},
+			  {"x"  , C(S(entry -> m_x))},
+			  {"y"  , C(S(entry -> m_y))},
 			  {NULL , NULL                }};
   XMLElement *urg = newElementWrapper (doc, "urgent", NULL, NULL, NULL);
   XMLElement *loc_init_childs[] = {urg, NULL};
   XMLElement *loc_init = newElementWrapper (doc, "location", NULL, entry_attrs, loc_init_childs);
   tmplt -> InsertEndChild (loc_init);
 
-  // <location id="idexit">
+  ////////////////////////////
+  // <location id="idexit"> //
+  ////////////////////////////
+
                Inst *exit   = (*cfg -> m_bbs  )[cfg  -> m_exit] -> m_insts -> back ();
   ListDigraph::Node  exit_n = (*cfg -> m_nodes)[exit -> m_addr];
   attr_t exit_attrs[] = {{"id" , "idexit"           },
-			 {"x"  , C(S( pz[exit_n].x))},
-			 {"y"  , C(S(-pz[exit_n].y))},
+			 {"x"  , C(S(exit -> m_x))},
+			 {"y"  , C(S(exit -> m_y))},
 			 {NULL , NULL               }};
   XMLElement *loc_exit = newElementWrapper (doc, "location", NULL, exit_attrs, NULL);
   tmplt -> InsertEndChild (loc_exit);
@@ -541,7 +741,8 @@ void execute_3058() { li(r3, 30);        }
   ///////////////////////////
   // <location id="id..."> //
   ///////////////////////////
-  
+
+  /*
   ListDigraph::NodeIt n (*cfg -> m_graph);
   for (; n != INVALID; ++n)
     {
@@ -567,8 +768,8 @@ void execute_3058() { li(r3, 30);        }
 	    {
 	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_";
 	      attr_t attrs[] = {{"id"    , C(oss.str ()) },
-				{"x"     , C(S( pz[n].x))},
-				{"y"     , C(S(-pz[n].y))},
+				{"x"     , C(S(inst -> m_x))},
+				{"y"     , C(S(inst -> m_y))},
 				{"color" , "#ffc0cb"     },
 				{NULL    , NULL          }};
 	      XMLElement *loc_comm = newElementWrapper (doc, "committed", NULL, NULL, NULL);
@@ -582,8 +783,8 @@ void execute_3058() { li(r3, 30);        }
 	      
 	      oss.str (""); oss << "id" << hex << inst -> m_addr << "true";
 	      attr_t true_attrs[] = {{"id" , C(oss.str ()) },
-				     {"x"  , C(S( pz[n].x))},
-				     {"y"  , C(S(-pz[n].y))},
+				     {"x"  , C(S(inst -> m_x))},
+				     {"y"  , C(S(inst -> m_y))},
 				     {NULL , NULL          }};
 	      XMLElement *true_loc_childs[] = {loc_name, NULL};
 	      XMLElement *true_loc = newElementWrapper (doc, "location", NULL, true_attrs, true_loc_childs);
@@ -593,8 +794,8 @@ void execute_3058() { li(r3, 30);        }
 		{ 
 		  oss.str (""); oss << "id" << hex << inst -> m_addr << "false";
 		  attr_t false_attrs[] = {{"id" , C(oss.str ()) },
-					  {"x"  , C(S( pz[n].x))},
-					  {"y"  , C(S(-pz[n].y))},
+					  {"x"  , C(S(inst -> m_x))},
+					  {"y"  , C(S(inst -> m_y))},
 					  {NULL , NULL          }};
 		  XMLElement *false_loc_childs[] = {loc_name, NULL};
 		  XMLElement *false_loc = newElementWrapper (doc, "location", NULL, false_attrs, false_loc_childs);
@@ -606,15 +807,116 @@ void execute_3058() { li(r3, 30);        }
 
 	  oss.str (""); oss << "id" << hex << inst -> m_addr;
 	  attr_t attrs[] = {{"id" , C(oss.str ()) },
-			    {"x"  , C(S( pz[n].x))},
-			    {"y"  , C(S(-pz[n].y))},
+			    {"x"  , C(S(inst -> m_x))},
+			    {"y"  , C(S(inst -> m_y))},
 			    {NULL , NULL          }};
 	  XMLElement *loc_childs[] = {loc_name, NULL};
 	  XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
 	  tmplt -> InsertEndChild (loc);
 	}
     }
+  */
 
+  {
+  vector<BB *> *bbs = cfg -> bbs ();
+  sort (bbs -> begin (), bbs -> end (), BB::byAddr);
+  vector<BB *>::iterator bb_it = bbs -> begin ();
+  for (; bb_it != bbs -> end (); ++bb_it)
+    {
+      BB *bb = *bb_it;
+      Inst *bb_entry = bb -> m_insts -> front ();
+
+      vector<Inst *> *insts = bb -> m_insts;
+      sort (insts -> begin (), insts -> end (), Inst::byAddr);
+      vector<Inst *>::iterator inst_it = insts -> begin ();
+      for (; inst_it != insts -> end (); ++inst_it)
+	{
+	  Inst *inst = *inst_it;
+	  
+	  XMLElement *loc_name = NULL;
+	  if (inst == bb_entry)
+	    {
+	      oss.str (""); oss << bb -> m_label;
+	      loc_name = newElementWrapper (doc, "name", C(oss.str ()), NULL, NULL);
+	    }
+
+	  if (!inst -> m_branch)
+	    {
+	      oss.str (""); oss << "id" << hex << inst -> m_addr;
+	      attr_t attrs[] = {{"id" , C(oss.str ())    },
+				{"x"  , C(S(inst -> m_x))},
+				{"y"  , C(S(inst -> m_y))},
+				{NULL , NULL             }};
+	      XMLElement *loc_childs[] = {loc_name, NULL};
+	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
+	      tmplt -> InsertEndChild (loc);
+	    }
+	  else if (inst -> m_uncond)
+	    {
+	      {
+	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_comm";
+	      attr_t attrs[] = {{"id" , C(oss.str ())    },
+				{"x"  , C(S(inst -> m_x))},
+				{"y"  , C(S(inst -> m_y))},
+				{NULL , NULL             }};
+	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, NULL);
+	      tmplt -> InsertEndChild (loc);
+	      }
+	      /////
+	      {
+	      oss.str (""); oss << "id" << hex << inst -> m_addr;
+	      attr_t attrs[] = {{"id"    , C(oss.str ()) },
+				{"x"     , C(S(inst -> m_x))},
+				{"y"     , C(S(inst -> m_y))},
+				{"color" , "#ffc0cb"     },
+				{NULL    , NULL          }};
+	      XMLElement *loc_comm = newElementWrapper (doc, "committed", NULL, NULL, NULL);
+	      XMLElement *loc_childs[] = {(loc_name ? loc_name : loc_comm),
+					  (loc_name ? loc_comm : NULL    ), NULL};
+	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
+	      tmplt -> InsertEndChild (loc);
+	      }
+	    }
+	  else
+	    {
+	      {
+	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_true";
+	      attr_t attrs[] = {{"id" , C(oss.str ())    },
+				{"x"  , C(S(inst -> m_x))},
+				{"y"  , C(S(inst -> m_y))},
+				{NULL , NULL             }};
+	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, NULL);
+	      tmplt -> InsertEndChild (loc);
+	      }
+	      /////
+	      {
+	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_false";
+	      attr_t attrs[] = {{"id" , C(oss.str ())    },
+				{"x"  , C(S(inst -> m_x))},
+				{"y"  , C(S(inst -> m_y))},
+				{NULL , NULL             }};
+	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, NULL);
+	      tmplt -> InsertEndChild (loc);
+	      }
+	      /////
+	      {
+	      oss.str (""); oss << "id" << hex << inst -> m_addr;
+	      attr_t attrs[] = {{"id"    , C(oss.str ()) },
+				{"x"     , C(S(inst -> m_x))},
+				{"y"     , C(S(inst -> m_y))},
+				{"color" , "#ffc0cb"     },
+				{NULL    , NULL          }};
+	      XMLElement *loc_comm = newElementWrapper (doc, "committed", NULL, NULL, NULL);
+	      XMLElement *loc_childs[] = {(loc_name ? loc_name : loc_comm),
+					  (loc_name ? loc_comm : NULL    ), NULL};
+	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
+	      tmplt -> InsertEndChild (loc);
+	      }
+	    }
+	}
+    }
+  }
+  
   /////////////////////////
   // <init ref="idinit"> //
   /////////////////////////
@@ -626,7 +928,7 @@ void execute_3058() { li(r3, 30);        }
   ///////////////////////
   // First transition: //
   ///////////////////////
-  
+
   oss.str (""); oss << "id" << hex << entry -> m_addr;  
   attr_t ftr_src_attrs[] = {{"ref"  , "idinit"         } , {NULL , NULL}};
   attr_t ftr_trg_attrs[] = {{"ref"  , C(oss.str ())    } , {NULL , NULL}};
@@ -647,7 +949,7 @@ void execute_3058() { li(r3, 30);        }
   // Last transition: //
   //////////////////////
 
-  oss.str (""); oss << "id" << hex << exit -> m_addr << "true";
+  oss.str (""); oss << "id" << hex << exit -> m_addr << "_comm";
   attr_t ltr_src_attrs[] = {{"ref"  , C(oss.str ())    } , {NULL , NULL}};
   attr_t ltr_trg_attrs[] = {{"ref"  , "idexit"         } , {NULL , NULL}};
   attr_t ltr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
@@ -668,7 +970,116 @@ void execute_3058() { li(r3, 30);        }
   ////////////////////////
   // Other transitions: //
   ////////////////////////
+
+  {
+  vector<Inst *> *insts = cfg -> insts ();
+  sort (insts -> begin (), insts -> end (), Inst::byAddr);
+  vector<Inst *>::iterator inst_it = insts -> begin ();
+  for (; inst_it != insts -> end (); ++inst_it)
+    {
+      Inst *inst = *inst_it;      
+      string src, trg, grd, upd;
+
+      if (!inst -> m_branch)
+	{
+	  bool in_slice;
+	  XMLElement *tr;
+	  
+	  in_slice = false;
+	  vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
+	  if (slice_it != slice -> end ())
+	      in_slice = true;
+	  
+	  tr = fall_through (doc, inst, inst -> m_next, in_slice);
+	  tmplt -> InsertEndChild (tr);
+	}
+      else if (inst -> m_uncond)
+	{
+	  if (inst -> m_target == inst -> m_addr)
+	    {
+	      XMLElement *tr;
+	      ostringstream oss;
+	      
+	      oss << hex << inst -> m_addr << "_comm";
+	      tr = pre_jump (doc, inst, oss.str (), true);
+	      tmplt -> InsertEndChild (tr);
+	      
+	      continue;
+	    }
+	  
+	  Inst *target = NULL;
+	  vector<Inst *> *targets = cfg -> insts ();
+	  vector<Inst *>::iterator target_it = targets -> begin ();
+	  for (; target_it != targets -> end (); ++target_it)
+	    {
+	      target = *target_it;
+	      if (target -> m_addr == inst -> m_target)
+		break;
+	    }
+
+	  bool in_slice;
+	  XMLElement *tr;
+	  ostringstream oss;
+
+	  oss << hex << inst -> m_addr << "_comm";
+	  tr = pre_jump (doc, inst, oss.str (), true);
+	  tmplt -> InsertEndChild (tr);
+
+	  in_slice = false;
+	  vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
+	  if (slice_it != slice -> end ())
+	      in_slice = true;
+	  
+	  tr = jump (doc, oss.str (), inst, target, in_slice);
+	  tmplt -> InsertEndChild (tr);
+	}
+      else
+	{	  
+	  bool in_slice;
+	  XMLElement *tr;
+	  ostringstream oss;
+
+	  oss << hex << inst -> m_addr << "_false";
+	  tr = pre_jump (doc, inst, oss.str (), false);
+	  tmplt -> InsertEndChild (tr);
+
+	  in_slice = false;
+	  vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
+	  if (slice_it != slice -> end ())
+	      in_slice = true;
+	  
+	  tr = jump (doc, oss.str (), inst, inst -> m_next, in_slice);
+	  tmplt -> InsertEndChild (tr);
+
+	  /////
+
+	  Inst *target = NULL;
+	  vector<Inst *> *targets = cfg -> insts ();
+	  vector<Inst *>::iterator target_it = targets -> begin ();
+	  for (; target_it != targets -> end (); ++target_it)
+	    {
+	      target = *target_it;
+	      if (target -> m_addr == inst -> m_target)
+		break;
+	    }
+
+	  oss.str ("");
+	  oss << hex << inst -> m_addr << "_true";
+	  tr = pre_jump (doc, inst, oss.str (), true);
+	  tmplt -> InsertEndChild (tr);
+
+	  in_slice = false;
+	  slice_it = find (slice -> begin (), slice -> end (), inst);
+	  if (slice_it != slice -> end ())
+	      in_slice = true;
+	  
+	  tr = jump (doc, oss.str (), inst, target, in_slice);
+	  tmplt -> InsertEndChild (tr);
+	}
+    }
+  }
   
+  /*
   ListDigraph::NodeIt m (*cfg -> m_graph);
   for (; m != INVALID; ++m)
     {
@@ -941,7 +1352,7 @@ void execute_3058() { li(r3, 30);        }
 	  tmplt -> InsertEndChild (tr);
 	}
     }
-
+  */
   nta -> InsertFirstChild (tmplt);
   nta -> InsertFirstChild (nta_decl);
   // </template>

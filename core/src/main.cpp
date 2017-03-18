@@ -56,8 +56,14 @@ main (int argc, char *argv[])
     
   if (cfg_only)
     {
-      CFG *cfg = CFG::FromFile (executable_path);
-      CFG::ToFile (executable_path + "-cfg.dot" , cfg);
+      CFG            *cfg  = CFG::FromFile (executable_path);
+      vector<Inst *> *dump = cfg -> insts ();
+      vector<BB   *> *bbs  = cfg -> bbs   ();
+      
+      Inst::ToFile (executable_path + "-dump"    , dump);
+        BB::ToFile (executable_path + "-bbs"     , bbs);  
+       CFG::ToFile (executable_path + "-cfg.dot" , cfg, CFG::FINE_GRAIN);
+       CFG::ToFile (executable_path + "-CFG.dot" , cfg, CFG::COARSE_GRAIN);
 
       return EXIT_SUCCESS;
     }
@@ -65,9 +71,8 @@ main (int argc, char *argv[])
   clock_t begin = clock ();
       
   ////////////////////
-  CFG *cfg = CFG::FromFile (executable_path);
+  CFG            *cfg  = CFG::FromFile (executable_path);
   vector<Inst *> *dump = cfg -> insts ();
-  vector<BB   *> *bbs  = cfg -> bbs   ();
   
   CFG *gfc = CFG::Reverse (cfg);
   DFS *dfs = new DFS (gfc);
@@ -91,19 +96,15 @@ main (int argc, char *argv[])
        << dump_regs  << ","
        << slice_regs << ","
        << time       << endl;
-  
-  Inst::ToFile (executable_path + "-dump"    , dump);
-  Inst::ToFile (executable_path + "-slice"   , slice);
-    BB::ToFile (executable_path + "-bbs"     , bbs);
-   CFG::ToFile (executable_path + "-cfg.dot" , cfg);
    
-   DFS::ToFile (executable_path + "-dfs.dot" , gfc, dfs);
-    DT::ToFile (executable_path + "-dt.dot"  , pdt);
-   PDT::ToFile (executable_path + "-pdt.dot" , pdt);
-   CDG::ToFile (executable_path + "-cdg.dot" , cdg);
-   PDG::ToFile (executable_path + "-pdg.dot" , pdg);
+    DFS::ToFile (executable_path + "-dfs.dot"  , gfc, dfs);
+     DT::ToFile (executable_path + "-dt.dot"   , pdt);
+    PDT::ToFile (executable_path + "-pdt.dot"  , pdt);
+    CDG::ToFile (executable_path + "-cdg.dot"  , cdg);
+    PDG::ToFile (executable_path + "-pdg.dot"  , pdg);
+   Inst::ToFile (executable_path + "-slice"    , slice);
 
-   CFG::ToUPPAAL (executable_path + "-model.xml", template_path, cfg, slice);
+   CFG::ToUPPAAL (executable_path + "-model.xml" , template_path, cfg, slice);
   
   return EXIT_SUCCESS;
 }

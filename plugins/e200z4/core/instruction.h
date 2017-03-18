@@ -25,6 +25,7 @@ class e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual ~e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -55,6 +56,7 @@ class e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -85,6 +87,7 @@ class e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual ~e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -115,6 +118,7 @@ class e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -141,6 +145,7 @@ class e200z4_CR0_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual ~e200z4_CR0_crfd_crfs_mcrf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -161,6 +166,7 @@ class e200z4_CR0_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual ~e200z4_CR0_crfd_crfs_mcrfs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -180,6 +186,7 @@ class e200z4_CR0_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR0_crfd_fcmpo_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -200,6 +207,7 @@ class e200z4_CR0_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR0_crfd_fcmpu_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -219,6 +227,7 @@ class e200z4_CR0_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual ~e200z4_CR0_crfd_imm_mtfsfi_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -238,6 +247,7 @@ class e200z4_CR0_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual ~e200z4_CR0_crfd_imm_mtfsfi_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -258,6 +268,7 @@ class e200z4_CR0_crfd_mcrxr : public e200z4_instruction {
 	virtual ~e200z4_CR0_crfd_mcrxr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -283,6 +294,7 @@ class e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual ~e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -313,6 +325,7 @@ class e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -343,6 +356,7 @@ class e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual ~e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -373,6 +387,7 @@ class e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -399,6 +414,7 @@ class e200z4_CR1_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual ~e200z4_CR1_crfd_crfs_mcrf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -419,6 +435,7 @@ class e200z4_CR1_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual ~e200z4_CR1_crfd_crfs_mcrfs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -438,6 +455,7 @@ class e200z4_CR1_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR1_crfd_fcmpo_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -458,6 +476,7 @@ class e200z4_CR1_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR1_crfd_fcmpu_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -477,6 +496,7 @@ class e200z4_CR1_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual ~e200z4_CR1_crfd_imm_mtfsfi_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -496,6 +516,7 @@ class e200z4_CR1_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual ~e200z4_CR1_crfd_imm_mtfsfi_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -516,6 +537,7 @@ class e200z4_CR1_crfd_mcrxr : public e200z4_instruction {
 	virtual ~e200z4_CR1_crfd_mcrxr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -541,6 +563,7 @@ class e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual ~e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -571,6 +594,7 @@ class e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -601,6 +625,7 @@ class e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual ~e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -631,6 +656,7 @@ class e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -657,6 +683,7 @@ class e200z4_CR2_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual ~e200z4_CR2_crfd_crfs_mcrf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -677,6 +704,7 @@ class e200z4_CR2_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual ~e200z4_CR2_crfd_crfs_mcrfs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -696,6 +724,7 @@ class e200z4_CR2_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR2_crfd_fcmpo_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -716,6 +745,7 @@ class e200z4_CR2_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR2_crfd_fcmpu_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -735,6 +765,7 @@ class e200z4_CR2_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual ~e200z4_CR2_crfd_imm_mtfsfi_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -754,6 +785,7 @@ class e200z4_CR2_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual ~e200z4_CR2_crfd_imm_mtfsfi_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -774,6 +806,7 @@ class e200z4_CR2_crfd_mcrxr : public e200z4_instruction {
 	virtual ~e200z4_CR2_crfd_mcrxr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -799,6 +832,7 @@ class e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual ~e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -829,6 +863,7 @@ class e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -859,6 +894,7 @@ class e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual ~e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -889,6 +925,7 @@ class e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -915,6 +952,7 @@ class e200z4_CR3_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual ~e200z4_CR3_crfd_crfs_mcrf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -935,6 +973,7 @@ class e200z4_CR3_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual ~e200z4_CR3_crfd_crfs_mcrfs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -954,6 +993,7 @@ class e200z4_CR3_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR3_crfd_fcmpo_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -974,6 +1014,7 @@ class e200z4_CR3_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR3_crfd_fcmpu_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -993,6 +1034,7 @@ class e200z4_CR3_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual ~e200z4_CR3_crfd_imm_mtfsfi_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1012,6 +1054,7 @@ class e200z4_CR3_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual ~e200z4_CR3_crfd_imm_mtfsfi_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1032,6 +1075,7 @@ class e200z4_CR3_crfd_mcrxr : public e200z4_instruction {
 	virtual ~e200z4_CR3_crfd_mcrxr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1057,6 +1101,7 @@ class e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual ~e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1087,6 +1132,7 @@ class e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1117,6 +1163,7 @@ class e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual ~e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1147,6 +1194,7 @@ class e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1173,6 +1221,7 @@ class e200z4_CR4_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual ~e200z4_CR4_crfd_crfs_mcrf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1193,6 +1242,7 @@ class e200z4_CR4_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual ~e200z4_CR4_crfd_crfs_mcrfs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1212,6 +1262,7 @@ class e200z4_CR4_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR4_crfd_fcmpo_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1232,6 +1283,7 @@ class e200z4_CR4_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR4_crfd_fcmpu_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1251,6 +1303,7 @@ class e200z4_CR4_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual ~e200z4_CR4_crfd_imm_mtfsfi_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1270,6 +1323,7 @@ class e200z4_CR4_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual ~e200z4_CR4_crfd_imm_mtfsfi_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1290,6 +1344,7 @@ class e200z4_CR4_crfd_mcrxr : public e200z4_instruction {
 	virtual ~e200z4_CR4_crfd_mcrxr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1315,6 +1370,7 @@ class e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual ~e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1345,6 +1401,7 @@ class e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1375,6 +1432,7 @@ class e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual ~e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1405,6 +1463,7 @@ class e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1431,6 +1490,7 @@ class e200z4_CR5_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual ~e200z4_CR5_crfd_crfs_mcrf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1451,6 +1511,7 @@ class e200z4_CR5_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual ~e200z4_CR5_crfd_crfs_mcrfs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1470,6 +1531,7 @@ class e200z4_CR5_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR5_crfd_fcmpo_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1490,6 +1552,7 @@ class e200z4_CR5_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR5_crfd_fcmpu_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1509,6 +1572,7 @@ class e200z4_CR5_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual ~e200z4_CR5_crfd_imm_mtfsfi_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1528,6 +1592,7 @@ class e200z4_CR5_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual ~e200z4_CR5_crfd_imm_mtfsfi_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1548,6 +1613,7 @@ class e200z4_CR5_crfd_mcrxr : public e200z4_instruction {
 	virtual ~e200z4_CR5_crfd_mcrxr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1573,6 +1639,7 @@ class e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual ~e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1603,6 +1670,7 @@ class e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1633,6 +1701,7 @@ class e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual ~e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1663,6 +1732,7 @@ class e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1689,6 +1759,7 @@ class e200z4_CR6_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual ~e200z4_CR6_crfd_crfs_mcrf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1709,6 +1780,7 @@ class e200z4_CR6_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual ~e200z4_CR6_crfd_crfs_mcrfs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1728,6 +1800,7 @@ class e200z4_CR6_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR6_crfd_fcmpo_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1748,6 +1821,7 @@ class e200z4_CR6_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR6_crfd_fcmpu_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1767,6 +1841,7 @@ class e200z4_CR6_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual ~e200z4_CR6_crfd_imm_mtfsfi_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1786,6 +1861,7 @@ class e200z4_CR6_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual ~e200z4_CR6_crfd_imm_mtfsfi_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1806,6 +1882,7 @@ class e200z4_CR6_crfd_mcrxr : public e200z4_instruction {
 	virtual ~e200z4_CR6_crfd_mcrxr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1831,6 +1908,7 @@ class e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual ~e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1861,6 +1939,7 @@ class e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1891,6 +1970,7 @@ class e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual ~e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1921,6 +2001,7 @@ class e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual ~e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1947,6 +2028,7 @@ class e200z4_CR7_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual ~e200z4_CR7_crfd_crfs_mcrf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -1967,6 +2049,7 @@ class e200z4_CR7_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual ~e200z4_CR7_crfd_crfs_mcrfs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -1986,6 +2069,7 @@ class e200z4_CR7_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR7_crfd_fcmpo_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -2006,6 +2090,7 @@ class e200z4_CR7_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual ~e200z4_CR7_crfd_fcmpu_fra_frb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -2025,6 +2110,7 @@ class e200z4_CR7_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual ~e200z4_CR7_crfd_imm_mtfsfi_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -2044,6 +2130,7 @@ class e200z4_CR7_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual ~e200z4_CR7_crfd_imm_mtfsfi_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -2064,6 +2151,7 @@ class e200z4_CR7_crfd_mcrxr : public e200z4_instruction {
 	virtual ~e200z4_CR7_crfd_mcrxr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2085,6 +2173,7 @@ class e200z4_SP_Check_abs_b_li_updatelr : public e200z4_instruction {
 	virtual ~e200z4_SP_Check_abs_b_li_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2117,6 +2206,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr : public e200z
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2155,6 +2245,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr : public e200z4_i
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2193,6 +2284,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z : public e200z4
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2231,6 +2323,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z : public e200z4_in
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2269,6 +2362,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_updatelr : public 
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2307,6 +2401,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr : public e20
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2345,6 +2440,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_z : public e
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2383,6 +2479,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z : public e200
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2421,6 +2518,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr : public e200z
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2459,6 +2557,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr : public e200z4_i
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2497,6 +2596,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z : public e200z4
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2535,6 +2635,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z : public e200z4_in
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2573,6 +2674,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr : public e200z4_
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2610,6 +2712,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr : public e200z4_ins
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2647,6 +2750,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr : public e2
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2684,6 +2788,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr : public e200z
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2721,6 +2826,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr : public e200z4_
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2758,6 +2864,7 @@ class e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr : public e200z4_ins
 	virtual ~e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2794,6 +2901,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr : public e200
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2830,6 +2938,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr : public e200z4_
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2866,6 +2975,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z : public e200z
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2902,6 +3012,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z : public e200z4_i
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2938,6 +3049,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr : public
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -2974,6 +3086,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr : public e2
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3010,6 +3123,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z : public 
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3046,6 +3160,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z : public e20
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3082,6 +3197,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr : public e200
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3118,6 +3234,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr : public e200z4_
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3154,6 +3271,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z : public e200z
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3190,6 +3308,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z : public e200z4_i
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3226,6 +3345,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr : public e200z4
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3261,6 +3381,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr : public e200z4_in
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3296,6 +3417,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr : public e
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3331,6 +3453,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr : public e200
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3366,6 +3489,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr : public e200z4
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3401,6 +3525,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr : public e200z4_in
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3436,6 +3561,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr : public e20
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3472,6 +3598,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr : public e200z4
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3508,6 +3635,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z : public e200
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3544,6 +3672,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z : public e200z4_
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3580,6 +3709,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr : publi
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3616,6 +3746,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatelr : public e
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3652,6 +3783,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatelr_z : public
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3688,6 +3820,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z : public e2
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3724,6 +3857,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr : public e20
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3760,6 +3894,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr : public e200z4
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3796,6 +3931,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z : public e200
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3832,6 +3968,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z : public e200z4_
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3868,6 +4005,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr : public e200z
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3903,6 +4041,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr : public e200z4_i
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3938,6 +4077,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_updatelr : public 
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -3973,6 +4113,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr : public e20
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4008,6 +4149,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr : public e200z
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4043,6 +4185,7 @@ class e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr : public e200z4_i
 	virtual ~e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4075,6 +4218,7 @@ class e200z4_SP_Check_b_li_rel_updatelr : public e200z4_instruction {
 	virtual ~e200z4_SP_Check_b_li_rel_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4107,6 +4251,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_revStatPred_updatelr : public e200z
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4145,6 +4290,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_statPred_updatelr : public e200z4_i
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4183,6 +4329,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_revStatPred_updatelr_z : public e200z4
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4221,6 +4368,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_statPred_updatelr_z : public e200z4_in
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_statPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4259,6 +4407,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred_updatelr : public 
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4297,6 +4446,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_statPred_updatelr : public e20
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4335,6 +4485,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_revStatPred_updatelr_z : public e
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_revStatPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4373,6 +4524,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_statPred_updatelr_z : public e200
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_statPred_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4411,6 +4563,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_revStatPred_t_updatelr : public e200z
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4449,6 +4602,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_statPred_t_updatelr : public e200z4_i
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_statPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4487,6 +4641,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_rel_revStatPred_t_updatelr_z : public e200z4
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_rel_revStatPred_t_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4525,6 +4680,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_d_rel_statPred_t_updatelr_z : public e200z4_in
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_d_rel_statPred_t_updatelr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4563,6 +4719,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr : public e200z4_
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4600,6 +4757,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr : public e200z4_ins
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4637,6 +4795,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_revStatPred_updatelr : public e2
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_revStatPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4674,6 +4833,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_statPred_updatelr : public e200z
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_statPred_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4711,6 +4871,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_rel_revStatPred_t_updatelr : public e200z4_
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_nd_rel_revStatPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4748,6 +4909,7 @@ class e200z4_SP_Check_bc_bd_bi_bo_nd_rel_statPred_t_updatelr : public e200z4_ins
 	virtual ~e200z4_SP_Check_bc_bd_bi_bo_nd_rel_statPred_t_updatelr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4780,6 +4942,7 @@ class e200z4_SP_Check_sc : public e200z4_instruction {
 	virtual ~e200z4_SP_Check_sc() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4805,6 +4968,7 @@ class e200z4_abs_b_li : public e200z4_instruction {
 	virtual ~e200z4_abs_b_li() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4835,6 +4999,7 @@ class e200z4_abs_bc_bd_bi_bo_d_f_nz_revStatPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_f_nz_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4871,6 +5036,7 @@ class e200z4_abs_bc_bd_bi_bo_d_f_nz_statPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_f_nz_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4907,6 +5073,7 @@ class e200z4_abs_bc_bd_bi_bo_d_f_revStatPred_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_f_revStatPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4943,6 +5110,7 @@ class e200z4_abs_bc_bd_bi_bo_d_f_statPred_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_f_statPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -4979,6 +5147,7 @@ class e200z4_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred : public e200z4_instruction
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5015,6 +5184,7 @@ class e200z4_abs_bc_bd_bi_bo_d_noCond_nz_statPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_noCond_nz_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5051,6 +5221,7 @@ class e200z4_abs_bc_bd_bi_bo_d_noCond_revStatPred_z : public e200z4_instruction 
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_noCond_revStatPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5087,6 +5258,7 @@ class e200z4_abs_bc_bd_bi_bo_d_noCond_statPred_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_noCond_statPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5123,6 +5295,7 @@ class e200z4_abs_bc_bd_bi_bo_d_nz_revStatPred_t : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_nz_revStatPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5159,6 +5332,7 @@ class e200z4_abs_bc_bd_bi_bo_d_nz_statPred_t : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_nz_statPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5195,6 +5369,7 @@ class e200z4_abs_bc_bd_bi_bo_d_revStatPred_t_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_revStatPred_t_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5231,6 +5406,7 @@ class e200z4_abs_bc_bd_bi_bo_d_statPred_t_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_d_statPred_t_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5267,6 +5443,7 @@ class e200z4_abs_bc_bd_bi_bo_f_nd_revStatPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_f_nd_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5302,6 +5479,7 @@ class e200z4_abs_bc_bd_bi_bo_f_nd_statPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_f_nd_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5337,6 +5515,7 @@ class e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5372,6 +5551,7 @@ class e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5407,6 +5587,7 @@ class e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5442,6 +5623,7 @@ class e200z4_abs_bc_bd_bi_bo_nd_statPred_t : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bd_bi_bo_nd_statPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5476,6 +5658,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5510,6 +5693,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5544,6 +5728,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5578,6 +5763,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5612,6 +5798,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred : public e200z4_instructio
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5646,6 +5833,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5680,6 +5868,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z : public e200z4_instruction
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5714,6 +5903,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5748,6 +5938,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5782,6 +5973,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5816,6 +6008,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5850,6 +6043,7 @@ class e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5884,6 +6078,7 @@ class e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5917,6 +6112,7 @@ class e200z4_abs_bc_bi_bo_ctr_f_nd_statPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_f_nd_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5950,6 +6146,7 @@ class e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred : public e200z4_instruction 
 	virtual ~e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -5983,6 +6180,7 @@ class e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6016,6 +6214,7 @@ class e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6049,6 +6248,7 @@ class e200z4_abs_bc_bi_bo_ctr_nd_statPred_t : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_ctr_nd_statPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6082,6 +6282,7 @@ class e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6116,6 +6317,7 @@ class e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6150,6 +6352,7 @@ class e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6184,6 +6387,7 @@ class e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6218,6 +6422,7 @@ class e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr : public e200z4_instructi
 	virtual ~e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6252,6 +6457,7 @@ class e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr : public e200z4_instruction 
 	virtual ~e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6286,6 +6492,7 @@ class e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z : public e200z4_instructio
 	virtual ~e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6320,6 +6527,7 @@ class e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6354,6 +6562,7 @@ class e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6388,6 +6597,7 @@ class e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6422,6 +6632,7 @@ class e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6456,6 +6667,7 @@ class e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6488,6 +6700,7 @@ class e200z4_abs_bc_bi_bo_f_nd_revStatPred_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_f_nd_revStatPred_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6521,6 +6734,7 @@ class e200z4_abs_bc_bi_bo_f_nd_statPred_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_f_nd_statPred_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6554,6 +6768,7 @@ class e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr : public e200z4_instruction
 	virtual ~e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6587,6 +6802,7 @@ class e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6620,6 +6836,7 @@ class e200z4_abs_bc_bi_bo_nd_revStatPred_t_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_nd_revStatPred_t_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6653,6 +6870,7 @@ class e200z4_abs_bc_bi_bo_nd_statPred_t_tolr : public e200z4_instruction {
 	virtual ~e200z4_abs_bc_bi_bo_nd_statPred_t_tolr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6686,6 +6904,7 @@ class e200z4_add_noOv_noStatus_ra_rb_rd : public e200z4_instruction {
 	virtual ~e200z4_add_noOv_noStatus_ra_rb_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6713,6 +6932,7 @@ class e200z4_add_noOv_noStatus_ra_rb_rd_withCarry : public e200z4_instruction {
 	virtual ~e200z4_add_noOv_noStatus_ra_rb_rd_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6741,6 +6961,7 @@ class e200z4_add_noOv_ra_rb_rd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_add_noOv_ra_rb_rd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6768,6 +6989,7 @@ class e200z4_add_noOv_ra_rb_rd_useStatus_withCarry : public e200z4_instruction {
 	virtual ~e200z4_add_noOv_ra_rb_rd_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6796,6 +7018,7 @@ class e200z4_add_noStatus_ra_rb_rd_useOv : public e200z4_instruction {
 	virtual ~e200z4_add_noStatus_ra_rb_rd_useOv() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6823,6 +7046,7 @@ class e200z4_add_noStatus_ra_rb_rd_useOv_withCarry : public e200z4_instruction {
 	virtual ~e200z4_add_noStatus_ra_rb_rd_useOv_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6851,6 +7075,7 @@ class e200z4_add_ra_rb_rd_useOv_useStatus : public e200z4_instruction {
 	virtual ~e200z4_add_ra_rb_rd_useOv_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6878,6 +7103,7 @@ class e200z4_add_ra_rb_rd_useOv_useStatus_withCarry : public e200z4_instruction 
 	virtual ~e200z4_add_ra_rb_rd_useOv_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6906,6 +7132,7 @@ class e200z4_adde_noOv_noStatus_ra_rb_rd_withCarry : public e200z4_instruction {
 	virtual ~e200z4_adde_noOv_noStatus_ra_rb_rd_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6934,6 +7161,7 @@ class e200z4_adde_noOv_ra_rb_rd_useStatus_withCarry : public e200z4_instruction 
 	virtual ~e200z4_adde_noOv_ra_rb_rd_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6962,6 +7190,7 @@ class e200z4_adde_noStatus_ra_rb_rd_useOv_withCarry : public e200z4_instruction 
 	virtual ~e200z4_adde_noStatus_ra_rb_rd_useOv_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -6990,6 +7219,7 @@ class e200z4_adde_ra_rb_rd_useOv_useStatus_withCarry : public e200z4_instruction
 	virtual ~e200z4_adde_ra_rb_rd_useOv_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7016,6 +7246,7 @@ class e200z4_addi_noOv_noStatus_ra_rd_simm : public e200z4_instruction {
 	virtual ~e200z4_addi_noOv_noStatus_ra_rd_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7043,6 +7274,7 @@ class e200z4_addic_noOv_noStatus_ra_rd_simm_withCarry : public e200z4_instructio
 	virtual ~e200z4_addic_noOv_noStatus_ra_rd_simm_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7071,6 +7303,7 @@ class e200z4_addic_noOv_ra_rd_simm_useStatus_withCarry : public e200z4_instructi
 	virtual ~e200z4_addic_noOv_ra_rd_simm_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7097,6 +7330,7 @@ class e200z4_addis_noOv_noStatus_ra_rd_simm : public e200z4_instruction {
 	virtual ~e200z4_addis_noOv_noStatus_ra_rd_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7123,6 +7357,7 @@ class e200z4_addme_noOv_noStatus_ra_rd_withCarry : public e200z4_instruction {
 	virtual ~e200z4_addme_noOv_noStatus_ra_rd_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7149,6 +7384,7 @@ class e200z4_addme_noOv_ra_rd_useStatus_withCarry : public e200z4_instruction {
 	virtual ~e200z4_addme_noOv_ra_rd_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7175,6 +7411,7 @@ class e200z4_addme_noStatus_ra_rd_useOv_withCarry : public e200z4_instruction {
 	virtual ~e200z4_addme_noStatus_ra_rd_useOv_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7201,6 +7438,7 @@ class e200z4_addme_ra_rd_useOv_useStatus_withCarry : public e200z4_instruction {
 	virtual ~e200z4_addme_ra_rd_useOv_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7227,6 +7465,7 @@ class e200z4_addze_noOv_noStatus_ra_rd_withCarry : public e200z4_instruction {
 	virtual ~e200z4_addze_noOv_noStatus_ra_rd_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7253,6 +7492,7 @@ class e200z4_addze_noOv_ra_rd_useStatus_withCarry : public e200z4_instruction {
 	virtual ~e200z4_addze_noOv_ra_rd_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7279,6 +7519,7 @@ class e200z4_addze_noStatus_ra_rd_useOv_withCarry : public e200z4_instruction {
 	virtual ~e200z4_addze_noStatus_ra_rd_useOv_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7305,6 +7546,7 @@ class e200z4_addze_ra_rd_useOv_useStatus_withCarry : public e200z4_instruction {
 	virtual ~e200z4_addze_ra_rd_useOv_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7330,6 +7572,7 @@ class e200z4_aftercomplemented_and_noStatus_notcomplemented_ra_rb_rs : public e2
 	virtual ~e200z4_aftercomplemented_and_noStatus_notcomplemented_ra_rb_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7358,6 +7601,7 @@ class e200z4_aftercomplemented_and_notcomplemented_ra_rb_rs_useStatus : public e
 	virtual ~e200z4_aftercomplemented_and_notcomplemented_ra_rb_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7384,6 +7628,7 @@ class e200z4_aftercomplemented_noStatus_notcomplemented_or_ra_rb_rs : public e20
 	virtual ~e200z4_aftercomplemented_noStatus_notcomplemented_or_ra_rb_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7410,6 +7655,7 @@ class e200z4_aftercomplemented_noStatus_notcomplemented_ra_rb_rs_xor : public e2
 	virtual ~e200z4_aftercomplemented_noStatus_notcomplemented_ra_rb_rs_xor() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7438,6 +7684,7 @@ class e200z4_aftercomplemented_notcomplemented_or_ra_rb_rs_useStatus : public e2
 	virtual ~e200z4_aftercomplemented_notcomplemented_or_ra_rb_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7466,6 +7713,7 @@ class e200z4_aftercomplemented_notcomplemented_ra_rb_rs_useStatus_xor : public e
 	virtual ~e200z4_aftercomplemented_notcomplemented_ra_rb_rs_useStatus_xor() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7492,6 +7740,7 @@ class e200z4_algebraic_d_half_load_notu_ra_rd : public e200z4_instruction {
 	virtual ~e200z4_algebraic_d_half_load_notu_ra_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -7518,6 +7767,7 @@ class e200z4_algebraic_d_half_load_ra_rd_u : public e200z4_instruction {
 	virtual ~e200z4_algebraic_d_half_load_ra_rd_u() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -7544,6 +7794,7 @@ class e200z4_algebraic_half_load_notu_ra_rb_rd_x : public e200z4_instruction {
 	virtual ~e200z4_algebraic_half_load_notu_ra_rb_rd_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -7571,6 +7822,7 @@ class e200z4_algebraic_half_load_ra_rb_rd_u_x : public e200z4_instruction {
 	virtual ~e200z4_algebraic_half_load_ra_rb_rd_u_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -7596,6 +7848,7 @@ class e200z4_algebraic_load_notu_r_ra_rb_rd_word_x : public e200z4_instruction {
 	virtual ~e200z4_algebraic_load_notu_r_ra_rb_rd_word_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -7622,6 +7875,7 @@ class e200z4_and_complemented_noStatus_notaftercomplemented_ra_rb_rs : public e2
 	virtual ~e200z4_and_complemented_noStatus_notaftercomplemented_ra_rb_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7650,6 +7904,7 @@ class e200z4_and_complemented_notaftercomplemented_ra_rb_rs_useStatus : public e
 	virtual ~e200z4_and_complemented_notaftercomplemented_ra_rb_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7676,6 +7931,7 @@ class e200z4_and_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs : public
 	virtual ~e200z4_and_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7704,6 +7960,7 @@ class e200z4_and_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus : publi
 	virtual ~e200z4_and_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7732,6 +7989,7 @@ class e200z4_and_notaftercomplemented_notshifted_ra_rs_uimm_useStatus : public e
 	virtual ~e200z4_and_notaftercomplemented_notshifted_ra_rs_uimm_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7760,6 +8018,7 @@ class e200z4_and_notaftercomplemented_ra_rs_shifted_uimm_useStatus : public e200
 	virtual ~e200z4_and_notaftercomplemented_ra_rs_shifted_uimm_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7785,6 +8044,7 @@ class e200z4_b_li_rel : public e200z4_instruction {
 	virtual ~e200z4_b_li_rel() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7813,6 +8073,7 @@ class e200z4_bc_bd_bi_bo_d_f_nz_rel_revStatPred : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_f_nz_rel_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7849,6 +8110,7 @@ class e200z4_bc_bd_bi_bo_d_f_nz_rel_statPred : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_f_nz_rel_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7885,6 +8147,7 @@ class e200z4_bc_bd_bi_bo_d_f_rel_revStatPred_z : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_f_rel_revStatPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7921,6 +8184,7 @@ class e200z4_bc_bd_bi_bo_d_f_rel_statPred_z : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_f_rel_statPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7957,6 +8221,7 @@ class e200z4_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred : public e200z4_instruction
 	virtual ~e200z4_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -7993,6 +8258,7 @@ class e200z4_bc_bd_bi_bo_d_noCond_nz_rel_statPred : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_noCond_nz_rel_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8029,6 +8295,7 @@ class e200z4_bc_bd_bi_bo_d_noCond_rel_revStatPred_z : public e200z4_instruction 
 	virtual ~e200z4_bc_bd_bi_bo_d_noCond_rel_revStatPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8065,6 +8332,7 @@ class e200z4_bc_bd_bi_bo_d_noCond_rel_statPred_z : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_noCond_rel_statPred_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8101,6 +8369,7 @@ class e200z4_bc_bd_bi_bo_d_nz_rel_revStatPred_t : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_nz_rel_revStatPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8137,6 +8406,7 @@ class e200z4_bc_bd_bi_bo_d_nz_rel_statPred_t : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_nz_rel_statPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8173,6 +8443,7 @@ class e200z4_bc_bd_bi_bo_d_rel_revStatPred_t_z : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_rel_revStatPred_t_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8209,6 +8480,7 @@ class e200z4_bc_bd_bi_bo_d_rel_statPred_t_z : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_d_rel_statPred_t_z() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8245,6 +8517,7 @@ class e200z4_bc_bd_bi_bo_f_nd_rel_revStatPred : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_f_nd_rel_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8280,6 +8553,7 @@ class e200z4_bc_bd_bi_bo_f_nd_rel_statPred : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_f_nd_rel_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8315,6 +8589,7 @@ class e200z4_bc_bd_bi_bo_nd_noCond_rel_revStatPred : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_nd_noCond_rel_revStatPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8350,6 +8625,7 @@ class e200z4_bc_bd_bi_bo_nd_noCond_rel_statPred : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_nd_noCond_rel_statPred() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8385,6 +8661,7 @@ class e200z4_bc_bd_bi_bo_nd_rel_revStatPred_t : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_nd_rel_revStatPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8420,6 +8697,7 @@ class e200z4_bc_bd_bi_bo_nd_rel_statPred_t : public e200z4_instruction {
 	virtual ~e200z4_bc_bd_bi_bo_nd_rel_statPred_t() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8454,6 +8732,7 @@ class e200z4_br_half_load_notu_ra_rb_rd_x : public e200z4_instruction {
 	virtual ~e200z4_br_half_load_notu_ra_rb_rd_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8481,6 +8760,7 @@ class e200z4_br_half_notu_ra_rb_rs_store_x : public e200z4_instruction {
 	virtual ~e200z4_br_half_notu_ra_rb_rs_store_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8508,6 +8788,7 @@ class e200z4_br_load_notu_ra_rb_rd_word_x : public e200z4_instruction {
 	virtual ~e200z4_br_load_notu_ra_rb_rd_word_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8535,6 +8816,7 @@ class e200z4_br_notu_ra_rb_rs_store_word_x : public e200z4_instruction {
 	virtual ~e200z4_br_notu_ra_rb_rs_store_word_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8562,6 +8844,7 @@ class e200z4_byte_d_load_notu_ra_rd_zero : public e200z4_instruction {
 	virtual ~e200z4_byte_d_load_notu_ra_rd_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8588,6 +8871,7 @@ class e200z4_byte_d_load_ra_rd_u_zero : public e200z4_instruction {
 	virtual ~e200z4_byte_d_load_ra_rd_u_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8614,6 +8898,7 @@ class e200z4_byte_d_notu_ra_rs_store : public e200z4_instruction {
 	virtual ~e200z4_byte_d_notu_ra_rs_store() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8639,6 +8924,7 @@ class e200z4_byte_d_ra_rs_store_u : public e200z4_instruction {
 	virtual ~e200z4_byte_d_ra_rs_store_u() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8664,6 +8950,7 @@ class e200z4_byte_load_notu_ra_rb_rd_x_zero : public e200z4_instruction {
 	virtual ~e200z4_byte_load_notu_ra_rb_rd_x_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8691,6 +8978,7 @@ class e200z4_byte_load_ra_rb_rd_u_x_zero : public e200z4_instruction {
 	virtual ~e200z4_byte_load_ra_rb_rd_u_x_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8718,6 +9006,7 @@ class e200z4_byte_notu_ra_rb_rs_store_x : public e200z4_instruction {
 	virtual ~e200z4_byte_notu_ra_rb_rs_store_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8744,6 +9033,7 @@ class e200z4_byte_ra_rb_rs_store_u_x : public e200z4_instruction {
 	virtual ~e200z4_byte_ra_rb_rs_store_u_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -8768,6 +9058,7 @@ class e200z4_c_notu_ra_rb_rs_store_useStatus_word_x : public e200z4_instruction 
 	virtual ~e200z4_c_notu_ra_rb_rs_store_useStatus_word_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -8793,6 +9084,7 @@ class e200z4_cntlzw_noStatus_ra_rs : public e200z4_instruction {
 	virtual ~e200z4_cntlzw_noStatus_ra_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8817,6 +9109,7 @@ class e200z4_cntlzw_ra_rs_useStatus : public e200z4_instruction {
 	virtual ~e200z4_cntlzw_ra_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8840,6 +9133,7 @@ class e200z4_complemented_noStatus_notaftercomplemented_or_ra_rb_rs : public e20
 	virtual ~e200z4_complemented_noStatus_notaftercomplemented_or_ra_rb_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8868,6 +9162,7 @@ class e200z4_complemented_notaftercomplemented_or_ra_rb_rs_useStatus : public e2
 	virtual ~e200z4_complemented_notaftercomplemented_or_ra_rb_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8894,6 +9189,7 @@ class e200z4_crand_crba_crbb_crbd : public e200z4_instruction {
 	virtual ~e200z4_crand_crba_crbb_crbd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8917,6 +9213,7 @@ class e200z4_crandc_crba_crbb_crbd : public e200z4_instruction {
 	virtual ~e200z4_crandc_crba_crbb_crbd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8940,6 +9237,7 @@ class e200z4_crba_crbb_crbd_creqv : public e200z4_instruction {
 	virtual ~e200z4_crba_crbb_crbd_creqv() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8963,6 +9261,7 @@ class e200z4_crba_crbb_crbd_crnand : public e200z4_instruction {
 	virtual ~e200z4_crba_crbb_crbd_crnand() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -8986,6 +9285,7 @@ class e200z4_crba_crbb_crbd_crnor : public e200z4_instruction {
 	virtual ~e200z4_crba_crbb_crbd_crnor() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9009,6 +9309,7 @@ class e200z4_crba_crbb_crbd_cror : public e200z4_instruction {
 	virtual ~e200z4_crba_crbb_crbd_cror() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9032,6 +9333,7 @@ class e200z4_crba_crbb_crbd_crorc : public e200z4_instruction {
 	virtual ~e200z4_crba_crbb_crbd_crorc() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9055,6 +9357,7 @@ class e200z4_crba_crbb_crbd_crxor : public e200z4_instruction {
 	virtual ~e200z4_crba_crbb_crbd_crxor() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9074,6 +9377,7 @@ class e200z4_crbd_mtfsb0_noStatus : public e200z4_instruction {
 	virtual ~e200z4_crbd_mtfsb0_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9090,6 +9394,7 @@ class e200z4_crbd_mtfsb0_useStatus : public e200z4_instruction {
 	virtual ~e200z4_crbd_mtfsb0_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9106,6 +9411,7 @@ class e200z4_crbd_mtfsb1_noStatus : public e200z4_instruction {
 	virtual ~e200z4_crbd_mtfsb1_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9122,6 +9428,7 @@ class e200z4_crbd_mtfsb1_useStatus : public e200z4_instruction {
 	virtual ~e200z4_crbd_mtfsb1_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9143,6 +9450,7 @@ class e200z4_crm_mtcrf_rs : public e200z4_instruction {
 	virtual ~e200z4_crm_mtcrf_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9167,6 +9475,7 @@ class e200z4_d_fd_frd_load_notu_ra : public e200z4_instruction {
 	virtual ~e200z4_d_fd_frd_load_notu_ra() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 3;};
@@ -9194,6 +9503,7 @@ class e200z4_d_fd_frd_load_ra_u : public e200z4_instruction {
 	virtual ~e200z4_d_fd_frd_load_ra_u() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 3;};
@@ -9221,6 +9531,7 @@ class e200z4_d_fd_frs_notu_ra_store : public e200z4_instruction {
 	virtual ~e200z4_d_fd_frs_notu_ra_store() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 3;};
@@ -9248,6 +9559,7 @@ class e200z4_d_fd_frs_ra_store_u : public e200z4_instruction {
 	virtual ~e200z4_d_fd_frs_ra_store_u() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 3;};
@@ -9271,6 +9583,7 @@ class e200z4_d_frd_fs_load_notu_ra : public e200z4_instruction {
 	virtual ~e200z4_d_frd_fs_load_notu_ra() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9292,6 +9605,7 @@ class e200z4_d_frd_fs_load_ra_u : public e200z4_instruction {
 	virtual ~e200z4_d_frd_fs_load_ra_u() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9313,6 +9627,7 @@ class e200z4_d_frs_fs_notu_ra_store : public e200z4_instruction {
 	virtual ~e200z4_d_frs_fs_notu_ra_store() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9334,6 +9649,7 @@ class e200z4_d_frs_fs_ra_store_u : public e200z4_instruction {
 	virtual ~e200z4_d_frs_fs_ra_store_u() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9357,6 +9673,7 @@ class e200z4_d_half_load_notu_ra_rd_zero : public e200z4_instruction {
 	virtual ~e200z4_d_half_load_notu_ra_rd_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -9383,6 +9700,7 @@ class e200z4_d_half_load_ra_rd_u_zero : public e200z4_instruction {
 	virtual ~e200z4_d_half_load_ra_rd_u_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -9409,6 +9727,7 @@ class e200z4_d_half_notu_ra_rs_store : public e200z4_instruction {
 	virtual ~e200z4_d_half_notu_ra_rs_store() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -9434,6 +9753,7 @@ class e200z4_d_half_ra_rs_store_u : public e200z4_instruction {
 	virtual ~e200z4_d_half_ra_rs_store_u() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -9457,6 +9777,7 @@ class e200z4_d_load_mw_notu_ra_rd : public e200z4_instruction {
 	virtual ~e200z4_d_load_mw_notu_ra_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9480,6 +9801,7 @@ class e200z4_d_load_notu_ra_rd_word_zero : public e200z4_instruction {
 	virtual ~e200z4_d_load_notu_ra_rd_word_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -9506,6 +9828,7 @@ class e200z4_d_load_ra_rd_u_word_zero : public e200z4_instruction {
 	virtual ~e200z4_d_load_ra_rd_u_word_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -9532,6 +9855,7 @@ class e200z4_d_mw_notu_ra_rs_store : public e200z4_instruction {
 	virtual ~e200z4_d_mw_notu_ra_rs_store() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9557,6 +9881,7 @@ class e200z4_d_notu_ra_rs_store_word : public e200z4_instruction {
 	virtual ~e200z4_d_notu_ra_rs_store_word() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -9582,6 +9907,7 @@ class e200z4_d_ra_rs_store_u_word : public e200z4_instruction {
 	virtual ~e200z4_d_ra_rs_store_u_word() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -9604,6 +9930,7 @@ class e200z4_dcba_ra_rb : public e200z4_instruction {
 	virtual ~e200z4_dcba_ra_rb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9621,6 +9948,7 @@ class e200z4_dcbf_ra_rb : public e200z4_instruction {
 	virtual ~e200z4_dcbf_ra_rb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9638,6 +9966,7 @@ class e200z4_dcbi_ra_rb : public e200z4_instruction {
 	virtual ~e200z4_dcbi_ra_rb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9655,6 +9984,7 @@ class e200z4_dcbst_ra_rb : public e200z4_instruction {
 	virtual ~e200z4_dcbst_ra_rb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9672,6 +10002,7 @@ class e200z4_dcbt_ra_rb : public e200z4_instruction {
 	virtual ~e200z4_dcbt_ra_rb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9689,6 +10020,7 @@ class e200z4_dcbtst_ra_rb : public e200z4_instruction {
 	virtual ~e200z4_dcbtst_ra_rb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9706,6 +10038,7 @@ class e200z4_dcbz_ra_rb : public e200z4_instruction {
 	virtual ~e200z4_dcbz_ra_rb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9726,6 +10059,7 @@ class e200z4_divw_noOv_noStatus_ra_rb_rd : public e200z4_instruction {
 	virtual ~e200z4_divw_noOv_noStatus_ra_rb_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9753,6 +10087,7 @@ class e200z4_divw_noOv_ra_rb_rd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_divw_noOv_ra_rb_rd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9780,6 +10115,7 @@ class e200z4_divw_noStatus_ra_rb_rd_useOv : public e200z4_instruction {
 	virtual ~e200z4_divw_noStatus_ra_rb_rd_useOv() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9807,6 +10143,7 @@ class e200z4_divw_ra_rb_rd_useOv_useStatus : public e200z4_instruction {
 	virtual ~e200z4_divw_ra_rb_rd_useOv_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9832,6 +10169,7 @@ class e200z4_divwu_noOv_noStatus_ra_rb_rd : public e200z4_instruction {
 	virtual ~e200z4_divwu_noOv_noStatus_ra_rb_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9859,6 +10197,7 @@ class e200z4_divwu_noOv_ra_rb_rd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_divwu_noOv_ra_rb_rd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9886,6 +10225,7 @@ class e200z4_divwu_noStatus_ra_rb_rd_useOv : public e200z4_instruction {
 	virtual ~e200z4_divwu_noStatus_ra_rb_rd_useOv() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9913,6 +10253,7 @@ class e200z4_divwu_ra_rb_rd_useOv_useStatus : public e200z4_instruction {
 	virtual ~e200z4_divwu_ra_rb_rd_useOv_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -9936,6 +10277,7 @@ class e200z4_eciwx_ra_rb_rd : public e200z4_instruction {
 	virtual ~e200z4_eciwx_ra_rb_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9955,6 +10297,7 @@ class e200z4_ecowx_ra_rb_rs : public e200z4_instruction {
 	virtual ~e200z4_ecowx_ra_rb_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9971,6 +10314,7 @@ class e200z4_eieio : public e200z4_instruction {
 	virtual ~e200z4_eieio() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -9991,6 +10335,7 @@ class e200z4_eq_imm_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_eq_imm_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -10018,6 +10363,7 @@ class e200z4_eq_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_eq_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -10042,6 +10388,7 @@ class e200z4_extsb_noStatus_ra_rs : public e200z4_instruction {
 	virtual ~e200z4_extsb_noStatus_ra_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -10066,6 +10413,7 @@ class e200z4_extsb_ra_rs_useStatus : public e200z4_instruction {
 	virtual ~e200z4_extsb_ra_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -10088,6 +10436,7 @@ class e200z4_extsh_noStatus_ra_rs : public e200z4_instruction {
 	virtual ~e200z4_extsh_noStatus_ra_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -10112,6 +10461,7 @@ class e200z4_extsh_ra_rs_useStatus : public e200z4_instruction {
 	virtual ~e200z4_extsh_ra_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -10132,6 +10482,7 @@ class e200z4_fabs_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fabs_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10150,6 +10501,7 @@ class e200z4_fabs_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fabs_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10169,6 +10521,7 @@ class e200z4_fadd_fra_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fadd_fra_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10189,6 +10542,7 @@ class e200z4_fadd_fra_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fadd_fra_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10209,6 +10563,7 @@ class e200z4_fadds_fra_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fadds_fra_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10229,6 +10584,7 @@ class e200z4_fadds_fra_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fadds_fra_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10248,6 +10604,7 @@ class e200z4_fctiw_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fctiw_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10266,6 +10623,7 @@ class e200z4_fctiw_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fctiw_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10284,6 +10642,7 @@ class e200z4_fctiwz_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fctiwz_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10302,6 +10661,7 @@ class e200z4_fctiwz_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fctiwz_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10321,6 +10681,7 @@ class e200z4_fd_frd_load_notu_ra_rb_x : public e200z4_instruction {
 	virtual ~e200z4_fd_frd_load_notu_ra_rb_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10343,6 +10704,7 @@ class e200z4_fd_frd_load_ra_rb_u_x : public e200z4_instruction {
 	virtual ~e200z4_fd_frd_load_ra_rb_u_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10365,6 +10727,7 @@ class e200z4_fd_frs_notu_ra_rb_store_x : public e200z4_instruction {
 	virtual ~e200z4_fd_frs_notu_ra_rb_store_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10387,6 +10750,7 @@ class e200z4_fd_frs_ra_rb_store_u_x : public e200z4_instruction {
 	virtual ~e200z4_fd_frs_ra_rb_store_u_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10409,6 +10773,7 @@ class e200z4_fdiv_fra_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fdiv_fra_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10429,6 +10794,7 @@ class e200z4_fdiv_fra_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fdiv_fra_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10449,6 +10815,7 @@ class e200z4_fdivs_fra_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fdivs_fra_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10469,6 +10836,7 @@ class e200z4_fdivs_fra_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fdivs_fra_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10489,6 +10857,7 @@ class e200z4_fiw_frs_notu_ra_rb_store_x : public e200z4_instruction {
 	virtual ~e200z4_fiw_frs_notu_ra_rb_store_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10510,6 +10879,7 @@ class e200z4_fm_frb_mtfsf_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fm_frb_mtfsf_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10528,6 +10898,7 @@ class e200z4_fm_frb_mtfsf_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fm_frb_mtfsf_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10548,6 +10919,7 @@ class e200z4_fmadd_fra_frb_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fmadd_fra_frb_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10570,6 +10942,7 @@ class e200z4_fmadd_fra_frb_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fmadd_fra_frb_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10592,6 +10965,7 @@ class e200z4_fmadds_fra_frb_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fmadds_fra_frb_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10614,6 +10988,7 @@ class e200z4_fmadds_fra_frb_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fmadds_fra_frb_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10634,6 +11009,7 @@ class e200z4_fmr_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fmr_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10652,6 +11028,7 @@ class e200z4_fmr_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fmr_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10672,6 +11049,7 @@ class e200z4_fmsub_fra_frb_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fmsub_fra_frb_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10694,6 +11072,7 @@ class e200z4_fmsub_fra_frb_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fmsub_fra_frb_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10716,6 +11095,7 @@ class e200z4_fmsubs_fra_frb_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fmsubs_fra_frb_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10738,6 +11118,7 @@ class e200z4_fmsubs_fra_frb_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fmsubs_fra_frb_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10759,6 +11140,7 @@ class e200z4_fmul_fra_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fmul_fra_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10779,6 +11161,7 @@ class e200z4_fmul_fra_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fmul_fra_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10799,6 +11182,7 @@ class e200z4_fmuls_fra_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fmuls_fra_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10819,6 +11203,7 @@ class e200z4_fmuls_fra_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fmuls_fra_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10838,6 +11223,7 @@ class e200z4_fnabs_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fnabs_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10856,6 +11242,7 @@ class e200z4_fnabs_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fnabs_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10874,6 +11261,7 @@ class e200z4_fneg_frb_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fneg_frb_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10892,6 +11280,7 @@ class e200z4_fneg_frb_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fneg_frb_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10912,6 +11301,7 @@ class e200z4_fnmadd_fra_frb_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fnmadd_fra_frb_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10934,6 +11324,7 @@ class e200z4_fnmadd_fra_frb_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fnmadd_fra_frb_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10956,6 +11347,7 @@ class e200z4_fnmadds_fra_frb_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fnmadds_fra_frb_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -10978,6 +11370,7 @@ class e200z4_fnmadds_fra_frb_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fnmadds_fra_frb_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11000,6 +11393,7 @@ class e200z4_fnmsub_fra_frb_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fnmsub_fra_frb_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11022,6 +11416,7 @@ class e200z4_fnmsub_fra_frb_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fnmsub_fra_frb_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11044,6 +11439,7 @@ class e200z4_fnmsubs_fra_frb_frc_frd_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fnmsubs_fra_frb_frc_frd_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11066,6 +11462,7 @@ class e200z4_fnmsubs_fra_frb_frc_frd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fnmsubs_fra_frb_frc_frd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11088,6 +11485,7 @@ class e200z4_fra_frb_frc_frd_fsel_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fra_frb_frc_frd_fsel_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11110,6 +11508,7 @@ class e200z4_fra_frb_frc_frd_fsel_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fra_frb_frc_frd_fsel_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11131,6 +11530,7 @@ class e200z4_fra_frb_frd_fsub_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fra_frb_frd_fsub_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11151,6 +11551,7 @@ class e200z4_fra_frb_frd_fsub_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fra_frb_frd_fsub_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11171,6 +11572,7 @@ class e200z4_fra_frb_frd_fsubs_noStatus : public e200z4_instruction {
 	virtual ~e200z4_fra_frb_frd_fsubs_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11191,6 +11593,7 @@ class e200z4_fra_frb_frd_fsubs_useStatus : public e200z4_instruction {
 	virtual ~e200z4_fra_frb_frd_fsubs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11210,6 +11613,7 @@ class e200z4_frb_frd_fres_noStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_fres_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11228,6 +11632,7 @@ class e200z4_frb_frd_fres_useStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_fres_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11246,6 +11651,7 @@ class e200z4_frb_frd_frsp_noStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_frsp_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11264,6 +11670,7 @@ class e200z4_frb_frd_frsp_useStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_frsp_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11282,6 +11689,7 @@ class e200z4_frb_frd_frsqrte_noStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_frsqrte_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11300,6 +11708,7 @@ class e200z4_frb_frd_frsqrte_useStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_frsqrte_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11318,6 +11727,7 @@ class e200z4_frb_frd_fsqrt_noStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_fsqrt_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11336,6 +11746,7 @@ class e200z4_frb_frd_fsqrt_useStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_fsqrt_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11354,6 +11765,7 @@ class e200z4_frb_frd_fsqrts_noStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_fsqrts_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11372,6 +11784,7 @@ class e200z4_frb_frd_fsqrts_useStatus : public e200z4_instruction {
 	virtual ~e200z4_frb_frd_fsqrts_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11391,6 +11804,7 @@ class e200z4_frd_fs_load_notu_ra_rb_x : public e200z4_instruction {
 	virtual ~e200z4_frd_fs_load_notu_ra_rb_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11413,6 +11827,7 @@ class e200z4_frd_fs_load_ra_rb_u_x : public e200z4_instruction {
 	virtual ~e200z4_frd_fs_load_ra_rb_u_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11433,6 +11848,7 @@ class e200z4_frd_mffs_noStatus : public e200z4_instruction {
 	virtual ~e200z4_frd_mffs_noStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11449,6 +11865,7 @@ class e200z4_frd_mffs_useStatus : public e200z4_instruction {
 	virtual ~e200z4_frd_mffs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11467,6 +11884,7 @@ class e200z4_frs_fs_notu_ra_rb_store_x : public e200z4_instruction {
 	virtual ~e200z4_frs_fs_notu_ra_rb_store_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11489,6 +11907,7 @@ class e200z4_frs_fs_ra_rb_store_u_x : public e200z4_instruction {
 	virtual ~e200z4_frs_fs_ra_rb_store_u_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11515,6 +11934,7 @@ class e200z4_ge_imm_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_ge_imm_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11542,6 +11962,7 @@ class e200z4_ge_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_ge_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11569,6 +11990,7 @@ class e200z4_gt_imm_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_gt_imm_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11596,6 +12018,7 @@ class e200z4_gt_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_gt_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11621,6 +12044,7 @@ class e200z4_half_load_notu_ra_rb_rd_x_zero : public e200z4_instruction {
 	virtual ~e200z4_half_load_notu_ra_rb_rd_x_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -11648,6 +12072,7 @@ class e200z4_half_load_ra_rb_rd_u_x_zero : public e200z4_instruction {
 	virtual ~e200z4_half_load_ra_rb_rd_u_x_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -11675,6 +12100,7 @@ class e200z4_half_notu_ra_rb_rs_store_x : public e200z4_instruction {
 	virtual ~e200z4_half_notu_ra_rb_rs_store_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -11701,6 +12127,7 @@ class e200z4_half_ra_rb_rs_store_u_x : public e200z4_instruction {
 	virtual ~e200z4_half_ra_rb_rs_store_u_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -11725,6 +12152,7 @@ class e200z4_i_load_nb_notu_ra_rd_sw : public e200z4_instruction {
 	virtual ~e200z4_i_load_nb_notu_ra_rd_sw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11747,6 +12175,7 @@ class e200z4_i_nb_notu_ra_rs_store_sw : public e200z4_instruction {
 	virtual ~e200z4_i_nb_notu_ra_rs_store_sw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11768,6 +12197,7 @@ class e200z4_icbi_ra_rb : public e200z4_instruction {
 	virtual ~e200z4_icbi_ra_rb() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -11790,6 +12220,7 @@ class e200z4_imm_le_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_imm_le_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11817,6 +12248,7 @@ class e200z4_imm_lge_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_imm_lge_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11844,6 +12276,7 @@ class e200z4_imm_lgt_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_imm_lgt_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11871,6 +12304,7 @@ class e200z4_imm_lle_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_imm_lle_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11898,6 +12332,7 @@ class e200z4_imm_llt_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_imm_llt_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11925,6 +12360,7 @@ class e200z4_imm_lt_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_imm_lt_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11952,6 +12388,7 @@ class e200z4_imm_ne_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_imm_ne_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11979,6 +12416,7 @@ class e200z4_imm_notSimple_ra_simm_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_imm_notSimple_ra_simm_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -11999,6 +12437,7 @@ class e200z4_isync : public e200z4_instruction {
 	virtual ~e200z4_isync() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -12019,6 +12458,7 @@ class e200z4_le_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_le_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12046,6 +12486,7 @@ class e200z4_lge_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_lge_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12073,6 +12514,7 @@ class e200z4_lgt_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_lgt_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12100,6 +12542,7 @@ class e200z4_lle_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_lle_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12127,6 +12570,7 @@ class e200z4_llt_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_llt_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12150,6 +12594,7 @@ class e200z4_load_notu_ra_rb_rd_sw_x : public e200z4_instruction {
 	virtual ~e200z4_load_notu_ra_rb_rd_sw_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -12174,6 +12619,7 @@ class e200z4_load_notu_ra_rb_rd_word_x_zero : public e200z4_instruction {
 	virtual ~e200z4_load_notu_ra_rb_rd_word_x_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -12201,6 +12647,7 @@ class e200z4_load_ra_rb_rd_u_word_x_zero : public e200z4_instruction {
 	virtual ~e200z4_load_ra_rb_rd_u_word_x_zero() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -12230,6 +12677,7 @@ class e200z4_lt_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_lt_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12257,6 +12705,7 @@ class e200z4_mb_me_noStatus_ra_rb_rlwnm_rs : public e200z4_instruction {
 	virtual ~e200z4_mb_me_noStatus_ra_rb_rlwnm_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12285,6 +12734,7 @@ class e200z4_mb_me_noStatus_ra_rlw_rlwimi_rs_sh : public e200z4_instruction {
 	virtual ~e200z4_mb_me_noStatus_ra_rlw_rlwimi_rs_sh() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12314,6 +12764,7 @@ class e200z4_mb_me_noStatus_ra_rlwinm_rs_sh : public e200z4_instruction {
 	virtual ~e200z4_mb_me_noStatus_ra_rlwinm_rs_sh() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12344,6 +12795,7 @@ class e200z4_mb_me_ra_rb_rlwnm_rs_useStatus : public e200z4_instruction {
 	virtual ~e200z4_mb_me_ra_rb_rlwnm_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12374,6 +12826,7 @@ class e200z4_mb_me_ra_rlw_rlwimi_rs_sh_useStatus : public e200z4_instruction {
 	virtual ~e200z4_mb_me_ra_rlw_rlwimi_rs_sh_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12405,6 +12858,7 @@ class e200z4_mb_me_ra_rlwinm_rs_sh_useStatus : public e200z4_instruction {
 	virtual ~e200z4_mb_me_ra_rlwinm_rs_sh_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12431,6 +12885,7 @@ class e200z4_mfcr_rd : public e200z4_instruction {
 	virtual ~e200z4_mfcr_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12452,6 +12907,7 @@ class e200z4_mfmsr_rd : public e200z4_instruction {
 	virtual ~e200z4_mfmsr_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12474,6 +12930,7 @@ class e200z4_mfspr_rd_spr : public e200z4_instruction {
 	virtual ~e200z4_mfspr_rd_spr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12493,6 +12950,7 @@ class e200z4_mfsr_rd_sr : public e200z4_instruction {
 	virtual ~e200z4_mfsr_rd_sr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -12510,6 +12968,7 @@ class e200z4_mfsrin_rb_rd : public e200z4_instruction {
 	virtual ~e200z4_mfsrin_rb_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -12527,6 +12986,7 @@ class e200z4_mftb_rd_tbr : public e200z4_instruction {
 	virtual ~e200z4_mftb_rd_tbr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -12547,6 +13007,7 @@ class e200z4_mtmsr_rs : public e200z4_instruction {
 	virtual ~e200z4_mtmsr_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12569,6 +13030,7 @@ class e200z4_mtspr_rs_spr : public e200z4_instruction {
 	virtual ~e200z4_mtspr_rs_spr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12588,6 +13050,7 @@ class e200z4_mtsr_rs_sr : public e200z4_instruction {
 	virtual ~e200z4_mtsr_rs_sr() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -12605,6 +13068,7 @@ class e200z4_mtsrin_rb_rs : public e200z4_instruction {
 	virtual ~e200z4_mtsrin_rb_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -12625,6 +13089,7 @@ class e200z4_mulhw_noOv_noStatus_ra_rb_rd : public e200z4_instruction {
 	virtual ~e200z4_mulhw_noOv_noStatus_ra_rb_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12652,6 +13117,7 @@ class e200z4_mulhw_noOv_ra_rb_rd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_mulhw_noOv_ra_rb_rd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12677,6 +13143,7 @@ class e200z4_mulhwu_noOv_noStatus_ra_rb_rd : public e200z4_instruction {
 	virtual ~e200z4_mulhwu_noOv_noStatus_ra_rb_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12704,6 +13171,7 @@ class e200z4_mulhwu_noOv_ra_rb_rd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_mulhwu_noOv_ra_rb_rd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12729,6 +13197,7 @@ class e200z4_mulli_noOv_noStatus_ra_rd_simm : public e200z4_instruction {
 	virtual ~e200z4_mulli_noOv_noStatus_ra_rd_simm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12754,6 +13223,7 @@ class e200z4_mullw_noOv_noStatus_ra_rb_rd : public e200z4_instruction {
 	virtual ~e200z4_mullw_noOv_noStatus_ra_rb_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12781,6 +13251,7 @@ class e200z4_mullw_noOv_ra_rb_rd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_mullw_noOv_ra_rb_rd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12808,6 +13279,7 @@ class e200z4_mullw_noStatus_ra_rb_rd_useOv : public e200z4_instruction {
 	virtual ~e200z4_mullw_noStatus_ra_rb_rd_useOv() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12835,6 +13307,7 @@ class e200z4_mullw_ra_rb_rd_useOv_useStatus : public e200z4_instruction {
 	virtual ~e200z4_mullw_ra_rb_rd_useOv_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12862,6 +13335,7 @@ class e200z4_ne_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_ne_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12886,6 +13360,7 @@ class e200z4_neg_noOv_noStatus_ra_rd : public e200z4_instruction {
 	virtual ~e200z4_neg_noOv_noStatus_ra_rd() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12911,6 +13386,7 @@ class e200z4_neg_noOv_ra_rd_useStatus : public e200z4_instruction {
 	virtual ~e200z4_neg_noOv_ra_rd_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12936,6 +13412,7 @@ class e200z4_neg_noStatus_ra_rd_useOv : public e200z4_instruction {
 	virtual ~e200z4_neg_noStatus_ra_rd_useOv() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12961,6 +13438,7 @@ class e200z4_neg_ra_rd_useOv_useStatus : public e200z4_instruction {
 	virtual ~e200z4_neg_ra_rd_useOv_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -12985,6 +13463,7 @@ class e200z4_noOv_noStatus_ra_rb_rd_subf : public e200z4_instruction {
 	virtual ~e200z4_noOv_noStatus_ra_rb_rd_subf() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13012,6 +13491,7 @@ class e200z4_noOv_noStatus_ra_rb_rd_subf_withCarry : public e200z4_instruction {
 	virtual ~e200z4_noOv_noStatus_ra_rb_rd_subf_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13040,6 +13520,7 @@ class e200z4_noOv_noStatus_ra_rb_rd_subfe_withCarry : public e200z4_instruction 
 	virtual ~e200z4_noOv_noStatus_ra_rb_rd_subfe_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13068,6 +13549,7 @@ class e200z4_noOv_noStatus_ra_rd_simm_subfic_withCarry : public e200z4_instructi
 	virtual ~e200z4_noOv_noStatus_ra_rd_simm_subfic_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13095,6 +13577,7 @@ class e200z4_noOv_noStatus_ra_rd_subfme_withCarry : public e200z4_instruction {
 	virtual ~e200z4_noOv_noStatus_ra_rd_subfme_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13121,6 +13604,7 @@ class e200z4_noOv_noStatus_ra_rd_subfze_withCarry : public e200z4_instruction {
 	virtual ~e200z4_noOv_noStatus_ra_rd_subfze_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13148,6 +13632,7 @@ class e200z4_noOv_ra_rb_rd_subf_useStatus : public e200z4_instruction {
 	virtual ~e200z4_noOv_ra_rb_rd_subf_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13175,6 +13660,7 @@ class e200z4_noOv_ra_rb_rd_subf_useStatus_withCarry : public e200z4_instruction 
 	virtual ~e200z4_noOv_ra_rb_rd_subf_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13203,6 +13689,7 @@ class e200z4_noOv_ra_rb_rd_subfe_useStatus_withCarry : public e200z4_instruction
 	virtual ~e200z4_noOv_ra_rb_rd_subfe_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13230,6 +13717,7 @@ class e200z4_noOv_ra_rd_subfme_useStatus_withCarry : public e200z4_instruction {
 	virtual ~e200z4_noOv_ra_rd_subfme_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13256,6 +13744,7 @@ class e200z4_noOv_ra_rd_subfze_useStatus_withCarry : public e200z4_instruction {
 	virtual ~e200z4_noOv_ra_rd_subfze_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13281,6 +13770,7 @@ class e200z4_noStatus_notaftercomplemented_notcomplemented_or_ra_rb_rs : public 
 	virtual ~e200z4_noStatus_notaftercomplemented_notcomplemented_or_ra_rb_rs() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13307,6 +13797,7 @@ class e200z4_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs_xor : public
 	virtual ~e200z4_noStatus_notaftercomplemented_notcomplemented_ra_rb_rs_xor() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13333,6 +13824,7 @@ class e200z4_noStatus_notaftercomplemented_notshifted_or_ra_rs_uimm : public e20
 	virtual ~e200z4_noStatus_notaftercomplemented_notshifted_or_ra_rs_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13359,6 +13851,7 @@ class e200z4_noStatus_notaftercomplemented_notshifted_ra_rs_uimm_xor : public e2
 	virtual ~e200z4_noStatus_notaftercomplemented_notshifted_ra_rs_uimm_xor() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13385,6 +13878,7 @@ class e200z4_noStatus_notaftercomplemented_or_ra_rs_shifted_uimm : public e200z4
 	virtual ~e200z4_noStatus_notaftercomplemented_or_ra_rs_shifted_uimm() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13411,6 +13905,7 @@ class e200z4_noStatus_notaftercomplemented_ra_rs_shifted_uimm_xor : public e200z
 	virtual ~e200z4_noStatus_notaftercomplemented_ra_rs_shifted_uimm_xor() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13439,6 +13934,7 @@ class e200z4_noStatus_ra_rb_rd_subf_useOv : public e200z4_instruction {
 	virtual ~e200z4_noStatus_ra_rb_rd_subf_useOv() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13466,6 +13962,7 @@ class e200z4_noStatus_ra_rb_rd_subf_useOv_withCarry : public e200z4_instruction 
 	virtual ~e200z4_noStatus_ra_rb_rd_subf_useOv_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13494,6 +13991,7 @@ class e200z4_noStatus_ra_rb_rd_subfe_useOv_withCarry : public e200z4_instruction
 	virtual ~e200z4_noStatus_ra_rb_rd_subfe_useOv_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13520,6 +14018,7 @@ class e200z4_noStatus_ra_rb_rs_slw : public e200z4_instruction {
 	virtual ~e200z4_noStatus_ra_rb_rs_slw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13546,6 +14045,7 @@ class e200z4_noStatus_ra_rb_rs_sraw : public e200z4_instruction {
 	virtual ~e200z4_noStatus_ra_rb_rs_sraw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13570,6 +14070,7 @@ class e200z4_noStatus_ra_rb_rs_srw : public e200z4_instruction {
 	virtual ~e200z4_noStatus_ra_rb_rs_srw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13595,6 +14096,7 @@ class e200z4_noStatus_ra_rd_subfme_useOv_withCarry : public e200z4_instruction {
 	virtual ~e200z4_noStatus_ra_rd_subfme_useOv_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13621,6 +14123,7 @@ class e200z4_noStatus_ra_rd_subfze_useOv_withCarry : public e200z4_instruction {
 	virtual ~e200z4_noStatus_ra_rd_subfze_useOv_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13648,6 +14151,7 @@ class e200z4_noStatus_ra_rs_sh_sraw : public e200z4_instruction {
 	virtual ~e200z4_noStatus_ra_rs_sh_sraw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13674,6 +14178,7 @@ class e200z4_notSimple_ra_rb_reg_to_f_tw : public e200z4_instruction {
 	virtual ~e200z4_notSimple_ra_rb_reg_to_f_tw() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13701,6 +14206,7 @@ class e200z4_notaftercomplemented_notcomplemented_or_ra_rb_rs_useStatus : public
 	virtual ~e200z4_notaftercomplemented_notcomplemented_or_ra_rb_rs_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13729,6 +14235,7 @@ class e200z4_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus_xor : publi
 	virtual ~e200z4_notaftercomplemented_notcomplemented_ra_rb_rs_useStatus_xor() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13753,6 +14260,7 @@ class e200z4_notu_ra_rb_rs_store_sw_x : public e200z4_instruction {
 	virtual ~e200z4_notu_ra_rb_rs_store_sw_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -13777,6 +14285,7 @@ class e200z4_notu_ra_rb_rs_store_word_x : public e200z4_instruction {
 	virtual ~e200z4_notu_ra_rb_rs_store_word_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -13805,6 +14314,7 @@ class e200z4_ra_rb_rd_subf_useOv_useStatus : public e200z4_instruction {
 	virtual ~e200z4_ra_rb_rd_subf_useOv_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13832,6 +14342,7 @@ class e200z4_ra_rb_rd_subf_useOv_useStatus_withCarry : public e200z4_instruction
 	virtual ~e200z4_ra_rb_rd_subf_useOv_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13860,6 +14371,7 @@ class e200z4_ra_rb_rd_subfe_useOv_useStatus_withCarry : public e200z4_instructio
 	virtual ~e200z4_ra_rb_rd_subfe_useOv_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13888,6 +14400,7 @@ class e200z4_ra_rb_rs_slw_useStatus : public e200z4_instruction {
 	virtual ~e200z4_ra_rb_rs_slw_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13914,6 +14427,7 @@ class e200z4_ra_rb_rs_sraw_useStatus : public e200z4_instruction {
 	virtual ~e200z4_ra_rb_rs_sraw_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13940,6 +14454,7 @@ class e200z4_ra_rb_rs_srw_useStatus : public e200z4_instruction {
 	virtual ~e200z4_ra_rb_rs_srw_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -13964,6 +14479,7 @@ class e200z4_ra_rb_rs_store_u_word_x : public e200z4_instruction {
 	virtual ~e200z4_ra_rb_rs_store_u_word_x() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 2;};
@@ -13991,6 +14507,7 @@ class e200z4_ra_rd_subfme_useOv_useStatus_withCarry : public e200z4_instruction 
 	virtual ~e200z4_ra_rd_subfme_useOv_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -14017,6 +14534,7 @@ class e200z4_ra_rd_subfze_useOv_useStatus_withCarry : public e200z4_instruction 
 	virtual ~e200z4_ra_rd_subfze_useOv_useStatus_withCarry() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -14044,6 +14562,7 @@ class e200z4_ra_rs_sh_sraw_useStatus : public e200z4_instruction {
 	virtual ~e200z4_ra_rs_sh_sraw_useStatus() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -14064,6 +14583,7 @@ class e200z4_rb_tlbie : public e200z4_instruction {
 	virtual ~e200z4_rb_tlbie() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -14081,6 +14601,7 @@ class e200z4_rfi : public e200z4_instruction {
 	virtual ~e200z4_rfi() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 1;};
@@ -14100,6 +14621,7 @@ class e200z4_sync : public e200z4_instruction {
 	virtual ~e200z4_sync() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -14113,6 +14635,7 @@ class e200z4_tlbia : public e200z4_instruction {
 	virtual ~e200z4_tlbia() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};
@@ -14126,6 +14649,7 @@ class e200z4_tlbsync : public e200z4_instruction {
 	virtual ~e200z4_tlbsync() {};
 	virtual void execute(arch *);
 	virtual const char* const mnemo();
+	virtual const char* const funct();
 	virtual unsigned char const size() {return 4;};
 	virtual unsigned char const chunks() {return 1;};
 	virtual unsigned int const instClass() {return 0;};

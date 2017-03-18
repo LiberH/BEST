@@ -49,7 +49,10 @@ $(TRGT): $(OBJS)
 
 # Run the benchmark suite:
 benchmarks: target
-	BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)
+	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)
+
+benchmarks/%: target
+	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)/$*
 
 # Clean:
 clean:

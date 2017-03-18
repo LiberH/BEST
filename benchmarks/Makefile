@@ -42,11 +42,22 @@ $(BIN_MDL)/%: $(SRC)/%.c
 # Benchmark suite:
 malardalen:
 	@for elf in $(BIN_MDL)/*.elf; do \
-	  $(BEST_TRGT) --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $$elf --cfg-only; \
+	  $(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $$elf --cfg-only; \
 	  dot -Tdot $$elf-cfg.dot -o $$elf.dot; \
-	  $(BEST_TRGT) --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $$elf; \
+	  $(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $$elf; \
 	done
 
+malardalen/%:
+	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $(BIN_MDL)/$*.elf --cfg-only
+	@dot -Tdot $(BIN_MDL)/$*.elf-cfg.dot -o $(BIN_MDL)/$*.elf.dot
+	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $(BIN_MDL)/$*.elf
+
+# Verifying:
+VERIFYTA = $(UPPAAL_PATH)/bin-Linux/verifyta
+malardalen-verify:
+	@for elf in $(BIN_MDL)/*.elf; do \
+	  $(VERIFYTA) $$elf-model.xml; \
+	done
 # Cleaning:
 clean:
 	rm -rf ./$(OBJ)

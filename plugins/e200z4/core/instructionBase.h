@@ -48,6 +48,7 @@ class e200z4_instruction {
 	inline u32 const getInstructionPointer() {return m_pc;};	
 	///mnemonic of the instruction
 	virtual const char* const mnemo() {return "MNEMO_NOT_DEFINED";};
+	virtual const char* const funct() {return "FUNCT_NOT_DEFINED";};
 	
 	/** Fonction that effectively execute the instruction. This methods
 	 *  body is lead by the 'behavior' description in Harmless.
@@ -375,6 +376,12 @@ class e200z4_instructionStall : public e200z4_instruction
 		index += sprintf (result + index,"Stall");
 		if(m_code)
 			index += sprintf (result + index," (%08x)",m_code);
+		return result;
+	};
+	virtual const char* const funct() 
+	{
+		char *result = new char[64];
+		sprintf (result, "Stall()");
 		return result;
 	};
 	virtual unsigned char const size() {return 4;};

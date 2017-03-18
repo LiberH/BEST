@@ -34,6 +34,8 @@ instExec-1.cpp \
 instWithoutExec.cpp \
 instMnemo-1.cpp \
 instMnemo-2.cpp \
+instFunct-1.cpp \
+instFunct-2.cpp \
 instWithoutMnemo.cpp \
 instDDCLock.cpp \
 instDDCRequired.cpp \
@@ -165,7 +167,7 @@ CFLAGS += $(DEFINES)
 OBJ_DIR = obj
 
 .PHONY: ALL
-ALL: OBJ_DIR_CREATE $(STAND_ALONE_EXEC_NAME)
+ALL: OBJ_DIR_CREATE $(STAND_ALONE_LIBRARY_NAME)
 #$(PYTHON_LIB)
 
 lib: OBJ_DIR_CREATE $(STAND_ALONE_LIBRARY_NAME)
