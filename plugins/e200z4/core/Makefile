@@ -34,8 +34,7 @@ instExec-1.cpp \
 instWithoutExec.cpp \
 instMnemo-1.cpp \
 instMnemo-2.cpp \
-instFunct-1.cpp \
-instFunct-2.cpp \
+instFunct.cpp \
 instWithoutMnemo.cpp \
 instDDCLock.cpp \
 instDDCRequired.cpp \

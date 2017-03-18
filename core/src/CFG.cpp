@@ -506,7 +506,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
     }
 
   oss << "int";
-  bitset<64> bs (refs | 0x03);
+  bitset<64> bs (refs | 0b100000000011);
   for (int b = 0; b < 62; ++b)
     if (b != 7 && bs[b])
       oss << " " << reg_names[b] << ",";

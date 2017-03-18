@@ -41,9 +41,9 @@ const int IMU_WAYS_MAX              =  2;
 const int IMU_SETS_MAX              = 64;
 const int IMU_FILLBUFFER_DWORDS_MAX =  4;
 
-const int IMU_FIRST_USED_SET = (_INSTS[            0].addr / 32) % IMU_SETS_MAX; // First 'in-use-at-run-time' set
-const int IMU_LAST_USED_SET  = (_INSTS[_INST_MAX -32].addr / 32) % IMU_SETS_MAX; // Last  'in-use-at-run-time' set
-const int IMU_USED_SETS_MAX  = IMU_LAST_USED_SET - IMU_FIRST_USED_SET +1;        // Number of 'used' sets
+const int IMU_FIRST_USED_SET = (_INSTS[           0].addr / 32) % IMU_SETS_MAX; // First 'in-use-at-run-time' set
+const int IMU_LAST_USED_SET  = (_INSTS[_INST_MAX -1].addr / 32) % IMU_SETS_MAX; // Last  'in-use-at-run-time' set
+const int IMU_USED_SETS_MAX  = IMU_LAST_USED_SET - IMU_FIRST_USED_SET +1;       // Number of 'used' sets
 
 typedef struct {
   int[-1, _INST_MAX -1] index;
@@ -201,10 +201,13 @@ void _Init() {
 
 bool _bit(int field, int n) { return (((field &gt;&gt; n) % 2) == 1); }
 
-const B_BitField_t SO = { 0, 1 }; // == 0b0001
 const B_BitField_t EQ = { 1, 2 }; // == 0b0010
 const B_BitField_t GT = { 2, 4 }; // == 0b0100
 const B_BitField_t LT = { 3, 8 }; // == 0b1000
+
+const B_BitField_t CA = { 1, 2 }; // == 0b0010
+const B_BitField_t OV = { 2, 4 }; // == 0b0100
+const B_BitField_t SO = { 3, 8 }; // == 0b1000
 
 bool  z () { return ((ctr -1) == 0);    }
 bool eq () { return _bit(cr, EQ.index); }
@@ -217,33 +220,121 @@ bool ge () { return !lt();              }
 
 // Compare instructions:
 
-void cmp  (int &amp;cr,int rA, int rB  ) { if (rA &lt; rB) { cr = LT.value; }
-                                  else if (rA &gt; rB) { cr = GT.value; }
-                                  else              { cr = EQ.value; } }
-void cmpw (int &amp;cr,int rA, int rB  ) { cmp(cr, rA, rB);                }
-void cmpi (int &amp;cr,int rA, int SIMM) { cmp(cr, rA, SIMM);              }
+void _cmp    ( int &amp;cr,int rA, int rB   ) { if (rA &lt; rB) { cr = LT.value; }
+                                       else if (rA &gt; rB) { cr = GT.value; }
+                                       else              { cr = EQ.value; }  }
+void _cmpw   ( int &amp;cr,int rA, int rB   ) { _cmp   (cr, rA, rB);             }
+void _cmpi   ( int &amp;cr,int rA, int SIMM ) { _cmp   (cr, rA, SIMM);           }
+void _cmpwi  ( int &amp;cr,int rA, int SIMM ) { _cmpi  (cr, rA, SIMM);           }
+void _cmpl   ( int &amp;cr,int rA, int rB   ) { _cmp   (cr, rA, rB);             } // TODO: check if correct according to specs
+void _cmplw  ( int &amp;cr,int rA, int rB   ) { _cmpl  (cr, rA, rB);             }
+void _cmpli  ( int &amp;cr,int rA, int UIMM ) { _cmp   (cr, rA, UIMM);           } // TODO: check if correct according to specs
+void _cmplwi ( int &amp;cr,int rA, int UIMM ) { _cmpli (cr, rA, UIMM);           }
 
 // Arithmetic instructions:
 
-void add   ( int &amp;rD, int rA, int rB   ) { rD = rA + rB;         }
-void addi  ( int &amp;rD, int rA, int SIMM ) { add  (rD, rA,  SIMM); }
-void sub   ( int &amp;rD, int rA, int rB   ) { add  (rD, rA, -rB  ); }
-void subi  ( int &amp;rD, int rA, int SIMM ) { addi (rD, rA, -SIMM); }
-void li    ( int &amp;rD,         int SIMM ) { addi (rD,  0,  SIMM); }
+void _add    ( int &amp;rD, int rA, int rB   ) { rD =  rA + rB;                         }
+void _addi   ( int &amp;rD, int rA, int SIMM ) { rD =  rA + SIMM;                       }
+void _addic  ( int &amp;rD, int rA, int SIMM ) { rD =  rA + SIMM;                       } // TODO: add proper affectation for XER[CA]
+void _subf   ( int &amp;rD, int rA, int rB   ) { rD = !rA + rB   + 1;                   } // TODO: check if correct according to specs + check the operator precedence
+void _subfe  ( int &amp;rD, int rA, int rB   ) { rD = !rA + rB   + _bit(xer, CA.index); } // TODO: check if correct according to specs + check the operator precedence
+void _subfic ( int &amp;rD, int rA, int SIMM ) { rD = !rA + SIMM + 1;                   } // TODO: check if correct according to specs + check the operator precedence
+void _addis  ( int &amp;rD, int rA, int SIMM ) { _add   (rD, rA, (SIMM &lt;&lt; 16));         }
+void _sub    ( int &amp;rD, int rA, int rB   ) { _add   (rD, rA, -rB);                  }
+void _subi   ( int &amp;rD, int rA, int SIMM ) { _addi  (rD, rA, -SIMM);                }
+void _li     ( int &amp;rD,         int SIMM ) { _addi  (rD,  0,  SIMM);                }
+void _lis    ( int &amp;rD,         int SIMM ) { _addis (rD,  0,  SIMM);                }
+void _mullw  ( int &amp;rD, int rA, int rB   ) { rD = rA * rB;                          }
+void _mulli  ( int &amp;rD, int rA, int SIMM ) { rD = rA * SIMM;                        }
+void _divw   ( int &amp;rD, int rA, int rB   ) { rD = rA / rB;                          }
+
+void _extsh ( int &amp;rA, int rS ) { rA = rS &amp; 65535; } // == 0xffff (hex. doesn't work in UPPAAL...)
+
+// Logic instructions:
+
+void _neg   ( int &amp;rD, int rA           ) { rD = !rA;          } // TODO: check if correct according to specs + how-to bitwise not in UPPAAL?
+void _or    ( int &amp;rA, int rS, int rB   ) { rA = rS | rB;      }
+void _ori   ( int &amp;rA, int rS, int UIMM ) { _or(rA, rS, UIMM); }
+void _mr    ( int &amp;rA, int rS           ) { _or(rA, rS, rS);   }
+void _xor   ( int &amp;rA, int rS, int rB   ) { rA = rS ^ rB;      }
+void _xori  ( int &amp;rA, int rS, int UIMM ) { rA = rS ^ UIMM;    }
+void _and   ( int &amp;rA, int rS, int rB   ) { rA = rS &amp; rB;      }
+void _andi_ ( int &amp;rA, int rS, int UIMM ) { rA = rS &amp; UIMM;    } // TODO: add proper affectation for CR0
+
+/////
+
+int ROTL ( int x, int y ) { return 0; } // TODO: implement according to the semantics given in the specs
+int MASK ( int x, int y ) { return 0; } // TODO: implement according to the semantics given in the specs
+
+void _rlwinm ( int &amp;rA, int rS, int SH, int MB, int ME ) {
+  int n = SH;
+  int r = ROTL(rS, n);
+  int m = MASK(MB, ME);
+
+  rA = r &amp; m;
+}
+
+void _clrlwi ( int &amp;rA, int rS, int n ) { _rlwinm(rA, rS, 0, n, 31); } // TODO: n &lt; 32
+
+void _srw ( int &amp;rA, int rS, int rB ) {
+  int n = rB; // TODO: fix as specs says "rB[27-31]"; btw. shouldn't it be "rB[26-31]"?
+  int r = ROTL(rS, 32 - n);
+
+  int m = 0;
+  if (_bit(rB, 26) == 0) // TODO: check and fix; lines are missing in the specs...
+    m = MASK(0, n);      // TODO: check and fix; lines are missing in the specs...
+
+  rA = r &amp; m;
+}
+
+void _srawi ( int &amp;rA, int rS, int SH ) { // TODO: check the operator precedence; must be needed some parentheses
+  int n = SH;
+  int r = ROTL(rS, 32 - n);
+  int m = MASK(0, n); // TODO: check and fix; it says "MASK(n)" in the specs but there is no semantics for it...
+  int S = rS;
+
+  rA  = r &amp; m | S &amp; !m;
+  xer = S &amp; ((r &amp; !m) != 0);
+}
 
 // Others:
 
-void mtctr (          int rS           ) { ctr = rS;           }
+void _mfcr  ( int &amp;rD         ) { rD  = cr;                     }
+void _mtctr (          int rS ) { ctr = rS;                     }
+void _mtspr ( int spr, int rS ) { if (spr == 9) { _mtctr(rS); } }
+
+// Memory instructions:
+
+int MEM ( int x, int y ) { return 0; } // TODO: what to do with memory accesses?
+
+void _lbz  ( int &amp;rD, int d,  int  rA ) { rD = MEM((d  + rA), 1);              }
+void _lbzu ( int &amp;rD, int d,  int  rA ) { rD = MEM((d  + rA), 1); rA = d + rA; }
+void _lbzx ( int &amp;rD, int rA, int  rB ) { rD = MEM((rA + rB), 1);              }
+void _lhz  ( int &amp;rD, int d,  int  rA ) { rD = MEM((d  + rA), 2);              }
+void _lwz  ( int &amp;rD, int d,  int  rA ) { rD = MEM((d  + rA), 4);              }
+void _lwzu ( int &amp;rD, int d,  int &amp;rA ) { rD = MEM((d  + rA), 4); rA = d + rA; }
+void _lwzx ( int &amp;rD, int rA, int  rB ) { rD = MEM((rA + rB), 4);              }
+void _stwu ( int  rS, int d,  int &amp;rA ) {                         rA = d + rA; }
 
 // Branching instructions:
 
-void bc(int BO, int BI, int target_addr) {
+void _bc( int BO, int BI, int target_addr ) {
   bool ctr_ok, cond_ok;
   if (!_bit(BO, 2)) { ctr = ctr -1; }
   ctr_ok  = _bit(BO, 2) || ((ctr != 0) ^ _bit(BO, 1)); // ^ is XOR
   cond_ok = _bit(BO, 4) || (_bit(cr, BI) == _bit(BO, 3));
   if (ctr_ok &amp;&amp; cond_ok) {
-    //jmp(target_addr); // TODO: uncomment(?)
+    /*jmp(target_addr);*/ // TODO: uncomment?
+  }
+}
+
+void _bclr( int BO, int BI ) {
+  bool ctr_ok, cond_ok;
+  if (!_bit(BO, 2)) { ctr = ctr -1; }
+  ctr_ok  = _bit(BO, 2) || ((ctr != 0) ^ _bit(BO, 1)); // ^ is XOR
+  cond_ok = _bit(BO, 4) || (_bit(cr, BI) == _bit(BO, 3));
+  if (ctr_ok &amp;&amp; cond_ok) {
+    /*jmp(lr);*/ // TODO: fix "Unknown identifier: lr"; uncomment?
   }
 }
 
@@ -256,17 +347,17 @@ const int BO_____________cond = 12;
 const int BO_not_ctr_________ = 16;
 const int BO_____ctr_________ = 18;
 
-void be   (int target_addr) { bc(BO_____________cond, EQ.index, target_addr); }
-void bgt  (int target_addr) { bc(BO_____________cond, GT.index, target_addr); }
-void blt  (int target_addr) { bc(BO_____________cond, LT.index, target_addr); }
-void bz   (int target_addr) { bc(BO_____ctr_________, 0,        target_addr); }
-void bdz  (int target_addr) { bc(BO_____ctr_________, 0,        target_addr); }
+void _beq  ( int cr, int target_addr ) { _bc(BO_____________cond, EQ.index, target_addr); }
+void _bgt  ( int cr, int target_addr ) { _bc(BO_____________cond, GT.index, target_addr); }
+void _blt  ( int cr, int target_addr ) { _bc(BO_____________cond, LT.index, target_addr); }
+void _bz   (         int target_addr ) { _bc(BO_____ctr_________, 0,        target_addr); }
+void _bdz  (         int target_addr ) { _bc(BO_____ctr_________, 0,        target_addr); }
 
-void bne  (int target_addr) { bc(BO_________not_cond, EQ.index, target_addr); }
-void bge  (int target_addr) { bc(BO_________not_cond, LT.index, target_addr); }
-void ble  (int target_addr) { bc(BO_________not_cond, GT.index, target_addr); }
-void bnz  (int target_addr) { bc(BO_not_ctr_________, 0,        target_addr); }
-void bdnz (int target_addr) { bc(BO_not_ctr_________, 0,        target_addr); }
+void _bne  ( int cr, int target_addr ) { _bc(BO_________not_cond, EQ.index, target_addr); }
+void _bge  ( int cr, int target_addr ) { _bc(BO_________not_cond, LT.index, target_addr); }
+void _ble  ( int cr, int target_addr ) { _bc(BO_________not_cond, GT.index, target_addr); }
+void _bnz  (         int target_addr ) { _bc(BO_not_ctr_________, 0,        target_addr); }
+void _bdnz (         int target_addr ) { _bc(BO_not_ctr_________, 0,        target_addr); }
 
 /* Flash: */
 
@@ -988,13 +1079,13 @@ EUs_clock  = 0</label>
 		<query>
 			<formula>A&lt;&gt; sched.end
 			</formula>
-			<comment>
+			<comment>...
 			</comment>
 		</query>
 		<query>
 			<formula>sup: _clock
 			</formula>
-			<comment>
+			<comment>...
 			</comment>
 		</query>
 	</queries>

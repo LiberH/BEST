@@ -1,2 +1,8 @@
+Check generation for:
+ - adpcm
+ - compress
+ - prime
+Generate files outside of ./bin/
+
 add COSMIC build commands in Makefile
 fix src/edn.c: undefined reference to `memcpy'
