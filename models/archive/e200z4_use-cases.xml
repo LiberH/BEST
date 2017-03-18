@@ -1,0 +1,2389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>
+/* TODO:
+ *  - check for missing pipeline stages stall conditionals
+ *  - set proper values for _Inst_t.cycles add use them
+ *  - shouldn't flush on static prediction?
+ *  - should remove '_do'?
+ */
+
+//////////////////////////////////////////
+////////////////// Types and Constants: //
+//////////////////////////////////////////
+
+/* (global:) */
+
+const int _REGS_MAX =  8;
+const int _INST_MAX = 16;
+typedef struct {
+  int  addr;
+  int  cycles;
+  bool do_branch;
+  int  target;
+  bool do_memory;
+  int  read_regs[_REGS_MAX];
+  int  write_regs[_REGS_MAX];
+} _Inst_t;
+
+const _Inst_t _INSTS[_INST_MAX] = {
+  /* Backward branch traget:     */
+  /*  xxxx: ---             -  0 */ {  0*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             -  1 */ {  1*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             -  2 */ {  2*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             -  3 */ {  3*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+
+  /* Case 1 and 2:               */
+  /*  xxxx: ---             -  4 */ {  4*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             -  5 */ {  5*4, 1,  true,         0, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             -  6 */ {  6*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             -  7 */ {  7*4, 1,  true,         0, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+
+  /* Case 3 and 4:               */
+  /*  xxxx: ---             -  8 */ {  8*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             -  9 */ {  9*4, 1,  true,        12, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             - 10 */ { 10*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             - 11 */ { 11*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+
+  /* Forward branch target:      */
+  /*  xxxx: ---             - 12 */ { 12*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             - 13 */ { 13*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             - 14 */ { 14*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---             - 15 */ { 15*4, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } }
+};
+  
+/* Binary: */
+
+typedef struct {
+  int index; // in bit field
+  int value; // when set alone
+} B_BitField_t;
+
+typedef struct {
+  int cr;
+  int ctr;
+  int xer;
+  int r3;
+  int r7;
+  int r10;
+} B_t;
+
+/* Static RAM (SRAM): */
+
+const int SRAM_BURST_MAX =  4;
+typedef struct {
+  int[0, SRAM_BURST_MAX] burst_index;
+} SRAM_t;
+
+const int SRAM_LATENCY   = 10; // TODO: arbitrary; to set correctly
+
+/* Flash: */
+
+const int FLASH_LATENCY = 10; // TODO: arbitrary; to set correctly
+
+typedef struct {
+  bool executing;
+} Flash_t;
+
+/* Instruction Memory Unit (IMU): */
+
+const int IMU_WAYS_MAX              =  2;
+const int IMU_SETS_MAX              = 64;
+const int IMU_FILLBUFFER_DWORDS_MAX =  4;
+
+const int IMU_FIRST_USED_SET = (_INSTS[           0].addr / 32) % IMU_SETS_MAX; // First 'in-use-at-run-time' set
+const int IMU_LAST_USED_SET  = (_INSTS[_INST_MAX -1].addr / 32) % IMU_SETS_MAX; // Last  'in-use-at-run-time' set
+const int IMU_USED_SETS_MAX  = IMU_LAST_USED_SET - IMU_FIRST_USED_SET +1;        // Number of 'used' sets
+
+typedef struct {
+  int[-1, _INST_MAX -1] index;
+  int[0, IMU_WAYS_MAX -1] rp_way;
+  int tags[IMU_WAYS_MAX][IMU_USED_SETS_MAX];
+} IMU_ICache_t;
+
+typedef struct {
+  int[-1, _INST_MAX -1] index;
+  int[-1, IMU_FILLBUFFER_DWORDS_MAX -1] dword;
+  int[-1, IMU_USED_SETS_MAX -1] set;
+  int tag; // TODO: set a range as [-1, ???]
+  bool filled[IMU_FILLBUFFER_DWORDS_MAX];
+} IMU_FillBuffer_t;
+const IMU_FillBuffer_t IMU_EMPTY_FILLBUFFER_LINE = { -1, -1, -1, -1, { false, false, false, false } };
+
+typedef struct {
+  IMU_FillBuffer_t FillBuffer;
+  IMU_ICache_t ICache;
+} IMU_t;
+
+const int IMU_CACHE_HIT       = 0;
+const int IMU_FILLBUFFER_HIT  = 1;
+const int IMU_FILLBUFFER_MISS = 2;
+const int IMU_CACHE_MISS      = 3;
+
+/* Instruction and Control Unit (InCU): */
+
+const int INCU_STRONGLY_NOT_TAKEN = 0;
+const int INCU_WEAKLY___NOT_TAKEN = 1;
+const int INCU_WEAKLY_______TAKEN = 2;
+const int INCU_STRONGLY_____TAKEN = 3;
+typedef struct {
+  int[-1, _INST_MAX -1] index;
+  int[-1, INCU_STRONGLY_____TAKEN +1] prediction;
+} InCU_BTB_Entry_t;
+
+const int INCU_BTB_MAX = 8;
+typedef struct {
+  int[0, 8] top;
+  InCU_BTB_Entry_t buffer[INCU_BTB_MAX];
+} InCU_BTB_t;
+
+typedef struct {
+  int[-1, _INST_MAX -1] index;
+  bool predict_taken;
+  bool dynamic_prediction;
+} InCU_IBuff_Entry_t;
+const InCU_IBuff_Entry_t INCU_EMPTY_IBUFF_ENTRY = { -1, false, false };
+
+const int INCU_IBUFF_MAX = 8;
+typedef struct {
+  int[0, INCU_IBUFF_MAX] count;
+  InCU_IBuff_Entry_t buffer[INCU_IBUFF_MAX];
+} InCU_IBuff_t;
+
+typedef struct {
+  int[-1, _INST_MAX -1] index;
+  bool predict_taken;
+  bool dynamic_prediction;
+  bool taken;
+} InCU_IR_t;
+const InCU_IR_t INCU_EMPTY_IR = { -1, false, false, false };
+
+typedef struct {
+  InCU_BTB_t BTB;
+  int PC;
+  InCU_IBuff_t IBuff;
+  InCU_IR_t IR;
+} InCU_t;
+
+/* Execution Units (EUs): */
+
+const int EUS_PIPELINE_D   = 0;
+const int EUS_PIPELINE_E   = 1;
+const int EUS_PIPELINE_M   = 2;
+const int EUS_PIPELINE_W   = 3;
+const int EUS_PIPELINE_MAX = 4;
+typedef struct {
+  int pipeline[EUS_PIPELINE_MAX];
+  bool predict_taken;
+  bool dynamic_prediction;
+  bool taken;
+} EUs_t;
+
+//////////////////////////////////////////
+///////////////////////// Declarations: //
+//////////////////////////////////////////
+
+/* (global:) */
+
+clock _clock;
+
+urgent broadcast chan _doInitialize;
+urgent           chan _doTerminate;
+urgent           chan _do;
+
+bool _mustTerminate;
+bool _predict_taken;
+bool _dynamic_prediction;
+bool _taken;
+
+/* Binary: */
+
+B_t B;
+
+/* Static RAM (SRAM): */
+
+SRAM_t SRAM;
+clock SRAM_clock;
+
+   urgent chan SRAM_doBurst;
+broadcast chan SRAM_doneBurst[SRAM_BURST_MAX];
+
+/* Flash: */
+
+Flash_t Flash;
+clock Flash_clock;
+
+urgent chan Flash_doAccess;
+       chan Flash_doneAccess;
+
+/* Instruction Memory Unit (IMU): */
+
+IMU_t IMU;
+clock IMU_clock;
+
+urgent chan IMU_doneFill;
+
+urgent chan IMU_doAccess;
+broadcast chan IMU_doneAccess;
+
+/* Instruction and Control Unit (InCU): */
+
+InCU_t InCU;
+
+/* Execution Units (EUs): */
+
+EUs_t EUs;
+clock EUs_clock;
+broadcast chan EUs_doStep;
+
+//////////////////////////////////////////
+//////////////////////////// Functions: //
+//////////////////////////////////////////
+
+/* (global:) */
+
+void _Init() {
+  _mustTerminate      = false;
+  _predict_taken      = false;
+  _dynamic_prediction = false;
+  _taken              = false;
+}
+
+/* Binary: */
+
+void B_Init() {
+  B.cr  = -1;
+  B.ctr = -1;
+  B.xer = -1;
+  B.r3  = -1;
+  B.r7  = -1;
+  B.r10 = -1;
+}
+
+bool _bit(int field, int n) { return (((field &gt;&gt; n) % 2) == 1); }
+
+const B_BitField_t SO = { 0, 1 }; // == 0b0001
+const B_BitField_t EQ = { 1, 2 }; // == 0b0010
+const B_BitField_t GT = { 2, 4 }; // == 0b0100
+const B_BitField_t LT = { 3, 8 }; // == 0b1000
+
+bool  z  () { return ((B.ctr -1) == 0);    }
+bool eq  () { return _bit(B.cr, EQ.index); }
+bool gt  () { return _bit(B.cr, GT.index); }
+bool lt  () { return _bit(B.cr, LT.index); }
+bool nz  () { return !z();                 }
+bool neq () { return !eq();                }
+bool le  () { return !gt();                }
+bool ge  () { return !lt();                }
+
+// Compare instructions:
+
+void cmp  (int &amp;cr,int rA, int rB  ) { if (rA &lt; rB) { B.cr = LT.value; }
+                                      else if (rA &gt; rB) { B.cr = GT.value; }
+                                      else                 { B.cr = EQ.value; } }
+void cmpw (int &amp;cr,int rA, int rB  ) { cmp(B.cr, rA, rB);                 }
+void cmpi (int &amp;cr,int rA, int SIMM) { cmp(B.cr, rA, SIMM);               }
+
+// Arithmetic instructions:
+
+void add   ( int &amp;rD, int rA, int rB   ) { rD = rA + rB;         }
+void addi  ( int &amp;rD, int rA, int SIMM ) { add  (rD, rA,  SIMM); }
+void sub   ( int &amp;rD, int rA, int rB   ) { add  (rD, rA, -rB  ); }
+void subi  ( int &amp;rD, int rA, int SIMM ) { addi (rD, rA, -SIMM); }
+void li    ( int &amp;rD,         int SIMM ) { addi (rD,  0,  SIMM); }
+
+// Others:
+
+void mtctr (          int rS           ) { B.ctr = rS;           }
+
+// Branching instructions:
+
+void bc(int BO, int BI, int target_addr) {
+  bool ctr_ok, cond_ok;
+  if (!_bit(BO, 2)) { B.ctr = B.ctr -1; }
+  ctr_ok  = _bit(BO, 2) || ((B.ctr != 0) ^ _bit(BO, 1)); // ^ is XOR
+  cond_ok = _bit(BO, 4) || (_bit(B.cr, BI) == _bit(BO, 3));
+  if (ctr_ok &amp;&amp; cond_ok) {
+    //jmp(target_addr); // TODO: uncomment(?)
+  }
+}
+
+const int BO_not_ctr_not_cond =  0;
+const int BO_____ctr_not_cond =  2;
+const int BO_________not_cond =  4;
+const int BO_not_ctr_____cond =  8;
+const int BO_____ctr_____cond = 10;
+const int BO_____________cond = 12;
+const int BO_not_ctr_________ = 16;
+const int BO_____ctr_________ = 18;
+
+void be   (int target_addr) { bc(BO_____________cond, EQ.index, target_addr); }
+void bgt  (int target_addr) { bc(BO_____________cond, GT.index, target_addr); }
+void blt  (int target_addr) { bc(BO_____________cond, LT.index, target_addr); }
+void bz   (int target_addr) { bc(BO_____ctr_________, 0,        target_addr); }
+void bdz  (int target_addr) { bc(BO_____ctr_________, 0,        target_addr); }
+
+void bne  (int target_addr) { bc(BO_________not_cond, EQ.index, target_addr); }
+void bge  (int target_addr) { bc(BO_________not_cond, LT.index, target_addr); }
+void ble  (int target_addr) { bc(BO_________not_cond, GT.index, target_addr); }
+void bnz  (int target_addr) { bc(BO_not_ctr_________, 0,        target_addr); }
+void bdnz (int target_addr) { bc(BO_not_ctr_________, 0,        target_addr); }
+
+// TODO: generate from tool (currently hand written)
+void execute_3004() { li(B.r10, 3);            }
+void execute_300c() { li(B.r7, 4);             } // TODO: modified for simulation ease; set back to "28" for real testing
+void execute_3010() { mtctr(B.r7);             }
+void execute_3014() { cmpi(B.cr, B.r3, 1);     }
+void execute_3018() { bgt(12340);              }
+void execute_3024() { addi(B.r10, B.r10, 1);   }
+void execute_302c() { bdz(12352);              }
+void execute_3034() { cmpw(B.cr, B.r3, B.r10); }
+void execute_3038() { bge(12320);              }
+void execute_3058() { li(B.r3, 30);            }
+
+/* Static RAM (SRAM): */
+
+void SRAM_Init() {
+  SRAM.burst_index = 0;
+}
+
+bool SRAM_IsTerminated() {
+  return _mustTerminate;
+}
+
+/* Flash: */
+
+void Flash_Init() {
+  Flash.executing = false;
+}
+
+bool Flash_IsAccessed() {
+  return ((EUs.pipeline[EUS_PIPELINE_E] != -1) &amp;&amp;
+          _INSTS[EUs.pipeline[EUS_PIPELINE_E]].do_memory);
+}
+
+bool Flash_IsTerminated() {
+  return _mustTerminate;
+}
+
+/* Instruction Memory Unit (IMU): */
+
+void IMU_Init(){
+  int w, s;
+
+  IMU.FillBuffer   = IMU_EMPTY_FILLBUFFER_LINE;
+  IMU.ICache.index = -1;
+  IMU.ICache.rp_way =  0;
+  for (w = 0; w &lt; IMU_WAYS_MAX; ++w)
+    for (s = 0; s &lt; IMU_USED_SETS_MAX; ++s)
+      IMU.ICache.tags[w][s] = -1;
+}
+
+bool IMU_IsAccessed(int index) {
+  return (IMU.ICache.index == index);
+}
+
+bool IMU_IsTerminated() {
+  return _mustTerminate;
+}
+
+void IMU_Set() {
+  IMU.ICache.index = InCU.PC;
+}
+
+void IMU_FillBuffer_Update() {
+  IMU.FillBuffer.filled[IMU.FillBuffer.dword] = true;
+  IMU.FillBuffer.dword = (IMU.FillBuffer.dword +1) % IMU_FILLBUFFER_DWORDS_MAX;
+}
+
+int IMU_ICache_Lookup() {
+  // return wether the current instruction is in the instruction cache (or line buffer) or not
+  int                     addr  = _INSTS[IMU.ICache.index].addr;
+  int[0, IMU_WAYS_MAX]    way;
+  int[0, IMU_SETS_MAX -1] set   = (addr /  32) % IMU_SETS_MAX;
+  int                     tag   =  addr / (32  * IMU_SETS_MAX);
+  int                     dword = (addr /   8) % IMU_FILLBUFFER_DWORDS_MAX;
+
+  // Is in cache?
+  int icache_tag;
+  for (way = 0; way &lt; IMU_WAYS_MAX; ++way) {
+    icache_tag = IMU.ICache.tags[way][set];
+
+    if (icache_tag != -1
+    &amp;&amp;  icache_tag == tag)
+      return IMU_CACHE_HIT;
+  }
+
+  // Is in fill buffer?
+  if (IMU.FillBuffer.set == set
+  &amp;&amp;  IMU.FillBuffer.tag == tag) {
+    if (IMU.FillBuffer.filled[dword]) return IMU_FILLBUFFER_HIT;
+    else                              return IMU_FILLBUFFER_MISS;
+  }
+
+  return IMU_CACHE_MISS;
+}
+
+bool IMU_ICache_Hit      () { return ( IMU_ICache_Lookup() == IMU_CACHE_HIT       ); }
+bool IMU_FillBuffer_Hit  () { return ( IMU_ICache_Lookup() == IMU_FILLBUFFER_HIT  ); }
+bool IMU_FillBuffer_Miss () { return ( IMU_ICache_Lookup() == IMU_FILLBUFFER_MISS ); }
+bool IMU_ICache_Miss     () { return ( IMU_ICache_Lookup() == IMU_CACHE_MISS      ); }
+
+void IMU_ICache_Update() {
+  // on a miss, insert the current instruction on the instruction cache
+  int                     addr = _INSTS[IMU.FillBuffer.index].addr;
+  int[0, IMU_WAYS_MAX]    way;
+  int[0, IMU_SETS_MAX -1] set   = (addr /  32) % IMU_SETS_MAX;
+  int                     tag   =  addr / (32  * IMU_SETS_MAX);
+
+  bool found = false;
+
+  way = 0;
+  while (!found &amp;&amp; way &lt; IMU_WAYS_MAX)
+    if (IMU.ICache.tags[way][set] == -1)
+      found = true;
+    else ++way; // conditional increment (thus not a for loop)
+  if (found) {
+    // free slot found
+    IMU.ICache.tags[way][set] = tag;
+
+  } else {
+    // no free slot found (pseudo round-robin replacement policy)
+    way = IMU.ICache.rp_way;
+    IMU.ICache.tags[way][set] = tag;
+    IMU.ICache.rp_way = (IMU.ICache.rp_way +1) % IMU_WAYS_MAX;
+  }
+}
+
+void IMU_FillBuffer_Set() {
+  int                     addr = _INSTS[IMU.ICache.index].addr;
+  int[0, IMU_SETS_MAX -1] set  = (addr /  32) % IMU_SETS_MAX;
+  int                     tag  =  addr / (32  * IMU_SETS_MAX);
+
+  IMU.FillBuffer       = IMU_EMPTY_FILLBUFFER_LINE;
+  IMU.FillBuffer.index = IMU.ICache.index;
+  IMU.FillBuffer.dword = (addr / 8) % IMU_FILLBUFFER_DWORDS_MAX;
+  IMU.FillBuffer.set   = set;
+  IMU.FillBuffer.tag   = tag;
+}
+
+/* Instruction and Control Unit (InCU): */
+
+void InCU_Init() {
+  int i;
+
+  InCU.BTB.top = 0;
+  for (i = 0; i &lt; INCU_BTB_MAX; ++i) {
+    InCU.BTB.buffer[i].index = -1;
+    InCU.BTB.buffer[i].prediction = -1;
+  }
+
+  InCU.PC = -1;
+  InCU.IBuff.count = 0;
+  for (i = 0; i &lt; INCU_IBUFF_MAX; ++i)
+    InCU.IBuff.buffer[i] = INCU_EMPTY_IBUFF_ENTRY;  
+  InCU.IR = INCU_EMPTY_IR;
+}
+
+int InCU_BTB_Predict(int index) {
+  int i;
+  int btb_index = -1;
+
+  if (_INSTS[index].do_branch)
+    for (i = 0; i &lt; INCU_BTB_MAX; ++i)
+      if (InCU.BTB.buffer[i].index == index)
+        btb_index = i;
+
+  if (btb_index != -1) {
+    if (InCU.BTB.buffer[btb_index].prediction == INCU_WEAKLY_______TAKEN
+    ||  InCU.BTB.buffer[btb_index].prediction == INCU_STRONGLY_____TAKEN)
+      return _INSTS[index].target;
+  }
+
+  return index +1;
+}
+
+void InCU_BTB_Update(int index, bool taken) {
+  int i;
+  int btb_index = -1;
+
+  for (i = 0; i &lt; INCU_BTB_MAX; ++i)
+    if (InCU.BTB.buffer[i].index == index)
+      btb_index = i;
+    
+  if (btb_index != -1) {
+    // Fix prediction
+    if (taken) {
+      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction +1;
+      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &gt; INCU_STRONGLY_____TAKEN) ? INCU_STRONGLY_____TAKEN : InCU.BTB.buffer[btb_index].prediction;
+    } else {
+      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction -1;
+      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &lt; INCU_STRONGLY_NOT_TAKEN) ? INCU_STRONGLY_NOT_TAKEN : InCU.BTB.buffer[btb_index].prediction;
+    }
+
+  } else {
+    /* "On initial allocation of an entry to the BTB for a taken branch,
+     *  the counter is initialized to the weakly-taken state."
+     *  (cf. e200z4 manual, p. 4-7) */
+    if (taken) { // Insert (FIFO)
+      InCU_BTB_Entry_t new_entry = {index, INCU_WEAKLY_______TAKEN};
+
+      InCU.BTB.buffer[InCU.BTB.top] = new_entry;
+      InCU.BTB.top = (InCU.BTB.top +1) % INCU_BTB_MAX;
+    }
+  }
+}
+
+void InCU_PC_Update() {
+  int i;
+  int index;
+  
+  if (InCU.PC != IMU.ICache.index)
+    return;
+
+  InCU.PC = InCU_BTB_Predict(InCU.PC);
+  for (i = 0; i &lt; INCU_BTB_MAX; ++i)
+    if (InCU.BTB.buffer[i].index == InCU.PC) {
+      
+      _dynamic_prediction = true;
+      index = InCU_BTB_Predict(InCU.PC);
+      if (index != InCU.PC +1)
+	_predict_taken = true;
+
+      return;
+    }
+}
+
+bool InCU_IBuff_IsFull() {
+  return (InCU.IBuff.count == INCU_IBUFF_MAX);
+}
+
+void InCU_IBuff_Push() {
+  if (InCU.PC != IMU.ICache.index)
+    return;
+
+  if (InCU.IR.index == -1) {
+    InCU.IR.index              = IMU.ICache.index;
+    InCU.IR.predict_taken      = _predict_taken;
+    InCU.IR.dynamic_prediction = _dynamic_prediction;
+    InCU.IR.taken              = _taken;
+    
+  } else {
+    InCU.IBuff.buffer[InCU.IBuff.count].index              = IMU.ICache.index;
+    InCU.IBuff.buffer[InCU.IBuff.count].predict_taken      = _predict_taken;
+    InCU.IBuff.buffer[InCU.IBuff.count].dynamic_prediction = _dynamic_prediction;
+    InCU.IBuff.count++;
+  }
+  
+  _predict_taken      = false;
+  _dynamic_prediction = false;
+  _taken              = false;
+}
+
+InCU_IR_t InCU_IBuff_Pop() {
+  InCU_IR_t entry = INCU_EMPTY_IR;
+
+  if (InCU.IBuff.count &gt; 0) {
+    entry.index              = InCU.IBuff.buffer[0].index;
+    entry.predict_taken      = InCU.IBuff.buffer[0].predict_taken;
+    entry.dynamic_prediction = InCU.IBuff.buffer[0].dynamic_prediction;
+    
+    InCU.IBuff.buffer[0] = InCU.IBuff.buffer[1];
+    InCU.IBuff.buffer[1] = InCU.IBuff.buffer[2];
+    InCU.IBuff.buffer[2] = InCU.IBuff.buffer[3];
+    InCU.IBuff.buffer[3] = InCU.IBuff.buffer[4];
+    InCU.IBuff.buffer[4] = InCU.IBuff.buffer[5];
+    InCU.IBuff.buffer[5] = InCU.IBuff.buffer[6];
+    InCU.IBuff.buffer[6] = InCU.IBuff.buffer[7];
+    InCU.IBuff.buffer[7] = INCU_EMPTY_IBUFF_ENTRY;
+    
+    InCU.IBuff.count--;
+    return entry;
+  }
+
+  return entry;
+}
+
+bool InCU_IsTerminated() {
+  return _mustTerminate;
+}
+
+void InCU_Flush() {
+  int i;
+
+  InCU.IBuff.count = 0;
+  for (i = 0; i &lt; INCU_IBUFF_MAX; ++i)
+    InCU.IBuff.buffer[i] = INCU_EMPTY_IBUFF_ENTRY;
+  InCU.IR = INCU_EMPTY_IR;
+}
+
+void InCU_Update() {
+  InCU_IBuff_Push();
+  InCU_PC_Update();
+}
+
+/* Execution Units (EUs): */
+
+void EUs_Init() {
+  int i;
+
+  EUs.taken = false;
+  for (i = 0; i &lt; EUS_PIPELINE_MAX; ++i)
+    EUs.pipeline[i] = -1;
+}
+
+bool EUs_IsExecuting(int index) {
+  return (EUs.pipeline[EUS_PIPELINE_D] == index);
+}
+
+bool EUs_IsTerminated() {
+  return (_mustTerminate
+       &amp;&amp; InCU.IR.index                == -1
+       &amp;&amp; EUs.pipeline[EUS_PIPELINE_D] == -1
+       &amp;&amp; EUs.pipeline[EUS_PIPELINE_E] == -1
+       &amp;&amp; EUs.pipeline[EUS_PIPELINE_M] == -1
+       &amp;&amp; EUs.pipeline[EUS_PIPELINE_W] == -1);
+}
+
+bool EUs_D_DoStall() { return EUs.pipeline[EUS_PIPELINE_D] != -1; }
+bool EUs_E_DoStall() { return EUs.pipeline[EUS_PIPELINE_E] != -1; }
+bool EUs_M_DoStall() { return Flash.executing
+                           || EUs.pipeline[EUS_PIPELINE_M] != -1; }
+bool EUs_W_DoStall() { return Flash.executing; }
+
+void EUs_Update() {
+  // Execute W (if doesn't stall):
+  EUs.pipeline[EUS_PIPELINE_W] = -1;
+  if (!EUs_W_DoStall()) {
+    EUs.pipeline[EUS_PIPELINE_W] = EUs.pipeline[EUS_PIPELINE_M];
+    EUs.pipeline[EUS_PIPELINE_M] = -1;
+  }
+
+  // Execute M (if doesn't stall):
+  if (!EUs_M_DoStall()) {
+    EUs.pipeline[EUS_PIPELINE_M] = EUs.pipeline[EUS_PIPELINE_E];
+    EUs.pipeline[EUS_PIPELINE_E] = -1;
+  }
+
+  // Execute E (if doesn't stall):
+  if (!EUs_E_DoStall()) {
+    EUs.pipeline[EUS_PIPELINE_E] = EUs.pipeline[EUS_PIPELINE_D];
+    EUs.pipeline[EUS_PIPELINE_D] = -1;
+
+    // Instruction is a branch
+    if (EUs.pipeline[EUS_PIPELINE_E] != -1
+    &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_E]].do_branch) {
+      // Update the BTB
+      InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E], EUs.taken);
+ 
+      // Check for incorrect predictions:
+      if (EUs.predict_taken &amp;&amp; !EUs.taken) {
+        InCU.PC = EUs.pipeline[EUS_PIPELINE_E] +1;
+        InCU_Flush();
+      }
+      if (!EUs.predict_taken &amp;&amp; EUs.taken) {
+        InCU.PC = _INSTS[EUs.pipeline[EUS_PIPELINE_E]].target;
+        InCU_Flush();
+      }
+    }
+  }
+
+  // Execute D (if doesn't stall):
+  if (!EUs_D_DoStall()) {
+    EUs.pipeline[EUS_PIPELINE_D] = InCU.IR.index;
+    EUs.predict_taken            = InCU.IR.predict_taken;
+    EUs.dynamic_prediction       = InCU.IR.dynamic_prediction;
+    EUs.taken                    = InCU.IR.taken;
+    
+    InCU.IR = InCU_IBuff_Pop();
+
+    // inst. in D is a backward branch then statically predict taken
+    if (!EUs.dynamic_prediction
+    &amp;&amp;  EUs.pipeline[EUS_PIPELINE_D] != -1
+    &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D]].do_branch
+    &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D]].target &lt; EUs.pipeline[EUS_PIPELINE_D]) {
+      EUs.predict_taken = true;
+      InCU.PC = _INSTS[EUs.pipeline[EUS_PIPELINE_D]].target;
+      InCU_Flush(); // TODO: check wether it should be done or not
+    }
+  }
+}
+</declaration>
+	<template>
+		<name>dummy</name>
+		<location id="id0" x="0" y="0">
+		</location>
+		<location id="id1" x="-34" y="102">
+		</location>
+		<init ref="id1"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-68" y="-59">_do?</label>
+			<nail x="0" y="-102"/>
+			<nail x="34" y="-102"/>
+			<nail x="34" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-144" y="34">_doInitialize!</label>
+			<label kind="assignment" x="-144" y="51">_Init()</label>
+			<nail x="-34" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name>Static_RAM</name>
+		<location id="id2" x="-102" y="204">
+		</location>
+		<location id="id3" x="-68" y="102">
+		</location>
+		<location id="id4" x="-34" y="0">
+			<label kind="invariant" x="-280" y="-25">SRAM_clock &lt;= SRAM_LATENCY</label>
+		</location>
+		<init ref="id2"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-51" y="136">SRAM_IsTerminated()</label>
+			<label kind="synchronisation" x="-51" y="153">_do!</label>
+			<nail x="-68" y="204"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-212" y="136">_doInitialize?</label>
+			<label kind="assignment" x="-212" y="153">SRAM_Init()</label>
+			<nail x="-102" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-246" y="8">!SRAM_IsTerminated()</label>
+			<label kind="synchronisation" x="-246" y="25">SRAM_doBurst?</label>
+			<label kind="assignment" x="-246" y="42">IMU_FillBuffer_Set(),
+SRAM.burst_index = 0,
+SRAM_clock = 0</label>
+			<nail x="-68" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-17" y="25">SRAM.burst_index == SRAM_BURST_MAX</label>
+			<label kind="synchronisation" x="-17" y="42">_do!</label>
+			<label kind="assignment" x="-17" y="59">IMU_ICache_Update()</label>
+			<nail x="-34" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="17" y="-102">SRAM.burst_index != SRAM_BURST_MAX &amp;&amp;
+SRAM_clock == SRAM_LATENCY</label>
+			<label kind="synchronisation" x="17" y="-68">SRAM_doneBurst[SRAM.burst_index]!</label>
+			<label kind="assignment" x="17" y="-51">IMU_FillBuffer_Update(),
+SRAM.burst_index++,
+SRAM_clock = 0</label>
+			<nail x="-34" y="-102"/>
+			<nail x="0" y="-102"/>
+			<nail x="0" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name>Flash_Memory</name>
+		<location id="id5" x="136" y="306">
+		</location>
+		<location id="id6" x="170" y="204">
+		</location>
+		<location id="id7" x="204" y="102">
+			<label kind="invariant" x="221" y="93">Flash_clock &lt;= FLASH_LATENCY</label>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="guard" x="187" y="238">Flash_IsTerminated()</label>
+			<label kind="synchronisation" x="187" y="255">_do!</label>
+			<nail x="170" y="306"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="25" y="238">_doInitialize?</label>
+			<label kind="assignment" x="25" y="255">Flash_Init()</label>
+			<nail x="136" y="289"/>
+			<nail x="136" y="204"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-34" y="110">!Flash_IsTerminated() &amp;&amp;
+Flash_IsAccessed()</label>
+			<label kind="synchronisation" x="-34" y="144">EUs_doStep?</label>
+			<label kind="assignment" x="-34" y="161">Flash_clock = 0,
+Flash.executing = true</label>
+			<nail x="170" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="guard" x="221" y="136">Flash_clock == FLASH_LATENCY</label>
+			<label kind="assignment" x="221" y="153">Flash.executing = false</label>
+			<nail x="204" y="204"/>
+		</transition>
+	</template>
+	<template>
+		<name>Instruction_Memory_Unit</name>
+		<location id="id8" x="-782" y="-102">
+		</location>
+		<location id="id9" x="-646" y="0">
+			<label kind="invariant" x="-595" y="-8">IMU_clock &lt;= 1</label>
+		</location>
+		<location id="id10" x="-816" y="0">
+		</location>
+		<location id="id11" x="-850" y="102">
+		</location>
+		<location id="id12" x="-884" y="204">
+		</location>
+		<init ref="id12"/>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-595" y="-68">SRAM_doneBurst[0]?</label>
+			<label kind="assignment" x="-595" y="-51">IMU_clock = 0</label>
+			<nail x="-612" y="-102"/>
+			<nail x="-612" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-629" y="34">IMU_clock == 1</label>
+			<label kind="synchronisation" x="-629" y="51">IMU_doneAccess!</label>
+			<nail x="-646" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-969" y="-68">IMU_ICache_Miss()</label>
+			<label kind="synchronisation" x="-969" y="-51">SRAM_doBurst!</label>
+			<nail x="-816" y="-102"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-799" y="-42">IMU_ICache_Hit() ||
+IMU_FillBuffer_Hit()</label>
+			<label kind="synchronisation" x="-782" y="8">_do!</label>
+			<label kind="assignment" x="-782" y="25">IMU_clock = 0</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1020" y="25">!IMU_IsTerminated()</label>
+			<label kind="synchronisation" x="-1020" y="42">IMU_doAccess?</label>
+			<label kind="assignment" x="-1020" y="59">IMU_Set()</label>
+			<nail x="-850" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-833" y="136">IMU_IsTerminated()</label>
+			<label kind="synchronisation" x="-833" y="153">_do!</label>
+			<nail x="-850" y="204"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-994" y="136">_doInitialize?</label>
+			<label kind="assignment" x="-994" y="153">IMU_Init()</label>
+			<nail x="-884" y="102"/>
+		</transition>
+	</template>
+	<template>
+		<name>Instruction_and_Control_Unit</name>
+		<location id="id13" x="272" y="68">
+		</location>
+		<location id="id14" x="340" y="-136">
+		</location>
+		<location id="id15" x="306" y="-34">
+		</location>
+		<init ref="id13"/>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id13"/>
+			<label kind="guard" x="323" y="0">InCU_IsTerminated()</label>
+			<label kind="synchronisation" x="323" y="17">_do!</label>
+			<nail x="306" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="161" y="0">_doInitialize?</label>
+			<label kind="assignment" x="161" y="17">InCU_Init()</label>
+			<nail x="272" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="357" y="-102">IMU_doneAccess?</label>
+			<label kind="assignment" x="357" y="-85">InCU_Update()</label>
+			<nail x="340" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id14"/>
+			<label kind="guard" x="110" y="-110">!InCU_IsTerminated() &amp;&amp;
+!InCU_IBuff_IsFull()</label>
+			<label kind="synchronisation" x="110" y="-76">IMU_doAccess!</label>
+			<nail x="306" y="-136"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Execution_Units</name>
+		<location id="id16" x="204" y="102">
+			<urgent/>
+		</location>
+		<location id="id17" x="238" y="0">
+			<label kind="invariant" x="102" y="-25">EUs_clock  &lt;= 1</label>
+		</location>
+		<init ref="id16"/>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="93" y="34">_doInitialize?</label>
+			<label kind="assignment" x="93" y="51">EUs_Init()</label>
+			<nail x="204" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id16"/>
+			<label kind="guard" x="255" y="25">EUs_IsTerminated()</label>
+			<label kind="synchronisation" x="255" y="42">_do!</label>
+			<label kind="assignment" x="255" y="59">_clock = 0</label>
+			<nail x="238" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id17"/>
+			<label kind="guard" x="289" y="-93">!EUs_IsTerminated() &amp;&amp;
+EUs_clock == 1</label>
+			<label kind="synchronisation" x="289" y="-59">EUs_doStep!</label>
+			<label kind="assignment" x="289" y="-42">EUs_Update(),
+EUs_clock  = 0</label>
+			<nail x="238" y="-102"/>
+			<nail x="272" y="-102"/>
+			<nail x="272" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name>Case1</name>
+		<declaration>bool Always(bool b) {
+  return b;
+}</declaration>
+		<location id="id18" x="1360" y="374">
+			<label kind="comments" x="1351" y="399">etc.</label>
+		</location>
+		<location id="id19" x="986" y="-170">
+			<label kind="comments" x="757" y="-221">BTB: Miss
+Static prediction: Taken
+(i.e. backward branch)
+Prediction: Correct</label>
+		</location>
+		<location id="id20" x="1360" y="34">
+		</location>
+		<location id="id21" x="986" y="-34" color="#ffc0cb">
+			<name x="901" y="-43">BRANCH</name>
+			<urgent/>
+		</location>
+		<location id="id22" x="986" y="-102">
+		</location>
+		<location id="id23" x="986" y="102" color="#ffffff">
+		</location>
+		<location id="id24" x="986" y="34" color="#ffffff">
+		</location>
+		<location id="id25" x="1360" y="102">
+		</location>
+		<location id="id26" x="986" y="170" color="#ffffff">
+		</location>
+		<location id="id27" x="1360" y="170">
+		</location>
+		<location id="id28" x="1360" y="238">
+		</location>
+		<location id="id29" x="1360" y="306">
+		</location>
+		<location id="id30" x="986" y="238" color="#ffffff">
+			<label kind="comments" x="977" y="263">etc.</label>
+		</location>
+		<init ref="id19"/>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="1020" y="-170">_doInitialize?</label>
+			<label kind="assignment" x="1020" y="-153">B_Init(),
+InCU.PC = 4,
+_clock = 0</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id20"/>
+			<label kind="guard" x="1394" y="-17">Always(true)</label>
+			<label kind="assignment" x="1394" y="0">_taken = true</label>
+			<nail x="1360" y="-34"/>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id21"/>
+			<target ref="id24"/>
+			<label kind="guard" x="1020" y="-17">Always(false)</label>
+			<label kind="assignment" x="1020" y="0">_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id21"/>
+			<label kind="guard" x="1020" y="-85">IMU_IsAccessed(4)</label>
+			<label kind="synchronisation" x="1020" y="-68">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id25"/>
+			<label kind="guard" x="1394" y="51">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="1394" y="68">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id23"/>
+			<target ref="id26"/>
+			<label kind="guard" x="1020" y="119">IMU_IsAccessed(6)</label>
+			<label kind="synchronisation" x="1020" y="136">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id24"/>
+			<target ref="id23"/>
+			<label kind="guard" x="1020" y="51">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="1020" y="68">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id27"/>
+			<label kind="guard" x="1394" y="119">IMU_IsAccessed(0)</label>
+			<label kind="synchronisation" x="1394" y="136">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id28"/>
+			<label kind="guard" x="1394" y="187">IMU_IsAccessed(1)</label>
+			<label kind="synchronisation" x="1394" y="204">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="guard" x="1394" y="255">IMU_IsAccessed(2)</label>
+			<label kind="synchronisation" x="1394" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id18"/>
+			<label kind="guard" x="1394" y="314">IMU_IsAccessed(3)</label>
+			<label kind="synchronisation" x="1394" y="331">IMU_doneAccess?</label>
+			<label kind="assignment" x="1394" y="348">_mustTerminate = true</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id26"/>
+			<target ref="id30"/>
+			<label kind="guard" x="1020" y="178">IMU_IsAccessed(7)</label>
+			<label kind="synchronisation" x="1020" y="195">IMU_doneAccess?</label>
+			<label kind="assignment" x="1020" y="212">_mustTerminate = true</label>
+		</transition>
+	</template>
+	<template>
+		<name>Case2</name>
+		<declaration>bool Always(bool b) {
+  return b;
+}</declaration>
+		<location id="id31" x="918" y="34">
+			<label kind="comments" x="688" y="-17">BTB: Miss
+Static prediction: Taken
+(i.e. backward branch)
+Prediction: Incorrect</label>
+		</location>
+		<location id="id32" x="1292" y="238" color="#ffffff">
+		</location>
+		<location id="id33" x="918" y="170" color="#ffc0cb">
+			<name x="833" y="161">BRANCH</name>
+			<urgent/>
+		</location>
+		<location id="id34" x="918" y="102">
+		</location>
+		<location id="id35" x="918" y="306">
+		</location>
+		<location id="id36" x="918" y="238">
+		</location>
+		<location id="id37" x="1292" y="306" color="#ffffff">
+		</location>
+		<location id="id38" x="1292" y="374" color="#ffffff">
+		</location>
+		<location id="id39" x="1292" y="578" color="#ffffff">
+			<label kind="comments" x="1283" y="603">etc.</label>
+		</location>
+		<location id="id40" x="918" y="374">
+		</location>
+		<location id="id41" x="1292" y="442" color="#ffffff">
+		</location>
+		<location id="id42" x="1292" y="510" color="#ffffff">
+		</location>
+		<location id="id43" x="918" y="442">
+			<label kind="comments" x="909" y="467">etc.</label>
+		</location>
+		<init ref="id31"/>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id34"/>
+			<label kind="synchronisation" x="952" y="34">_doInitialize?</label>
+			<label kind="assignment" x="952" y="51">B_Init(),
+InCU.PC = 4,
+_clock = 0</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id33"/>
+			<target ref="id32"/>
+			<label kind="guard" x="1326" y="187">Always(false)</label>
+			<label kind="assignment" x="1326" y="204">_taken = true</label>
+			<nail x="1292" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id36"/>
+			<label kind="guard" x="952" y="187">Always(true)</label>
+			<label kind="assignment" x="952" y="204">_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id33"/>
+			<label kind="guard" x="952" y="119">IMU_IsAccessed(4)</label>
+			<label kind="synchronisation" x="952" y="136">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id32"/>
+			<target ref="id37"/>
+			<label kind="guard" x="1326" y="255">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="1326" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id40"/>
+			<label kind="guard" x="952" y="323">IMU_IsAccessed(6)</label>
+			<label kind="synchronisation" x="952" y="340">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id35"/>
+			<label kind="guard" x="952" y="255">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="952" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id37"/>
+			<target ref="id38"/>
+			<label kind="guard" x="1326" y="323">IMU_IsAccessed(0)</label>
+			<label kind="synchronisation" x="1326" y="340">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id38"/>
+			<target ref="id41"/>
+			<label kind="guard" x="1326" y="391">IMU_IsAccessed(1)</label>
+			<label kind="synchronisation" x="1326" y="408">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id41"/>
+			<target ref="id42"/>
+			<label kind="guard" x="1326" y="459">IMU_IsAccessed(2)</label>
+			<label kind="synchronisation" x="1326" y="476">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id42"/>
+			<target ref="id39"/>
+			<label kind="guard" x="1326" y="518">IMU_IsAccessed(3)</label>
+			<label kind="synchronisation" x="1326" y="535">IMU_doneAccess?</label>
+			<label kind="assignment" x="1326" y="552">_mustTerminate = true</label>
+		</transition>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id43"/>
+			<label kind="guard" x="952" y="382">IMU_IsAccessed(7)</label>
+			<label kind="synchronisation" x="952" y="399">IMU_doneAccess?</label>
+			<label kind="assignment" x="952" y="416">_mustTerminate = true</label>
+		</transition>
+	</template>
+	<template>
+		<name>Case3</name>
+		<declaration>bool Always(bool b) {
+  return b;
+}</declaration>
+		<location id="id44" x="1122" y="0">
+			<label kind="comments" x="892" y="-51">BTB: Miss
+Static prediction: Not-taken
+(i.e. forward branch)
+Prediction: Correct</label>
+		</location>
+		<location id="id45" x="1496" y="204" color="#ffffff">
+		</location>
+		<location id="id46" x="1122" y="136" color="#ffc0cb">
+			<name x="1037" y="127">BRANCH</name>
+			<urgent/>
+		</location>
+		<location id="id47" x="1122" y="68">
+		</location>
+		<location id="id48" x="1122" y="272">
+		</location>
+		<location id="id49" x="1122" y="204">
+		</location>
+		<location id="id50" x="1496" y="272" color="#ffffff">
+		</location>
+		<location id="id51" x="1122" y="340">
+		</location>
+		<location id="id52" x="1496" y="340" color="#ffffff">
+		</location>
+		<location id="id53" x="1496" y="408" color="#ffffff">
+		</location>
+		<location id="id54" x="1496" y="544" color="#ffffff">
+			<label kind="comments" x="1487" y="569">etc.</label>
+		</location>
+		<location id="id55" x="1496" y="476" color="#ffffff">
+		</location>
+		<location id="id56" x="1122" y="408">
+			<label kind="comments" x="1113" y="433">etc.</label>
+		</location>
+		<init ref="id44"/>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id47"/>
+			<label kind="synchronisation" x="1156" y="0">_doInitialize?</label>
+			<label kind="assignment" x="1156" y="17">B_Init(),
+InCU.PC = 8,
+_clock = 0</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id46"/>
+			<target ref="id45"/>
+			<label kind="guard" x="1530" y="153">Always(false)</label>
+			<label kind="assignment" x="1530" y="170">_taken = true</label>
+			<nail x="1496" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id49"/>
+			<label kind="guard" x="1156" y="153">Always(true)</label>
+			<label kind="assignment" x="1156" y="170">_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id46"/>
+			<label kind="guard" x="1156" y="85">IMU_IsAccessed(8)</label>
+			<label kind="synchronisation" x="1156" y="102">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id45"/>
+			<target ref="id50"/>
+			<label kind="guard" x="1530" y="221">IMU_IsAccessed(9)</label>
+			<label kind="synchronisation" x="1530" y="238">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id51"/>
+			<label kind="guard" x="1156" y="289">IMU_IsAccessed(10)</label>
+			<label kind="synchronisation" x="1156" y="306">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id48"/>
+			<label kind="guard" x="1156" y="221">IMU_IsAccessed(9)</label>
+			<label kind="synchronisation" x="1156" y="238">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id50"/>
+			<target ref="id52"/>
+			<label kind="guard" x="1530" y="289">IMU_IsAccessed(12)</label>
+			<label kind="synchronisation" x="1530" y="306">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id52"/>
+			<target ref="id53"/>
+			<label kind="guard" x="1530" y="357">IMU_IsAccessed(13)</label>
+			<label kind="synchronisation" x="1530" y="374">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id53"/>
+			<target ref="id55"/>
+			<label kind="guard" x="1530" y="425">IMU_IsAccessed(14)</label>
+			<label kind="synchronisation" x="1530" y="442">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id55"/>
+			<target ref="id54"/>
+			<label kind="guard" x="1530" y="484">IMU_IsAccessed(15)</label>
+			<label kind="synchronisation" x="1530" y="501">IMU_doneAccess?</label>
+			<label kind="assignment" x="1530" y="518">_mustTerminate = true</label>
+		</transition>
+		<transition>
+			<source ref="id51"/>
+			<target ref="id56"/>
+			<label kind="guard" x="1156" y="348">IMU_IsAccessed(11)</label>
+			<label kind="synchronisation" x="1156" y="365">IMU_doneAccess?</label>
+			<label kind="assignment" x="1156" y="382">_mustTerminate = true</label>
+		</transition>
+	</template>
+	<template>
+		<name>Case4</name>
+		<declaration>bool Always(bool b) {
+  return b;
+}</declaration>
+		<location id="id57" x="1564" y="510">
+			<label kind="comments" x="1555" y="535">etc.</label>
+		</location>
+		<location id="id58" x="1190" y="-34">
+			<label kind="comments" x="961" y="-85">BTB: Miss
+Static prediction: Not-taken
+(i.e. forward branch)
+Prediction: Incorrect</label>
+		</location>
+		<location id="id59" x="1564" y="170">
+		</location>
+		<location id="id60" x="1190" y="102" color="#ffc0cb">
+			<name x="1105" y="93">BRANCH</name>
+			<urgent/>
+		</location>
+		<location id="id61" x="1190" y="34">
+		</location>
+		<location id="id62" x="1190" y="238" color="#ffffff">
+		</location>
+		<location id="id63" x="1190" y="170" color="#ffffff">
+		</location>
+		<location id="id64" x="1564" y="238">
+		</location>
+		<location id="id65" x="1190" y="306" color="#ffffff">
+		</location>
+		<location id="id66" x="1564" y="306">
+		</location>
+		<location id="id67" x="1564" y="374">
+		</location>
+		<location id="id68" x="1564" y="442">
+		</location>
+		<location id="id69" x="1190" y="374" color="#ffffff">
+			<label kind="comments" x="1181" y="399">etc.</label>
+		</location>
+		<init ref="id58"/>
+		<transition>
+			<source ref="id58"/>
+			<target ref="id61"/>
+			<label kind="synchronisation" x="1224" y="-34">_doInitialize?</label>
+			<label kind="assignment" x="1224" y="-17">B_Init(),
+InCU.PC = 8,
+_clock = 0</label>
+		</transition>
+		<transition>
+			<source ref="id60"/>
+			<target ref="id59"/>
+			<label kind="guard" x="1598" y="119">Always(true)</label>
+			<label kind="assignment" x="1598" y="136">_taken = true</label>
+			<nail x="1564" y="102"/>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id60"/>
+			<target ref="id63"/>
+			<label kind="guard" x="1224" y="119">Always(false)</label>
+			<label kind="assignment" x="1224" y="136">_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id61"/>
+			<target ref="id60"/>
+			<label kind="guard" x="1224" y="51">IMU_IsAccessed(8)</label>
+			<label kind="synchronisation" x="1224" y="68">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id59"/>
+			<target ref="id64"/>
+			<label kind="guard" x="1598" y="187">IMU_IsAccessed(9)</label>
+			<label kind="synchronisation" x="1598" y="204">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id62"/>
+			<target ref="id65"/>
+			<label kind="guard" x="1224" y="255">IMU_IsAccessed(10)</label>
+			<label kind="synchronisation" x="1224" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id63"/>
+			<target ref="id62"/>
+			<label kind="guard" x="1224" y="187">IMU_IsAccessed(9)</label>
+			<label kind="synchronisation" x="1224" y="204">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id64"/>
+			<target ref="id66"/>
+			<label kind="guard" x="1598" y="255">IMU_IsAccessed(12)</label>
+			<label kind="synchronisation" x="1598" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id66"/>
+			<target ref="id67"/>
+			<label kind="guard" x="1598" y="323">IMU_IsAccessed(13)</label>
+			<label kind="synchronisation" x="1598" y="340">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id67"/>
+			<target ref="id68"/>
+			<label kind="guard" x="1598" y="391">IMU_IsAccessed(14)</label>
+			<label kind="synchronisation" x="1598" y="408">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id68"/>
+			<target ref="id57"/>
+			<label kind="guard" x="1598" y="450">IMU_IsAccessed(15)</label>
+			<label kind="synchronisation" x="1598" y="467">IMU_doneAccess?</label>
+			<label kind="assignment" x="1598" y="484">_mustTerminate = true</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id65"/>
+			<target ref="id69"/>
+			<label kind="guard" x="1224" y="314">IMU_IsAccessed(11)</label>
+			<label kind="synchronisation" x="1224" y="331">IMU_doneAccess?</label>
+			<label kind="assignment" x="1224" y="348">_mustTerminate = true</label>
+		</transition>
+	</template>
+	<template>
+		<name>Case5</name>
+		<declaration>bool Always(bool b) {
+  return b;
+}</declaration>
+		<location id="id70" x="1462" y="-34">
+			<label kind="comments" x="1215" y="-85">BTB: Hit
+Dynamic prediction: Taken
+Prediction: Correct</label>
+		</location>
+		<location id="id71" x="1836" y="170">
+		</location>
+		<location id="id72" x="1462" y="102" color="#ffc0cb">
+			<name x="1377" y="93">BRANCH</name>
+			<urgent/>
+		</location>
+		<location id="id73" x="1462" y="34">
+		</location>
+		<location id="id74" x="1462" y="238" color="#ffffff">
+		</location>
+		<location id="id75" x="1462" y="170" color="#ffffff">
+		</location>
+		<location id="id76" x="1836" y="238">
+		</location>
+		<location id="id77" x="1836" y="306">
+		</location>
+		<location id="id78" x="1836" y="374">
+		</location>
+		<location id="id79" x="1836" y="442">
+		</location>
+		<location id="id80" x="1462" y="374" color="#ffffff">
+			<label kind="comments" x="1453" y="399">etc.</label>
+		</location>
+		<location id="id81" x="1462" y="306" color="#ffffff">
+		</location>
+		<init ref="id70"/>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id73"/>
+			<label kind="synchronisation" x="1496" y="-34">_doInitialize?</label>
+			<label kind="assignment" x="1496" y="-17">B_Init(),
+InCU.PC = 4,
+_clock = 0</label>
+		</transition>
+		<transition>
+			<source ref="id72"/>
+			<target ref="id71"/>
+			<label kind="guard" x="1870" y="119">Always(true)</label>
+			<label kind="assignment" x="1870" y="136">_taken = true</label>
+			<nail x="1836" y="102"/>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id72"/>
+			<target ref="id75"/>
+			<label kind="guard" x="1496" y="119">Always(false)</label>
+			<label kind="assignment" x="1496" y="136">_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id73"/>
+			<target ref="id72"/>
+			<label kind="guard" x="1496" y="51">IMU_IsAccessed(4)</label>
+			<label kind="synchronisation" x="1496" y="68">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id71"/>
+			<target ref="id76"/>
+			<label kind="guard" x="1870" y="187">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="1870" y="204">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id74"/>
+			<target ref="id81"/>
+			<label kind="guard" x="1496" y="255">IMU_IsAccessed(6)</label>
+			<label kind="synchronisation" x="1496" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id75"/>
+			<target ref="id74"/>
+			<label kind="guard" x="1496" y="187">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="1496" y="204">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id76"/>
+			<target ref="id77"/>
+			<label kind="guard" x="1870" y="255">IMU_IsAccessed(0)</label>
+			<label kind="synchronisation" x="1870" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id77"/>
+			<target ref="id78"/>
+			<label kind="guard" x="1870" y="323">IMU_IsAccessed(1)</label>
+			<label kind="synchronisation" x="1870" y="340">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id78"/>
+			<target ref="id79"/>
+			<label kind="guard" x="1870" y="391">IMU_IsAccessed(2)</label>
+			<label kind="synchronisation" x="1870" y="408">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id79"/>
+			<target ref="id73"/>
+			<label kind="guard" x="1870" y="459">IMU_IsAccessed(3)</label>
+			<label kind="synchronisation" x="1870" y="476">IMU_doneAccess?</label>
+			<nail x="1836" y="510"/>
+			<nail x="1360" y="510"/>
+			<nail x="1360" y="68"/>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id81"/>
+			<target ref="id80"/>
+			<label kind="guard" x="1496" y="314">IMU_IsAccessed(7)</label>
+			<label kind="synchronisation" x="1496" y="331">IMU_doneAccess?</label>
+			<label kind="assignment" x="1496" y="348">_mustTerminate = true</label>
+		</transition>
+	</template>
+	<template>
+		<name>Case6</name>
+		<declaration>bool _first_time = true;
+bool FirstTime(bool b) {
+  return ((_first_time &amp;&amp; b) || (!_first_time &amp;&amp; !b));
+}</declaration>
+		<location id="id82" x="1020" y="-612">
+			<label kind="comments" x="773" y="-663">BTB: Hit
+Dynamic prediction: Taken
+Prediction: Incorrect</label>
+		</location>
+		<location id="id83" x="1394" y="-408">
+		</location>
+		<location id="id84" x="1020" y="-476" color="#ffc0cb">
+			<name x="935" y="-484">BRANCH</name>
+			<urgent/>
+		</location>
+		<location id="id85" x="1020" y="-544">
+		</location>
+		<location id="id86" x="1020" y="-340">
+		</location>
+		<location id="id87" x="1020" y="-408">
+		</location>
+		<location id="id88" x="1394" y="-340">
+		</location>
+		<location id="id89" x="1394" y="-272">
+		</location>
+		<location id="id90" x="1394" y="-204">
+		</location>
+		<location id="id91" x="1394" y="-136">
+		</location>
+		<location id="id92" x="1020" y="-204">
+			<label kind="comments" x="1011" y="-179">etc.</label>
+		</location>
+		<location id="id93" x="1020" y="-272">
+		</location>
+		<init ref="id82"/>
+		<transition>
+			<source ref="id82"/>
+			<target ref="id85"/>
+			<label kind="synchronisation" x="1054" y="-612">_doInitialize?</label>
+			<label kind="assignment" x="1054" y="-595">B_Init(),
+InCU.PC = 4,
+_clock = 0</label>
+		</transition>
+		<transition>
+			<source ref="id84"/>
+			<target ref="id83"/>
+			<label kind="guard" x="1428" y="-468">FirstTime(true)</label>
+			<label kind="assignment" x="1428" y="-451">_first_time = false,
+_taken = true</label>
+			<nail x="1394" y="-476"/>
+		</transition>
+		<transition>
+			<source ref="id84"/>
+			<target ref="id87"/>
+			<label kind="guard" x="1054" y="-468">FirstTime(false)</label>
+			<label kind="assignment" x="1054" y="-451">_first_time = false,
+_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id85"/>
+			<target ref="id84"/>
+			<label kind="guard" x="1054" y="-527">IMU_IsAccessed(4)</label>
+			<label kind="synchronisation" x="1054" y="-510">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id83"/>
+			<target ref="id88"/>
+			<label kind="guard" x="1428" y="-391">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="1428" y="-374">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id86"/>
+			<target ref="id93"/>
+			<label kind="guard" x="1054" y="-323">IMU_IsAccessed(6)</label>
+			<label kind="synchronisation" x="1054" y="-306">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id87"/>
+			<target ref="id86"/>
+			<label kind="guard" x="1054" y="-391">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="1054" y="-374">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id88"/>
+			<target ref="id89"/>
+			<label kind="guard" x="1428" y="-323">IMU_IsAccessed(0)</label>
+			<label kind="synchronisation" x="1428" y="-306">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id89"/>
+			<target ref="id90"/>
+			<label kind="guard" x="1428" y="-255">IMU_IsAccessed(1)</label>
+			<label kind="synchronisation" x="1428" y="-238">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id90"/>
+			<target ref="id91"/>
+			<label kind="guard" x="1428" y="-187">IMU_IsAccessed(2)</label>
+			<label kind="synchronisation" x="1428" y="-170">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id91"/>
+			<target ref="id85"/>
+			<label kind="guard" x="1428" y="-119">IMU_IsAccessed(3)</label>
+			<label kind="synchronisation" x="1428" y="-102">IMU_doneAccess?</label>
+			<nail x="1394" y="-68"/>
+			<nail x="918" y="-68"/>
+			<nail x="918" y="-510"/>
+		</transition>
+		<transition>
+			<source ref="id93"/>
+			<target ref="id92"/>
+			<label kind="guard" x="1054" y="-264">IMU_IsAccessed(7)</label>
+			<label kind="synchronisation" x="1054" y="-247">IMU_doneAccess?</label>
+			<label kind="assignment" x="1054" y="-230">_mustTerminate = true</label>
+		</transition>
+	</template>
+	<template>
+		<name>Case7</name>
+		<declaration>bool _first_time = true;
+bool FirstTime(bool b) {
+  return ((_first_time &amp;&amp; b) || (!_first_time &amp;&amp; !b));
+}</declaration>
+		<location id="id94" x="272" y="272" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<location id="id95" x="272" y="-68">
+			<label kind="comments" x="25" y="-119">BTB: Hit
+Dynamic prediction: Not-taken
+Prediction: Correct</label>
+		</location>
+		<location id="id96" x="646" y="136">
+		</location>
+		<location id="id97" x="272" y="68" color="#ffc0cb">
+			<name x="187" y="60">BRANCH</name>
+			<urgent/>
+		</location>
+		<location id="id98" x="272" y="0">
+		</location>
+		<location id="id99" x="272" y="204">
+		</location>
+		<location id="id100" x="272" y="136">
+		</location>
+		<location id="id101" x="646" y="204">
+		</location>
+		<location id="id102" x="646" y="272">
+		</location>
+		<location id="id103" x="646" y="340">
+		</location>
+		<location id="id104" x="646" y="408">
+		</location>
+		<location id="id105" x="272" y="340">
+		</location>
+		<init ref="id95"/>
+		<transition>
+			<source ref="id94"/>
+			<target ref="id105"/>
+			<label kind="guard" x="306" y="289">true</label>
+			<label kind="assignment" x="306" y="306">_taken = true</label>
+		</transition>
+		<transition>
+			<source ref="id95"/>
+			<target ref="id98"/>
+			<label kind="synchronisation" x="306" y="-68">_doInitialize?</label>
+			<label kind="assignment" x="306" y="-51">B_Init(),
+InCU.PC = 4,
+_clock = 0</label>
+		</transition>
+		<transition>
+			<source ref="id97"/>
+			<target ref="id96"/>
+			<label kind="guard" x="680" y="76">FirstTime(true)</label>
+			<label kind="assignment" x="680" y="93">_first_time = false,
+_taken = true</label>
+			<nail x="646" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id97"/>
+			<target ref="id100"/>
+			<label kind="guard" x="306" y="76">FirstTime(false)</label>
+			<label kind="assignment" x="306" y="93">_first_time = false,
+_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id98"/>
+			<target ref="id97"/>
+			<label kind="guard" x="306" y="17">IMU_IsAccessed(4)</label>
+			<label kind="synchronisation" x="306" y="34">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id96"/>
+			<target ref="id101"/>
+			<label kind="guard" x="680" y="153">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="680" y="170">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id99"/>
+			<target ref="id94"/>
+			<label kind="guard" x="306" y="221">IMU_IsAccessed(6)</label>
+			<label kind="synchronisation" x="306" y="238">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id100"/>
+			<target ref="id99"/>
+			<label kind="guard" x="306" y="153">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="306" y="170">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id101"/>
+			<target ref="id102"/>
+			<label kind="guard" x="680" y="221">IMU_IsAccessed(0)</label>
+			<label kind="synchronisation" x="680" y="238">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id102"/>
+			<target ref="id103"/>
+			<label kind="guard" x="680" y="289">IMU_IsAccessed(1)</label>
+			<label kind="synchronisation" x="680" y="306">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id103"/>
+			<target ref="id104"/>
+			<label kind="guard" x="680" y="357">IMU_IsAccessed(2)</label>
+			<label kind="synchronisation" x="680" y="374">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id104"/>
+			<target ref="id98"/>
+			<label kind="guard" x="680" y="425">IMU_IsAccessed(3)</label>
+			<label kind="synchronisation" x="680" y="442">IMU_doneAccess?</label>
+			<nail x="646" y="476"/>
+			<nail x="170" y="476"/>
+			<nail x="170" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id105"/>
+			<target ref="id101"/>
+			<label kind="guard" x="306" y="357">IMU_IsAccessed(7)</label>
+			<label kind="synchronisation" x="306" y="374">IMU_doneAccess?</label>
+			<nail x="272" y="408"/>
+			<nail x="544" y="408"/>
+			<nail x="544" y="238"/>
+		</transition>
+	</template>
+	<template>
+		<name>Case8</name>
+		<declaration>int _time_count = 1;
+bool SecondTime(bool b) {
+  if (_time_count == 2)
+    return b;
+  return !b;
+}</declaration>
+		<location id="id106" x="306" y="34">
+			<label kind="comments" x="59" y="-17">BTB: Hit
+Dynamic prediction: Not-taken
+Prediction: Incorrect</label>
+		</location>
+		<location id="id107" x="680" y="238">
+		</location>
+		<location id="id108" x="306" y="170" color="#ffc0cb">
+			<name x="221" y="162">BRANCH</name>
+			<urgent/>
+		</location>
+		<location id="id109" x="306" y="102">
+		</location>
+		<location id="id110" x="306" y="306">
+		</location>
+		<location id="id111" x="306" y="238">
+		</location>
+		<location id="id112" x="680" y="306">
+		</location>
+		<location id="id113" x="680" y="374">
+		</location>
+		<location id="id114" x="680" y="442">
+		</location>
+		<location id="id115" x="680" y="510">
+		</location>
+		<location id="id116" x="306" y="442">
+		</location>
+		<location id="id117" x="306" y="374" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<init ref="id106"/>
+		<transition>
+			<source ref="id106"/>
+			<target ref="id109"/>
+			<label kind="synchronisation" x="340" y="34">_doInitialize?</label>
+			<label kind="assignment" x="340" y="51">B_Init(),
+InCU.PC = 4,
+_clock = 0</label>
+		</transition>
+		<transition>
+			<source ref="id108"/>
+			<target ref="id107"/>
+			<label kind="guard" x="714" y="178">SecondTime(false)</label>
+			<label kind="assignment" x="714" y="195">_time_count++,
+_taken = true</label>
+			<nail x="680" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id108"/>
+			<target ref="id111"/>
+			<label kind="guard" x="340" y="178">SecondTime(true)</label>
+			<label kind="assignment" x="340" y="195">_time_count++,
+_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id109"/>
+			<target ref="id108"/>
+			<label kind="guard" x="340" y="119">IMU_IsAccessed(4)</label>
+			<label kind="synchronisation" x="340" y="136">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id107"/>
+			<target ref="id112"/>
+			<label kind="guard" x="714" y="255">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="714" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id110"/>
+			<target ref="id117"/>
+			<label kind="guard" x="340" y="323">IMU_IsAccessed(6)</label>
+			<label kind="synchronisation" x="340" y="340">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id111"/>
+			<target ref="id110"/>
+			<label kind="guard" x="340" y="255">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="340" y="272">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id112"/>
+			<target ref="id113"/>
+			<label kind="guard" x="714" y="323">IMU_IsAccessed(0)</label>
+			<label kind="synchronisation" x="714" y="340">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id113"/>
+			<target ref="id114"/>
+			<label kind="guard" x="714" y="391">IMU_IsAccessed(1)</label>
+			<label kind="synchronisation" x="714" y="408">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id114"/>
+			<target ref="id115"/>
+			<label kind="guard" x="714" y="459">IMU_IsAccessed(2)</label>
+			<label kind="synchronisation" x="714" y="476">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id115"/>
+			<target ref="id109"/>
+			<label kind="guard" x="714" y="527">IMU_IsAccessed(3)</label>
+			<label kind="synchronisation" x="714" y="544">IMU_doneAccess?</label>
+			<nail x="680" y="578"/>
+			<nail x="204" y="578"/>
+			<nail x="204" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id116"/>
+			<target ref="id112"/>
+			<label kind="guard" x="340" y="459">IMU_IsAccessed(7)</label>
+			<label kind="synchronisation" x="340" y="476">IMU_doneAccess?</label>
+			<nail x="306" y="510"/>
+			<nail x="578" y="510"/>
+			<nail x="578" y="340"/>
+		</transition>
+		<transition>
+			<source ref="id117"/>
+			<target ref="id116"/>
+			<label kind="guard" x="340" y="391">true</label>
+			<label kind="assignment" x="340" y="408">_taken = true</label>
+		</transition>
+	</template>
+	<template>
+		<name>Binary</name>
+		<location id="id118" x="-170" y="-382">
+		</location>
+		<location id="id119" x="-170" y="-246">
+		</location>
+		<location id="id120" x="-170" y="-102">
+		</location>
+		<location id="id121" x="-170" y="-34">
+			<name x="-238" y="-42">BB8</name>
+		</location>
+		<location id="id122" x="-170" y="34">
+		</location>
+		<location id="id123" x="-170" y="102">
+		</location>
+		<location id="id124" x="-170" y="170">
+		</location>
+		<location id="id125" x="-170" y="306">
+		</location>
+		<location id="id126" x="-170" y="374">
+			<name x="-238" y="366">BB0</name>
+		</location>
+		<location id="id127" x="-170" y="442">
+		</location>
+		<location id="id128" x="-170" y="510">
+		</location>
+		<location id="id129" x="-170" y="578">
+		</location>
+		<location id="id130" x="-170" y="646">
+		</location>
+		<location id="id131" x="-170" y="-314">
+			<name x="-238" y="-322">BB10</name>
+		</location>
+		<location id="id132" x="204" y="850">
+		</location>
+		<location id="id133" x="-170" y="782" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<location id="id134" x="-170" y="714">
+		</location>
+		<location id="id135" x="-170" y="850" color="#c0c0c0">
+		</location>
+		<location id="id136" x="578" y="1054">
+		</location>
+		<location id="id137" x="204" y="986" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<location id="id138" x="204" y="1190" color="#c0c0c0">
+		</location>
+		<location id="id139" x="204" y="918">
+			<name x="136" y="910">BB4</name>
+		</location>
+		<location id="id140" x="204" y="1054" color="#c0c0c0">
+		</location>
+		<location id="id141" x="952" y="1394">
+		</location>
+		<location id="id142" x="578" y="1326" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<location id="id143" x="952" y="2142">
+		</location>
+		<location id="id144" x="952" y="2074">
+			<name x="884" y="2065">BB11</name>
+		</location>
+		<location id="id145" x="952" y="1734">
+			<name x="884" y="1726">BB9</name>
+		</location>
+		<location id="id146" x="952" y="1802">
+		</location>
+		<location id="id147" x="952" y="1870">
+		</location>
+		<location id="id148" x="952" y="2006">
+		</location>
+		<location id="id149" x="952" y="1530">
+			<name x="884" y="1522">BB7</name>
+		</location>
+		<location id="id150" x="952" y="1666">
+		</location>
+		<location id="id151" x="952" y="1462">
+			<name x="884" y="1454">BB6</name>
+		</location>
+		<location id="id152" x="578" y="1462">
+			<name x="510" y="1454">BB3</name>
+		</location>
+		<location id="id153" x="578" y="1122">
+			<name x="510" y="1114">BB2</name>
+		</location>
+		<location id="id154" x="578" y="1190">
+		</location>
+		<location id="id155" x="578" y="1258">
+		</location>
+		<location id="id156" x="578" y="1394">
+		</location>
+		<location id="id157" x="-170" y="986" color="#c0c0c0">
+		</location>
+		<location id="id158" x="-170" y="-170" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<location id="id159" x="-170" y="238" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<location id="id160" x="952" y="1598" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<location id="id161" x="952" y="1938" color="#ffc0cb">
+			<urgent/>
+		</location>
+		<location id="id162" x="-170" y="918" color="#c0c0c0">
+			<name x="-238" y="909">BB1</name>
+			<urgent/>
+		</location>
+		<location id="id163" x="204" y="1122" color="#c0c0c0">
+			<name x="136" y="1113">BB5</name>
+			<urgent/>
+		</location>
+		<init ref="id118"/>
+		<transition>
+			<source ref="id152"/>
+			<target ref="id139"/>
+			<label kind="guard" x="612" y="1479">IMU_IsAccessed(12)</label>
+			<label kind="synchronisation" x="612" y="1496">IMU_doneAccess?</label>
+			<nail x="578" y="1530"/>
+			<nail x="102" y="1530"/>
+			<nail x="102" y="952"/>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id138"/>
+			<target ref="id149"/>
+			<label kind="guard" x="238" y="1207">IMU_IsAccessed(15)</label>
+			<label kind="synchronisation" x="238" y="1224">IMU_doneAccess?</label>
+			<nail x="204" y="1564"/>
+			<nail x="850" y="1564"/>
+		</transition>
+		<transition>
+			<source ref="id118"/>
+			<target ref="id131"/>
+			<label kind="synchronisation" x="-136" y="-373">_doInitialize?</label>
+			<label kind="assignment" x="-136" y="-356">B_Init(),
+InCU.PC = 28,
+_clock = 0</label>
+		</transition>
+		<transition>
+			<source ref="id131"/>
+			<target ref="id119"/>
+			<label kind="guard" x="-136" y="-297">IMU_IsAccessed(28)</label>
+			<label kind="synchronisation" x="-136" y="-280">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id119"/>
+			<target ref="id158"/>
+			<label kind="guard" x="-136" y="-229">IMU_IsAccessed(29)</label>
+			<label kind="synchronisation" x="-136" y="-212">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id120"/>
+			<target ref="id121"/>
+			<label kind="guard" x="-136" y="-102">IMU_IsAccessed(30)</label>
+			<label kind="synchronisation" x="-136" y="-85">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id121"/>
+			<target ref="id122"/>
+			<label kind="guard" x="-136" y="-17">IMU_IsAccessed(19)</label>
+			<label kind="synchronisation" x="-136" y="0">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id122"/>
+			<target ref="id123"/>
+			<label kind="guard" x="-136" y="51">IMU_IsAccessed(20)</label>
+			<label kind="synchronisation" x="-136" y="68">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id123"/>
+			<target ref="id124"/>
+			<label kind="guard" x="-136" y="119">IMU_IsAccessed(21)</label>
+			<label kind="synchronisation" x="-136" y="136">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id124"/>
+			<target ref="id159"/>
+			<label kind="guard" x="-136" y="179">IMU_IsAccessed(22)</label>
+			<label kind="synchronisation" x="-136" y="196">IMU_doneAccess?</label>
+			<label kind="assignment" x="-136" y="213">execute_3058()</label>
+		</transition>
+		<transition>
+			<source ref="id125"/>
+			<target ref="id126"/>
+			<label kind="guard" x="-136" y="323">IMU_IsAccessed(23)</label>
+			<label kind="synchronisation" x="-136" y="340">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id126"/>
+			<target ref="id127"/>
+			<label kind="guard" x="-136" y="383">IMU_IsAccessed(0)</label>
+			<label kind="synchronisation" x="-136" y="400">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id127"/>
+			<target ref="id128"/>
+			<label kind="guard" x="-136" y="459">IMU_IsAccessed(1)</label>
+			<label kind="synchronisation" x="-136" y="476">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id128"/>
+			<target ref="id129"/>
+			<label kind="guard" x="-136" y="527">IMU_IsAccessed(2)</label>
+			<label kind="synchronisation" x="-136" y="544">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id129"/>
+			<target ref="id130"/>
+			<label kind="guard" x="-136" y="587">IMU_IsAccessed(3)</label>
+			<label kind="synchronisation" x="-136" y="604">IMU_doneAccess?</label>
+			<label kind="assignment" x="-136" y="621">execute_300c()</label>
+		</transition>
+		<transition>
+			<source ref="id130"/>
+			<target ref="id134"/>
+			<label kind="guard" x="-136" y="655">IMU_IsAccessed(4)</label>
+			<label kind="synchronisation" x="-136" y="672">IMU_doneAccess?</label>
+			<label kind="assignment" x="-136" y="689">execute_3010()</label>
+		</transition>
+		<transition>
+			<source ref="id133"/>
+			<target ref="id132"/>
+			<label kind="guard" x="238" y="799">gt()</label>
+			<label kind="assignment" x="238" y="816">_taken = true</label>
+			<nail x="204" y="782"/>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id133"/>
+			<target ref="id135"/>
+			<label kind="guard" x="-136" y="799">!gt()</label>
+			<label kind="assignment" x="-136" y="816">_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id134"/>
+			<target ref="id133"/>
+			<label kind="guard" x="-136" y="723">IMU_IsAccessed(5)</label>
+			<label kind="synchronisation" x="-136" y="740">IMU_doneAccess?</label>
+			<label kind="assignment" x="-136" y="757">execute_3014()</label>
+		</transition>
+		<transition>
+			<source ref="id132"/>
+			<target ref="id139"/>
+			<label kind="guard" x="238" y="858">IMU_IsAccessed(6)</label>
+			<label kind="synchronisation" x="238" y="875">IMU_doneAccess?</label>
+			<label kind="assignment" x="238" y="892">execute_3018()</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id135"/>
+			<target ref="id162"/>
+			<label kind="guard" x="-136" y="858">IMU_IsAccessed(6)</label>
+			<label kind="synchronisation" x="-136" y="875">IMU_doneAccess?</label>
+			<label kind="assignment" x="-136" y="892">execute_3018()</label>
+		</transition>
+		<transition>
+			<source ref="id137"/>
+			<target ref="id136"/>
+			<label kind="guard" x="612" y="1003">ge()</label>
+			<label kind="assignment" x="612" y="1020">_taken = true</label>
+			<nail x="578" y="986"/>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id137"/>
+			<target ref="id140"/>
+			<label kind="guard" x="238" y="1003">!ge()</label>
+			<label kind="assignment" x="238" y="1020">_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id139"/>
+			<target ref="id137"/>
+			<label kind="guard" x="238" y="926">IMU_IsAccessed(13)</label>
+			<label kind="synchronisation" x="238" y="943">IMU_doneAccess?</label>
+			<label kind="assignment" x="238" y="960">execute_3034()</label>
+		</transition>
+		<transition>
+			<source ref="id136"/>
+			<target ref="id153"/>
+			<label kind="guard" x="612" y="1062">IMU_IsAccessed(14)</label>
+			<label kind="synchronisation" x="612" y="1079">IMU_doneAccess?</label>
+			<label kind="assignment" x="612" y="1096">execute_3038()</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id140"/>
+			<target ref="id163"/>
+			<label kind="guard" x="238" y="1062">IMU_IsAccessed(14)</label>
+			<label kind="synchronisation" x="238" y="1079">IMU_doneAccess?</label>
+			<label kind="assignment" x="238" y="1096">execute_3038()</label>
+		</transition>
+		<transition>
+			<source ref="id142"/>
+			<target ref="id156"/>
+			<label kind="guard" x="612" y="1343">!z()</label>
+			<label kind="assignment" x="612" y="1360">_taken = false</label>
+		</transition>
+		<transition>
+			<source ref="id142"/>
+			<target ref="id141"/>
+			<label kind="guard" x="986" y="1343">z()</label>
+			<label kind="assignment" x="986" y="1360">_taken = true</label>
+			<nail x="952" y="1326"/>
+		</transition>
+		<transition>
+			<source ref="id144"/>
+			<target ref="id143"/>
+			<label kind="guard" x="986" y="2082">IMU_IsAccessed(31)</label>
+			<label kind="synchronisation" x="986" y="2099">IMU_doneAccess?</label>
+			<label kind="assignment" x="986" y="2116">_mustTerminate = true</label>
+		</transition>
+		<transition>
+			<source ref="id145"/>
+			<target ref="id146"/>
+			<label kind="guard" x="986" y="1751">IMU_IsAccessed(24)</label>
+			<label kind="synchronisation" x="986" y="1768">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id146"/>
+			<target ref="id147"/>
+			<label kind="guard" x="986" y="1819">IMU_IsAccessed(25)</label>
+			<label kind="synchronisation" x="986" y="1836">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id147"/>
+			<target ref="id161"/>
+			<label kind="guard" x="986" y="1887">IMU_IsAccessed(26)</label>
+			<label kind="synchronisation" x="986" y="1904">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id148"/>
+			<target ref="id144"/>
+			<label kind="guard" x="986" y="2023">IMU_IsAccessed(27)</label>
+			<label kind="synchronisation" x="986" y="2040">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id149"/>
+			<target ref="id160"/>
+			<label kind="guard" x="986" y="1547">IMU_IsAccessed(17)</label>
+			<label kind="synchronisation" x="986" y="1564">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id150"/>
+			<target ref="id145"/>
+			<label kind="guard" x="986" y="1683">IMU_IsAccessed(18)</label>
+			<label kind="synchronisation" x="986" y="1700">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id151"/>
+			<target ref="id149"/>
+			<label kind="guard" x="986" y="1479">IMU_IsAccessed(16)</label>
+			<label kind="synchronisation" x="986" y="1496">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id153"/>
+			<target ref="id154"/>
+			<label kind="guard" x="612" y="1139">IMU_IsAccessed(8)</label>
+			<label kind="synchronisation" x="612" y="1156">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id154"/>
+			<target ref="id155"/>
+			<label kind="guard" x="612" y="1198">IMU_IsAccessed(9)</label>
+			<label kind="synchronisation" x="612" y="1215">IMU_doneAccess?</label>
+			<label kind="assignment" x="612" y="1232">execute_3024()</label>
+		</transition>
+		<transition>
+			<source ref="id155"/>
+			<target ref="id142"/>
+			<label kind="guard" x="612" y="1275">IMU_IsAccessed(10)</label>
+			<label kind="synchronisation" x="612" y="1292">IMU_doneAccess?</label>
+		</transition>
+		<transition>
+			<source ref="id141"/>
+			<target ref="id151"/>
+			<label kind="guard" x="986" y="1402">IMU_IsAccessed(11)</label>
+			<label kind="synchronisation" x="986" y="1419">IMU_doneAccess?</label>
+			<label kind="assignment" x="986" y="1436">execute_302c()</label>
+		</transition>
+		<transition>
+			<source ref="id156"/>
+			<target ref="id152"/>
+			<label kind="guard" x="612" y="1402">IMU_IsAccessed(11)</label>
+			<label kind="synchronisation" x="612" y="1419">IMU_doneAccess?</label>
+			<label kind="assignment" x="612" y="1436">execute_302c()</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id157"/>
+			<target ref="id149"/>
+			<label kind="guard" x="-136" y="1003">IMU_IsAccessed(7)</label>
+			<label kind="synchronisation" x="-136" y="1020">IMU_doneAccess?</label>
+			<nail x="-170" y="1564"/>
+			<nail x="850" y="1564"/>
+		</transition>
+		<transition>
+			<source ref="id158"/>
+			<target ref="id120"/>
+			<label kind="guard" x="-136" y="-170">true</label>
+			<label kind="assignment" x="-136" y="-153">_taken = true</label>
+		</transition>
+		<transition>
+			<source ref="id159"/>
+			<target ref="id125"/>
+			<label kind="guard" x="-136" y="255">true</label>
+			<label kind="assignment" x="-136" y="272">_taken = true</label>
+		</transition>
+		<transition>
+			<source ref="id160"/>
+			<target ref="id150"/>
+			<label kind="guard" x="986" y="1615">true</label>
+			<label kind="assignment" x="986" y="1632">_taken = true</label>
+		</transition>
+		<transition>
+			<source ref="id161"/>
+			<target ref="id148"/>
+			<label kind="guard" x="986" y="1955">true</label>
+			<label kind="assignment" x="986" y="1972">_taken = true</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id162"/>
+			<target ref="id157"/>
+			<label kind="guard" x="-136" y="935">true</label>
+			<label kind="assignment" x="-136" y="952">_taken = true</label>
+		</transition>
+		<transition color="#c0c0c0">
+			<source ref="id163"/>
+			<target ref="id138"/>
+			<label kind="guard" x="238" y="1139">true</label>
+			<label kind="assignment" x="238" y="1156">_taken = true</label>
+		</transition>
+	</template>
+	<system>system
+    dummy
+  , Static_RAM
+  , Flash_Memory
+  , Instruction_Memory_Unit
+  , Instruction_and_Control_Unit
+  &lt; Execution_Units
+  , Case1
+  ;
+</system>
+	<queries>
+		<query>
+			<formula>sup: _clock
+			</formula>
+			<comment>
+			</comment>
+		</query>
+	</queries>
+</nta>

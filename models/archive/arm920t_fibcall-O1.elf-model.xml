@@ -1,0 +1,2578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>
+// Place global declarations here.
+// version 0 of the cache model
+// model for an associative cache
+// Franck Cassez - IRCCyN &amp; CNRS - 25 january 2011
+// this version of the caches is updated to the ARM920T LRU 64 sets 512 lines
+
+int[0,4] nb;
+
+int DatacachemissR=0;
+int DatacachemissW=0;
+int ICcachemiss=0;
+int[0,1000000] n_steps=0;
+//--------------------------------------------------------------
+// constants 
+
+//const int NULL=-1; //  no instruction
+//const int TWO_UP_15=65535;
+const int NO_ADR=-1;
+
+const int NO_INSTRUCTION=65;
+
+const int MIN_REG_VAL=-65535;
+const int MAX_REG_VAL=2200000;
+
+const int MAX_ADR=2200000;
+
+typedef struct
+{
+  bool known;
+  int[MIN_REG_VAL,MAX_REG_VAL] val;
+} ext_val  ;
+
+
+const int CYCLE=1; // duration of a cycle for eg decode unit
+const int MAX_DUR=30; // maximal duration of instructions in cycles
+
+const int BLK_SIZE=4; // size of memory blocks in bytes !!! ASSUME cache lines are of size BLK_SIZE as well
+
+const int MAX_REG=15;
+
+// Intruction and Data Caches 
+const int INSTR_CACHE=0; // ID of the instruction cache
+const int DATA_CACHE=1; // ID of the data cache
+
+// L= number of cache lines
+// S= number of cache sets
+const int L=512;
+const int S=8;
+
+//--------------------------------------------------------------
+// instruction type
+const int G1=1;
+const int G1L=7;
+const int G2ldr=2;
+const int G2str=3;
+const int G3ldm=4;
+const int G3ldmpc=5;
+const int G3stm=6;
+const int G4u=7;
+const int G4c=8;
+const int MAX_TYPE=10;
+
+clock GBL_CLK;
+
+int[0,65535] lsl(int[0,65535] a, int b) { return a &lt;&lt; b ; }
+
+// cache vars
+bool str_in_p=false;
+bool ldr_in_p=false;
+bool write_hit=false;
+
+typedef int[-1,MAX_ADR] adrType;
+adrType PC=-1; // current instruction address requested
+adrType CD=-1; // current data address requested
+
+adrType A=-1; // address of cell stored
+adrType local_m;
+
+//--------------------------------------------------------------
+// channels declaration
+urgent chan CacheReadStart[2],CacheWriteStart[2];
+chan CacheReadEnd[2],CacheWriteEnd[2];
+urgent chan StartWB;
+urgent chan WriteHit;
+urgent chan str_in_prog,ldr_in_prog;
+chan EndWB;
+urgent chan MainMemStart; 
+chan MainMemEnd; 
+chan Hurry,comp_true;
+urgent chan fetch,decode,execute,memory,writeback,fetch_completed,decode_completed,execute_completed,memory_completed,
+prog_completed;
+urgent broadcast chan  initialize;
+
+
+urgent chan MainMemStartWB;
+chan MainMemEndWB;
+
+chan priority MainMemStartWB &lt; MainMemStart;
+
+
+chan priority Hurry &lt; comp_true ;
+//chan priority Hurry &lt; memory_completed ;
+
+//--------------------------------------------------------------
+// Pipeline stuff
+const int STAGES=5;
+const int FETCH_STAGE=0;
+const int DECODE_STAGE=1;
+const int EXECUTE_STAGE=2;
+const int MEMORY_STAGE=3;
+const int WRITE_BACK_STAGE=4;
+
+bool Todo[STAGES]; // type of instruction in each stage
+adrType dataAdr[STAGES]; // type of instruction in each stage
+int[0,16] num_word[STAGES];
+//--------------------------------------------------------------
+adrType pPC[STAGES]; // pipeline PC -1 is NULL
+
+//--------------------------------------------------------------
+// registers names 
+
+
+ext_val val_r0;
+ext_val val_r1;
+ext_val val_r2;
+ext_val val_r3;
+ext_val val_r4;
+ext_val val_r5;
+ext_val val_r6;
+ext_val val_r7;
+ext_val val_r8;
+ext_val val_r9;
+ext_val val_sl;
+ext_val val_fp;
+ext_val val_ip;
+ext_val val_sp;
+ext_val val_lr;
+
+void copy(int[0,STAGES-1] a,int[0,STAGES-1] b) {
+
+	pPC[b] = pPC[a];
+	Todo[b]=Todo[a];
+	dataAdr[b]= dataAdr[a] ;
+	num_word[b]=num_word[a];
+
+	// clean my input fields
+	pPC[a] = NO_INSTRUCTION;
+	Todo[a]= false;
+	dataAdr[a]= NO_ADR ;
+	num_word[a]=0;
+}
+
+// Function returning the type of instructions 
+
+
+// table returning the read/written regs
+/* read from registers */
+const int[0,65536] r_reg[66]={
+	16384,	/* bx lr                   */
+	1,	/* cmps r0,#1                */
+	2,	/* add r0,r1,#2097152       */
+	1,	/* addeq r0,r0,#8192          */
+	1,	/* addne r0,r0,#12288         */
+	16384,	/* bx lr                   */
+	16384,	/* bx lr                   */
+	16384,	/* bx lr                   */
+	24576,	/* stmdb sp!,{lr}             */
+	8192,	/* sub sp,sp,#12            */
+	0,	/* mov r1,#16               */
+	0,	/* bl 0001d1c              */
+	1,	/* ldr r3,[r0,#0]           */
+	8200,	/* str r3,[sp,#4]           */
+	8192,	/* ldr r0,[sp,#4]           */
+	8192,	/* add sp,sp,#12            */
+	8192,	/* ldmia sp!,{pc}             */
+	8192,	/* mov r0,sp                */
+	16384,	/* bx lr                   */
+	16384,	/* bx lr                   */
+	16384,	/* bx lr                   */
+	24632,	/* stmdb sp!,{r3,r4,r5,lr}    */
+	0,	/* mov r0,#1                */
+	0,	/* mov r1,#2                */
+	0,	/* bl 0001d30              */
+	0,	/* mov r0,#1                */
+	0,	/* mov r1,#0                */
+	0,	/* bl 0001d4c              */
+	0,	/* bl 0002d6c              */
+	0,	/* bl 0002d64              */
+	0,	/* bl 0001cbc              */
+	0,	/* bl 0002a0c              */
+	1,	/* mov r1,r0                */
+	32768,	/* ldr r0,[pc,#108]         */
+	32768,	/* ldr r3,[pc,#108]         */
+	32768,	/* mov lr,pc                */
+	1,	/* mov r0,r0                */
+	0,	/* mov r0,#1                */
+	0,	/* bl 0001d64              */
+	1,	/* mov r5,r0                */
+	0,	/* mov r1,#2                */
+	0,	/* mov r0,#0                */
+	0,	/* mov r2,#1                */
+	0,	/* mov r3,#300              */
+	12,	/* add r3,r3,r2             */
+	5,	/* add r4,r0,r2             */
+	2,	/* add r1,r1,#1             */
+	4,	/* mov r0,r2                */
+	16,	/* mov r2,r4                */
+	10,	/* cmps r1,r3                */
+	0,	/* bne 0003428              */
+	0,	/* mov r0,#1                */
+	0,	/* bl 0001d64              */
+	0,	/* mov lr,#3                */
+	16384,	/* bx lr                   */
+	0,	/* mov r1,#12               */
+	34,	/* mul r1,r5,r1             */
+	16,	/* mov r2,r4                */
+	32768,	/* ldr r3,[pc,#12]          */
+	32768,	/* mov lr,pc                */
+	8,	/* ldr pc,[r3,#0]           */
+	0,	/* b 0003468              */
+	0,	/* .word 0x00001c54 */
+	0,	/* .word 0x00004428 */
+	0,	/* .word 0x00001c60 */
+	0	/* fake instruction */
+
+};
+
+/* written to registers */
+const int[0,65536] w_reg[66]={
+	0,	/* bx lr                   */
+	0,	/* cmps r0,#1                */
+	1,	/* add r0,r1,#2097152       */
+	1,	/* addeq r0,r0,#8192          */
+	1,	/* addne r0,r0,#12288         */
+	0,	/* bx lr                   */
+	0,	/* bx lr                   */
+	0,	/* bx lr                   */
+	8192,	/* stmdb sp!,{lr}             */
+	8192,	/* sub sp,sp,#12            */
+	2,	/* mov r1,#16               */
+	16384,	/* bl 0001d1c              */
+	8,	/* ldr r3,[r0,#0]           */
+	0,	/* str r3,[sp,#4]           */
+	1,	/* ldr r0,[sp,#4]           */
+	8192,	/* add sp,sp,#12            */
+	40960,	/* ldmia sp!,{pc}             */
+	1,	/* mov r0,sp                */
+	0,	/* bx lr                   */
+	0,	/* bx lr                   */
+	0,	/* bx lr                   */
+	8192,	/* stmdb sp!,{r3,r4,r5,lr}    */
+	1,	/* mov r0,#1                */
+	2,	/* mov r1,#2                */
+	16384,	/* bl 0001d30              */
+	1,	/* mov r0,#1                */
+	2,	/* mov r1,#0                */
+	16384,	/* bl 0001d4c              */
+	16384,	/* bl 0002d6c              */
+	16384,	/* bl 0002d64              */
+	16384,	/* bl 0001cbc              */
+	16384,	/* bl 0002a0c              */
+	2,	/* mov r1,r0                */
+	1,	/* ldr r0,[pc,#108]         */
+	8,	/* ldr r3,[pc,#108]         */
+	16384,	/* mov lr,pc                */
+	1,	/* mov r0,r0                */
+	1,	/* mov r0,#1                */
+	16384,	/* bl 0001d64              */
+	32,	/* mov r5,r0                */
+	2,	/* mov r1,#2                */
+	1,	/* mov r0,#0                */
+	4,	/* mov r2,#1                */
+	8,	/* mov r3,#300              */
+	8,	/* add r3,r3,r2             */
+	16,	/* add r4,r0,r2             */
+	2,	/* add r1,r1,#1             */
+	1,	/* mov r0,r2                */
+	4,	/* mov r2,r4                */
+	0,	/* cmps r1,r3                */
+	0,	/* bne 0003428              */
+	1,	/* mov r0,#1                */
+	16384,	/* bl 0001d64              */
+	16384,	/* mov lr,#3                */
+	0,	/* bx lr                   */
+	2,	/* mov r1,#12               */
+	2,	/* mul r1,r5,r1             */
+	4,	/* mov r2,r4                */
+	8,	/* ldr r3,[pc,#12]          */
+	16384,	/* mov lr,pc                */
+	32768,	/* ldr pc,[r3,#0]           */
+	0,	/* b 0003468              */
+	0,	/* .word 0x00001c54 */
+	0,	/* .word 0x00004428 */
+	0,	/* .word 0x00001c60 */
+	0	/* fake instruction */
+
+};
+
+/* returns the instruction type */
+const int[0,MAX_TYPE] type_of[66]={
+	G4u,	/* bx lr                   */
+	G1,	/* cmps r0,#1                */
+	G1,	/* add r0,r1,#2097152       */
+	G1,	/* addeq r0,r0,#8192          */
+	G1,	/* addne r0,r0,#12288         */
+	G4u,	/* bx lr                   */
+	G4u,	/* bx lr                   */
+	G4u,	/* bx lr                   */
+	G3stm,	/* stmdb sp!,{lr}             */
+	G1,	/* sub sp,sp,#12            */
+	G1,	/* mov r1,#16               */
+	G4u,	/* bl 0001d1c              */
+	G2ldr,	/* ldr r3,[r0,#0]           */
+	G2str,	/* str r3,[sp,#4]           */
+	G2ldr,	/* ldr r0,[sp,#4]           */
+	G1,	/* add sp,sp,#12            */
+	G3ldmpc,	/* ldmia sp!,{pc}             */
+	G1,	/* mov r0,sp                */
+	G4u,	/* bx lr                   */
+	G4u,	/* bx lr                   */
+	G4u,	/* bx lr                   */
+	G3stm,	/* stmdb sp!,{r3,r4,r5,lr}    */
+	G1,	/* mov r0,#1                */
+	G1,	/* mov r1,#2                */
+	G4u,	/* bl 0001d30              */
+	G1,	/* mov r0,#1                */
+	G1,	/* mov r1,#0                */
+	G4u,	/* bl 0001d4c              */
+	G4u,	/* bl 0002d6c              */
+	G4u,	/* bl 0002d64              */
+	G4u,	/* bl 0001cbc              */
+	G4u,	/* bl 0002a0c              */
+	G1,	/* mov r1,r0                */
+	G2ldr,	/* ldr r0,[pc,#108]         */
+	G2ldr,	/* ldr r3,[pc,#108]         */
+	G1,	/* mov lr,pc                */
+	G1,	/* mov r0,r0                */
+	G1,	/* mov r0,#1                */
+	G4u,	/* bl 0001d64              */
+	G1,	/* mov r5,r0                */
+	G1,	/* mov r1,#2                */
+	G1,	/* mov r0,#0                */
+	G1,	/* mov r2,#1                */
+	G1,	/* mov r3,#300              */
+	G1,	/* add r3,r3,r2             */
+	G1,	/* add r4,r0,r2             */
+	G1,	/* add r1,r1,#1             */
+	G1,	/* mov r0,r2                */
+	G1,	/* mov r2,r4                */
+	G1,	/* cmps r1,r3                */
+	G4c,	/* bne 0003428              */
+	G1,	/* mov r0,#1                */
+	G4u,	/* bl 0001d64              */
+	G1,	/* mov lr,#3                */
+	G4u,	/* bx lr                   */
+	G1,	/* mov r1,#12               */
+	G1,	/* mul r1,r5,r1             */
+	G1,	/* mov r2,r4                */
+	G2ldr,	/* ldr r3,[pc,#12]          */
+	G1,	/* mov lr,pc                */
+	G2ldr,	/* ldr pc,[r3,#0]           */
+	G4u,	/* b 0003468              */
+	0,	 /* data */
+	0,	 /* data */
+	0,	 /* data */
+	0	/* fake instruction */
+};
+
+// @@NODE_MAP removed
+
+/* returns the address that is associated with an instruction */
+const int[0,MAX_ADR] i_adr[66]={
+	7356,	/* bx lr                   */
+	7452,	/* cmps r0,#1                */
+	7456,	/* add r0,r1,#2097152       */
+	7460,	/* addeq r0,r0,#8192          */
+	7464,	/* addne r0,r0,#12288         */
+	7468,	/* bx lr                   */
+	7472,	/* bx lr                   */
+	7500,	/* bx lr                   */
+	7524,	/* stmdb sp!,{lr}             */
+	7528,	/* sub sp,sp,#12            */
+	7532,	/* mov r1,#16               */
+	7536,	/* bl 0001d1c              */
+	7540,	/* ldr r3,[r0,#0]           */
+	7544,	/* str r3,[sp,#4]           */
+	7548,	/* ldr r0,[sp,#4]           */
+	7552,	/* add sp,sp,#12            */
+	7556,	/* ldmia sp!,{pc}             */
+	10764,	/* mov r0,sp                */
+	10768,	/* bx lr                   */
+	11620,	/* bx lr                   */
+	11628,	/* bx lr                   */
+	13256,	/* stmdb sp!,{r3,r4,r5,lr}    */
+	13260,	/* mov r0,#1                */
+	13264,	/* mov r1,#2                */
+	13268,	/* bl 0001d30              */
+	13272,	/* mov r0,#1                */
+	13276,	/* mov r1,#0                */
+	13280,	/* bl 0001d4c              */
+	13284,	/* bl 0002d6c              */
+	13288,	/* bl 0002d64              */
+	13292,	/* bl 0001cbc              */
+	13296,	/* bl 0002a0c              */
+	13300,	/* mov r1,r0                */
+	13304,	/* ldr r0,[pc,#108]         */
+	13308,	/* ldr r3,[pc,#108]         */
+	13312,	/* mov lr,pc                */
+	13316,	/* mov r0,r0                */
+	13320,	/* mov r0,#1                */
+	13324,	/* bl 0001d64              */
+	13328,	/* mov r5,r0                */
+	13332,	/* mov r1,#2                */
+	13336,	/* mov r0,#0                */
+	13340,	/* mov r2,#1                */
+	13344,	/* mov r3,#300              */
+	13348,	/* add r3,r3,r2             */
+	13352,	/* add r4,r0,r2             */
+	13356,	/* add r1,r1,#1             */
+	13360,	/* mov r0,r2                */
+	13364,	/* mov r2,r4                */
+	13368,	/* cmps r1,r3                */
+	13372,	/* bne 0003428              */
+	13376,	/* mov r0,#1                */
+	13380,	/* bl 0001d64              */
+	13384,	/* mov lr,#3                */
+	13388,	/* bx lr                   */
+	13392,	/* mov r1,#12               */
+	13396,	/* mul r1,r5,r1             */
+	13400,	/* mov r2,r4                */
+	13404,	/* ldr r3,[pc,#12]          */
+	13408,	/* mov lr,pc                */
+	13412,	/* ldr pc,[r3,#0]           */
+	13416,	/* b 0003468              */
+	0,	 /* data */
+	0,	 /* data */
+	0,	 /* data */
+	0	/* fake instruction */
+};
+
+
+void SET_PL(adrType p,adrType i,int m,bool todo) {
+	PC=i_adr[p]; 
+	pPC[FETCH_STAGE]=p;
+	num_word[FETCH_STAGE]=m;
+	Todo[FETCH_STAGE] = todo;
+	dataAdr[FETCH_STAGE]= i;
+}
+</declaration>
+	<template>
+		<name>Prog</name>
+		<declaration>// program
+bool cmp_known;
+ext_val UNKNOWN;
+ext_val NULL;
+
+/* bool used for conditions */
+bool cmp_eq=false,
+     cmp_cs=false,
+     cmp_mi=false,
+     cmp_vs=false,
+     cmp_ge=false,
+     cmp_hi=false,
+     cmp_gt=false;
+
+bool eq() { return cmp_eq; }
+bool ne() {return !eq(); }
+bool cs() {return cmp_cs; }
+bool cc() {return !cs(); }
+bool mi() { return cmp_mi; }    
+bool pl() { return !mi(); } 
+bool ge() { return cmp_ge; }   
+bool lt() { return !ge(); }    
+bool hi() {return cmp_hi; }   
+bool ls() {return !hi(); }
+bool gt() { return cmp_gt; }
+bool le() { return !gt(); }
+
+void set_cmp_bits(bool N,bool Z,bool C,bool V) {
+	if (cmp_known) {
+	  cmp_eq=Z;
+	  cmp_cs=C;
+	  cmp_mi=N;
+ 	  cmp_ge=(N==V);
+	  cmp_hi=(C &amp;&amp; !Z);
+	  cmp_gt=(!Z &amp;&amp; cmp_ge);
+	}
+}
+
+ext_val to_ext_val(int[MIN_REG_VAL,MAX_REG_VAL] a) { ext_val b; b.known=true; b.val=a; return b;}
+
+bool compute_gt(bool N,bool V,bool Z) { return (!Z &amp;&amp; (N==V)) ; } 
+bool compute_ge(bool N,bool V) { return ((N==V)) ; } 
+
+void ARMsub(ext_val &amp;r,ext_val s1,ext_val s2 ,bool s,ext_val q) {  
+bool N,Z,C,V;
+  	r.known=s1.known &amp;&amp; s2.known;
+	r.val=s1.val-s2.val;
+	if (s) 
+	   // set conditions of last operation
+	   if (!r.known) {
+	     cmp_known=false;
+	   }
+	   else {
+	     cmp_known=true;
+	     Z=r.val==0;
+	     N=(r.val &lt; 0); // use max_reg with right number of bits !!
+	     C=(s1.val&gt;=0 &amp;&amp; -s2.val&gt;=0)?0:((s1.val&lt;0 &amp;&amp; -s2.val&lt;0)?1:(r.val&gt;=0));
+	     V=false;  //(~( (s1.val ^ s2.val ) &gt;&gt; 31 ) &amp; ((r.val ^s1.val) &gt;&gt; 31 ) );
+	     set_cmp_bits(N,Z,C,V);
+	   } 
+} 
+
+void ARMadd(ext_val &amp;r,ext_val s1,ext_val s2,bool s,ext_val q) { 
+bool N,Z,C,V;
+	r.known=s1.known &amp;&amp; s2.known;
+	r.val=s1.val+s2.val;
+	if (s) 
+	   // set conditions of last operation
+	   if (!r.known) {
+	     cmp_known=false;
+	   }
+	   else {
+	     cmp_known=true;
+	     Z=r.val==0;
+	     N=(r.val &lt; 0); // use max_reg with right number of bits !!
+	     C=(s1.val&gt;=0 &amp;&amp; s2.val&gt;=0)?0:((s1.val&lt;0 &amp;&amp; s2.val&lt;0)?1:(r.val&gt;=0));
+	     V=false;  //(~( (s1.val ^ s2.val ) &gt;&gt; 31 ) &amp; ((r.val ^s1.val) &gt;&gt; 31 ) );
+	    set_cmp_bits(N,Z,C,V);
+	   }
+ }
+
+
+void ARMmov(ext_val &amp;a,ext_val b,ext_val c,bool s,ext_val q) { a=c ; }
+
+
+void ARMcmp(ext_val s1,ext_val c,ext_val s2,bool s,ext_val q) { 
+	ext_val r;
+	ARMsub(r,s1,s2,true,q);
+}
+
+
+ext_val ARMOFFlsl(adrType r,int k) {
+	adrType s;
+	s = r &lt;&lt; k;
+	return to_ext_val(s);
+}
+
+ext_val q;
+
+const int INIT_SP=3064;
+
+const int INIT_LR=1;
+const int INIT_IP=0;
+
+const int INIT_PC=13256;
+
+
+
+
+void init_val() { // initialization function
+int i;
+
+	for (i : int[0,STAGES-1]) {
+		pPC[i] = NO_INSTRUCTION;
+		Todo[i]= false;
+		dataAdr[i]= NO_ADR ;
+	}
+	val_sp.known=true; val_sp.val=INIT_SP;
+	val_lr.known=true; val_lr.val=INIT_LR;
+
+	UNKNOWN.known=false;
+	UNKNOWN.val=0;
+}
+
+void sem_node_48() {
+ARMmov(val_r0,NULL,to_ext_val(1),false,q);
+}
+void sem_node_44() {
+ARMmov(val_r1,NULL,to_ext_val(16),false,q);
+}
+void sem_node_42() {
+ARMcmp(val_r0,NULL,to_ext_val(1),true,q);
+}
+void sem_node_41() {
+ARMadd(val_r0,val_r1,to_ext_val(2097152),false,q);
+}
+void sem_node_40() {if (eq()){
+
+ARMadd(val_r0,val_r0,to_ext_val(8192),false,q);
+}}
+void sem_node_39() {if (ne()){
+
+ARMadd(val_r0,val_r0,to_ext_val(12288),false,q);
+}}
+void sem_node_31() {
+ARMmov(val_r1,NULL,to_ext_val(2),false,q);
+}
+void sem_node_29() {
+ARMmov(val_r2,NULL,to_ext_val(1),false,q);
+}
+void sem_node_28() {
+ARMmov(val_r3,NULL,to_ext_val(300),false,q);
+}
+void sem_node_27() {
+ARMadd(val_r3,val_r3,val_r2,false,q);
+}
+void sem_node_25() {
+ARMadd(val_r1,val_r1,to_ext_val(1),false,q);
+}
+void sem_node_22() {
+ARMcmp(val_r1,NULL,val_r3,true,q);
+}
+void sem_node_20() {
+ARMmov(val_r0,NULL,to_ext_val(1),false,q);
+}
+void sem_node_16() {
+ARMmov(val_r1,NULL,to_ext_val(16),false,q);
+}
+void sem_node_14() {
+ARMcmp(val_r0,NULL,to_ext_val(1),true,q);
+}
+void sem_node_13() {
+ARMadd(val_r0,val_r1,to_ext_val(2097152),false,q);
+}
+void sem_node_12() {if (eq()){
+
+ARMadd(val_r0,val_r0,to_ext_val(8192),false,q);
+}}
+void sem_node_11() {if (ne()){
+
+ARMadd(val_r0,val_r0,to_ext_val(12288),false,q);
+}}
+
+  
+</declaration>
+		<location id="id0" x="592" y="-175">
+			<name x="606" y="-183">_2_decPC_3</name>
+			<label kind="comments" x="582" y="-140">instruction at 0x [decimal 3]
+END</label>
+		</location>
+		<location id="id1" x="848" y="-10025">
+			<name x="862" y="-10033">_70_decPC_13260</name>
+			<label kind="comments" x="838" y="-9990">instruction at 0x00033cc [decimal 13260]
+mov r0,#1</label>
+		</location>
+		<location id="id2" x="848" y="-9875">
+			<name x="862" y="-9883">_69_decPC_13264</name>
+			<label kind="comments" x="838" y="-9840">instruction at 0x00033d0 [decimal 13264]
+mov r1,#2</label>
+		</location>
+		<location id="id3" x="848" y="-9725">
+			<name x="862" y="-9733">_68_decPC_13268</name>
+			<label kind="comments" x="838" y="-9690">instruction at 0x00033d4 [decimal 13268]
+bl 0001d30</label>
+		</location>
+		<location id="id4" x="848" y="-9600">
+			<name x="862" y="-9608">_67_decPC_7472</name>
+			<label kind="comments" x="838" y="-9565">instruction at 0x0001d30 [decimal 7472]
+bx lr</label>
+		</location>
+		<location id="id5" x="848" y="-9450">
+			<name x="862" y="-9458">_66_decPC_13272</name>
+			<label kind="comments" x="838" y="-9415">instruction at 0x00033d8 [decimal 13272]
+mov r0,#1</label>
+		</location>
+		<location id="id6" x="848" y="-9300">
+			<name x="862" y="-9308">_65_decPC_13276</name>
+			<label kind="comments" x="838" y="-9265">instruction at 0x00033dc [decimal 13276]
+mov r1,#0</label>
+		</location>
+		<location id="id7" x="848" y="-9150">
+			<name x="862" y="-9158">_64_decPC_13280</name>
+			<label kind="comments" x="838" y="-9115">instruction at 0x00033e0 [decimal 13280]
+bl 0001d4c</label>
+		</location>
+		<location id="id8" x="848" y="-9000">
+			<name x="862" y="-9008">_63_decPC_7500</name>
+			<label kind="comments" x="838" y="-8965">instruction at 0x0001d4c [decimal 7500]
+bx lr</label>
+		</location>
+		<location id="id9" x="848" y="-8875">
+			<name x="862" y="-8883">_62_decPC_13284</name>
+			<label kind="comments" x="838" y="-8840">instruction at 0x00033e4 [decimal 13284]
+bl 0002d6c</label>
+		</location>
+		<location id="id10" x="848" y="-8725">
+			<name x="862" y="-8733">_61_decPC_11628</name>
+			<label kind="comments" x="838" y="-8690">instruction at 0x0002d6c [decimal 11628]
+bx lr</label>
+		</location>
+		<location id="id11" x="848" y="-8575">
+			<name x="862" y="-8583">_60_decPC_13288</name>
+			<label kind="comments" x="838" y="-8540">instruction at 0x00033e8 [decimal 13288]
+bl 0002d64</label>
+		</location>
+		<location id="id12" x="848" y="-8425">
+			<name x="862" y="-8433">_59_decPC_11620</name>
+			<label kind="comments" x="838" y="-8390">instruction at 0x0002d64 [decimal 11620]
+bx lr</label>
+		</location>
+		<location id="id13" x="848" y="-8275">
+			<name x="862" y="-8283">_58_decPC_13292</name>
+			<label kind="comments" x="838" y="-8240">instruction at 0x00033ec [decimal 13292]
+bl 0001cbc</label>
+		</location>
+		<location id="id14" x="848" y="-8150">
+			<name x="862" y="-8158">_57_decPC_7356</name>
+			<label kind="comments" x="838" y="-8115">instruction at 0x0001cbc [decimal 7356]
+bx lr</label>
+		</location>
+		<location id="id15" x="848" y="-8000">
+			<name x="862" y="-8008">_56_decPC_13296</name>
+			<label kind="comments" x="838" y="-7965">instruction at 0x00033f0 [decimal 13296]
+bl 0002a0c</label>
+		</location>
+		<location id="id16" x="848" y="-7850">
+			<name x="862" y="-7858">_55_decPC_10764</name>
+			<label kind="comments" x="838" y="-7815">instruction at 0x0002a0c [decimal 10764]
+mov r0,sp</label>
+		</location>
+		<location id="id17" x="848" y="-7700">
+			<name x="862" y="-7708">_54_decPC_10768</name>
+			<label kind="comments" x="838" y="-7665">instruction at 0x0002a10 [decimal 10768]
+bx lr</label>
+		</location>
+		<location id="id18" x="848" y="-7550">
+			<name x="862" y="-7558">_53_decPC_13300</name>
+			<label kind="comments" x="838" y="-7515">instruction at 0x00033f4 [decimal 13300]
+mov r1,r0</label>
+		</location>
+		<location id="id19" x="848" y="-7425">
+			<name x="862" y="-7433">_52_decPC_13304</name>
+			<label kind="comments" x="838" y="-7390">instruction at 0x00033f8 [decimal 13304]
+ldr r0,[pc,#108]</label>
+		</location>
+		<location id="id20" x="848" y="-10175">
+			<name x="862" y="-10183">_71_decPC_13256</name>
+			<label kind="comments" x="838" y="-10140">instruction at 0x00033c8 [decimal 13256]
+stmdb sp!,{r3,r4,r5,lr}</label>
+		</location>
+		<location id="id21" x="848" y="-10325">
+			<name x="862" y="-10333">_72_decPC_1</name>
+			<label kind="comments" x="838" y="-10290">instruction at 0x [decimal 1]
+ENTRY</label>
+		</location>
+		<location id="id22" x="848" y="-7275">
+			<name x="862" y="-7283">_51_decPC_13308</name>
+			<label kind="comments" x="838" y="-7240">instruction at 0x00033fc [decimal 13308]
+ldr r3,[pc,#108]</label>
+		</location>
+		<location id="id23" x="848" y="-7125">
+			<name x="862" y="-7133">_50_decPC_13312</name>
+			<label kind="comments" x="838" y="-7090">instruction at 0x0003400 [decimal 13312]
+mov lr,pc</label>
+		</location>
+		<location id="id24" x="848" y="-6975">
+			<name x="862" y="-6983">_49_decPC_13316</name>
+			<label kind="comments" x="838" y="-6940">instruction at 0x0003404 [decimal 13316]
+mov r0,r0</label>
+		</location>
+		<location id="id25" x="848" y="-6825">
+			<name x="862" y="-6833">_48_decPC_13320</name>
+			<label kind="comments" x="838" y="-6790">instruction at 0x0003408 [decimal 13320]
+mov r0,#1</label>
+		</location>
+		<location id="id26" x="848" y="-6700">
+			<name x="862" y="-6708">_47_decPC_13324</name>
+			<label kind="comments" x="838" y="-6665">instruction at 0x000340c [decimal 13324]
+bl 0001d64</label>
+		</location>
+		<location id="id27" x="848" y="-6550">
+			<name x="862" y="-6558">_46_decPC_7524</name>
+			<label kind="comments" x="838" y="-6515">instruction at 0x0001d64 [decimal 7524]
+stmdb sp!,{lr}</label>
+		</location>
+		<location id="id28" x="848" y="-6400">
+			<name x="862" y="-6408">_45_decPC_7528</name>
+			<label kind="comments" x="838" y="-6365">instruction at 0x0001d68 [decimal 7528]
+sub sp,sp,#12</label>
+		</location>
+		<location id="id29" x="848" y="-6250">
+			<name x="862" y="-6258">_44_decPC_7532</name>
+			<label kind="comments" x="838" y="-6215">instruction at 0x0001d6c [decimal 7532]
+mov r1,#16</label>
+		</location>
+		<location id="id30" x="848" y="-6100">
+			<name x="862" y="-6108">_43_decPC_7536</name>
+			<label kind="comments" x="838" y="-6065">instruction at 0x0001d70 [decimal 7536]
+bl 0001d1c</label>
+		</location>
+		<location id="id31" x="848" y="-5975">
+			<name x="862" y="-5983">_42_decPC_7452</name>
+			<label kind="comments" x="838" y="-5940">instruction at 0x0001d1c [decimal 7452]
+cmps r0,#1</label>
+		</location>
+		<location id="id32" x="848" y="-5825">
+			<name x="862" y="-5833">_41_decPC_7456</name>
+			<label kind="comments" x="838" y="-5790">instruction at 0x0001d20 [decimal 7456]
+add r0,r1,#2097152</label>
+		</location>
+		<location id="id33" x="848" y="-5675">
+			<name x="862" y="-5683">_40_decPC_7460</name>
+			<label kind="comments" x="838" y="-5640">instruction at 0x0001d24 [decimal 7460]
+addeq r0,r0,#8192</label>
+		</location>
+		<location id="id34" x="848" y="-5525">
+			<name x="862" y="-5533">_39_decPC_7464</name>
+			<label kind="comments" x="838" y="-5490">instruction at 0x0001d28 [decimal 7464]
+addne r0,r0,#12288</label>
+		</location>
+		<location id="id35" x="848" y="-5375">
+			<name x="862" y="-5383">_38_decPC_7468</name>
+			<label kind="comments" x="838" y="-5340">instruction at 0x0001d2c [decimal 7468]
+bx lr</label>
+		</location>
+		<location id="id36" x="848" y="-5250">
+			<name x="862" y="-5258">_37_decPC_7540</name>
+			<label kind="comments" x="838" y="-5215">instruction at 0x0001d74 [decimal 7540]
+ldr r3,[r0,#0]</label>
+		</location>
+		<location id="id37" x="848" y="-5100">
+			<name x="862" y="-5108">_36_decPC_7544</name>
+			<label kind="comments" x="838" y="-5065">instruction at 0x0001d78 [decimal 7544]
+str r3,[sp,#4]</label>
+		</location>
+		<location id="id38" x="848" y="-4950">
+			<name x="862" y="-4958">_35_decPC_7548</name>
+			<label kind="comments" x="838" y="-4915">instruction at 0x0001d7c [decimal 7548]
+ldr r0,[sp,#4]</label>
+		</location>
+		<location id="id39" x="848" y="-4800">
+			<name x="862" y="-4808">_34_decPC_7552</name>
+			<label kind="comments" x="838" y="-4765">instruction at 0x0001d80 [decimal 7552]
+add sp,sp,#12</label>
+		</location>
+		<location id="id40" x="848" y="-4650">
+			<name x="862" y="-4658">_33_decPC_7556</name>
+			<label kind="comments" x="838" y="-4615">instruction at 0x0001d84 [decimal 7556]
+ldmia sp!,{pc}</label>
+		</location>
+		<location id="id41" x="848" y="-4525">
+			<name x="862" y="-4533">_32_decPC_13328</name>
+			<label kind="comments" x="838" y="-4490">instruction at 0x0003410 [decimal 13328]
+mov r5,r0</label>
+		</location>
+		<location id="id42" x="848" y="-4375">
+			<name x="862" y="-4383">_31_decPC_13332</name>
+			<label kind="comments" x="838" y="-4340">instruction at 0x0003414 [decimal 13332]
+mov r1,#2</label>
+		</location>
+		<location id="id43" x="848" y="-4225">
+			<name x="862" y="-4233">_30_decPC_13336</name>
+			<label kind="comments" x="838" y="-4190">instruction at 0x0003418 [decimal 13336]
+mov r0,#0</label>
+		</location>
+		<location id="id44" x="848" y="-4075">
+			<name x="862" y="-4083">_29_decPC_13340</name>
+			<label kind="comments" x="838" y="-4040">instruction at 0x000341c [decimal 13340]
+mov r2,#1</label>
+		</location>
+		<location id="id45" x="848" y="-3925">
+			<name x="862" y="-3933">_28_decPC_13344</name>
+			<label kind="comments" x="838" y="-3890">instruction at 0x0003420 [decimal 13344]
+mov r3,#300</label>
+		</location>
+		<location id="id46" x="848" y="-3800">
+			<name x="862" y="-3808">_27_decPC_13348</name>
+			<label kind="comments" x="838" y="-3765">instruction at 0x0003424 [decimal 13348]
+add r3,r3,r2</label>
+		</location>
+		<location id="id47" x="848" y="-3650">
+			<name x="862" y="-3658">_26_decPC_13352</name>
+			<label kind="comments" x="838" y="-3615">instruction at 0x0003428 [decimal 13352]
+add r4,r0,r2</label>
+		</location>
+		<location id="id48" x="552" y="-3500">
+			<name x="566" y="-3508">_25_decPC_13356</name>
+			<label kind="comments" x="542" y="-3465">instruction at 0x000342c [decimal 13356]
+add r1,r1,#1</label>
+		</location>
+		<location id="id49" x="548" y="-3350">
+			<name x="562" y="-3358">_24_decPC_13360</name>
+			<label kind="comments" x="538" y="-3315">instruction at 0x0003430 [decimal 13360]
+mov r0,r2</label>
+		</location>
+		<location id="id50" x="544" y="-3200">
+			<name x="558" y="-3208">_23_decPC_13364</name>
+			<label kind="comments" x="534" y="-3165">instruction at 0x0003434 [decimal 13364]
+mov r2,r4</label>
+		</location>
+		<location id="id51" x="544" y="-3075">
+			<name x="558" y="-3083">_22_decPC_13368</name>
+			<label kind="comments" x="534" y="-3040">instruction at 0x0003438 [decimal 13368]
+cmps r1,r3</label>
+		</location>
+		<location id="id52" x="592" y="-2925">
+			<name x="606" y="-2933">_21_decPC_13372</name>
+			<label kind="comments" x="582" y="-2890">instruction at 0x000343c [decimal 13372]
+bne 0003428</label>
+		</location>
+		<location id="id53" x="592" y="-2775">
+			<name x="606" y="-2783">_20_decPC_13376</name>
+			<label kind="comments" x="582" y="-2740">instruction at 0x0003440 [decimal 13376]
+mov r0,#1</label>
+		</location>
+		<location id="id54" x="592" y="-2625">
+			<name x="606" y="-2633">_19_decPC_13380</name>
+			<label kind="comments" x="582" y="-2590">instruction at 0x0003444 [decimal 13380]
+bl 0001d64</label>
+		</location>
+		<location id="id55" x="592" y="-2475">
+			<name x="606" y="-2483">_18_decPC_7524</name>
+			<label kind="comments" x="582" y="-2440">instruction at 0x0001d64 [decimal 7524]
+stmdb sp!,{lr}</label>
+		</location>
+		<location id="id56" x="592" y="-2350">
+			<name x="606" y="-2358">_17_decPC_7528</name>
+			<label kind="comments" x="582" y="-2315">instruction at 0x0001d68 [decimal 7528]
+sub sp,sp,#12</label>
+		</location>
+		<location id="id57" x="592" y="-2200">
+			<name x="606" y="-2208">_16_decPC_7532</name>
+			<label kind="comments" x="582" y="-2165">instruction at 0x0001d6c [decimal 7532]
+mov r1,#16</label>
+		</location>
+		<location id="id58" x="592" y="-2050">
+			<name x="606" y="-2058">_15_decPC_7536</name>
+			<label kind="comments" x="582" y="-2015">instruction at 0x0001d70 [decimal 7536]
+bl 0001d1c</label>
+		</location>
+		<location id="id59" x="592" y="-1900">
+			<name x="606" y="-1908">_14_decPC_7452</name>
+			<label kind="comments" x="582" y="-1865">instruction at 0x0001d1c [decimal 7452]
+cmps r0,#1</label>
+		</location>
+		<location id="id60" x="592" y="-1750">
+			<name x="606" y="-1758">_13_decPC_7456</name>
+			<label kind="comments" x="582" y="-1715">instruction at 0x0001d20 [decimal 7456]
+add r0,r1,#2097152</label>
+		</location>
+		<location id="id61" x="592" y="-1625">
+			<name x="606" y="-1633">_12_decPC_7460</name>
+			<label kind="comments" x="582" y="-1590">instruction at 0x0001d24 [decimal 7460]
+addeq r0,r0,#8192</label>
+		</location>
+		<location id="id62" x="592" y="-1475">
+			<name x="606" y="-1483">_11_decPC_7464</name>
+			<label kind="comments" x="582" y="-1440">instruction at 0x0001d28 [decimal 7464]
+addne r0,r0,#12288</label>
+		</location>
+		<location id="id63" x="592" y="-1325">
+			<name x="606" y="-1333">_10_decPC_7468</name>
+			<label kind="comments" x="582" y="-1290">instruction at 0x0001d2c [decimal 7468]
+bx lr</label>
+		</location>
+		<location id="id64" x="592" y="-1175">
+			<name x="606" y="-1183">_9_decPC_7540</name>
+			<label kind="comments" x="582" y="-1140">instruction at 0x0001d74 [decimal 7540]
+ldr r3,[r0,#0]</label>
+		</location>
+		<location id="id65" x="592" y="-1025" color="#ff00ff">
+			<name x="606" y="-1033">_8_decPC_7544</name>
+			<label kind="comments" x="582" y="-990">instruction at 0x0001d78 [decimal 7544]
+str r3,[sp,#4]</label>
+		</location>
+		<location id="id66" x="592" y="-900">
+			<name x="606" y="-908">_7_decPC_7548</name>
+			<label kind="comments" x="582" y="-865">instruction at 0x0001d7c [decimal 7548]
+ldr r0,[sp,#4]</label>
+		</location>
+		<location id="id67" x="592" y="-750">
+			<name x="606" y="-758">_6_decPC_7552</name>
+			<label kind="comments" x="582" y="-715">instruction at 0x0001d80 [decimal 7552]
+add sp,sp,#12</label>
+		</location>
+		<location id="id68" x="592" y="-600">
+			<name x="606" y="-608">_5_decPC_7556</name>
+			<label kind="comments" x="582" y="-565">instruction at 0x0001d84 [decimal 7556]
+ldmia sp!,{pc}</label>
+		</location>
+		<location id="id69" x="592" y="-450">
+			<name x="606" y="-458">_4_decPC_13384</name>
+			<label kind="comments" x="582" y="-415">instruction at 0x0003448 [decimal 13384]
+mov lr,#3</label>
+		</location>
+		<location id="id70" x="592" y="-300">
+			<name x="606" y="-308">_3_decPC_13388</name>
+			<label kind="comments" x="582" y="-265">instruction at 0x000344c [decimal 13388]
+bx lr</label>
+		</location>
+		<init ref="id21"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="788" y="-9980">true</label>
+			<label kind="synchronisation" x="788" y="-9965">fetch!</label>
+			<label kind="assignment" x="788" y="-9950">SET_PL(22,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="788" y="-9830">true</label>
+			<label kind="synchronisation" x="788" y="-9815">fetch!</label>
+			<label kind="assignment" x="788" y="-9800">SET_PL(23,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="788" y="-9692">true</label>
+			<label kind="synchronisation" x="788" y="-9677">fetch!</label>
+			<label kind="assignment" x="788" y="-9662">SET_PL(24,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="788" y="-9555">true</label>
+			<label kind="synchronisation" x="788" y="-9540">fetch!</label>
+			<label kind="assignment" x="788" y="-9525">SET_PL(6,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="guard" x="788" y="-9405">true</label>
+			<label kind="synchronisation" x="788" y="-9390">fetch!</label>
+			<label kind="assignment" x="788" y="-9375">SET_PL(25,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="788" y="-9255">true</label>
+			<label kind="synchronisation" x="788" y="-9240">fetch!</label>
+			<label kind="assignment" x="788" y="-9225">SET_PL(26,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="788" y="-9105">true</label>
+			<label kind="synchronisation" x="788" y="-9090">fetch!</label>
+			<label kind="assignment" x="788" y="-9075">SET_PL(27,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="788" y="-8967">true</label>
+			<label kind="synchronisation" x="788" y="-8952">fetch!</label>
+			<label kind="assignment" x="788" y="-8937">SET_PL(7,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="guard" x="788" y="-8830">true</label>
+			<label kind="synchronisation" x="788" y="-8815">fetch!</label>
+			<label kind="assignment" x="788" y="-8800">SET_PL(28,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="guard" x="788" y="-8680">true</label>
+			<label kind="synchronisation" x="788" y="-8665">fetch!</label>
+			<label kind="assignment" x="788" y="-8650">SET_PL(20,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="788" y="-8530">true</label>
+			<label kind="synchronisation" x="788" y="-8515">fetch!</label>
+			<label kind="assignment" x="788" y="-8500">SET_PL(29,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="guard" x="788" y="-8380">true</label>
+			<label kind="synchronisation" x="788" y="-8365">fetch!</label>
+			<label kind="assignment" x="788" y="-8350">SET_PL(19,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="788" y="-8242">true</label>
+			<label kind="synchronisation" x="788" y="-8227">fetch!</label>
+			<label kind="assignment" x="788" y="-8212">SET_PL(30,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="guard" x="788" y="-8105">true</label>
+			<label kind="synchronisation" x="788" y="-8090">fetch!</label>
+			<label kind="assignment" x="788" y="-8075">SET_PL(0,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="guard" x="788" y="-7955">true</label>
+			<label kind="synchronisation" x="788" y="-7940">fetch!</label>
+			<label kind="assignment" x="788" y="-7925">SET_PL(31,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="guard" x="788" y="-7805">true</label>
+			<label kind="synchronisation" x="788" y="-7790">fetch!</label>
+			<label kind="assignment" x="788" y="-7775">SET_PL(17,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id18"/>
+			<label kind="guard" x="788" y="-7655">true</label>
+			<label kind="synchronisation" x="788" y="-7640">fetch!</label>
+			<label kind="assignment" x="788" y="-7625">SET_PL(18,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id19"/>
+			<label kind="guard" x="788" y="-7517">true</label>
+			<label kind="synchronisation" x="788" y="-7502">fetch!</label>
+			<label kind="assignment" x="788" y="-7487">SET_PL(32,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id22"/>
+			<label kind="guard" x="788" y="-7380">true</label>
+			<label kind="synchronisation" x="788" y="-7365">fetch!</label>
+			<label kind="assignment" x="788" y="-7350">SET_PL(33,13420,1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id1"/>
+			<label kind="guard" x="788" y="-10130">true</label>
+			<label kind="synchronisation" x="788" y="-10115">fetch!</label>
+			<label kind="assignment" x="788" y="-10100">SET_PL(21,3064+BLK_SIZE*(-4),4,true)</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id20"/>
+			<label kind="guard" x="788" y="-10280">true</label>
+			<label kind="synchronisation" x="788" y="-10265">initialize!</label>
+			<label kind="assignment" x="788" y="-10250">init_val()</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id23"/>
+			<label kind="guard" x="788" y="-7230">true</label>
+			<label kind="synchronisation" x="788" y="-7215">fetch!</label>
+			<label kind="assignment" x="788" y="-7200">SET_PL(34,13424,1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id24"/>
+			<label kind="guard" x="788" y="-7080">true</label>
+			<label kind="synchronisation" x="788" y="-7065">fetch!</label>
+			<label kind="assignment" x="788" y="-7050">SET_PL(35,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="guard" x="788" y="-6930">true</label>
+			<label kind="synchronisation" x="788" y="-6915">fetch!</label>
+			<label kind="assignment" x="788" y="-6900">SET_PL(36,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id26"/>
+			<label kind="guard" x="788" y="-6792">true</label>
+			<label kind="synchronisation" x="788" y="-6777">fetch!</label>
+			<label kind="assignment" x="788" y="-6762">SET_PL(37,-1,0,true),
+sem_node_48()</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id27"/>
+			<label kind="guard" x="788" y="-6655">true</label>
+			<label kind="synchronisation" x="788" y="-6640">fetch!</label>
+			<label kind="assignment" x="788" y="-6625">SET_PL(38,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id28"/>
+			<label kind="guard" x="788" y="-6505">true</label>
+			<label kind="synchronisation" x="788" y="-6490">fetch!</label>
+			<label kind="assignment" x="788" y="-6475">SET_PL(8,3048+BLK_SIZE*(-1),1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="guard" x="788" y="-6355">true</label>
+			<label kind="synchronisation" x="788" y="-6340">fetch!</label>
+			<label kind="assignment" x="788" y="-6325">SET_PL(9,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id30"/>
+			<label kind="guard" x="788" y="-6205">true</label>
+			<label kind="synchronisation" x="788" y="-6190">fetch!</label>
+			<label kind="assignment" x="788" y="-6175">SET_PL(10,-1,0,true),
+sem_node_44()</label>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id31"/>
+			<label kind="guard" x="788" y="-6067">true</label>
+			<label kind="synchronisation" x="788" y="-6052">fetch!</label>
+			<label kind="assignment" x="788" y="-6037">SET_PL(11,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id32"/>
+			<label kind="guard" x="788" y="-5930">true</label>
+			<label kind="synchronisation" x="788" y="-5915">fetch!</label>
+			<label kind="assignment" x="788" y="-5900">SET_PL(1,-1,0,true),
+sem_node_42()</label>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id33"/>
+			<label kind="guard" x="788" y="-5780">true</label>
+			<label kind="synchronisation" x="788" y="-5765">fetch!</label>
+			<label kind="assignment" x="788" y="-5750">SET_PL(2,-1,0,true),
+sem_node_41()</label>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id34"/>
+			<label kind="guard" x="788" y="-5630">true</label>
+			<label kind="synchronisation" x="788" y="-5615">fetch!</label>
+			<label kind="assignment" x="788" y="-5600">SET_PL(3,-1,0,eq()),
+sem_node_40()</label>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id35"/>
+			<label kind="guard" x="788" y="-5480">true</label>
+			<label kind="synchronisation" x="788" y="-5465">fetch!</label>
+			<label kind="assignment" x="788" y="-5450">SET_PL(4,-1,0,ne()),
+sem_node_39()</label>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id36"/>
+			<label kind="guard" x="788" y="-5342">true</label>
+			<label kind="synchronisation" x="788" y="-5327">fetch!</label>
+			<label kind="assignment" x="788" y="-5312">SET_PL(5,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id37"/>
+			<label kind="guard" x="788" y="-5205">true</label>
+			<label kind="synchronisation" x="788" y="-5190">fetch!</label>
+			<label kind="assignment" x="788" y="-5175">SET_PL(12,val_r0.val+0,1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id38"/>
+			<label kind="guard" x="788" y="-5055">true</label>
+			<label kind="synchronisation" x="788" y="-5040">fetch!</label>
+			<label kind="assignment" x="788" y="-5025">SET_PL(13,3032+4,1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id39"/>
+			<label kind="guard" x="788" y="-4905">true</label>
+			<label kind="synchronisation" x="788" y="-4890">fetch!</label>
+			<label kind="assignment" x="788" y="-4875">SET_PL(14,3032+4,1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id40"/>
+			<label kind="guard" x="788" y="-4755">true</label>
+			<label kind="synchronisation" x="788" y="-4740">fetch!</label>
+			<label kind="assignment" x="788" y="-4725">SET_PL(15,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id41"/>
+			<label kind="guard" x="788" y="-4617">true</label>
+			<label kind="synchronisation" x="788" y="-4602">fetch!</label>
+			<label kind="assignment" x="788" y="-4587">SET_PL(16,3044+BLK_SIZE*(0),1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id41"/>
+			<target ref="id42"/>
+			<label kind="guard" x="788" y="-4480">true</label>
+			<label kind="synchronisation" x="788" y="-4465">fetch!</label>
+			<label kind="assignment" x="788" y="-4450">SET_PL(39,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id42"/>
+			<target ref="id43"/>
+			<label kind="guard" x="788" y="-4330">true</label>
+			<label kind="synchronisation" x="788" y="-4315">fetch!</label>
+			<label kind="assignment" x="788" y="-4300">SET_PL(40,-1,0,true),
+sem_node_31()</label>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id44"/>
+			<label kind="guard" x="788" y="-4180">true</label>
+			<label kind="synchronisation" x="788" y="-4165">fetch!</label>
+			<label kind="assignment" x="788" y="-4150">SET_PL(41,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id45"/>
+			<label kind="guard" x="788" y="-4030">true</label>
+			<label kind="synchronisation" x="788" y="-4015">fetch!</label>
+			<label kind="assignment" x="788" y="-4000">SET_PL(42,-1,0,true),
+sem_node_29()</label>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id46"/>
+			<label kind="guard" x="788" y="-3892">true</label>
+			<label kind="synchronisation" x="788" y="-3877">fetch!</label>
+			<label kind="assignment" x="788" y="-3862">SET_PL(43,-1,0,true),
+sem_node_28()</label>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id47"/>
+			<label kind="guard" x="788" y="-3755">true</label>
+			<label kind="synchronisation" x="788" y="-3740">fetch!</label>
+			<label kind="assignment" x="788" y="-3725">SET_PL(44,-1,0,true),
+sem_node_27()</label>
+		</transition>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id48"/>
+			<label kind="guard" x="640" y="-3605">true</label>
+			<label kind="synchronisation" x="640" y="-3590">fetch!</label>
+			<label kind="assignment" x="640" y="-3575">SET_PL(45,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id49"/>
+			<label kind="guard" x="490" y="-3455">true</label>
+			<label kind="synchronisation" x="490" y="-3440">fetch!</label>
+			<label kind="assignment" x="490" y="-3425">SET_PL(46,-1,0,true),
+sem_node_25()</label>
+		</transition>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id50"/>
+			<label kind="guard" x="486" y="-3305">true</label>
+			<label kind="synchronisation" x="486" y="-3290">fetch!</label>
+			<label kind="assignment" x="486" y="-3275">SET_PL(47,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id50"/>
+			<target ref="id51"/>
+			<label kind="guard" x="484" y="-3167">true</label>
+			<label kind="synchronisation" x="484" y="-3152">fetch!</label>
+			<label kind="assignment" x="484" y="-3137">SET_PL(48,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id51"/>
+			<target ref="id52"/>
+			<label kind="guard" x="508" y="-3030">true</label>
+			<label kind="synchronisation" x="508" y="-3015">fetch!</label>
+			<label kind="assignment" x="508" y="-3000">SET_PL(49,-1,0,true),
+sem_node_22()</label>
+		</transition>
+		<transition>
+			<source ref="id52"/>
+			<target ref="id47"/>
+			<label kind="guard" x="660" y="-3317">ne()</label>
+			<label kind="synchronisation" x="660" y="-3302">fetch!</label>
+			<label kind="assignment" x="660" y="-3287">SET_PL(50,-1,0,ne())</label>
+		</transition>
+		<transition>
+			<source ref="id52"/>
+			<target ref="id53"/>
+			<label kind="guard" x="532" y="-2880">!ne()</label>
+			<label kind="synchronisation" x="532" y="-2865">fetch!</label>
+			<label kind="assignment" x="532" y="-2850">SET_PL(50,-1,0,ne())</label>
+		</transition>
+		<transition>
+			<source ref="id53"/>
+			<target ref="id54"/>
+			<label kind="guard" x="532" y="-2730">true</label>
+			<label kind="synchronisation" x="532" y="-2715">fetch!</label>
+			<label kind="assignment" x="532" y="-2700">SET_PL(51,-1,0,true),
+sem_node_20()</label>
+		</transition>
+		<transition>
+			<source ref="id54"/>
+			<target ref="id55"/>
+			<label kind="guard" x="532" y="-2580">true</label>
+			<label kind="synchronisation" x="532" y="-2565">fetch!</label>
+			<label kind="assignment" x="532" y="-2550">SET_PL(52,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id55"/>
+			<target ref="id56"/>
+			<label kind="guard" x="532" y="-2442">true</label>
+			<label kind="synchronisation" x="532" y="-2427">fetch!</label>
+			<label kind="assignment" x="532" y="-2412">SET_PL(8,3048+BLK_SIZE*(-1),1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id56"/>
+			<target ref="id57"/>
+			<label kind="guard" x="532" y="-2305">true</label>
+			<label kind="synchronisation" x="532" y="-2290">fetch!</label>
+			<label kind="assignment" x="532" y="-2275">SET_PL(9,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id57"/>
+			<target ref="id58"/>
+			<label kind="guard" x="532" y="-2155">true</label>
+			<label kind="synchronisation" x="532" y="-2140">fetch!</label>
+			<label kind="assignment" x="532" y="-2125">SET_PL(10,-1,0,true),
+sem_node_16()</label>
+		</transition>
+		<transition>
+			<source ref="id58"/>
+			<target ref="id59"/>
+			<label kind="guard" x="532" y="-2005">true</label>
+			<label kind="synchronisation" x="532" y="-1990">fetch!</label>
+			<label kind="assignment" x="532" y="-1975">SET_PL(11,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id59"/>
+			<target ref="id60"/>
+			<label kind="guard" x="532" y="-1855">true</label>
+			<label kind="synchronisation" x="532" y="-1840">fetch!</label>
+			<label kind="assignment" x="532" y="-1825">SET_PL(1,-1,0,true),
+sem_node_14()</label>
+		</transition>
+		<transition>
+			<source ref="id60"/>
+			<target ref="id61"/>
+			<label kind="guard" x="532" y="-1717">true</label>
+			<label kind="synchronisation" x="532" y="-1702">fetch!</label>
+			<label kind="assignment" x="532" y="-1687">SET_PL(2,-1,0,true),
+sem_node_13()</label>
+		</transition>
+		<transition>
+			<source ref="id61"/>
+			<target ref="id62"/>
+			<label kind="guard" x="532" y="-1580">true</label>
+			<label kind="synchronisation" x="532" y="-1565">fetch!</label>
+			<label kind="assignment" x="532" y="-1550">SET_PL(3,-1,0,eq()),
+sem_node_12()</label>
+		</transition>
+		<transition>
+			<source ref="id62"/>
+			<target ref="id63"/>
+			<label kind="guard" x="532" y="-1430">true</label>
+			<label kind="synchronisation" x="532" y="-1415">fetch!</label>
+			<label kind="assignment" x="532" y="-1400">SET_PL(4,-1,0,ne()),
+sem_node_11()</label>
+		</transition>
+		<transition>
+			<source ref="id63"/>
+			<target ref="id64"/>
+			<label kind="guard" x="532" y="-1280">true</label>
+			<label kind="synchronisation" x="532" y="-1265">fetch!</label>
+			<label kind="assignment" x="532" y="-1250">SET_PL(5,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id64"/>
+			<target ref="id65"/>
+			<label kind="guard" x="532" y="-1130">true</label>
+			<label kind="synchronisation" x="532" y="-1115">fetch!</label>
+			<label kind="assignment" x="532" y="-1100">SET_PL(12,val_r0.val+0+1024,1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id65"/>
+			<target ref="id66"/>
+			<label kind="guard" x="532" y="-992">true</label>
+			<label kind="synchronisation" x="532" y="-977">prog_completed!</label>
+			<label kind="assignment" x="532" y="-962">SET_PL(13,3032+4,1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id66"/>
+			<target ref="id67"/>
+			<label kind="guard" x="532" y="-855">true</label>
+			<label kind="synchronisation" x="532" y="-840">fetch!</label>
+			<label kind="assignment" x="532" y="-825">SET_PL(14,3032+4,1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id67"/>
+			<target ref="id68"/>
+			<label kind="guard" x="532" y="-705">true</label>
+			<label kind="synchronisation" x="532" y="-690">fetch!</label>
+			<label kind="assignment" x="532" y="-675">SET_PL(15,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id68"/>
+			<target ref="id69"/>
+			<label kind="guard" x="532" y="-555">true</label>
+			<label kind="synchronisation" x="532" y="-540">fetch!</label>
+			<label kind="assignment" x="532" y="-525">SET_PL(16,3044+BLK_SIZE*(0),1,true)</label>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id70"/>
+			<label kind="guard" x="532" y="-405">true</label>
+			<label kind="synchronisation" x="532" y="-390">fetch!</label>
+			<label kind="assignment" x="532" y="-375">SET_PL(53,-1,0,true)</label>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id0"/>
+			<label kind="guard" x="532" y="-267">true</label>
+			<label kind="synchronisation" x="532" y="-252">prog_completed!</label>
+			<label kind="assignment" x="532" y="-237">SET_PL(54,-1,0,true)</label>
+		</transition>
+	</template>
+	<template>
+		<name>FetchAuto</name>
+		<parameter>int[0,STAGES-1] me</parameter>
+		<declaration>// instruction to fetch is determined by PC
+// prediction is: Always Branch
+clock t;
+
+
+bool stall() {
+bool res=false;
+	res=((type_of[pPC[DECODE_STAGE]]==G4c &amp;&amp; Todo[DECODE_STAGE]) || (type_of[pPC[DECODE_STAGE]]==G4u)) 
+		|| 
+	     ((type_of[pPC[EXECUTE_STAGE]]==G4c &amp;&amp; Todo[EXECUTE_STAGE]) || (type_of[pPC[EXECUTE_STAGE]]==G4u)) 
+		||
+	     (	
+		(type_of[pPC[EXECUTE_STAGE]]==G3ldmpc &amp;&amp; Todo[EXECUTE_STAGE]) || 
+		(type_of[pPC[DECODE_STAGE]]==G3ldmpc &amp;&amp; Todo[DECODE_STAGE])   ||
+		(type_of[pPC[MEMORY_STAGE]]==G3ldmpc &amp;&amp; Todo[MEMORY_STAGE])
+	     ) 
+		; 
+	return res ;
+}</declaration>
+		<location id="id71" x="-272" y="-312">
+		</location>
+		<location id="id72" x="-432" y="-312">
+		</location>
+		<location id="id73" x="-432" y="-64">
+		</location>
+		<location id="id74" x="-128" y="-184">
+		</location>
+		<location id="id75" x="-272" y="-184">
+		</location>
+		<location id="id76" x="-432" y="-184">
+		</location>
+		<init ref="id76"/>
+		<transition>
+			<source ref="id72"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="-400" y="-336">fetch_completed!</label>
+		</transition>
+		<transition>
+			<source ref="id76"/>
+			<target ref="id72"/>
+			<label kind="synchronisation" x="-560" y="-272">prog_completed?</label>
+		</transition>
+		<transition>
+			<source ref="id73"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="-496" y="-144">decode!</label>
+			<label kind="assignment" x="-544" y="-128">copy(me,me+1)</label>
+			<nail x="-432" y="-112"/>
+		</transition>
+		<transition>
+			<source ref="id74"/>
+			<target ref="id73"/>
+			<label kind="synchronisation" x="-336" y="-96">CacheReadEnd[INSTR_CACHE]?</label>
+			<nail x="-304" y="-112"/>
+		</transition>
+		<transition>
+			<source ref="id75"/>
+			<target ref="id74"/>
+			<label kind="synchronisation" x="-264" y="-240">CacheReadStart[INSTR_CACHE]!</label>
+			<nail x="-200" y="-216"/>
+		</transition>
+		<transition>
+			<source ref="id76"/>
+			<target ref="id75"/>
+			<label kind="guard" x="-376" y="-264">!stall()</label>
+			<label kind="synchronisation" x="-376" y="-248">fetch?</label>
+			<label kind="assignment" x="-384" y="-232">n_steps++</label>
+			<nail x="-352" y="-216"/>
+		</transition>
+	</template>
+	<template>
+		<name>DecodeAuto</name>
+		<parameter>int[0,STAGES-1] me</parameter>
+		<declaration>clock t;
+ 
+
+bool ismemtrans() {
+	return (type_of[pPC[MEMORY_STAGE]]==G2str || 
+	 	type_of[pPC[MEMORY_STAGE]]==G2ldr ||
+		type_of[pPC[MEMORY_STAGE]]==G3ldm ||
+		type_of[pPC[MEMORY_STAGE]]==G3ldmpc ||
+		type_of[pPC[MEMORY_STAGE]]==G3stm
+		);
+}
+bool stall() {
+
+bool resreg=false;
+bool tododec=true,todomem=true;
+
+	// check for registers dependencies
+	// one of my read reg is written to by MEMORY_STAGE or WRITE_BACK_STAGE
+	if (pPC[DECODE_STAGE]==NO_INSTRUCTION) tododec=false;
+	if (pPC[MEMORY_STAGE]==NO_INSTRUCTION || !ismemtrans()) todomem=false;
+
+	resreg=(tododec &amp;&amp; todomem  &amp;&amp; (r_reg[pPC[DECODE_STAGE]] &amp; w_reg[pPC[MEMORY_STAGE]])); 
+
+	return resreg ;
+}
+</declaration>
+		<location id="id77" x="-640" y="-32">
+		</location>
+		<location id="id78" x="-488" y="-32">
+		</location>
+		<location id="id79" x="-208" y="-32">
+		</location>
+		<location id="id80" x="-208" y="-176">
+			<label kind="invariant" x="-192" y="-176">t&lt;=CYCLE</label>
+		</location>
+		<location id="id81" x="-488" y="-176">
+		</location>
+		<init ref="id81"/>
+		<transition>
+			<source ref="id78"/>
+			<target ref="id77"/>
+			<label kind="synchronisation" x="-624" y="-16">decode_completed!</label>
+		</transition>
+		<transition>
+			<source ref="id81"/>
+			<target ref="id78"/>
+			<label kind="synchronisation" x="-616" y="-120">fetch_completed?</label>
+		</transition>
+		<transition>
+			<source ref="id79"/>
+			<target ref="id81"/>
+			<label kind="guard" x="-408" y="-104">!stall()</label>
+			<label kind="synchronisation" x="-408" y="-80">execute!</label>
+			<label kind="assignment" x="-408" y="-64">copy(me,me+1)</label>
+		</transition>
+		<transition>
+			<source ref="id80"/>
+			<target ref="id79"/>
+			<label kind="guard" x="-200" y="-112">t==CYCLE</label>
+		</transition>
+		<transition>
+			<source ref="id81"/>
+			<target ref="id80"/>
+			<label kind="synchronisation" x="-408" y="-200">decode?</label>
+			<label kind="assignment" x="-336" y="-200">t=0</label>
+		</transition>
+	</template>
+	<template>
+		<name>ExecuteAuto</name>
+		<parameter>int[0,STAGES-1] me</parameter>
+		<declaration>clock t;
+
+/* returns the duration of each instruction in execute stage */
+const int[0,MAX_DUR] duration[66]={
+	1,	/* bx lr                   */
+	1,	/* cmps r0,#1                */
+	1,	/* add r0,r1,#2097152       */
+	1,	/* addeq r0,r0,#8192          */
+	1,	/* addne r0,r0,#12288         */
+	1,	/* bx lr                   */
+	1,	/* bx lr                   */
+	1,	/* bx lr                   */
+	1,	/* stmdb sp!,{lr}             */
+	1,	/* sub sp,sp,#12            */
+	1,	/* mov r1,#16               */
+	1,	/* bl 0001d1c              */
+	1,	/* ldr r3,[r0,#0]           */
+	1,	/* str r3,[sp,#4]           */
+	1,	/* ldr r0,[sp,#4]           */
+	1,	/* add sp,sp,#12            */
+	1,	/* ldmia sp!,{pc}             */
+	1,	/* mov r0,sp                */
+	1,	/* bx lr                   */
+	1,	/* bx lr                   */
+	1,	/* bx lr                   */
+	1,	/* stmdb sp!,{r3,r4,r5,lr}    */
+	1,	/* mov r0,#1                */
+	1,	/* mov r1,#2                */
+	1,	/* bl 0001d30              */
+	1,	/* mov r0,#1                */
+	1,	/* mov r1,#0                */
+	1,	/* bl 0001d4c              */
+	1,	/* bl 0002d6c              */
+	1,	/* bl 0002d64              */
+	1,	/* bl 0001cbc              */
+	1,	/* bl 0002a0c              */
+	1,	/* mov r1,r0                */
+	1,	/* ldr r0,[pc,#108]         */
+	1,	/* ldr r3,[pc,#108]         */
+	1,	/* mov lr,pc                */
+	1,	/* mov r0,r0                */
+	1,	/* mov r0,#1                */
+	1,	/* bl 0001d64              */
+	1,	/* mov r5,r0                */
+	1,	/* mov r1,#2                */
+	1,	/* mov r0,#0                */
+	1,	/* mov r2,#1                */
+	1,	/* mov r3,#300              */
+	1,	/* add r3,r3,r2             */
+	1,	/* add r4,r0,r2             */
+	1,	/* add r1,r1,#1             */
+	1,	/* mov r0,r2                */
+	1,	/* mov r2,r4                */
+	1,	/* cmps r1,r3                */
+	1,	/* bne 0003428              */
+	1,	/* mov r0,#1                */
+	1,	/* bl 0001d64              */
+	1,	/* mov lr,#3                */
+	1,	/* bx lr                   */
+	1,	/* mov r1,#12               */
+	1,	/* mul r1,r5,r1             */
+	1,	/* mov r2,r4                */
+	1,	/* ldr r3,[pc,#12]          */
+	1,	/* mov lr,pc                */
+	1,	/* ldr pc,[r3,#0]           */
+	1,	/* b 0003468              */	0,	 /* data */
+	0,	 /* data */
+	0,	 /* data */
+
+	0	/* fake instruction */
+};
+
+
+int[1,MAX_DUR] DUR_INSTR;
+
+// Function returning the duration of ecah instruction IF executed 
+//--------------------------------------------------
+
+int[1,MAX_DUR] dur() {
+	if (Todo[me]) { // means instruction is scheduled
+		return duration[pPC[me]]*CYCLE;
+	}
+	return 1*CYCLE ;  // default value
+}
+
+</declaration>
+		<location id="id82" x="-768" y="-32">
+		</location>
+		<location id="id83" x="-536" y="-32">
+		</location>
+		<location id="id84" x="-256" y="-32">
+		</location>
+		<location id="id85" x="-256" y="-168">
+			<label kind="invariant" x="-232" y="-176">t&lt;=DUR_INSTR</label>
+		</location>
+		<location id="id86" x="-536" y="-168">
+		</location>
+		<init ref="id86"/>
+		<transition>
+			<source ref="id84"/>
+			<target ref="id86"/>
+			<label kind="synchronisation" x="-456" y="-80">memory!</label>
+			<label kind="assignment" x="-456" y="-64">copy(me,me+1)</label>
+		</transition>
+		<transition>
+			<source ref="id83"/>
+			<target ref="id82"/>
+			<label kind="synchronisation" x="-712" y="-56">execute_completed!</label>
+		</transition>
+		<transition>
+			<source ref="id86"/>
+			<target ref="id83"/>
+			<label kind="synchronisation" x="-680" y="-112">decode_completed?</label>
+		</transition>
+		<transition>
+			<source ref="id85"/>
+			<target ref="id84"/>
+			<label kind="guard" x="-240" y="-112">t==DUR_INSTR</label>
+		</transition>
+		<transition>
+			<source ref="id86"/>
+			<target ref="id85"/>
+			<label kind="synchronisation" x="-416" y="-224">execute?</label>
+			<label kind="assignment" x="-480" y="-208">t=0,DUR_INSTR=dur()</label>
+		</transition>
+	</template>
+	<template>
+		<name>MemoryAutoV3</name>
+		<parameter>int[0,STAGES-1] me</parameter>
+		<declaration>clock t;
+bool k=false;
+const int CLK_RESET_INSTR=7540;
+bool is_mem_transaction() {
+	/* type 2 or 3 instructions */
+	return (
+		type_of[pPC[me-1]]==G2ldr || 
+		type_of[pPC[me-1]]==G2str ||
+		type_of[pPC[me-1]]==G3ldm ||
+		type_of[pPC[me-1]]==G3stm ||
+		type_of[pPC[me-1]]==G3ldmpc
+	) ;
+}
+
+bool is_ldx() {
+	/* type 2 or 3 instructions */
+	return (
+		type_of[pPC[me]]==G2ldr || 
+		type_of[pPC[me]]==G3ldm ||
+		type_of[pPC[me-1]]==G3ldmpc
+	) ;
+}</declaration>
+		<location id="id87" x="176" y="-360">
+			<committed/>
+		</location>
+		<location id="id88" x="-192" y="-512">
+		</location>
+		<location id="id89" x="-192" y="-352">
+		</location>
+		<location id="id90" x="-704" y="0">
+		</location>
+		<location id="id91" x="-480" y="0">
+		</location>
+		<location id="id92" x="-192" y="0">
+		</location>
+		<location id="id93" x="-192" y="-192">
+			<label kind="invariant" x="-168" y="-216">t&lt;=CYCLE</label>
+		</location>
+		<location id="id94" x="-480" y="-192">
+		</location>
+		<init ref="id94"/>
+		<transition>
+			<source ref="id92"/>
+			<target ref="id94"/>
+			<label kind="guard" x="-464" y="32">i_adr[pPC[me]]==CLK_RESET_INSTR &amp;&amp; !k</label>
+			<label kind="synchronisation" x="-432" y="48">writeback!</label>
+			<label kind="assignment" x="-352" y="48">copy(me,me+1),GBL_CLK=0,k=true</label>
+			<nail x="-360" y="48"/>
+		</transition>
+		<transition>
+			<source ref="id87"/>
+			<target ref="id89"/>
+			<label kind="guard" x="-72" y="-384">num_word[me]&gt;0</label>
+			<label kind="assignment" x="-120" y="-352">dataAdr[me]=dataAdr[me]+BLK_SIZE</label>
+		</transition>
+		<transition>
+			<source ref="id87"/>
+			<target ref="id92"/>
+			<label kind="guard" x="24" y="-24">num_word[me]==0</label>
+			<nail x="184" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id88"/>
+			<target ref="id87"/>
+			<label kind="synchronisation" x="-112" y="-536">CacheWriteEnd[DATA_CACHE]?</label>
+			<nail x="120" y="-512"/>
+		</transition>
+		<transition>
+			<source ref="id88"/>
+			<target ref="id87"/>
+			<label kind="synchronisation" x="-112" y="-688">CacheReadEnd[DATA_CACHE]?</label>
+			<nail x="-192" y="-664"/>
+			<nail x="176" y="-664"/>
+		</transition>
+		<transition>
+			<source ref="id89"/>
+			<target ref="id88"/>
+			<label kind="guard" x="-136" y="-472">!is_ldx()</label>
+			<label kind="synchronisation" x="-136" y="-456">CacheWriteStart[DATA_CACHE]!</label>
+			<label kind="assignment" x="-136" y="-440">CD=dataAdr[me],
+num_word[me]--</label>
+			<nail x="-136" y="-432"/>
+		</transition>
+		<transition>
+			<source ref="id89"/>
+			<target ref="id88"/>
+			<label kind="guard" x="-336" y="-488">is_ldx()</label>
+			<label kind="synchronisation" x="-448" y="-472">CacheReadStart[DATA_CACHE]!</label>
+			<label kind="assignment" x="-376" y="-456">CD=dataAdr[me],
+num_word[me]--</label>
+			<nail x="-240" y="-440"/>
+		</transition>
+		<transition>
+			<source ref="id94"/>
+			<target ref="id89"/>
+			<label kind="guard" x="-592" y="-408">Todo[me-1] &amp;&amp; is_mem_transaction()</label>
+			<label kind="synchronisation" x="-464" y="-392">memory?</label>
+			<label kind="assignment" x="-464" y="-376">t=0</label>
+			<nail x="-480" y="-352"/>
+		</transition>
+		<transition>
+			<source ref="id91"/>
+			<target ref="id90"/>
+			<label kind="synchronisation" x="-656" y="-24">memory_completed!</label>
+		</transition>
+		<transition>
+			<source ref="id94"/>
+			<target ref="id91"/>
+			<label kind="synchronisation" x="-624" y="-112">execute_completed?</label>
+		</transition>
+		<transition>
+			<source ref="id92"/>
+			<target ref="id94"/>
+			<label kind="guard" x="-440" y="-136">k || i_adr[pPC[me]]!=CLK_RESET_INSTR</label>
+			<label kind="synchronisation" x="-384" y="-120">writeback!</label>
+			<label kind="assignment" x="-416" y="-72">copy(me,me+1)</label>
+		</transition>
+		<transition>
+			<source ref="id93"/>
+			<target ref="id92"/>
+			<label kind="guard" x="-184" y="-128">t==CYCLE</label>
+		</transition>
+		<transition>
+			<source ref="id94"/>
+			<target ref="id93"/>
+			<label kind="guard" x="-440" y="-232">!Todo[me-1] || !is_mem_transaction()</label>
+			<label kind="synchronisation" x="-392" y="-216">memory?</label>
+			<label kind="assignment" x="-312" y="-216">t=0</label>
+		</transition>
+	</template>
+	<template>
+		<name>WriteBackAuto</name>
+		<parameter>int[0,STAGES-1] me</parameter>
+		<declaration>clock t;
+
+void clean() {
+	Todo[me]=false;
+	pPC[me] = NO_INSTRUCTION;
+	dataAdr[me]= NO_ADR ;
+}</declaration>
+		<location id="id95" x="-568" y="0">
+			<name x="-624" y="-8">DONE</name>
+			<committed/>
+		</location>
+		<location id="id96" x="-256" y="-96">
+			<label kind="invariant" x="-266" y="-81">t&lt;=CYCLE</label>
+		</location>
+		<location id="id97" x="-568" y="-104">
+		</location>
+		<init ref="id97"/>
+		<transition>
+			<source ref="id97"/>
+			<target ref="id95"/>
+			<label kind="synchronisation" x="-712" y="-72">memory_completed?</label>
+			<label kind="assignment" x="-628" y="-52">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id96"/>
+			<target ref="id97"/>
+			<label kind="guard" x="-464" y="-56">t==CYCLE</label>
+			<label kind="assignment" x="-432" y="-88">clean()</label>
+			<nail x="-400" y="-56"/>
+		</transition>
+		<transition>
+			<source ref="id97"/>
+			<target ref="id96"/>
+			<label kind="synchronisation" x="-464" y="-184">writeback?</label>
+			<label kind="assignment" x="-376" y="-184">t=0</label>
+			<nail x="-400" y="-152"/>
+		</transition>
+	</template>
+	<template>
+		<name x="8" y="8">InstructionCache</name>
+		<parameter>int num,adrType &amp;m,int CACHE_SPEED</parameter>
+		<declaration>// FIFO replacement cache
+// assume write allocate when miss
+
+const int MAX_LABEL=65536;
+
+const int LINE_SIZE=8*BLK_SIZE;
+
+meta int[0,(MAX_LABEL/(LINE_SIZE*S))*2] cache[S][L/S];
+
+clock x; 
+
+int[0,1] PMT ; // Pending Main Mem Trasactions
+
+void initCache() { // Initialize the cache with empty or other instructions
+	int i,j;
+	// init to -1
+	for (i=0; i &lt; S;i++) {
+		for (j=0; j &lt; L/S ; j++) {
+			cache[i][j]=1;  // initialised to nothing, bit 1
+		}
+	}
+}
+
+bool is_in(adrType m) { // m is block of the Main Mem
+	int j;
+	// determine the cache set m can be in	
+	int s= (m / LINE_SIZE) % S;
+	for (j : int[0,L/S-1]) {
+		if ((cache[s][j]&gt;&gt;1)==((m/(LINE_SIZE*S)))) return true;
+	}
+	return false;
+}
+
+int [0,2] insert(adrType m) {
+	// insert memory block into the cache
+	// compute the number of transactions with Main Mem
+	// assume that the cache set is ordered according to FIFO 
+	// compute the first available line in the cache set of m
+	int p=0;
+	int j=0;
+	int i=0;
+	int s= (m / LINE_SIZE) % S;
+	bool notfound=true;
+	while (notfound &amp; j&lt;(L/S)) {
+		if (cache[s][j] &amp; 1) { // bit 1 means nothing in
+			notfound=false;
+		} 
+		else j++ ;
+	} 
+	if (notfound) { // no free slot in cache set of m; have to remove one line, which is 0, the oldest one
+		// in FIFO 
+		p++; // one fetch transaction with Main Mem
+
+		for (i : int[0,L/S-2]) {
+			cache[s][i]=cache[s][i+1];
+		}
+		cache[s][j-1]=(m/(LINE_SIZE*S)) &lt;&lt; 1;
+
+	}
+	else { // j points to the first free line; insert one line
+		cache[s][j]=(m/(LINE_SIZE*S)) &lt;&lt; 1;
+		p++; // one fetch transaction with Main Mem
+	}
+	return p;
+}
+
+
+
+</declaration>
+		<location id="id98" x="-1528" y="-1064">
+		</location>
+		<location id="id99" x="-1792" y="-576">
+			<label kind="invariant" x="-1864" y="-560">x&lt;=CACHE_SPEED</label>
+		</location>
+		<location id="id100" x="-1712" y="-664">
+		</location>
+		<location id="id101" x="-1528" y="-664">
+		</location>
+		<location id="id102" x="-1528" y="-936">
+		</location>
+		<init ref="id98"/>
+		<transition>
+			<source ref="id102"/>
+			<target ref="id101"/>
+			<label kind="synchronisation" x="-1512" y="-864">CacheReadStart[num]?</label>
+			<label kind="assignment" x="-1512" y="-840">PMT=is_in(m)?0:insert(m)</label>
+			<nail x="-1528" y="-848"/>
+		</transition>
+		<transition>
+			<source ref="id98"/>
+			<target ref="id102"/>
+			<label kind="synchronisation" x="-1512" y="-1040">initialize?</label>
+			<label kind="assignment" x="-1512" y="-1024">initCache()</label>
+		</transition>
+		<transition>
+			<source ref="id99"/>
+			<target ref="id102"/>
+			<label kind="guard" x="-1816" y="-976">x==CACHE_SPEED</label>
+			<label kind="synchronisation" x="-1824" y="-960">CacheReadEnd[num]!</label>
+			<nail x="-1888" y="-576"/>
+			<nail x="-1888" y="-936"/>
+			<nail x="-1640" y="-936"/>
+		</transition>
+		<transition>
+			<source ref="id101"/>
+			<target ref="id99"/>
+			<label kind="guard" x="-1742" y="-603">PMT==0</label>
+			<label kind="synchronisation" x="-1666" y="-603">Hurry!</label>
+			<label kind="assignment" x="-1616" y="-600">x=0</label>
+			<nail x="-1528" y="-576"/>
+		</transition>
+		<transition>
+			<source ref="id100"/>
+			<target ref="id101"/>
+			<label kind="synchronisation" x="-1672" y="-776">MainMemEnd?</label>
+			<label kind="assignment" x="-1640" y="-744">PMT--</label>
+			<nail x="-1664" y="-752"/>
+			<nail x="-1584" y="-752"/>
+		</transition>
+		<transition>
+			<source ref="id101"/>
+			<target ref="id100"/>
+			<label kind="guard" x="-1672" y="-688">PMT&gt;0 &amp;&amp; m&gt;=0</label>
+			<label kind="synchronisation" x="-1672" y="-664">MainMemStart!</label>
+			<label kind="assignment" x="-1672" y="-648">ICcachemiss++</label>
+		</transition>
+	</template>
+	<template>
+		<name>MainMemAut</name>
+		<declaration>const int MAINMEMTRANS=34*CYCLE;
+clock t;
+
+</declaration>
+		<location id="id103" x="-568" y="-48">
+		</location>
+		<location id="id104" x="-352" y="-192">
+			<label kind="invariant" x="-362" y="-177">t&lt;=MAINMEMTRANS</label>
+		</location>
+		<location id="id105" x="-568" y="-192">
+		</location>
+		<init ref="id105"/>
+		<transition>
+			<source ref="id103"/>
+			<target ref="id105"/>
+			<label kind="synchronisation" x="-528" y="-72">MainMemEndWB?</label>
+			<nail x="-508" y="-89"/>
+		</transition>
+		<transition>
+			<source ref="id105"/>
+			<target ref="id103"/>
+			<label kind="synchronisation" x="-760" y="-136">MainMemStartWB?</label>
+			<nail x="-632" y="-104"/>
+		</transition>
+		<transition>
+			<source ref="id104"/>
+			<target ref="id105"/>
+			<label kind="guard" x="-528" y="-144">t==MAINMEMTRANS</label>
+			<label kind="synchronisation" x="-496" y="-128">MainMemEnd!</label>
+			<nail x="-456" y="-152"/>
+		</transition>
+		<transition>
+			<source ref="id105"/>
+			<target ref="id104"/>
+			<label kind="synchronisation" x="-512" y="-264">MainMemStart?</label>
+			<label kind="assignment" x="-400" y="-264">t=0</label>
+			<nail x="-456" y="-240"/>
+		</transition>
+	</template>
+	<template>
+		<name>HurryAut</name>
+		<location id="id106" x="-432" y="-128">
+		</location>
+		<init ref="id106"/>
+		<transition>
+			<source ref="id106"/>
+			<target ref="id106"/>
+			<label kind="synchronisation" x="-360" y="-176">Hurry?</label>
+			<nail x="-384" y="-200"/>
+			<nail x="-336" y="-112"/>
+		</transition>
+	</template>
+	<template>
+		<name x="8" y="8">CacheV6</name>
+		<parameter>int num,adrType &amp;m,int CACHE_SPEED</parameter>
+		<declaration>// FIFO replacement cache
+// assume write allocate when miss
+
+int k=0;
+int l=0;
+
+
+// in parameters:
+
+// num= id of the cache
+
+// WT: write through enabled
+// WA: write allocate enabled
+const bool WT=false;
+//const bool WA=true;
+const bool WB=true; // indicates whether we use a WB or not for write operations
+
+//const int CACHELATENCY=3; // duration of a transfer between cache and cpu register
+
+const int LINE_SIZE=8*BLK_SIZE;
+//const int LINE_SIZE=BLK_SIZE;
+
+meta adrType cache[S][L/S];
+//bool dirty[S][L/S];
+
+adrType index(adrType m) {
+	return (m / LINE_SIZE) % S ;
+}
+
+clock x; 
+
+int[0,1] op_write; // 0 for read, 1 for write
+
+int[0,2] PMT ; // Pending Main Mem Trasactions
+
+void initCache() { // Initialize the cache with empty or other instructions
+	int i,j;
+ 	op_write=0;
+	// init to -1
+	for (i=0; i &lt; S;i++) {
+		for (j=0; j &lt; L/S ; j++) {
+			cache[i][j]=2;  // labels are multiple of 4
+			//if (!WT)  dirty[i][j]=false;
+		}
+	}
+}
+
+adrType label(adrType m) {
+	adrType k=  (m/LINE_SIZE)/S;
+
+	return k;
+}
+
+bool is_in(adrType m) { // m is block of the Main Mem
+	int j;
+	// determine the cache set m can be in	
+	int s= (m / LINE_SIZE) % S;
+	for (j : int[0,L/S-1]) {
+		//if ((cache[s][j])==(((m/(LINE_SIZE))*LINE_SIZE) &gt;&gt; 1) &lt;&lt; 1) return true;		
+		if ((cache[s][j]&gt;&gt;2)==label(m)) return true;
+	}
+	return false;
+}
+
+int [0,2] insertFIFO(adrType m,bool w) {
+	// insert memory block into the cache
+	// compute the number of transactions with Main Mem
+	// assume that the cache set is ordered according to FIFO 
+	// compute the first available line in the cache set of m
+	int p=0;
+	int j=0;
+	int i=0;
+	int s= (m / LINE_SIZE) % S;
+	bool notfound=true;
+	op_write=w;
+	while (notfound &amp; j&lt;(L/S)) {
+		if (cache[s][j]==2) {
+			notfound=false;
+		} 
+		else j++ ;
+	} 
+	if (notfound) { // no free slot in cache set of m; have to remove one line, which is 0, the oldest one
+		// in FIFO 
+		p++; // one fetch transaction with Main Mem
+
+		//if (!WT &amp;&amp; dirty[s][0]) p++; // write the dirty line and fetch the new memory block
+		if (cache[s][0] &amp; 1) p++; // write the dirty line and fetch the new memory block
+		for (i : int[0,L/S-2]) {
+			cache[s][i]=cache[s][i+1];
+			//if (!WT) dirty[s][i]=dirty[s][i+1];
+		}
+		cache[s][j-1]=(label(m)&lt;&lt;2) | op_write;
+		//if (!WT) dirty[s][j-1]=op_write;  //was false in old model;
+
+	}
+	else { // j points to the first free line; insert one line
+		cache[s][j]=(label(m)&lt;&lt;2) | op_write ;
+		p++; // one fetch transaction with Main Mem
+	}
+	return p;
+}
+
+int [0,2] insert(adrType m,bool w) {
+	return insertFIFO(m,w) ;
+}
+
+int[0,1] update(adrType m,bool w) { // FIFO Cache, cache Hit
+	int p=0;
+	int s;
+	int k;
+	int j;
+	int hit;
+	bool notfound=true;
+	op_write=w;
+	// compute the number of the hit
+	// determine the cache set m can be in	
+	s= (m / LINE_SIZE) % S;
+	j=0;
+	// and the line
+	while (notfound) {
+		if ((cache[s][j]&gt;&gt;2)==label(m)) {
+			notfound=false;
+		} 
+		else j++ ;
+	}	 
+	// j contains the line of the hit
+	cache[s][j]=cache[s][j]|op_write;
+	return p;
+}
+
+
+</declaration>
+		<location id="id107" x="-1296" y="-1344">
+			<label kind="invariant" x="-1320" y="-1328">x&lt;=1</label>
+		</location>
+		<location id="id108" x="-1152" y="-1328">
+			<committed/>
+		</location>
+		<location id="id109" x="-1224" y="-1256">
+		</location>
+		<location id="id110" x="-1224" y="-1184">
+			<committed/>
+		</location>
+		<location id="id111" x="-1464" y="-768">
+			<committed/>
+		</location>
+		<location id="id112" x="-968" y="-800">
+			<committed/>
+		</location>
+		<location id="id113" x="-1336" y="-1112">
+			<committed/>
+		</location>
+		<location id="id114" x="-1392" y="-1384">
+			<committed/>
+		</location>
+		<location id="id115" x="-1544" y="-1040">
+			<committed/>
+		</location>
+		<location id="id116" x="-1224" y="-800">
+		</location>
+		<location id="id117" x="-1464" y="-936">
+		</location>
+		<location id="id118" x="-1544" y="-1312">
+		</location>
+		<location id="id119" x="-1808" y="-824">
+			<label kind="invariant" x="-1792" y="-816">x&lt;=CACHE_SPEED</label>
+		</location>
+		<location id="id120" x="-1728" y="-912">
+		</location>
+		<location id="id121" x="-1544" y="-912">
+		</location>
+		<location id="id122" x="-1544" y="-1184">
+		</location>
+		<init ref="id118"/>
+		<transition>
+			<source ref="id107"/>
+			<target ref="id114"/>
+			<label kind="guard" x="-1376" y="-1360">x==1</label>
+		</transition>
+		<transition>
+			<source ref="id108"/>
+			<target ref="id114"/>
+			<label kind="guard" x="-1200" y="-1368">x&gt;1</label>
+			<nail x="-1232" y="-1368"/>
+		</transition>
+		<transition>
+			<source ref="id108"/>
+			<target ref="id107"/>
+			<label kind="guard" x="-1264" y="-1336">x&lt;=1</label>
+		</transition>
+		<transition>
+			<source ref="id109"/>
+			<target ref="id108"/>
+			<label kind="guard" x="-1400" y="-1304">index(A)!=index(local_m)</label>
+			<label kind="synchronisation" x="-1296" y="-1288">WriteHit!</label>
+			<nail x="-1224" y="-1304"/>
+		</transition>
+		<transition>
+			<source ref="id109"/>
+			<target ref="id108"/>
+			<label kind="guard" x="-1136" y="-1312">!write_hit &amp;&amp; 
+index(A)==index(local_m)</label>
+			<label kind="synchronisation" x="-1136" y="-1280">WriteHit!</label>
+			<nail x="-1160" y="-1264"/>
+		</transition>
+		<transition>
+			<source ref="id110"/>
+			<target ref="id109"/>
+			<label kind="guard" x="-1208" y="-1240">is_in(m)</label>
+			<label kind="assignment" x="-1208" y="-1224">PMT=update(m,1),x=0</label>
+			<nail x="-1224" y="-1232"/>
+		</transition>
+		<transition>
+			<source ref="id110"/>
+			<target ref="id116"/>
+			<label kind="guard" x="-1208" y="-1040">!is_in(m)</label>
+			<label kind="assignment" x="-1208" y="-1024">x=0,
+DatacachemissW++</label>
+		</transition>
+		<transition>
+			<source ref="id122"/>
+			<target ref="id110"/>
+			<label kind="synchronisation" x="-1416" y="-1208">CacheWriteStart[num]?</label>
+			<label kind="assignment" x="-1408" y="-1184">op_write=1,local_m=m</label>
+			<nail x="-1280" y="-1184"/>
+		</transition>
+		<transition>
+			<source ref="id117"/>
+			<target ref="id111"/>
+			<label kind="guard" x="-1680" y="-880">index(local_m)!=index(A)</label>
+			<label kind="synchronisation" x="-1560" y="-864">Hurry!</label>
+			<label kind="assignment" x="-1524" y="-852">k++</label>
+			<nail x="-1512" y="-856"/>
+		</transition>
+		<transition>
+			<source ref="id111"/>
+			<target ref="id119"/>
+			<label kind="guard" x="-1640" y="-760">x&lt;=1</label>
+			<nail x="-1808" y="-768"/>
+		</transition>
+		<transition>
+			<source ref="id111"/>
+			<target ref="id113"/>
+			<label kind="guard" x="-1408" y="-792">x&gt;1</label>
+			<nail x="-1336" y="-768"/>
+		</transition>
+		<transition>
+			<source ref="id117"/>
+			<target ref="id111"/>
+			<label kind="guard" x="-1456" y="-912">!write_hit 
+&amp;&amp; index(A)==index(local_m)</label>
+			<label kind="synchronisation" x="-1456" y="-872">Hurry!</label>
+			<label kind="assignment" x="-1456" y="-856">l++</label>
+		</transition>
+		<transition>
+			<source ref="id112"/>
+			<target ref="id114"/>
+			<label kind="guard" x="-1104" y="-1400">x&gt;1</label>
+			<nail x="-968" y="-1384"/>
+		</transition>
+		<transition>
+			<source ref="id112"/>
+			<target ref="id119"/>
+			<label kind="guard" x="-1024" y="-712">x&lt;=1</label>
+			<nail x="-968" y="-680"/>
+			<nail x="-1960" y="-680"/>
+			<nail x="-1960" y="-760"/>
+		</transition>
+		<transition>
+			<source ref="id116"/>
+			<target ref="id112"/>
+			<label kind="guard" x="-1176" y="-824">nb&lt;4</label>
+			<label kind="synchronisation" x="-1128" y="-824">Hurry!</label>
+			<label kind="assignment" x="-1072" y="-824">nb++</label>
+			<nail x="-1088" y="-800"/>
+		</transition>
+		<transition>
+			<source ref="id113"/>
+			<target ref="id122"/>
+			<label kind="synchronisation" x="-1496" y="-1160">CacheReadEnd[num]!</label>
+			<label kind="assignment" x="-1480" y="-1136">op_write=0</label>
+		</transition>
+		<transition>
+			<source ref="id114"/>
+			<target ref="id122"/>
+			<label kind="synchronisation" x="-1568" y="-1384">CacheWriteEnd[num]!</label>
+			<label kind="assignment" x="-1592" y="-1368">op_write=0,local_m=-1</label>
+		</transition>
+		<transition>
+			<source ref="id115"/>
+			<target ref="id117"/>
+			<label kind="guard" x="-1456" y="-1072">is_in(m)</label>
+			<label kind="assignment" x="-1512" y="-1056">PMT=update(m,0),x=0</label>
+			<nail x="-1368" y="-1040"/>
+			<nail x="-1368" y="-936"/>
+		</transition>
+		<transition>
+			<source ref="id115"/>
+			<target ref="id121"/>
+			<label kind="guard" x="-1536" y="-1000">!is_in(m)</label>
+			<label kind="assignment" x="-1536" y="-984">PMT=insert(m,0),x=0</label>
+		</transition>
+		<transition>
+			<source ref="id122"/>
+			<target ref="id115"/>
+			<label kind="synchronisation" x="-1696" y="-1128">CacheReadStart[num]?</label>
+			<label kind="assignment" x="-1632" y="-1112">local_m=m</label>
+			<nail x="-1536" y="-1144"/>
+		</transition>
+		<transition>
+			<source ref="id118"/>
+			<target ref="id122"/>
+			<label kind="synchronisation" x="-1528" y="-1288">initialize?</label>
+			<label kind="assignment" x="-1528" y="-1272">initCache()</label>
+		</transition>
+		<transition>
+			<source ref="id119"/>
+			<target ref="id122"/>
+			<label kind="guard" x="-1904" y="-1312">x==CACHE_SPEED &amp;&amp; !op_write</label>
+			<label kind="synchronisation" x="-1904" y="-1296">CacheReadEnd[num]!</label>
+			<label kind="assignment" x="-1824" y="-1280">op_write=0,local_m=-1</label>
+			<nail x="-1968" y="-824"/>
+			<nail x="-1968" y="-1280"/>
+			<nail x="-1648" y="-1280"/>
+		</transition>
+		<transition>
+			<source ref="id121"/>
+			<target ref="id119"/>
+			<label kind="guard" x="-1744" y="-848">PMT==0</label>
+			<label kind="synchronisation" x="-1680" y="-848">Hurry!</label>
+			<label kind="assignment" x="-1632" y="-848">x=0</label>
+			<nail x="-1544" y="-824"/>
+		</transition>
+		<transition>
+			<source ref="id119"/>
+			<target ref="id122"/>
+			<label kind="guard" x="-1880" y="-1240">x==CACHE_SPEED &amp;&amp; op_write</label>
+			<label kind="synchronisation" x="-1872" y="-1224">CacheWriteEnd[num]!</label>
+			<label kind="assignment" x="-1832" y="-1208">op_write=0,local_m=-1</label>
+			<nail x="-1928" y="-888"/>
+			<nail x="-1928" y="-1208"/>
+			<nail x="-1656" y="-1208"/>
+		</transition>
+		<transition>
+			<source ref="id120"/>
+			<target ref="id121"/>
+			<label kind="synchronisation" x="-1688" y="-1024">MainMemEnd?</label>
+			<label kind="assignment" x="-1656" y="-992">PMT--</label>
+			<nail x="-1680" y="-1000"/>
+			<nail x="-1600" y="-1000"/>
+		</transition>
+		<transition>
+			<source ref="id121"/>
+			<target ref="id120"/>
+			<label kind="guard" x="-1656" y="-936">PMT&gt;0</label>
+			<label kind="synchronisation" x="-1688" y="-912">MainMemStart!</label>
+			<label kind="assignment" x="-1680" y="-896">DatacachemissR++</label>
+		</transition>
+	</template>
+	<template>
+		<name>writehit</name>
+		<declaration>clock x;</declaration>
+		<location id="id123" x="200" y="24">
+			<label kind="invariant" x="192" y="40">x&lt;=3</label>
+		</location>
+		<location id="id124" x="0" y="0">
+		</location>
+		<init ref="id124"/>
+		<transition>
+			<source ref="id123"/>
+			<target ref="id124"/>
+			<label kind="guard" x="112" y="48">x==3</label>
+			<label kind="assignment" x="48" y="64">write_hit=false,A=-1</label>
+			<nail x="88" y="56"/>
+		</transition>
+		<transition>
+			<source ref="id124"/>
+			<target ref="id123"/>
+			<label kind="synchronisation" x="48" y="-40">WriteHit?</label>
+			<label kind="assignment" x="48" y="-24">write_hit=true,x=0,A=local_m</label>
+			<nail x="104" y="8"/>
+		</transition>
+	</template>
+	<template>
+		<name>emptyWB</name>
+		<declaration>clock x;</declaration>
+		<location id="id125" x="8" y="-144">
+			<label kind="invariant" x="-8" y="-176">x&lt;=6</label>
+		</location>
+		<location id="id126" x="0" y="0">
+		</location>
+		<init ref="id126"/>
+		<transition>
+			<source ref="id125"/>
+			<target ref="id126"/>
+			<label kind="guard" x="64" y="-104">x==6</label>
+			<label kind="synchronisation" x="72" y="-88">MainMemEndWB!</label>
+			<label kind="assignment" x="72" y="-64">nb--</label>
+			<nail x="64" y="-80"/>
+		</transition>
+		<transition>
+			<source ref="id126"/>
+			<target ref="id125"/>
+			<label kind="guard" x="-112" y="-104">nb&gt;0</label>
+			<label kind="synchronisation" x="-192" y="-88">MainMemStartWB!</label>
+			<label kind="assignment" x="-128" y="-72">x=0</label>
+			<nail x="-64" y="-88"/>
+		</transition>
+	</template>
+	<system>// instantiation of the processes
+
+
+InstrCache = InstructionCache(INSTR_CACHE,PC,1*CYCLE); 	// instruction cache; 
+					//to indicate which instruction to fetch, 
+					// set variable PC, last arg is the time it takes for one cache transastion
+DataCache = CacheV6(DATA_CACHE,CD,1*CYCLE);
+
+FetchStage = FetchAuto(0);
+DecodeStage = DecodeAuto(1);
+ExecuteStage = ExecuteAuto(2);
+MemoryStage = MemoryAutoV3(3);
+WriteBackStage = WriteBackAuto(4);
+TheProg=Prog();
+WH=writehit();
+empty=emptyWB();
+
+
+//system HurryAut &lt; WH &lt;  Ldr_in &lt; Str_in &lt; Wbuffer &lt; InstrCache &lt; DataCache &lt; FetchStage &lt; DecodeStage &lt; ExecuteStage &lt; MemoryStage &lt; WriteBackStage &lt; MainMemAut &lt; TheProg ; // priority between stages is important
+
+system HurryAut &lt; WH &lt;  empty &lt; WriteBackStage &lt; MemoryStage &lt; ExecuteStage &lt; DecodeStage &lt; FetchStage  &lt; InstrCache &lt; DataCache  &lt; MainMemAut &lt; TheProg ; // priority between stages is important</system>
+	<queries>
+	</queries>
+</nta>

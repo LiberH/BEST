@@ -1,0 +1,129 @@
+                                NOTE:
+  On BTB Miss, a static prediction for `Branch inst.` is made at E(xecute)
+stage according to the branch target address calculation done at D(ecode) stage.
+On BTB Hit, a (dynamic) prediction for `Branch inst.` is made at F(etch) stage
+according to the branch target buffer.
+  Any prediction for `Branch inst.` is known to be correct or incorrect at
+M(emory) stage according to the branch resolution done at E(xecution) stage.
+Then, and only then, the execution of any improperly fetched instruction is
+aborted.
+
+    Fig. 1:
+    BTB Miss / Static prediction: Taken / Correct prediction
+
+                           +---+---+---+---+---+
+        Branch inst.       | F | D | E | M | W |
+                           +---+---+---+---+---+---+
+        Next inst.             | F | D | - abort - |
+                               +---+---+---+---+---+---+
+        Target inst.             ^ | F | D | E | M | W |
+                                 . +---+---+---+---+---+
+        etc.                     .      ...
+                                 .
+        EXTRA CYCLE(S):    one . .
+
+    Fig. 2:
+    BTB Miss / Static prediction: Taken / Incorrect prediction
+
+                           +---+---+---+---+---+
+        Branch inst.       | F | D | E | M | W |
+                           +---+---+---+---+---+---+
+        Next inst.             | F | D | E | M | W |
+                               +---+---+---+---+---+---+
+        Target inst.               | F | --- abort --- |
+                                   +---+---+---+---+---+---+
+        Next next inst.              ^ | F | D | E | M | W |
+                                     . +---+---+---+---+---+
+        etc.                         .      ...
+                                     .
+        EXTRA CYCLE(S):    one . . . .
+
+    Fig. 3:
+    BTB Miss / Static prediction: Not-Taken / Correct prediction
+
+                           +---+---+---+---+---+
+        Branch inst.       | F | D | E | M | W |
+                           +---+---+---+---+---+---+
+        Next inst.             | F | D | E | M | W |
+                               +---+---+---+---+---+---+
+        Next next inst.            | F | D | E | M | W |
+                                   +---+---+---+---+---+
+        etc.                            ...
+                                     
+        EXTRA CYCLE(S):    zero
+
+    Fig. 4:
+    BTB Miss / Static prediction: Not-Taken / Incorrect prediction
+
+                           +---+---+---+---+---+
+        Branch inst.       | F | D | E | M | W |
+                           +---+---+---+---+---+---+
+        Next inst.             | F | D | - abort - |
+                               +---+---+---+---+---+---+
+        Next next inst.          ^ | F | --- abort --- |
+                                 . +---+---+---+---+---+---+
+        Target inst.             .   ^ | F | D | E | M | W |
+                                 .   . +---+---+---+---+---+
+        etc.                     .   .      ...
+                                 .   .
+        EXTRA CYCLE(S):    two . . . .
+
+    Fig. 5:
+    BTB Hit / Prediction: Taken / Correct prediction
+
+                           +---+---+---+---+---+
+        Branch inst.       | F | D | E | M | W |
+                           +---+---+---+---+---+---+
+        Target inst.           | F | D | E | M | W |
+                               +---+---+---+---+---+---+
+        Target next inst.          | F | D | E | M | W |
+                                   +---+---+---+---+---+
+        etc.                            ...
+
+        EXTRA CYCLE(S):    zero
+
+    Fig. 6:
+    BTB Hit / Prediction: Taken / Incorrect prediction
+
+                           +---+---+---+---+---+
+        Branch inst.       | F | D | E | M | W |
+                           +---+---+---+---+---+---+
+        Target inst.           | F | D | - abort - |
+                               +---+---+---+---+---+---+
+        Target next inst.        ^ | F | --- abort --- |
+                                 . +---+---+---+---+---+---+
+        Next inst.               .   ^ | F | D | E | M | W |
+                                 .   . +---+---+---+---+---+
+        etc.                     .   .      ...
+                                 .   .
+        EXTRA CYCLE(S):    two . . . .
+
+    Fig. 7:
+    BTB Hit / Prediction: Not-Taken / Correct prediction
+
+                           +---+---+---+---+---+
+        Branch inst.       | F | D | E | M | W |
+                           +---+---+---+---+---+---+
+        Next inst.             | F | D | E | M | W |
+                               +---+---+---+---+---+---+
+        Next next inst.            | F | D | E | M | W |
+                                   +---+---+---+---+---+
+        etc.                            ...
+
+        EXTRA CYCLE(S):    zero
+
+    Fig. 8:
+    BTB Hit / Prediction: Not-Taken / Incorrect prediction
+
+                           +---+---+---+---+---+
+        Branch inst.       | F | D | E | M | W |
+                           +---+---+---+---+---+---+
+        Next inst.             | F | D | - abort - |
+                               +---+---+---+---+---+---+
+        Next next inst.          ^ | F | --- abort --- |
+                                 . +---+---+---+---+---+---+
+        Target inst.             .   ^ | F | D | E | M | W |
+                                 .   . +---+---+---+---+---+
+        etc.                     .   .      ...
+                                 .   .
+        EXTRA CYCLE(S):    two . . . .
