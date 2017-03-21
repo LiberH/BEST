@@ -1,7 +1,3 @@
-Check generation for:
- - adpcm
- - compress
- - prime
 Generate files outside of ./bin/
 
 add COSMIC build commands in Makefile

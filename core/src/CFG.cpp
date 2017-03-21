@@ -70,7 +70,7 @@ CFG::insts ()
 	  insts -> push_back (inst);
 	}
     }
-  
+
   return insts;
 }
 
@@ -496,17 +496,39 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   const char *nta_decl_txt = nta_decl -> GetText ();
 
   oss.str ("");
+  /*
+  oss << "const int _UINT32_MIN =          0;" << endl;
+  oss << "const int _UINT32_MAX = 4294967295;" << endl;
+  oss << "typedef int[_UINT32_MIN,_UINT32_MAX] uint32_t;" << endl;
+  oss << endl;
+  */
+  oss << "const int _UINT1_MIN  =           0;" << endl;
+  oss << "const int _UINT1_MAX  =           1;" << endl;
+  oss << "const int _UINT5_MIN  =           0;" << endl;
+  oss << "const int _UINT5_MAX  =          32;" << endl;
+  oss << endl;  
+  oss << "const int _SINT16_MIN =      -32767;" << endl;
+  oss << "const int _SINT16_MAX =       32767;" << endl;
+  oss << "const int _SINT32_MIN = -2147483648;" << endl;
+  oss << "const int _SINT32_MAX =  2147483647;" << endl;
+  oss << endl;
+  oss << "typedef int[ _UINT1_MIN  , _UINT1_MAX  ] uint1_t;" << endl;
+  oss << "typedef int[ _UINT5_MIN  , _UINT5_MAX  ] uint5_t;" << endl;
+  oss << "typedef int[ _SINT16_MIN , _SINT16_MAX ] sint16_t;" << endl;
+  oss << "typedef int[ _SINT32_MIN , _SINT32_MAX ] sint32_t;" << endl;
+  oss << endl;
+  oss << "sint32_t xer, ctr, cr;" << endl;
   vector<Inst *> *insts = cfg -> insts ();
   u64 refs = 0;
   vector<Inst *>::iterator inst_it = slice -> begin ();  
   for (; inst_it != slice -> end (); ++inst_it)
     {
       Inst *inst = *inst_it;
-	refs |= inst -> m_refs;
+      refs |= inst -> m_refs;
     }
 
-  oss << "int";
-  bitset<64> bs (refs | 0b100000000011);
+  oss << "sint32_t";
+  bitset<64> bs (refs & ~0b100000000011);
   for (int b = 0; b < 62; ++b)
     if (b != 7 && bs[b])
       oss << " " << reg_names[b] << ",";
@@ -1500,6 +1522,15 @@ CFG::deadcode_patch ()
       ListDigraph::Node n = *n_it;      
       m_graph -> erase (n);
     }
+
+  /////
+
+  int i = 0;
+  vector<Inst *> *sorted_insts = insts ();
+  sort (sorted_insts -> begin (), sorted_insts -> end (), Inst::byAddr);
+  vector<Inst *>::iterator inst_it = sorted_insts -> begin ();
+  for (; inst_it != sorted_insts -> end (); ++inst_it, ++i)
+    (*inst_it) -> m_num = i;
 }
 
 struct state {
