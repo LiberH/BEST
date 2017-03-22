@@ -1,3 +1,5 @@
 Implement _BRANCH
-Check memory instruction
+Implement OR_SHIFTED and XOR_SHIFTED
+Implement simplified mnemonics for rotate and shift instructions
+Check for (rA == 0) then 0 but not (r0)
 Continue Semantic implementation

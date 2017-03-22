@@ -202,18 +202,6 @@ void _Init() {
 
 /* Binary: */
 
-const int NONE               = 0;
-const int CARRYING           = 1;
-const int COMPLEMENTED       = 2;
-const int EXTENDED           = 3;
-const int EXTENDED_MINUS_ONE = 4;
-const int EXTENDED_ZERO      = 5;
-const int LOGICAL            = 6;
-const int LOGICAL_UIMM       = 7;
-const int SHIFTED            = 8;
-const int SIGN_EXTENDED      = 9;
-
-const B_BitField_t XER___ = { -1, -1 /* 0b0001 */ }; // Not used
 const B_BitField_t XER_CA = {  1,  2 /* 0b0010 */ };
 const B_BitField_t XER_OV = {  2,  4 /* 0b0100 */ };
 const B_BitField_t XER_SO = {  3,  8 /* 0b1000 */ };
@@ -223,9 +211,10 @@ const B_BitField_t  CR_EQ = {  1,  2 /* 0b0010 */ };
 const B_BitField_t  CR_GT = {  2,  4 /* 0b0100 */ };
 const B_BitField_t  CR_LT = {  3,  8 /* 0b1000 */ };
 
-bool getBit  ( sint32_t  field, uint5_t i            ) { return (((field &gt;&gt; i) % 2) == 1); }
-int  getBits ( sint32_t  field, uint5_t i, uint5_t j ) { return ((field &gt;&gt; (32 -i)) &amp; (2^(j +1) -1)); } // TODO: check and fix
-void setBit  ( sint32_t &amp;field, uint5_t i, uint1_t b ) { field |= (b &lt;&lt; i); }
+bool     getBit  ( sint32_t  field , uint5_t i                         ) { return (((field &gt;&gt; i) % 2) == 1); }
+sint32_t getBits ( sint32_t  field , uint5_t i , uint5_t j             ) { return ((field &gt;&gt; (32 -i)) &amp; (2^(j +1) -1)); } // TODO: check
+void     setBit  ( sint32_t &amp;field , uint5_t i ,             uint1_t b ) { field |= (b &lt;&lt; i); }
+void     setBits ( sint32_t &amp;field , uint5_t i , uint5_t j , uint1_t b ) { while (i &lt;= j) setBit (field, i++, b); } // TODO: check
 
 bool  z () { return ((ctr -1) == 0);    }
 bool eq () { return getBit(cr, CR_EQ.index); }
@@ -236,15 +225,90 @@ bool ne () { return !eq();              }
 bool le () { return !gt();              }
 bool ge () { return !lt();              }
 
+////////////////////////////////////////////
+// ARITHM //////////////////////////////////
+const int ARITHM_ADD               = 1;
+  const int ADD_CARRYING             = 1;
+  const int ADD_EXTENDED             = 2;
+  const int ADD_EXTENDED_MINUS_ONE   = 3;
+  const int ADD_EXTENDED_ZERO        = 4;
+  const int ADD_SHIFTED              = 5;
+const int ARITHM_MUL               = 2;
+  const int MUL_HIGH                 = 1;
+  const int MUL_LOW                  = 2;
+const int ARITHM_DIV               = 3;
+  const int DIV_SIGNED               = 1;
+  const int DIV_UNSIGNED             = 2;
+// LOGICAL /////////////////////////////////
+const int LOGICAL_AND              = 1;
+  const int AND_COMPLEMENTED         = 1;
+  const int AND_SHIFTED              = 2;
+const int LOGICAL_CNTLWZ           = 2;
+const int LOGICAL_EQUIV            = 3;
+const int LOGICAL_EXTEND           = 4;
+  const int EXTEND_BYTE             = 1;
+  const int EXTEND_HALFWORD         = 2;
+const int LOGICAL_NAND             = 5;
+const int LOGICAL_NEG              = 6;
+const int LOGICAL_NOR              = 7;
+const int LOGICAL_OR               = 8;
+  const int OR_COMPLEMENTED          = 1;
+  const int OR_SHIFTED               = 2;
+const int LOGICAL_XOR              = 9;
+  const int XOR_SHIFTED              = 1;
+// COMPARE /////////////////////////////////
+  // "OR-able" qualifers:
+  const int COMPARE_LOGICAL          = 1;
+  const int COMPARE_SIGN_EXTENDED    = 2;
+  const int COMPARE_UNSIGNED         = 4;
+// ROTATE //////////////////////////////////
+  const int ROTATE_AND_MASK          = 1;
+  const int ROTATE_MASK_INSERT       = 2;
+// SHIFT ///////////////////////////////////
+const int SHIFT_LEFT               = 1;
+  const int LEFT_LOGICAL             = 1;
+const int SHIFT_RIGHT              = 2;
+  const int RIGHT_ALEGBRAIC          = 1;
+  const int RIGHT_LOGICAL            = 3;
+// MEMORY //////////////////////////////////
+const int MEMORY_LOAD              = 1;
+  // "OR-able" qualifers:
+  const int LOAD_ALGEBRAIC           = 1;
+  const int LOAD_REVERSED            = 2;
+  const int LOAD_UPDATING            = 4;
+  const int LOAD_INDEXED             = 8;
+    const int LOAD_BYTE                = 1;
+    const int LOAD_HALFWORD            = 2;
+    const int LOAD_WORD                = 4;
+const int MEMORY_STORE             = 2;
+  // "OR-able" qualifers:
+  const int STORE_REVERSED           = 1;
+  const int STORE_UPDATING           = 2;
+  const int STORE_INDEXED            = 4;
+    const int STORE_BYTE               = 1; 
+    const int STORE_HALFWORD           = 2;
+    const int STORE_WORD               = 4;
+////////////////////////////////////////////
+////////////////////////////////////////////
+
 // Arithmetic instructions:
 
-void _ARITHM( int qualifier, sint32_t &amp;rD, sint32_t rA, sint32_t rB_or_SIMM, uint1_t OE, uint1_t Rc ) {
-  if ( qualifier == NONE               ) { rD = rA +  rB_or_SIMM;                                     }
-  if ( qualifier == CARRYING           ) { rD = rA +  rB_or_SIMM;  setBit ( xer , XER_CA.index , 0 ); } // TODO: 0 -&gt; ?
-  if ( qualifier == EXTENDED           ) { rD = rA +  rB_or_SIMM + getBit ( xer , XER_CA.index     ); }
-  if ( qualifier == EXTENDED_MINUS_ONE ) { rD = rA -  1          + getBit ( xer , XER_CA.index     ); }
-  if ( qualifier == EXTENDED_ZERO      ) { rD = rA               + getBit ( xer , XER_CA.index     ); }
-  if ( qualifier == SHIFTED            ) { rD = rA + (rB_or_SIMM &lt;&lt; 16);                              }
+void _ARITHM( int operator, int qualifier, sint32_t &amp;rD, sint32_t rA, sint32_t rB_or_SIMM, uint1_t OE, uint1_t Rc ) {
+  if ( operator == ARITHM_ADD )
+  { if ( qualifier == 0                      ) { rD = rA +  rB_or_SIMM;                                     }
+    if ( qualifier == ADD_CARRYING           ) { rD = rA +  rB_or_SIMM;  setBit ( xer , XER_CA.index , 0 ); }  // TODO: 0 -&gt; ?
+    if ( qualifier == ADD_EXTENDED           ) { rD = rA +  rB_or_SIMM + getBit ( xer , XER_CA.index     ); }
+    if ( qualifier == ADD_EXTENDED_MINUS_ONE ) { rD = rA -  1          + getBit ( xer , XER_CA.index     ); }
+    if ( qualifier == ADD_EXTENDED_ZERO      ) { rD = rA               + getBit ( xer , XER_CA.index     ); }
+    if ( qualifier == ADD_SHIFTED            ) { rD = rA + (rB_or_SIMM &lt;&lt; 16);                              }}
+
+  if ( operator == ARITHM_MUL )
+  { if ( qualifier == MUL_HIGH               ) { rD = rA * rB_or_SIMM; }  // TODO: perform a 64-bit multiplication; store the HIGH-order 32 bits in rD
+    if ( qualifier == MUL_LOW                ) { rD = rA * rB_or_SIMM; }} // TODO: perform a 64-bit multiplication; store the LOW-order 32 bits in rD
+
+  if ( operator == ARITHM_DIV )
+  { if ( qualifier == DIV_SIGNED             ) { rD = rA / rB_or_SIMM; }  
+    if ( qualifier == DIV_UNSIGNED           ) { rD = rA / rB_or_SIMM; }} // TODO: how to perform an unsigned division?
 
   if ( OE ) { setBit (xer , XER_OV.index , 0);   // TODO: 0 -&gt; ?
               setBit (xer , XER_SO.index , 0); } // TODO: 0 -&gt; ?
@@ -254,235 +318,81 @@ void _ARITHM( int qualifier, sint32_t &amp;rD, sint32_t rA, sint32_t rB_or_SIMM,
               setBit (cr  ,  CR_LT.index , 0); } // TODO: 0 -&gt; ?; cr -&gt; cr0
 }
 
-void _add      ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( NONE               , rD ,  rA , rB   , false , false ); }
-void _add_     ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( NONE               , rD ,  rA , rB   , false , true  ); }
-void _addo     ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( NONE               , rD ,  rA , rB   , true  , false ); }
-void _addo_    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( NONE               , rD ,  rA , rB   , true  , true  ); }
-void _addc     ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( CARRYING           , rD ,  rA , rB   , false , false ); }
-void _addc_    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( CARRYING           , rD ,  rA , rB   , false , true  ); }
-void _addco    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( CARRYING           , rD ,  rA , rB   , true  , false ); }
-void _addco_   ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( CARRYING           , rD ,  rA , rB   , true  , true  ); }
-void _adde     ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( EXTENDED           , rD ,  rA , rB   , false , false ); }
-void _adde_    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( EXTENDED           , rD ,  rA , rB   , false , true  ); }
-void _addeo    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( EXTENDED           , rD ,  rA , rB   , true  , false ); }
-void _addeo_   ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( EXTENDED           , rD ,  rA , rB   , true  , true  ); }
+void _add      ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , rB   , false , false ); }
+void _add_     ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , rB   , false , true  ); }
+void _addo     ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , rB   , true  , false ); }
+void _addo_    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , rB   , true  , true  ); }
+void _addc     ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , rB   , false , false ); }
+void _addc_    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , rB   , false , true  ); }
+void _addco    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , rB   , true  , false ); }
+void _addco_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , rB   , true  , true  ); }
+void _adde     ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD ,  rA , rB   , false , false ); }
+void _adde_    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD ,  rA , rB   , false , true  ); }
+void _addeo    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD ,  rA , rB   , true  , false ); }
+void _addeo_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD ,  rA , rB   , true  , true  ); }
+void _addi     ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , SIMM , false , false ); }
+void _addic    ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , SIMM , false , false ); }
+void _addic_   ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , SIMM , false , true  ); }
+void _addis    ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , ADD_SHIFTED            , rD ,  rA , SIMM , false , false ); }
+void _addme    ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD ,  rA , 0    , false , false ); }
+void _addme_   ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD ,  rA , 0    , false , true  ); }
+void _addmeo   ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD ,  rA , 0    , true  , false ); }
+void _addmeo_  ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD ,  rA , 0    , true  , true  ); }
+void _addze    ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD ,  rA , 0    , false , false ); }
+void _addze_   ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD ,  rA , 0    , false , true  ); }
+void _addzeo   ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD ,  rA , 0    , true  , false ); }
+void _addzeo_  ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD ,  rA , 0    , true  , true  ); }
 
-void _addi     ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _ARITHM( NONE               , rD ,  rA , SIMM , false , false ); }
-void _addic    ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _ARITHM( CARRYING           , rD ,  rA , SIMM , false , false ); }
-void _addic_   ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _ARITHM( CARRYING           , rD ,  rA , SIMM , false , true  ); }
-void _addis    ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _ARITHM( SHIFTED            , rD ,  rA , SIMM , false , false ); }
+void _divw     ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_DIV , DIV_SIGNED             , rD ,  rA , rB   , false , false ); }
+void _divw_    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_DIV , DIV_SIGNED             , rD ,  rA , rB   , false , true  ); }
+void _divwo    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_DIV , DIV_SIGNED             , rD ,  rA , rB   , true  , false ); }
+void _divwo_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_DIV , DIV_SIGNED             , rD ,  rA , rB   , true  , true  ); }
+void _divwu    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_DIV , DIV_UNSIGNED           , rD ,  rA , rB   , false , false ); }
+void _divwu_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_DIV , DIV_UNSIGNED           , rD ,  rA , rB   , false , true  ); }
+void _divwuo   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_DIV , DIV_UNSIGNED           , rD ,  rA , rB   , true  , false ); }
+void _divwuo_  ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_DIV , DIV_UNSIGNED           , rD ,  rA , rB   , true  , true  ); }
 
-void _addme    ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_MINUS_ONE , rD ,  rA , 0    , false , false ); }
-void _addme_   ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_MINUS_ONE , rD ,  rA , 0    , false , true  ); }
-void _addmeo   ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_MINUS_ONE , rD ,  rA , 0    , true  , false ); }
-void _addmeo_  ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_MINUS_ONE , rD ,  rA , 0    , true  , true  ); }
-void _addze    ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_ZERO      , rD ,  rA , 0    , false , false ); }
-void _addze_   ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_ZERO      , rD ,  rA , 0    , false , true  ); }
-void _addzeo   ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_ZERO      , rD ,  rA , 0    , true  , false ); }
-void _addzeo_  ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_ZERO      , rD ,  rA , 0    , true  , true  ); }
+void _mulhw    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_MUL , MUL_HIGH               , rD ,  rA , rB   , false , false ); }
+void _mulhw_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_MUL , MUL_HIGH               , rD ,  rA , rB   , false , true  ); }
+void _mulhwu   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_MUL , MUL_HIGH               , rD ,  rA , rB   , false , false ); }
+void _mulhwu_  ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_MUL , MUL_HIGH               , rD ,  rA , rB   , false , true  ); }
+void _mullw    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , rB   , false , false ); }
+void _mullw_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , rB   , false , true  ); }
+void _mullwo   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , rB   , true  , false ); }
+void _mullwo_  ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , rB   , true  , true  ); }
+void _mulli    ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , SIMM , false , false ); }
 
-void _subf     ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( NONE               , rD , -rA , rB   , false , false ); }
-void _subf_    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( NONE               , rD , -rA , rB   , false , true  ); }
-void _subfo    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( NONE               , rD , -rA , rB   , true  , false ); }
-void _subfo_   ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( NONE               , rD , -rA , rB   , true  , true  ); }
-void _subfc    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( CARRYING           , rD , -rA , rB   , false , false ); }
-void _subfc_   ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( CARRYING           , rD , -rA , rB   , false , true  ); }
-void _subfco   ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( CARRYING           , rD , -rA , rB   , true  , false ); }
-void _subfco_  ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( CARRYING           , rD , -rA , rB   , true  , true  ); }
-void _subfe    ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( EXTENDED           , rD , -rA , rB   , false , false ); }
-void _subfe_   ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( EXTENDED           , rD , -rA , rB   , false , true  ); }
-void _subfeo   ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( EXTENDED           , rD , -rA , rB   , true  , false ); }
-void _subfeo_  ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _ARITHM( EXTENDED           , rD , -rA , rB   , true  , true  ); }
+void _subf     ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD , -rA , rB   , false , false ); }
+void _subf_    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD , -rA , rB   , false , true  ); }
+void _subfo    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD , -rA , rB   , true  , false ); }
+void _subfo_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD , -rA , rB   , true  , true  ); }
+void _subfc    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , rB   , false , false ); }
+void _subfc_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , rB   , false , true  ); }
+void _subfco   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , rB   , true  , false ); }
+void _subfco_  ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , rB   , true  , true  ); }
+void _subfe    ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD , -rA , rB   , false , false ); }
+void _subfe_   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD , -rA , rB   , false , true  ); }
+void _subfeo   ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD , -rA , rB   , true  , false ); }
+void _subfeo_  ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD , -rA , rB   , true  , true  ); }
+void _subfic   ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , SIMM , false , false ); }
+void _subfme   ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD , -rA , 0    , false , false ); }
+void _subfme_  ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD , -rA , 0    , false , true  ); }
+void _subfmeo  ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD , -rA , 0    , true  , false ); }
+void _subfmeo_ ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD , -rA , 0    , true  , true  ); }
+void _subfze   ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD , -rA , 0    , false , false ); }
+void _subfze_  ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD , -rA , 0    , false , true  ); }
+void _subfzeo  ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD , -rA , 0    , true  , false ); }
+void _subfzeo_ ( sint32_t &amp;rD , sint32_t rA                 ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD , -rA , 0    , true  , true  ); }
 
-void _subfic   ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _ARITHM( CARRYING           , rD , -rA , SIMM , false , false ); }
-
-void _subfme   ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_MINUS_ONE , rD , -rA , 0    , false , false ); }
-void _subfme_  ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_MINUS_ONE , rD , -rA , 0    , false , true  ); }
-void _subfmeo  ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_MINUS_ONE , rD , -rA , 0    , true  , false ); }
-void _subfmeo_ ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_MINUS_ONE , rD , -rA , 0    , true  , true  ); }
-void _subfze   ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_ZERO      , rD , -rA , 0    , false , false ); }
-void _subfze_  ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_ZERO      , rD , -rA , 0    , false , true  ); }
-void _subfzeo  ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_ZERO      , rD , -rA , 0    , true  , false ); }
-void _subfzeo_ ( sint32_t &amp;rD , sint32_t rA                   ) { _ARITHM( EXTENDED_ZERO      , rD , -rA , 0    , true  , true  ); }
-
-void _li       ( sint32_t &amp;rD ,                 sint16_t SIMM ) { _addi   ( rD,  0,  SIMM ); }
-void _lis      ( sint32_t &amp;rD ,                 sint16_t SIMM ) { _addis  ( rD,  0,  SIMM ); }
-void _la       ( sint32_t &amp;rD , sint16_t SIMM , sint32_t rA   ) { _addi   ( rD, rA,  SIMM ); }
-void _sub      ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _subf   ( rD, rB,  rA   ); }
-void _subc     ( sint32_t &amp;rD , sint32_t rA   , sint32_t rB   ) { _subfc  ( rD, rB,  rA   ); }
-void _subi     ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _addi   ( rD, rA, -SIMM ); }
-void _subis    ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _addis  ( rD, rA, -SIMM ); }
-void _subic    ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _addic  ( rD, rA, -SIMM ); }
-void _subic_   ( sint32_t &amp;rD , sint32_t rA   , sint16_t SIMM ) { _addic_ ( rD, rA, -SIMM ); }
-
-// Logic instructions:
-
-const int AND  = 0;
-const int NAND = 1;
-const int NEG  = 2;
-const int NOR  = 3;
-const int OR   = 4;
-const int XOR  = 5;
-
-void _LOGICAL( int operator, int qualifier, sint32_t &amp;rA_or_rD, sint32_t rS_or_rA, sint32_t rB_or_UIMM, uint1_t OE, uint1_t Rc ) {
-  if ( operator  == AND            ) {
-    if ( qualifier == NONE         ) { rA_or_rD =  rS_or_rA &amp;  rB_or_UIMM;        }
-    if ( qualifier == COMPLEMENTED ) { rA_or_rD =  rS_or_rA &amp; -rB_or_UIMM;        } // TODO: check if -rB == complement(rB)
-    if ( qualifier == SHIFTED      ) { rA_or_rD =  rS_or_rA &amp; (rB_or_UIMM &lt;&lt; 16); }}
-  if ( operator  == NAND           ) { rA_or_rD = -rS_or_rA | -rB_or_UIMM;        } // TODO: check if -rS | -rB == rS NAND rB
-  if ( operator  == NEG            ) { rA_or_rD = -rS_or_rA;                      } // TODO: check if -rA == NOT/NEG rA
-  if ( operator  == NOR            ) { rA_or_rD = -rS_or_rA &amp; -rB_or_UIMM;        } // TODO: check if -rS &amp; -rB == rS NOR rB
-  if ( operator  == OR             ) {
-    if ( qualifier == NONE         ) { rA_or_rD =  rS_or_rA |  rB_or_UIMM;        }
-    if ( qualifier == COMPLEMENTED ) { rA_or_rD =  rS_or_rA &amp; -rB_or_UIMM;        }}
-  if ( operator  == XOR            ) { rA_or_rD =  rS_or_rA ^  rB_or_UIMM;        }
-
-  if ( OE ) { setBit (xer , XER_OV.index , 0);   // TODO: 0 -&gt; ?
-              setBit (xer , XER_SO.index , 0); } // TODO: 0 -&gt; ?
-  if ( Rc ) { setBit (cr  ,  CR_SO.index , 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
-              setBit (cr  ,  CR_EQ.index , 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
-              setBit (cr  ,  CR_GT.index , 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
-              setBit (cr  ,  CR_LT.index , 0); } // TODO: 0 -&gt; ?; cr -&gt; cr0
-}
-
-void _and    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( AND  , NONE         , rA , rS , rB   , false , false ); }
-void _and_   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( AND  , NONE         , rA , rS , rB   , false , true  ); }
-void _andc   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( AND  , COMPLEMENTED , rA , rS , rB   , false , false ); }
-void _andc_  ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( AND  , COMPLEMENTED , rA , rS , rB   , false , true  ); }
-void _andi_  ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( AND  , NONE         , rA , rS , UIMM , false , true  ); }
-void _andis_ ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( AND  , SHIFTED      , rA , rS , UIMM , false , true  ); }
-
-void _nand   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( NAND , NONE         , rA , rS , rB   , false , false ); }
-void _nand_  ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( NAND , NONE         , rA , rS , rB   , false , true  ); }
-
-void _neg    ( sint32_t &amp;rD, sint32_t rA                ) { _LOGICAL( NEG  , NONE         , rD , rA , 0    , false , false ); }
-void _neg_   ( sint32_t &amp;rD, sint32_t rA                ) { _LOGICAL( NEG  , NONE         , rD , rA , 0    , false , true  ); }
-void _nego   ( sint32_t &amp;rD, sint32_t rA                ) { _LOGICAL( NEG  , NONE         , rD , rA , 0    , true  , false ); }
-void _nego_  ( sint32_t &amp;rD, sint32_t rA                ) { _LOGICAL( NEG  , NONE         , rD , rA , 0    , true  , true  ); }
-
-void _nor    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( NOR  , NONE         , rA , rS , rB   , false , false ); }
-void _nor_   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( NOR  , NONE         , rA , rS , rB   , false , true  ); }
-
-void _or     ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( OR   , NONE         , rA , rS , rB   , false , false ); }
-void _or_    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( OR   , NONE         , rA , rS , rB   , false , true  ); }
-void _orc    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( OR   , COMPLEMENTED , rA , rS , rB   , false , false ); }
-void _orc_   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( OR   , COMPLEMENTED , rA , rS , rB   , false , true  ); }
-void _ori    ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( OR   , NONE         , rA , rS , UIMM , false , false ); }
-void _oris   ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( OR   , SHIFTED      , rA , rS , UIMM , false , false ); }
-
-void _xor    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( XOR  , NONE         , rA , rS , rB   , false , false ); }
-void _xor_   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( XOR  , NONE         , rA , rS , rB   , false , true  ); }
-void _xori   ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( XOR  , NONE         , rA , rS , UIMM , false , false ); }
-void _xoris  ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( XOR  , SHIFTED      , rA , rS , UIMM , false , false ); }
-
-void _not    ( sint32_t &amp;rA, sint32_t rS                ) { _nor ( rA, rS, rS ); }
-void _mr     ( sint32_t &amp;rA, sint32_t rS                ) { _or  ( rA, rS, rS ); }
-void _nop    (                                          ) { /*  "ori 0,0,0"   */ }
-
-/*
-/////
-
-/////
-
-void _mullw  ( sint32_t &amp;rD, sint32_t rA, sint32_t rB   ) { rD = rA * rB;                          }
-void _mullw_ ( sint32_t &amp;rD, sint32_t rA, sint32_t rB   ) { rD = rA * rB;                          } // TODO: add proper affectation for CR0
-void _mulli  ( sint32_t &amp;rD, sint32_t rA, sint32_t SIMM ) { rD = rA * SIMM;                        }
-void _mulhw  ( sint32_t &amp;rD, sint32_t rA, sint32_t rB   ) { rD = getBits(rA * rB, 32, 63);           } // TODO: check if correct according to specs
-void _mulhwu ( sint32_t &amp;rD, sint32_t rA, sint32_t rB   ) { rD = getBits(rA * rB, 32, 63);           } // TODO: TODO: check if correct according to specs + fix; should be 'unsigned'
-void _divw   ( sint32_t &amp;rD, sint32_t rA, sint32_t rB   ) { rD = rA / rB;                          }
-void _divwu  ( sint32_t &amp;rD, sint32_t rA, sint32_t rB   ) { rD = rA / rB;                          } // TODO: fix; should be 'unsigned'
-
-void _extsh ( sint32_t &amp;rA, sint32_t rS ) { rA = rS &amp; 65535; } // == 0xffff (hex. doesn't work in UPPAAL...)
-
-/////
-
-sint32_t ROTL ( sint32_t x, sint32_t y ) { return 0; } // TODO: implement according to the semantics given in the specs
-sint32_t MASK ( sint32_t x, sint32_t y ) { return 0; } // TODO: implement according to the semantics given in the specs
-
-void _rlwinm ( sint32_t &amp;rA, sint32_t rS, sint32_t SH, sint32_t MB, sint32_t ME ) {
-  sint32_t n = SH;
-  sint32_t r = ROTL(rS, n);
-  sint32_t m = MASK(MB, ME);
-
-  rA = r &amp; m;
-}
-
-void _clrlwi ( sint32_t &amp;rA, sint32_t rS, sint32_t n ) { _rlwinm(rA, rS, 0, n, 31); } // TODO: n &lt; 32
-
-void _slw ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) {
-  sint32_t n = getBits(rB, 0, 5); // TODO: check; specs says "rB[27-31]" (btw. shouldn't it be "rB[26-31]"?)
-  sint32_t r = ROTL(rS, n);
-  sint32_t m = 0;
-  if (getBit(rB, 6) == 0) m = MASK(0, n - 31); // TODO: check and fix; lines are missing in the specs...
-
-  rA = r &amp; m;
-}
-
-void _srw ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) {
-  sint32_t n = getBits(rB, 0, 5); // TODO: check; specs says "rB[27-31]" (btw. shouldn't it be "rB[26-31]"?)
-  sint32_t r = ROTL(rS, 32 - n);
-  sint32_t m = 0;
-  if (getBit(rB, 6) == 0) m = MASK(n, 31); // TODO: check and fix; lines are missing in the specs...
-
-  rA = r &amp; m;
-}
-
-void _sraw ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) {
-  sint32_t n = getBits(rB, 0, 5); // TODO: check; specs says "rB[27-31]" (btw. shouldn't it be "rB[26-31]"?)
-  sint32_t r = ROTL(rS, n);
-  sint32_t S  = rS;
-  sint32_t m = 0;
-  if (getBit(rB, 6) == 0) m = MASK(0, n);
-
-  rA = r &amp; m | S &amp; !m;
-  xer = S &amp; ((r &amp; !m) != 0); // TODO: check xer implementation
-}
-
-void _srawi ( sint32_t &amp;rA, sint32_t rS, sint32_t SH ) { // TODO: check the operator precedence; must be needed some parentheses
-  sint32_t n = SH;
-  sint32_t r = ROTL(rS, 32 - n);
-  sint32_t S = rS;
-  sint32_t m = MASK(0, n); // TODO: check and fix; it says "MASK(n)" in the specs but there is no semantics for it...
-
-  rA  = r &amp; m | S &amp; !m;
-  xer = S &amp; ((r &amp; !m) != 0); // TODO: check xer implementation
-}
-
-void _srawi_ ( sint32_t &amp;rA, sint32_t rS, sint32_t SH ) { // TODO: same as srawi + add proper affectation for CR0
-  sint32_t n = SH;
-  sint32_t r = ROTL(rS, 32 - n);
-  sint32_t S = rS;
-  sint32_t m = MASK(0, n);
-
-  rA  = r &amp; m | S &amp; !m;
-  xer = S &amp; ((r &amp; !m) != 0);
-}
-
-void _cntlzw ( sint32_t &amp; rA, sint32_t rS ) {
-  sint32_t n = 0;
-  bool doBreak; // TODO: check if correct according to specs (there is no "break" keyword in UPPAAL...)
-  while (n &lt; 32 &amp;&amp; !doBreak)
-    if (getBit(rS, n) == 1) doBreak = true;
-    else                  n       = n + 1;
-
-  rA = n;
-}
-
-*/
-
-// Register move instructions:
- 
-void _mfcr  ( sint32_t &amp;rD                ) { rD  = cr;                      }
-
-void _mfxer ( sint32_t &amp;rD                ) { rD  = xer;                     }
-void _mfctr ( sint32_t &amp;rD                ) { rD  = ctr;                     }
-void _mfspr ( sint32_t &amp;rD , sint32_t spr ) { if (spr == 1) { _mfxer (rD); }
-                                              if (spr == 9) { _mfctr (rD); } }
-
-void _mtxer (                sint32_t rS  ) { xer = rS;                      }
-void _mtctr (                sint32_t rS  ) { ctr = rS;                      }
-void _mtspr ( sint32_t spr , sint32_t rS  ) { if (spr == 1) { _mtxer (rS); }
-                                              if (spr == 9) { _mtctr (rS); } }
+void _li       ( sint32_t &amp;rD ,               sint16_t SIMM ) { _addi   ( rD,  0,  SIMM ); }
+void _lis      ( sint32_t &amp;rD ,               sint16_t SIMM ) { _addis  ( rD,  0,  SIMM ); }
+void _la       ( sint32_t &amp;rD , sint16_t d  , sint32_t rA   ) { _addi   ( rD, rA,  d    ); }
+void _sub      ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _subf   ( rD, rB,  rA   ); }
+void _subc     ( sint32_t &amp;rD , sint32_t rA , sint32_t rB   ) { _subfc  ( rD, rB,  rA   ); }
+void _subi     ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _addi   ( rD, rA, -SIMM ); }
+void _subis    ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _addis  ( rD, rA, -SIMM ); }
+void _subic    ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _addic  ( rD, rA, -SIMM ); }
+void _subic_   ( sint32_t &amp;rD , sint32_t rA , sint16_t SIMM ) { _addic_ ( rD, rA, -SIMM ); }
 
 // Compare instructions:
 
@@ -493,10 +403,10 @@ void _COMPARE( int qualifier, sint32_t &amp;crfD, uint1_t L, sint32_t rA, sint32
   int b = rB_or_IMM;
   int c;
 
-  if ( qualifier == NONE          ) { if ( L ) { a = EXTS(a); b = EXTS(b); } }
-  if ( qualifier == SIGN_EXTENDED ) {                         b = EXTS(b);   }
-  if ( qualifier == LOGICAL       ) {                                        } // TODO: how to perform an unsigned evaluation?
-  if ( qualifier == LOGICAL_UIMM  ) {                                        } // TODO: how to perform an unsigned evaluation?
+  if ( qualifier == 0                                      ) { if ( L ) { a = EXTS(a); b = EXTS(b); } }
+  if ( qualifier == ( COMPARE_SIGN_EXTENDED              ) ) {                         b = EXTS(b);   }
+  if ( qualifier == ( COMPARE_LOGICAL                    ) ) {                                        } // TODO: how to perform an unsigned evaluation?
+  if ( qualifier == ( COMPARE_LOGICAL | COMPARE_UNSIGNED ) ) {                                        } // TODO: how to perform an unsigned evaluation?
 
        if ( a &lt; b ) { c = CR_LT.value; }
   else if ( a &gt; b ) { c = CR_GT.value; }
@@ -505,15 +415,228 @@ void _COMPARE( int qualifier, sint32_t &amp;crfD, uint1_t L, sint32_t rA, sint32
   crfD = c | getBit(xer, XER_SO.index); // TODO: crfD -&gt; CR[4 ∗ crfD–4 ∗ crfD + 3]
 }
 
-void _cmp    ( sint32_t &amp;crfD , sint32_t rA , sint32_t rB   ) { _COMPARE( NONE          , crfD , false , rA , rB   ); }
-void _cmpi   ( sint32_t &amp;crfD , sint32_t rA , sint16_t SIMM ) { _COMPARE( SIGN_EXTENDED , crfD , false , rA , SIMM ); }
-void _cmpl   ( sint32_t &amp;crfD , sint32_t rA , sint32_t rB   ) { _COMPARE( LOGICAL       , crfD , false , rA , rB   ); }
-void _cmpli  ( sint32_t &amp;crfD , sint32_t rA , sint16_t UIMM ) { _COMPARE( LOGICAL_UIMM  , crfD , false , rA , UIMM ); }
+void _cmp    ( sint32_t &amp;crfD , sint32_t rA , sint32_t rB   ) { _COMPARE( 0                                  , crfD , false , rA , rB   ); }
+void _cmpi   ( sint32_t &amp;crfD , sint32_t rA , sint16_t SIMM ) { _COMPARE( COMPARE_SIGN_EXTENDED              , crfD , false , rA , SIMM ); }
+void _cmpl   ( sint32_t &amp;crfD , sint32_t rA , sint32_t rB   ) { _COMPARE( COMPARE_LOGICAL                    , crfD , false , rA , rB   ); }
+void _cmpli  ( sint32_t &amp;crfD , sint32_t rA , sint16_t UIMM ) { _COMPARE( COMPARE_LOGICAL | COMPARE_UNSIGNED , crfD , false , rA , UIMM ); }
 
 void _cmpw   ( sint32_t &amp;crfD , sint32_t rA , sint32_t rB   ) { _cmp   ( crfD, rA, rB   ); }
 void _cmpwi  ( sint32_t &amp;crfD , sint32_t rA , sint16_t SIMM ) { _cmpi  ( crfD, rA, SIMM ); }
 void _cmplw  ( sint32_t &amp;crfD , sint32_t rA , sint32_t rB   ) { _cmpl  ( crfD, rA, rB   ); }
 void _cmplwi ( sint32_t &amp;crfD , sint32_t rA , sint16_t UIMM ) { _cmpli ( crfD, rA, UIMM ); }
+
+// Logical instructions:
+
+void _LOGICAL( int operator, int qualifier, sint32_t &amp;rA_or_rD, sint32_t rS_or_rA, sint32_t rB_or_UIMM, uint1_t OE, uint1_t Rc ) {
+  uint5_t n;
+
+  if ( operator  == LOGICAL_AND        )
+  { if ( qualifier == 0                ) { rA_or_rD =  rS_or_rA &amp;  rB_or_UIMM;        }
+    if ( qualifier == AND_COMPLEMENTED ) { rA_or_rD =  rS_or_rA &amp; -rB_or_UIMM;        }  // TODO: check if -rB == complement(rB)
+    if ( qualifier == AND_SHIFTED      ) { rA_or_rD =  rS_or_rA &amp; (rB_or_UIMM &lt;&lt; 16); }}
+
+  if ( operator  == LOGICAL_CNTLWZ     ) { for (n = 31; n &gt;= 0 &amp;&amp; !getBit(rS_or_rA, n); --n);
+                                           rA_or_rD = 32 - (n +1);               }
+  if ( operator  == LOGICAL_EQUIV      ) { rA_or_rD = -(rS_or_rA ^  rB_or_UIMM); } // TODO: check if -X == complement(X)
+  if ( operator  == LOGICAL_EXTEND     )
+  { if ( qualifier == EXTEND_BYTE      ) { rA_or_rD = rS_or_rA &amp;   127; setBits (rA_or_rD,  7, 31, getBit (rS_or_rA,  7)); }
+    if ( qualifier == EXTEND_HALFWORD  ) { rA_or_rD = rS_or_rA &amp; 32767; setBits (rA_or_rD, 15, 31, getBit (rS_or_rA, 15)); }}
+
+  if ( operator  == LOGICAL_NAND       ) { rA_or_rD = -rS_or_rA | -rB_or_UIMM;  } // TODO: check if -rS | -rB == rS NAND rB
+  if ( operator  == LOGICAL_NEG        ) { rA_or_rD = -rS_or_rA;                } // TODO: check if -rA == bitwiseNot(rA)
+  if ( operator  == LOGICAL_NOR        ) { rA_or_rD = -rS_or_rA &amp; -rB_or_UIMM;  } // TODO: check if -rS &amp; -rB == rS NOR rB
+  if ( operator  == LOGICAL_OR         )
+  { if ( qualifier == 0                ) { rA_or_rD = rS_or_rA |  rB_or_UIMM; }
+    if ( qualifier == OR_COMPLEMENTED  ) { rA_or_rD = rS_or_rA &amp; -rB_or_UIMM; }}
+
+  if ( operator  == LOGICAL_XOR        ) { rA_or_rD = rS_or_rA ^  rB_or_UIMM; }
+
+  if ( OE ) { setBit (xer , XER_OV.index , 0);   // TODO: 0 -&gt; ?
+              setBit (xer , XER_SO.index , 0); } // TODO: 0 -&gt; ?
+  if ( Rc ) { setBit (cr  ,  CR_SO.index , 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr  ,  CR_EQ.index , 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr  ,  CR_GT.index , 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr  ,  CR_LT.index , 0); } // TODO: 0 -&gt; ?; cr -&gt; cr0
+}
+
+void _and     ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_AND  , 0                 , rA , rS , rB   , false , false ); }
+void _and_    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_AND  , 0                 , rA , rS , rB   , false , true  ); }
+void _andc    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_AND  , AND_COMPLEMENTED  , rA , rS , rB   , false , false ); }
+void _andc_   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_AND  , AND_COMPLEMENTED  , rA , rS , rB   , false , true  ); }
+void _andi_   ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( LOGICAL_AND  , 0                 , rA , rS , UIMM , false , true  ); }
+void _andis_  ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( LOGICAL_AND  , AND_SHIFTED       , rA , rS , UIMM , false , true  ); }
+
+void _cntlwz  ( sint32_t &amp;rA, sint32_t rS                ) { _LOGICAL( LOGICAL_CNTLWZ , 0               , rA , rS , 0    , false , false ); }
+void _cntlwz_ ( sint32_t &amp;rA, sint32_t rS                ) { _LOGICAL( LOGICAL_CNTLWZ , 0               , rA , rS , 0    , false , true  ); }
+void _eqv     ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_EQUIV  , 0               , rA , rS , rB   , false , false ); }
+void _eqv_    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_EQUIV  , 0               , rA , rS , rB   , false , true  ); }
+void _extsb   ( sint32_t &amp;rA, sint32_t rS                ) { _LOGICAL( LOGICAL_EXTEND , EXTEND_BYTE     , rA , rS , 0    , false , false ); }
+void _extsb_  ( sint32_t &amp;rA, sint32_t rS                ) { _LOGICAL( LOGICAL_EXTEND , EXTEND_BYTE     , rA , rS , 0    , false , true  ); }
+void _extsh   ( sint32_t &amp;rA, sint32_t rS                ) { _LOGICAL( LOGICAL_EXTEND , EXTEND_HALFWORD , rA , rS , 0    , false , false ); }
+void _extsh_  ( sint32_t &amp;rA, sint32_t rS                ) { _LOGICAL( LOGICAL_EXTEND , EXTEND_HALFWORD , rA , rS , 0    , false , true  ); }
+
+void _nand    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_NAND , 0                 , rA , rS , rB   , false , false ); }
+void _nand_   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_NAND , 0                 , rA , rS , rB   , false , true  ); }
+
+void _neg     ( sint32_t &amp;rD, sint32_t rA                ) { _LOGICAL( LOGICAL_NEG  , 0                 , rD , rA , 0    , false , false ); }
+void _neg_    ( sint32_t &amp;rD, sint32_t rA                ) { _LOGICAL( LOGICAL_NEG  , 0                 , rD , rA , 0    , false , true  ); }
+void _nego    ( sint32_t &amp;rD, sint32_t rA                ) { _LOGICAL( LOGICAL_NEG  , 0                 , rD , rA , 0    , true  , false ); }
+void _nego_   ( sint32_t &amp;rD, sint32_t rA                ) { _LOGICAL( LOGICAL_NEG  , 0                 , rD , rA , 0    , true  , true  ); }
+
+void _nor     ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_NOR  , 0                 , rA , rS , rB   , false , false ); }
+void _nor_    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_NOR  , 0                 , rA , rS , rB   , false , true  ); }
+
+void _or      ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_OR   , 0                 , rA , rS , rB   , false , false ); }
+void _or_     ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_OR   , 0                 , rA , rS , rB   , false , true  ); }
+void _orc     ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_OR   , OR_COMPLEMENTED   , rA , rS , rB   , false , false ); }
+void _orc_    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_OR   , OR_COMPLEMENTED   , rA , rS , rB   , false , true  ); }
+void _ori     ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( LOGICAL_OR   , 0                 , rA , rS , UIMM , false , false ); }
+void _oris    ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( LOGICAL_OR   , OR_SHIFTED        , rA , rS , UIMM , false , false ); }
+
+void _xor     ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_XOR  , 0                 , rA , rS , rB   , false , false ); }
+void _xor_    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB   ) { _LOGICAL( LOGICAL_XOR  , 0                 , rA , rS , rB   , false , true  ); }
+void _xori    ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( LOGICAL_XOR  , 0                 , rA , rS , UIMM , false , false ); }
+void _xoris   ( sint32_t &amp;rA, sint32_t rS, sint16_t UIMM ) { _LOGICAL( LOGICAL_XOR  , XOR_SHIFTED       , rA , rS , UIMM , false , false ); }
+
+void _not     ( sint32_t &amp;rA, sint32_t rS                ) { _nor ( rA, rS, rS ); }
+void _mr      ( sint32_t &amp;rA, sint32_t rS                ) { _or  ( rA, rS, rS ); }
+void _nop     (                                          ) { /*  "ori 0,0,0"   */ }
+
+// Rotate instructions:
+
+sint32_t ROTL ( sint32_t x , sint32_t y ) { return 0; } // TODO: implement according to the semantics given in the specs
+sint32_t MASK ( uint5_t  x , uint5_t  y ) { return 0; } // TODO: implement according to the semantics given in the specs
+
+void _ROTATE( int qualifier, sint32_t &amp;rA, sint32_t rS, sint32_t SH_or_rB, uint5_t MB, uint5_t ME, uint1_t Rc ) {
+  uint5_t  n = getBits (SH_or_rB, 0, 4);
+  sint32_t r = ROTL (rS, n);
+  sint32_t m = MASK (MB, ME);
+
+  if ( qualifier == ROTATE_AND_MASK    ) { rA =  r &amp; m;               }
+  if ( qualifier == ROTATE_MASK_INSERT ) { rA = (r &amp; m) | ( rA &amp; -m); } // TODO: check if -m == bitwiseNot(m)
+
+  if ( Rc ) { setBit (cr, CR_SO.index, 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr, CR_EQ.index, 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr, CR_GT.index, 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr, CR_LT.index, 0); } // TODO: 0 -&gt; ?; cr -&gt; cr0
+}
+
+void _rlwimi  ( sint32_t &amp;rA , sint32_t rS , uint5_t  SH , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_MASK_INSERT , rA , rS , SH , MB , ME , false ); }
+void _rlwimi_ ( sint32_t &amp;rA , sint32_t rS , uint5_t  SH , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_MASK_INSERT , rA , rS , SH , MB , ME , true  ); }
+void _rlwinm  ( sint32_t &amp;rA , sint32_t rS , uint5_t  SH , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_AND_MASK    , rA , rS , SH , MB , ME , false ); }
+void _rlwinm_ ( sint32_t &amp;rA , sint32_t rS , uint5_t  SH , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_AND_MASK    , rA , rS , SH , MB , ME , true  ); }
+void _rlwnm   ( sint32_t &amp;rA , sint32_t rS , sint32_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_AND_MASK    , rA , rS , rB , MB , ME , false ); }
+void _rlwnm_  ( sint32_t &amp;rA , sint32_t rS , sint32_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_AND_MASK    , rA , rS , rB , MB , ME , true  ); }
+
+// Shift instructions:
+
+void _SHIFT( int operator, int qualifier, sint32_t &amp;rA, sint32_t rS, sint32_t rB_or_SH, uint1_t Rc ) {
+  uint1_t  S; 
+  uint5_t  n, r;
+  sint32_t m, tmp;
+
+  m = 0;
+  n = getBits (rB_or_SH, 0, 4);
+  if ( operator == SHIFT_LEFT  ) { r = ROTL(rS,      n); if (getBit (rB_or_SH, 5) == 0) m = MASK (0, 31 - n); }
+  if ( operator == SHIFT_RIGHT ) { r = ROTL(rS, 32 - n); if (getBit (rB_or_SH, 5) == 0) m = MASK (n, 31    ); }
+
+  S  = getBit (rS, 31); // TODO: check if S should be the sign bit (not clear in the specs.)
+  rA = r &amp; m;
+  if ( qualifier == RIGHT_ALEGBRAIC )
+  { setBits (tmp , 0, 31, S);
+    rA |= tmp &amp; -m;
+    setBit (xer , XER_CA.index , (S &amp; ((r &amp; -m) == 0))); } // TODO: check if -m == bitwiseNot(m)
+
+  if ( Rc ) { setBit (cr, CR_SO.index, 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr, CR_EQ.index, 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr, CR_GT.index, 0);   // TODO: 0 -&gt; ?; cr -&gt; cr0
+              setBit (cr, CR_LT.index, 0); } // TODO: 0 -&gt; ?; cr -&gt; cr0
+}
+
+void _slw    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) { _SHIFT( SHIFT_LEFT  , LEFT_LOGICAL    , rA , rS , rB, false ); }
+void _slw_   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) { _SHIFT( SHIFT_LEFT  , LEFT_LOGICAL    , rA , rS , rB, true  ); }
+void _sraw   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) { _SHIFT( SHIFT_RIGHT , RIGHT_ALEGBRAIC , rA , rS , rB, false ); }
+void _sraw_  ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) { _SHIFT( SHIFT_RIGHT , RIGHT_ALEGBRAIC , rA , rS , rB, true  ); }
+void _srawi  ( sint32_t &amp;rA, sint32_t rS, uint5_t  SH ) { _SHIFT( SHIFT_RIGHT , RIGHT_ALEGBRAIC , rA , rS , SH, false ); } // TODO: check impl.
+void _srawi_ ( sint32_t &amp;rA, sint32_t rS, uint5_t  SH ) { _SHIFT( SHIFT_RIGHT , RIGHT_ALEGBRAIC , rA , rS , SH, true  ); } // TODO: check impl.
+void _srw    ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) { _SHIFT( SHIFT_RIGHT , RIGHT_LOGICAL   , rA , rS , rB, false ); }
+void _srw_   ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) { _SHIFT( SHIFT_RIGHT , RIGHT_LOGICAL   , rA , rS , rB, true  ); }
+
+// Memory instructions:
+
+sint32_t MEM ( sint32_t x, sint32_t y ) { return 0; } // TODO: what to do with memory accesses?
+
+void _MEMORY( int operator, int qualifier, int size,  sint32_t &amp;rD_or_RS , sint32_t d_or_rA  , sint32_t rA_or_rB ) {
+  int rD, rS, d, rA, rB;
+  int EA;
+
+  if ( operator == MEMORY_LOAD )
+  { if ( !( qualifier &amp; LOAD_INDEXED ) ) { rD = rD_or_RS; d  = d_or_rA; rA = rA_or_rB; }
+    if (  ( qualifier &amp; LOAD_INDEXED ) ) { rD = rD_or_RS; rA = d_or_rA; rB = rA_or_rB; }
+
+    if ( qualifier == ( 0                                             ) ) { EA = rA + EXTS(d); rD =      MEM(EA, size);           } // TODO: if rA == 0 then b = 0 else b = (rA)
+    if ( qualifier == (                  LOAD_UPDATING                ) ) { EA = rA + EXTS(d); rD =      MEM(EA, size);  rA = EA; }
+    if ( qualifier == (                  LOAD_UPDATING | LOAD_INDEXED ) ) { EA = rA + rB;      rD =      MEM(EA, size);  rA = EA; }
+    if ( qualifier == (                                  LOAD_INDEXED ) ) { EA = rA + rB;      rD =      MEM(EA, size);           } // TODO: if rA == 0 then b = 0 else b = (rA)
+
+    if ( qualifier == ( LOAD_ALGEBRAIC                                ) ) { EA = rA + EXTS(d); rD = EXTS(MEM(EA, size));          } // TODO: if rA == 0 then b = 0 else b = (rA)
+    if ( qualifier == ( LOAD_ALGEBRAIC | LOAD_UPDATING                ) ) { EA = rA + EXTS(d); rD = EXTS(MEM(EA, size)); rA = EA; }
+    if ( qualifier == ( LOAD_ALGEBRAIC | LOAD_UPDATING | LOAD_INDEXED ) ) { EA = rA + rB;      rD = EXTS(MEM(EA, size)); rA = EA; }
+    if ( qualifier == ( LOAD_ALGEBRAIC                 | LOAD_INDEXED ) ) { EA = rA + rB;      rD = EXTS(MEM(EA, size));          } // TODO: if rA == 0 then b = 0 else b = (rA)
+
+    if ( qualifier == ( LOAD_REVERSED                  | LOAD_INDEXED ) )
+    { if ( size == LOAD_HALFWORD ) { EA = rA + rB; rD  = ((MEM(EA +0, 1) &lt;&lt;  0) | (MEM(EA +1, 1) &lt;&lt;  8)); }   // TODO: if rA == 0 then b = 0 else b = (rA)
+      if ( size == LOAD_WORD     ) { EA = rA + rB; rD  = ((MEM(EA +0, 1) &lt;&lt;  0) | (MEM(EA +1, 1) &lt;&lt;  8));     // TODO: if rA == 0 then b = 0 else b = (rA)
+                                                   rD |= ((MEM(EA +2, 1) &lt;&lt; 16) | (MEM(EA +3, 1) &lt;&lt; 24)); }}}
+
+  if ( operator == MEMORY_STORE )
+  { if ( !( qualifier &amp; STORE_INDEXED ) ) { rS = rD_or_RS; d  = d_or_rA; rA = rA_or_rB; }
+    if (  ( qualifier &amp; STORE_INDEXED ) ) { rS = rD_or_RS; rA = d_or_rA; rB = rA_or_rB; }
+
+    if ( qualifier == ( 0                              ) ) { EA = rA + EXTS(d); /* MEM(EA, size) = ((rS)); */          } // TODO: if rA == 0 then b = 0 else b = (rA)
+    if ( qualifier == ( STORE_UPDATING                 ) ) { EA = rA + EXTS(d); /* MEM(EA, size) = ((rS)); */ rA = EA; }
+    if ( qualifier == ( STORE_UPDATING | STORE_INDEXED ) ) { EA = rA + rB;      /* MEM(EA, size) = ((rS)); */ rA = EA; }
+    if ( qualifier == (                  STORE_INDEXED ) ) { EA = rA + rB;      /* MEM(EA, size) = ((rS)); */          } // TODO: if rA == 0 then b = 0 else b = (rA)
+
+    if ( qualifier == ( STORE_REVERSED | STORE_INDEXED ) )
+    { if ( size == STORE_HALFWORD ) { EA = rA + rB; /* MEM(EA +0, 1) = ((rS)); MEM(EA +1, 1) &lt;&lt;  8)) = ((rS)); */ }   // TODO: if rA == 0 then b = 0 else b = (rA)
+      if ( size == STORE_WORD     ) { EA = rA + rB; /* MEM(EA +0, 1) = ((rS)); MEM(EA +1, 1) &lt;&lt;  8)) = ((rS)); */     // TODO: if rA == 0 then b = 0 else b = (rA)
+                                                    /* MEM(EA +2, 1) = ((rS)); MEM(EA +3, 1) &lt;&lt;  8)) = ((rS)); */ }}}
+}
+
+void _lbz    ( sint32_t &amp;rD , sint16_t  d  , sint32_t  rA ) { _MEMORY( MEMORY_LOAD  , 0                                               , LOAD_BYTE      , rD , d  , rA ); }
+void _lbzu   ( sint32_t &amp;rD , sint16_t  d  , sint32_t &amp;rA ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING                  , LOAD_BYTE      , rD , d  , rA ); }
+void _lbzux  ( sint32_t &amp;rD , sint32_t &amp;rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING  | LOAD_INDEXED  , LOAD_BYTE      , rD , rA , rB ); }
+void _lbzx   ( sint32_t &amp;rD , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  ,                                   LOAD_INDEXED  , LOAD_BYTE      , rD , rA , rB ); }
+void _lha    ( sint32_t &amp;rD , sint16_t  d  , sint32_t  rA ) { _MEMORY( MEMORY_LOAD  , LOAD_ALGEBRAIC                                  , LOAD_HALFWORD  , rD , d  , rA ); }
+void _lhau   ( sint32_t &amp;rD , sint16_t  d  , sint32_t &amp;rA ) { _MEMORY( MEMORY_LOAD  , LOAD_ALGEBRAIC | LOAD_UPDATING                  , LOAD_HALFWORD  , rD , d  , rA ); }
+void _lhaux  ( sint32_t &amp;rD , sint32_t &amp;rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  , LOAD_ALGEBRAIC | LOAD_UPDATING  | LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
+void _lhax   ( sint32_t &amp;rD , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  , LOAD_ALGEBRAIC                  | LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
+void _lhz    ( sint32_t &amp;rD , sint16_t  d  , sint32_t  rA ) { _MEMORY( MEMORY_LOAD  , 0                                               , LOAD_HALFWORD  , rD , d  , rA ); }
+void _lhzu   ( sint32_t &amp;rD , sint16_t  d  , sint32_t &amp;rA ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING                  , LOAD_HALFWORD  , rD , d  , rA ); }
+void _lhzux  ( sint32_t &amp;rD , sint32_t &amp;rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING  | LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
+void _lhzx   ( sint32_t &amp;rD , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  ,                                   LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
+void _lhbrx  ( sint32_t &amp;rD , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  , LOAD_REVERSED                   | LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
+void _lwz    ( sint32_t &amp;rD , sint16_t  d  , sint32_t  rA ) { _MEMORY( MEMORY_LOAD  , 0                                               , LOAD_WORD      , rD , d  , rA ); }
+void _lwzu   ( sint32_t &amp;rD , sint16_t  d  , sint32_t &amp;rA ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING                  , LOAD_WORD      , rD , d  , rA ); }
+void _lwzux  ( sint32_t &amp;rD , sint32_t &amp;rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING  | LOAD_INDEXED  , LOAD_WORD      , rD , rA , rB ); }
+void _lwzx   ( sint32_t &amp;rD , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  ,                                   LOAD_INDEXED  , LOAD_WORD      , rD , rA , rB ); }
+void _lwbrx  ( sint32_t &amp;rD , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_LOAD  , LOAD_REVERSED                   | LOAD_INDEXED  , LOAD_WORD      , rD , rA , rB ); }
+
+void _stb    ( sint32_t  rS , sint16_t   d , sint32_t  rA ) { _MEMORY( MEMORY_STORE , 0                                               , STORE_BYTE     , rS , d  , rA ); }
+void _stbu   ( sint32_t  rS , sint16_t   d , sint32_t &amp;rA ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING                 , STORE_BYTE     , rS , d  , rA ); }
+void _stbux  ( sint32_t  rS , sint32_t &amp;rA , sint32_t  rB ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING | STORE_INDEXED , STORE_BYTE     , rS , rA , rB ); }
+void _stbx   ( sint32_t  rS , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_STORE ,                                   STORE_INDEXED , STORE_BYTE     , rS , rA , rB ); }
+void _sth    ( sint32_t  rS , sint16_t   d , sint32_t  rA ) { _MEMORY( MEMORY_STORE , 0                                               , STORE_HALFWORD , rS , d  , rA ); }
+void _sthu   ( sint32_t  rS , sint16_t   d , sint32_t &amp;rA ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING                 , STORE_HALFWORD , rS , d  , rA ); }
+void _sthux  ( sint32_t  rS , sint32_t &amp;rA , sint32_t  rB ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING | STORE_INDEXED , STORE_HALFWORD , rS , rA , rB ); }
+void _sthx   ( sint32_t  rS , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_STORE ,                                   STORE_INDEXED , STORE_HALFWORD , rS , rA , rB ); }
+void _sthbrx ( sint32_t  rS , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_STORE , STORE_REVERSED                  | STORE_INDEXED , STORE_HALFWORD , rS , rA , rB ); }
+void _stw    ( sint32_t  rS , sint16_t   d , sint32_t  rA ) { _MEMORY( MEMORY_STORE , 0                                               , STORE_WORD     , rS , d  , rA ); }
+void _stwu   ( sint32_t  rS , sint16_t   d , sint32_t &amp;rA ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING                 , STORE_WORD     , rS , d  , rA ); }
+void _stwux  ( sint32_t  rS , sint32_t &amp;rA , sint32_t  rB ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING | STORE_INDEXED , STORE_WORD     , rS , rA , rB ); }
+void _stwx   ( sint32_t  rS , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_STORE ,                                   STORE_INDEXED , STORE_WORD     , rS , rA , rB ); }
+void _stwbrx ( sint32_t  rS , sint32_t  rA , sint32_t  rB ) { _MEMORY( MEMORY_STORE , STORE_REVERSED                  | STORE_INDEXED , STORE_WORD     , rS , rA , rB ); }
 
 // Branching instructions:
 
@@ -660,7 +783,7 @@ void _bnulr    (             ) { _bclr   ( BO_________not_cond , CR_SO.index    
 
 void _bctr     (             ) { _bcctr  ( BO_________________ , 0                ); }
 void _btctr    (             ) { _bcctr  ( BO_____________cond , 0                ); }
-void _bfctr	   (             ) { _bcctr  ( BO_________not_cond , 0                ); }			        
+void _bfctr    (             ) { _bcctr  ( BO_________not_cond , 0                ); }			        
 void _bltctr   (             ) { _bcctr  ( BO_____________cond , CR_LT.index      ); }
 void _blectr   (             ) { _bcctr  ( BO_________not_cond , CR_GT.index      ); }
 void _beqctr   (             ) { _bcctr  ( BO_____________cond , CR_EQ.index      ); }
@@ -712,19 +835,75 @@ void _bnsctrl  (             ) { _bcctrl ( BO_________not_cond , CR_SO.index    
 void _bunctrl  (             ) { _bcctrl ( BO_____________cond , CR_SO.index      ); }
 void _bnuctrl  (             ) { _bcctrl ( BO_________not_cond , CR_SO.index      ); }
 
-// Memory instructions:
+// Processor contreol instructions:
+ 
+void _mfcr  ( sint32_t &amp;rD                ) { rD  = cr;                      }
+void _mfxer ( sint32_t &amp;rD                ) { rD  = xer;                     }
+void _mfctr ( sint32_t &amp;rD                ) { rD  = ctr;                     }
+void _mfspr ( sint32_t &amp;rD , sint32_t spr ) { if (spr == 1) { _mfxer (rD); }
+                                              if (spr == 9) { _mfctr (rD); } }
 
-sint32_t MEM ( sint32_t x, sint32_t y ) { return 0; } // TODO: what to do with memory accesses?
+void _mtxer (                sint32_t rS  ) { xer = rS;                      }
+void _mtctr (                sint32_t rS  ) { ctr = rS;                      }
+void _mtspr ( sint32_t spr , sint32_t rS  ) { if (spr == 1) { _mtxer (rS); }
+                                              if (spr == 9) { _mtctr (rS); } }
 
-void _lbz  ( sint32_t &amp;rD, sint32_t  d, sint32_t  rA ) { rD = MEM((d  + rA), 1);              }
-void _lbzu ( sint32_t &amp;rD, sint32_t  d, sint32_t  rA ) { rD = MEM((d  + rA), 1); rA = d + rA; }
-void _lbzx ( sint32_t &amp;rD, sint32_t rA, sint32_t  rB ) { rD = MEM((rA + rB), 1);              }
-void _lhz  ( sint32_t &amp;rD, sint32_t  d, sint32_t  rA ) { rD = MEM((d  + rA), 2);              }
-void _lhzx ( sint32_t &amp;rD, sint32_t rA, sint32_t  rB ) { rD = MEM((rA + rB), 2);              }
-void _lwz  ( sint32_t &amp;rD, sint32_t  d, sint32_t  rA ) { rD = MEM((d  + rA), 4);              }
-void _lwzu ( sint32_t &amp;rD, sint32_t  d, sint32_t &amp;rA ) { rD = MEM((d  + rA), 4); rA = d + rA; }
-void _lwzx ( sint32_t &amp;rD, sint32_t rA, sint32_t  rB ) { rD = MEM((rA + rB), 4);              }
-void _stwu ( sint32_t  rS, sint32_t  d, sint32_t &amp;rA ) {                         rA = d + rA; }
+/*
+
+/////
+
+void _slw ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) {
+  sint32_t n = getBits(rB, 0, 5); // TODO: check; specs says "rB[27-31]" (btw. shouldn't it be "rB[26-31]"?)
+  sint32_t r = ROTL(rS, n);
+  sint32_t m = 0;
+  if (getBit(rB, 6) == 0) m = MASK(0, n - 31); // TODO: check and fix; lines are missing in the specs...
+
+  rA = r &amp; m;
+}
+
+void _srw ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) {
+  sint32_t n = getBits(rB, 0, 5); // TODO: check; specs says "rB[27-31]" (btw. shouldn't it be "rB[26-31]"?)
+  sint32_t r = ROTL(rS, 32 - n);
+  sint32_t m = 0;
+  if (getBit(rB, 6) == 0) m = MASK(n, 31); // TODO: check and fix; lines are missing in the specs...
+
+  rA = r &amp; m;
+}
+
+void _sraw ( sint32_t &amp;rA, sint32_t rS, sint32_t rB ) {
+  sint32_t n = getBits(rB, 0, 5); // TODO: check; specs says "rB[27-31]" (btw. shouldn't it be "rB[26-31]"?)
+  sint32_t r = ROTL(rS, n);
+  sint32_t S  = rS;
+  sint32_t m = 0;
+  if (getBit(rB, 6) == 0) m = MASK(0, n);
+
+  rA = r &amp; m | S &amp; !m;
+  xer = S &amp; ((r &amp; !m) != 0); // TODO: check xer implementation
+}
+
+void _srawi ( sint32_t &amp;rA, sint32_t rS, sint32_t SH ) { // TODO: check the operator precedence; must be needed some parentheses
+  sint32_t n = SH;
+  sint32_t r = ROTL(rS, 32 - n);
+  sint32_t S = rS;
+  sint32_t m = MASK(0, n); // TODO: check and fix; it says "MASK(n)" in the specs but there is no semantics for it...
+
+  rA  = r &amp; m | S &amp; !m;
+  xer = S &amp; ((r &amp; !m) != 0); // TODO: check xer implementation
+}
+
+void _srawi_ ( sint32_t &amp;rA, sint32_t rS, sint32_t SH ) { // TODO: same as srawi + add proper affectation for CR0
+  sint32_t n = SH;
+  sint32_t r = ROTL(rS, 32 - n);
+  sint32_t S = rS;
+  sint32_t m = MASK(0, n);
+
+  rA  = r &amp; m | S &amp; !m;
+  xer = S &amp; ((r &amp; !m) != 0);
+}
+
+*/
+
+
 
 /* Flash: */
 
