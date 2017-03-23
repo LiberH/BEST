@@ -37,6 +37,7 @@ protected:
   
          bool    m_branch;
          u32     m_test;
+         int     m_crfD;
          bool    m_unknown;
          bool    m_link;
          bool    m_uncond;

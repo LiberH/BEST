@@ -12,6 +12,7 @@ public:
   u64 read_regs;
   bool is_branch;
   u32  test;
+  u32  crfD;
   bool is_unknown;
   bool do_link;
   bool is_uncond;

@@ -1,5 +1,5 @@
-Implement _BRANCH
-Implement OR_SHIFTED and XOR_SHIFTED
-Implement simplified mnemonics for rotate and shift instructions
+Reimplement mtspr, etc.
+Force display of correct crfD (not always just "cr") on conditional branch
+Make use of _GPRS[rX], not directly rX anymore
 Check for (rA == 0) then 0 but not (r0)
 Continue Semantic implementation

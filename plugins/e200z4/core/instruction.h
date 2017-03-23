@@ -35,6 +35,7 @@ class e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -66,6 +67,7 @@ class e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
 	virtual bool hasID_rb() {return true;};
@@ -96,6 +98,7 @@ class e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
@@ -127,6 +130,7 @@ class e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -153,7 +157,9 @@ class e200z4_CR0_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrf() {return true;};
 };
 
@@ -172,7 +178,9 @@ class e200z4_CR0_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrfs() {return true;};
 };
 
@@ -192,6 +200,7 @@ class e200z4_CR0_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpo() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -213,6 +222,7 @@ class e200z4_CR0_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpu() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -233,6 +243,7 @@ class e200z4_CR0_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_noStatus() {return true;};
@@ -253,6 +264,7 @@ class e200z4_CR0_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_useStatus() {return true;};
@@ -276,6 +288,7 @@ class e200z4_CR0_crfd_mcrxr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR0() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_mcrxr() {return true;};
 };
 
@@ -304,6 +317,7 @@ class e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -335,6 +349,7 @@ class e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
 	virtual bool hasID_rb() {return true;};
@@ -365,6 +380,7 @@ class e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
@@ -396,6 +412,7 @@ class e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -422,7 +439,9 @@ class e200z4_CR1_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrf() {return true;};
 };
 
@@ -441,7 +460,9 @@ class e200z4_CR1_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrfs() {return true;};
 };
 
@@ -461,6 +482,7 @@ class e200z4_CR1_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpo() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -482,6 +504,7 @@ class e200z4_CR1_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpu() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -502,6 +525,7 @@ class e200z4_CR1_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_noStatus() {return true;};
@@ -522,6 +546,7 @@ class e200z4_CR1_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_useStatus() {return true;};
@@ -545,6 +570,7 @@ class e200z4_CR1_crfd_mcrxr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR1() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_mcrxr() {return true;};
 };
 
@@ -573,6 +599,7 @@ class e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -604,6 +631,7 @@ class e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
 	virtual bool hasID_rb() {return true;};
@@ -634,6 +662,7 @@ class e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
@@ -665,6 +694,7 @@ class e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -691,7 +721,9 @@ class e200z4_CR2_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrf() {return true;};
 };
 
@@ -710,7 +742,9 @@ class e200z4_CR2_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrfs() {return true;};
 };
 
@@ -730,6 +764,7 @@ class e200z4_CR2_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpo() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -751,6 +786,7 @@ class e200z4_CR2_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpu() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -771,6 +807,7 @@ class e200z4_CR2_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_noStatus() {return true;};
@@ -791,6 +828,7 @@ class e200z4_CR2_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_useStatus() {return true;};
@@ -814,6 +852,7 @@ class e200z4_CR2_crfd_mcrxr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR2() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_mcrxr() {return true;};
 };
 
@@ -842,6 +881,7 @@ class e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -873,6 +913,7 @@ class e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
 	virtual bool hasID_rb() {return true;};
@@ -903,6 +944,7 @@ class e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
@@ -934,6 +976,7 @@ class e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -960,7 +1003,9 @@ class e200z4_CR3_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrf() {return true;};
 };
 
@@ -979,7 +1024,9 @@ class e200z4_CR3_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrfs() {return true;};
 };
 
@@ -999,6 +1046,7 @@ class e200z4_CR3_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpo() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -1020,6 +1068,7 @@ class e200z4_CR3_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpu() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -1040,6 +1089,7 @@ class e200z4_CR3_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_noStatus() {return true;};
@@ -1060,6 +1110,7 @@ class e200z4_CR3_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_useStatus() {return true;};
@@ -1083,6 +1134,7 @@ class e200z4_CR3_crfd_mcrxr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR3() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_mcrxr() {return true;};
 };
 
@@ -1111,6 +1163,7 @@ class e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -1142,6 +1195,7 @@ class e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
 	virtual bool hasID_rb() {return true;};
@@ -1172,6 +1226,7 @@ class e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
@@ -1203,6 +1258,7 @@ class e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -1229,7 +1285,9 @@ class e200z4_CR4_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrf() {return true;};
 };
 
@@ -1248,7 +1306,9 @@ class e200z4_CR4_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrfs() {return true;};
 };
 
@@ -1268,6 +1328,7 @@ class e200z4_CR4_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpo() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -1289,6 +1350,7 @@ class e200z4_CR4_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpu() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -1309,6 +1371,7 @@ class e200z4_CR4_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_noStatus() {return true;};
@@ -1329,6 +1392,7 @@ class e200z4_CR4_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_useStatus() {return true;};
@@ -1352,6 +1416,7 @@ class e200z4_CR4_crfd_mcrxr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR4() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_mcrxr() {return true;};
 };
 
@@ -1380,6 +1445,7 @@ class e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -1411,6 +1477,7 @@ class e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
 	virtual bool hasID_rb() {return true;};
@@ -1441,6 +1508,7 @@ class e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
@@ -1472,6 +1540,7 @@ class e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -1498,7 +1567,9 @@ class e200z4_CR5_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrf() {return true;};
 };
 
@@ -1517,7 +1588,9 @@ class e200z4_CR5_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrfs() {return true;};
 };
 
@@ -1537,6 +1610,7 @@ class e200z4_CR5_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpo() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -1558,6 +1632,7 @@ class e200z4_CR5_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpu() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -1578,6 +1653,7 @@ class e200z4_CR5_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_noStatus() {return true;};
@@ -1598,6 +1674,7 @@ class e200z4_CR5_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_useStatus() {return true;};
@@ -1621,6 +1698,7 @@ class e200z4_CR5_crfd_mcrxr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR5() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_mcrxr() {return true;};
 };
 
@@ -1649,6 +1727,7 @@ class e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -1680,6 +1759,7 @@ class e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
 	virtual bool hasID_rb() {return true;};
@@ -1710,6 +1790,7 @@ class e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
@@ -1741,6 +1822,7 @@ class e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -1767,7 +1849,9 @@ class e200z4_CR6_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrf() {return true;};
 };
 
@@ -1786,7 +1870,9 @@ class e200z4_CR6_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrfs() {return true;};
 };
 
@@ -1806,6 +1892,7 @@ class e200z4_CR6_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpo() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -1827,6 +1914,7 @@ class e200z4_CR6_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpu() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -1847,6 +1935,7 @@ class e200z4_CR6_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_noStatus() {return true;};
@@ -1867,6 +1956,7 @@ class e200z4_CR6_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_useStatus() {return true;};
@@ -1890,6 +1980,7 @@ class e200z4_CR6_crfd_mcrxr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR6() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_mcrxr() {return true;};
 };
 
@@ -1918,6 +2009,7 @@ class e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm : public e200z4_instruction 
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -1949,6 +2041,7 @@ class e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_arith() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_ra() {return true;};
 	virtual bool hasID_rb() {return true;};
@@ -1979,6 +2072,7 @@ class e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm : public e200z4_instructio
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_immediate() {return true;};
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
@@ -2010,6 +2104,7 @@ class e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg : public e200z4_instruction {
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_cmp() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_l() {return true;};
 	virtual bool hasID_logical() {return true;};
 	virtual bool hasID_ra() {return true;};
@@ -2036,7 +2131,9 @@ class e200z4_CR7_crfd_crfs_mcrf : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrf() {return true;};
 };
 
@@ -2055,7 +2152,9 @@ class e200z4_CR7_crfd_crfs_mcrfs : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_crfs() {return true;};
+	virtual u32 getcrfS() { return crfS; }
 	virtual bool hasID_mcrfs() {return true;};
 };
 
@@ -2075,6 +2174,7 @@ class e200z4_CR7_crfd_fcmpo_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpo() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -2096,6 +2196,7 @@ class e200z4_CR7_crfd_fcmpu_fra_frb : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_fcmpu() {return true;};
 	virtual bool hasID_fra() {return true;};
 	virtual bool hasID_frb() {return true;};
@@ -2116,6 +2217,7 @@ class e200z4_CR7_crfd_imm_mtfsfi_noStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_noStatus() {return true;};
@@ -2136,6 +2238,7 @@ class e200z4_CR7_crfd_imm_mtfsfi_useStatus : public e200z4_instruction {
 	virtual unsigned int const instClass() {return 0;};
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_imm() {return true;};
 	virtual bool hasID_mtfsfi() {return true;};
 	virtual bool hasID_useStatus() {return true;};
@@ -2159,6 +2262,7 @@ class e200z4_CR7_crfd_mcrxr : public e200z4_instruction {
 	virtual void getDDCReadRegs(u64 &regsMask0);
 	virtual bool hasID_CR7() {return true;};
 	virtual bool hasID_crfd() {return true;};
+	virtual u32 getcrfD() { return crfD; }
 	virtual bool hasID_mcrxr() {return true;};
 };
 

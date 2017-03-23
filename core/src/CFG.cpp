@@ -351,27 +351,29 @@ CFG::pre_jump (XMLDocument *doc, Inst *src_inst, string trg_id, bool taken)
   attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
   attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
   
-  grd = (taken ? "" : "!");
+  oss .str ("");
+  oss << (taken ? "" : "!");
   upd = "_taken = ";
   upd += (taken ? "true" : "false");
   switch (src_inst -> m_test)
     {
-    case  0: grd += "true"; break;
+    case  0: oss <<"true"; break;
       
-    case  1: grd += "lt()"; break;
-    case  2: grd += "gt()"; break;
-    case  3: grd += "eq()"; break;
-    case  4: grd += "so()"; break;
+    case  1: oss << "lt(cr" << src_inst -> m_crfD << ")"; break;
+    case  2: oss << "gt(cr" << src_inst -> m_crfD << ")"; break;
+    case  3: oss << "eq(cr" << src_inst -> m_crfD << ")"; break;
+    case  4: oss << "so(cr" << src_inst -> m_crfD << ")"; break;
       
-    case  5: grd += "ge()"; break;
-    case  6: grd += "le()"; break;
-    case  7: grd += "ne()"; break;
+    case  5: oss << "ge(cr" << src_inst -> m_crfD << ")"; break;
+    case  6: oss << "le(cr" << src_inst -> m_crfD << ")"; break;
+    case  7: oss << "ne(cr" << src_inst -> m_crfD << ")"; break;
       
-    case  9: grd +=  "z()"; break;
-    case 10: grd += "nz()"; break;
+    case  9: oss <<  "z()"; break;
+    case 10: oss << "nz()"; break;
       
-    default: grd += "####"; break;
+    default: oss << "####"; break;
     }
+  grd = oss.str ();
   
   XMLElement *tr_src = newElementWrapper (doc, "source" , NULL   , tr_src_attrs , NULL);
   XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL   , tr_trg_attrs , NULL);
@@ -491,33 +493,6 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   // <nta> 
   XMLElement *nta = doc -> FirstChildElement ("nta");
 
-  // <declaration>
-  XMLElement *nta_decl = nta -> FirstChildElement ("declaration");
-  const char *nta_decl_txt = nta_decl -> GetText ();
-
-  oss.str ("");
-  /*
-  oss << "const int _UINT32_MIN =          0;" << endl;
-  oss << "const int _UINT32_MAX = 4294967295;" << endl;
-  oss << "typedef int[_UINT32_MIN,_UINT32_MAX] uint32_t;" << endl;
-  oss << endl;
-  */
-  oss << "const int _UINT1_MIN  =           0;" << endl;
-  oss << "const int _UINT1_MAX  =           1;" << endl;
-  oss << "const int _UINT5_MIN  =           0;" << endl;
-  oss << "const int _UINT5_MAX  =          32;" << endl;
-  oss << endl;  
-  oss << "const int _SINT16_MIN =      -32767;" << endl;
-  oss << "const int _SINT16_MAX =       32767;" << endl;
-  oss << "const int _SINT32_MIN = -2147483648;" << endl;
-  oss << "const int _SINT32_MAX =  2147483647;" << endl;
-  oss << endl;
-  oss << "typedef int[ _UINT1_MIN  , _UINT1_MAX  ] uint1_t;" << endl;
-  oss << "typedef int[ _UINT5_MIN  , _UINT5_MAX  ] uint5_t;" << endl;
-  oss << "typedef int[ _SINT16_MIN , _SINT16_MAX ] sint16_t;" << endl;
-  oss << "typedef int[ _SINT32_MIN , _SINT32_MAX ] sint32_t;" << endl;
-  oss << endl;
-  oss << "sint32_t xer, ctr, cr;" << endl;
   vector<Inst *> *insts = cfg -> insts ();
   u64 refs = 0;
   vector<Inst *>::iterator inst_it = slice -> begin ();  
@@ -526,31 +501,23 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
       Inst *inst = *inst_it;
       refs |= inst -> m_refs;
     }
-
-  oss << "sint32_t";
-  bitset<64> bs (refs & ~0b100000000011);
-  for (int b = 0; b < 62; ++b)
-    if (b != 7 && bs[b])
-      oss << " " << reg_names[b] << ",";
-  oss.seekp (-1, oss.cur);
-  oss << ";" << endl;
-  oss << endl;
-
+  
   int n_insts = insts -> size ();
-  oss << "const int _REGS_MAX = 8;" << endl;
-  oss << "const int _INST_MAX = " << n_insts +32 << ";" << endl;
-  oss << "typedef struct {"               << endl;
-  oss << "  int  addr;"                  << endl;
-  oss << "  int  cycles;"                << endl;
-  oss << "  bool do_branch;"             << endl;
-  oss << "  int  target;"                << endl;
-  oss << "  bool do_memory;"             << endl;
-  oss << "  int  read_regs[_REGS_MAX];"  << endl;
-  oss << "  int  write_regs[_REGS_MAX];" << endl;
-  oss << "} _Inst_t;"                    << endl;
-  oss << endl;
-  oss << "const _Inst_t _INSTS[_INST_MAX] = {";
-
+  ostringstream inst_max_oss;
+  inst_max_oss << " " << dec << n_insts +32 << ";";
+  string inst_max_str = inst_max_oss.str ();
+  
+  ostringstream regs_oss;
+  bitset<64> bs (refs & ~0b100010000011);
+  for (int b = 0; b < 30; ++b)
+    if (bs[b])
+      regs_oss << " " << reg_names[b] << ",";
+  regs_oss.seekp (-1, regs_oss.cur);
+  regs_oss << ";";
+  string regs_str = regs_oss.str ();
+  
+  ostringstream insts_oss;
+  insts_oss << " {";
   int last_addr = -1;
   vector<BB *> *bbs = cfg -> bbs ();
   sort (bbs -> begin (), bbs -> end (), BB::byAddr);
@@ -561,8 +528,8 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
     {
       BB *bb = *bb_it;
 
-      oss << endl;
-      oss << endl << "  /* " << bb -> m_label << " */";
+      insts_oss << endl;
+      insts_oss << endl << "  /* " << bb -> m_label << " */";
 
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it = insts -> begin ();
@@ -591,22 +558,22 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 	  disass = o.str ();
 	  spaces = string (30 - disass.length (), ' ');
 	  
-	  oss << endl;
-	  oss << "  /*  " << disass << spaces << " - " << dec << inst -> m_num << " */ { ";
-	  oss << dec << inst -> m_addr                    << ", ";
-	  oss << 1                                        << ", "; // latency;
-	  oss << (inst -> m_branch ? "true, " : "false,") << " ";
+	  insts_oss << endl;
+	  insts_oss << "  /*  " << disass << spaces << " - " << dec << inst -> m_num << " */ { ";
+	  insts_oss << dec << inst -> m_addr                    << ", ";
+	  insts_oss << 1                                        << ", "; // latency;
+	  insts_oss << (inst -> m_branch ? "true, " : "false,") << " ";
 	  if (inst -> m_branch)
 	    {
 	      o.str ("");
 	      o << dec << target_num;
 	      spaces = string (9 - o.str ().length (), ' ');
-	      oss << spaces << dec << target_num;
+	      insts_oss << spaces << dec << target_num;
 	    }
-	  else oss << "_INST_MAX";
-	  oss << ", ";
-	  oss << (inst -> m_memory ? "true, " : "false,") << " "; // does_mem_access
-	  oss << "{ ";
+	  else insts_oss << "_INST_MAX";
+	  insts_oss << ", ";
+	  insts_oss << (inst -> m_memory ? "true, " : "false,") << " "; // does_mem_access
+	  insts_oss << "{ ";
 
 	  {
 	    int i = 64;
@@ -622,13 +589,13 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 		byte = o.str ();
 		
 		spaces = string (3 - byte.length (), ' ');
-		oss << (first ? "" : ", ") << spaces << byte;
+		insts_oss << (first ? "" : ", ") << spaces << byte;
 		first = false;
 	      }
 	    while (i);
 	  }
 	  
-	  oss << " }, { ";
+	  insts_oss << " }, { ";
 
 	  {
 	    int i = 64;
@@ -644,31 +611,60 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 		byte = o.str ();
 		
 		spaces = string (3 - byte.length (), ' ');
-		oss << (first ? "" : ", ") << spaces << byte;
+		insts_oss << (first ? "" : ", ") << spaces << byte;
 		first = false;
 	      }
 	    while (i);
 	  }
 	  
-	  oss << " } },";
+	  insts_oss << " } },";
 	}
     }
 
-  oss << endl;
-  oss << endl << "  /* Nops */";
+  insts_oss << endl;
+  insts_oss << endl << "  /* Nops */";
   for (int i = 0; i < 32; ++i)
     {
-      oss << endl << "  /*  xxxx: ---                      - " << dec << n_insts +i << " */";
-      oss << " { " << dec << (last_addr + (i +1)*4) << ", 1, false, _INST_MAX, false,";
-      oss << " {   0,   0,   0,   0,   0,   0,   0,   0 },";
-      oss << " {   0,   0,   0,   0,   0,   0,   0,   0 } },";
+      insts_oss << endl << "  /*  xxxx: ---                      - " << dec << n_insts +i << " */";
+      insts_oss << " { " << dec << (last_addr + (i +1)*4) << ", 1, false, _INST_MAX, false,";
+      insts_oss << " {   0,   0,   0,   0,   0,   0,   0,   0 },";
+      insts_oss << " {   0,   0,   0,   0,   0,   0,   0,   0 } },";
     }
   
-  oss.seekp (-1, oss.cur);
-  oss << endl << "};" << endl;
-  oss << endl;
+  insts_oss.seekp (-1, insts_oss.cur);
+  insts_oss << endl << "};";
+  string insts_str = insts_oss.str ();
+
+  /////
+  
+  // <declaration>
+  
+  XMLElement *nta_decl = nta -> FirstChildElement ("declaration");
+  string nta_decl_txt = nta_decl -> GetText ();
+
+  string::size_type index;
+  string pattern_inst_max = " /* REPLACE_WITH_INST_MAX */ 1;";
+  string pattern_regs     = " /* REPLACE_WITH_REGS */ _REGS;";
+  string pattern_insts    = " /* REPLACE_WITH_INSTS */ _EMPTY_INST;";
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_inst_max, index);
+  nta_decl_txt.replace (index, pattern_inst_max.length (), inst_max_str);
+
+  //index = 0;
+  //index = nta_decl_txt.find (pattern_regs, index);
+  //nta_decl_txt.replace (index, pattern_regs.length (), regs_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_insts, index);
+  nta_decl_txt.replace (index, pattern_insts.length (), insts_str);
+
+  /////
+  
+  oss.str ("");
   oss << nta_decl_txt << endl;
 
+  sort (slice -> begin (), slice -> end (), Inst::byAddr);
   inst_it = slice -> begin ();  
   for (; inst_it != slice -> end (); ++inst_it)
     {

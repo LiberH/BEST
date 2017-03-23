@@ -104,7 +104,8 @@ main (int argc, char *argv[])
     PDG::ToFile (executable_path + "-pdg.dot"  , pdg);
    Inst::ToFile (executable_path + "-slice"    , slice);
 
-   CFG::ToUPPAAL (executable_path + "-model.xml" , template_path, cfg, slice);
+   CFG::ToUPPAAL (executable_path + "-model.xml"        , template_path, cfg, dump);
+   CFG::ToUPPAAL (executable_path + "-model_sliced.xml" , template_path, cfg, slice);
   
   return EXIT_SUCCESS;
 }

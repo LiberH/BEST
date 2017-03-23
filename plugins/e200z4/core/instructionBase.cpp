@@ -59,11 +59,19 @@ e200z4_instruction::getStaticInfo (arch *_arch)
   else if (i -> is_branch  &&
 	   this -> hasID_nz ())
     i -> test = 10;
-    
+
+  i -> crfD = -1;
+  if (this -> hasID_bi())
+    {
+      int BI = this -> getBI();
+      int cr = BI / 4;
+      i -> crfD = cr;
+    }
+  
   _arch -> setProgramCounter (i -> pc + this -> size ());
   this -> detectBranch (_arch);
   i -> target = _arch -> programCounter ();
-
+  
   i -> do_memory = false;
   #ifdef __P2AC_MEM__
   if (this -> m_memReg       != 0

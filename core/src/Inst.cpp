@@ -37,6 +37,7 @@ Inst::Inst (const staticInfo &si)
   
   m_branch   = si.is_branch;
   m_test     = si.test;
+  m_crfD     = si.crfD;
   m_unknown  = si.is_unknown;
   m_link     = si.do_link;
   m_uncond   = si.is_uncond;
@@ -79,10 +80,14 @@ Inst::Inst (const Inst &inst)
   m_next     = inst.m_next;
   
   m_branch   = inst.m_branch;
+  m_test     = inst.m_test;
+  m_crfD     = inst.m_crfD;
   m_unknown  = inst.m_unknown;
   m_link     = inst.m_link;
   m_uncond   = inst.m_uncond;
-  m_target   = inst.m_target;  
+  m_target   = inst.m_target;
+
+  m_memory   = inst.m_memory;
 }
 
 // static

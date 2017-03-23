@@ -137,6 +137,8 @@ class e200z4_instruction {
     staticInfo *getStaticInfo(arch *_arch);
     virtual u32 getBI() { return 0; };
     virtual u32 getBO() { return 0; };
+    virtual u32 getcrfD() { return 0; };
+    virtual u32 getcrfS() { return 0; };
 
 	//***************************
 	// instruction Tags related methods
