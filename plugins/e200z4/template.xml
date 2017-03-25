@@ -16,12 +16,14 @@
 const int _UINT1_MAX  =           1;
 const int _UINT2_MAX  =           3;
 const int _UINT3_MAX  =           7;
-const int _UINT5_MAX  =          32;
+const int _UINT4_MAX  =          15;
+const int _UINT5_MAX  =          31;
 const int _UINT16_MAX =       65535;
 const int _UINT32_MAX =  2147483647; // not 4294967295 because of UPPAAL internal limitation...
 typedef int[0, _UINT1_MAX ] uint1_t;
 typedef int[0, _UINT2_MAX ] uint2_t;
 typedef int[0, _UINT3_MAX ] uint3_t;
+typedef int[0, _UINT4_MAX ] uint4_t;
 typedef int[0, _UINT5_MAX ] uint5_t;
 typedef int[0, _UINT16_MAX] uint16_t;
 typedef int[0, _UINT32_MAX] uint32_t;
@@ -47,11 +49,6 @@ typedef struct {
 } _Inst_t;
 const  int    _EMPTY_REGS[_REGS_MAX] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 const _Inst_t _EMPTY_INST            = { 0, 0, false, 0, false, _EMPTY_REGS, _EMPTY_REGS };
-
-typedef struct {
-  int index; // in bit field
-  int value; // when set alone
-} B_BitField_t;
 
 /* Flash: */
 
@@ -195,8 +192,8 @@ const uint5_t r8  =  8 , r9  =  9 , r10 = 10 , r11 = 11 , r12 = 12 , r13 = 13 , 
 const uint5_t r16 = 16 , r17 = 17 , r18 = 18 , r19 = 19 , r20 = 20 , r21 = 21 , r22 = 22 , r23 = 23;
 const uint5_t r24 = 24 , r25 = 25 , r26 = 26 , r27 = 27 , r28 = 28 , r29 = 29 , r30 = 30 , r31 = 31;
 
-uint3_t  _CR[8], _XER;
-sint32_t _GPRS[32];
+uint4_t  CR[8], XER;
+sint32_t GPRS[32];
 sint32_t ctr;
 
 sint32_t /* REPLACE_WITH_REGS */ _REGS;
@@ -253,198 +250,192 @@ void _Init() {
 
 /* Binary: */
 
-const B_BitField_t XER_CA = {  1,  2 /* 0b0010 */ };
-const B_BitField_t XER_OV = {  2,  4 /* 0b0100 */ };
-const B_BitField_t XER_SO = {  3,  8 /* 0b1000 */ };
+const int XER_CA = 1;
+const int XER_OV = 2;
+const int XER_SO = 3;
 
-const B_BitField_t  CR_SO = {  0,  1 /* 0b0001 */ };
-const B_BitField_t  CR_EQ = {  1,  2 /* 0b0010 */ };
-const B_BitField_t  CR_GT = {  2,  4 /* 0b0100 */ };
-const B_BitField_t  CR_LT = {  3,  8 /* 0b1000 */ };
+const int  CR_SO = 0;
+const int  CR_EQ = 1;
+const int  CR_GT = 2;
+const int  CR_LT = 3;
 
-sint32_t bitwiseNot ( sint32_t field ) { int i; for (i = 0; i &lt; 32; ++i) field ^= (1 &lt;&lt; i); return field; }
+bool     getBit  ( sint32_t  field ,             uint5_t i             ) { return (((field &gt;&gt; i) % 2) == 1); }
+sint32_t getBits ( sint32_t  field , uint5_t j , uint5_t i             ) { return ((field &gt;&gt; (32 -i)) &amp; (2^(j +1) -1)); } // TODO: check
+void     setBit  ( sint32_t &amp;field ,             uint5_t i , uint1_t b ) { field |= (b &lt;&lt; i); }
+void     setBits ( sint32_t &amp;field , uint5_t j , uint5_t i , uint1_t b ) { while (i &lt;= j) setBit (field, i++, b); } // TODO: check
 
-bool     getBit  ( sint32_t  field , uint5_t i                         ) { return (((field &gt;&gt; i) % 2) == 1); }
-sint32_t getBits ( sint32_t  field , uint5_t i , uint5_t j             ) { return ((field &gt;&gt; (32 -i)) &amp; (2^(j +1) -1)); } // TODO: check
-void     setBit  ( sint32_t &amp;field , uint5_t i ,             uint1_t b ) { field |= (b &lt;&lt; i); }
-void     setBits ( sint32_t &amp;field , uint5_t i , uint5_t j , uint1_t b ) { while (i &lt;= j) setBit (field, i++, b); } // TODO: check
+sint32_t NOT  ( sint32_t field ) { int i; for (i = 0; i &lt; 32; ++i) field ^= (1 &lt;&lt; i); return field; }
+sint32_t CLZ  ( sint32_t field ) { int n; for (n = 31; n &gt;= 0 &amp;&amp; !getBit(field, n); --n); return 32 - (n +1); }
+//sint32_t CPMT ( sint32_t field ) { return NOT(field) + 1; }
 
-void setCR  ( uint3_t crfD , uint2_t i , uint1_t b ) { _CR[crfD] = ( b ? (_CR[crfD] | (1 &lt;&lt; i)) : (_CR[crfD] &amp; bitwiseNot(1 &lt;&lt; i)) ); }
-void setXER (                uint2_t i , uint1_t b ) { _XER      = ( b ? (_XER      | (1 &lt;&lt; i)) : (_XER      &amp; bitwiseNot(1 &lt;&lt; i)) ); }
+void setCR  ( uint3_t crfD , uint2_t i , uint1_t b ) { CR[crfD] = ( b ? (CR[crfD] | (1 &lt;&lt; i)) : (CR[crfD] &amp; NOT(1 &lt;&lt; i)) ); }
+void setXER (                uint2_t i , uint1_t b ) { XER      = ( b ? (XER      | (1 &lt;&lt; i)) : (XER      &amp; NOT(1 &lt;&lt; i)) ); }
 
 bool  z () { return ((ctr -1) == 0);    }
 bool nz () { return !z();               }
 
-bool eq ( uint3_t crfD ) { return getBit(crfD, CR_EQ.index); }
-bool gt ( uint3_t crfD ) { return getBit(crfD, CR_GT.index); }
-bool lt ( uint3_t crfD ) { return getBit(crfD, CR_LT.index); }
+bool eq ( uint3_t crfD ) { return getBit(crfD, CR_EQ); }
+bool gt ( uint3_t crfD ) { return getBit(crfD, CR_GT); }
+bool lt ( uint3_t crfD ) { return getBit(crfD, CR_LT); }
 bool ne ( uint3_t crfD ) { return !eq(crfD);                 }
 bool le ( uint3_t crfD ) { return !gt(crfD);                 }
 bool ge ( uint3_t crfD ) { return !lt(crfD);                 }
 
-////////////////////////////////////////////
-// ARITHM //////////////////////////////////
-const int ARITHM_ADD               = 1;
-  const int ADD_CARRYING             = 1;
-  const int ADD_EXTENDED             = 2;
-  const int ADD_EXTENDED_MINUS_ONE   = 3;
-  const int ADD_EXTENDED_ZERO        = 4;
-  const int ADD_SHIFTED              = 5;
-const int ARITHM_MUL               = 2;
-  const int MUL_HIGH                 = 1;
-  const int MUL_LOW                  = 2;
-const int ARITHM_DIV               = 3;
-  const int DIV_SIGNED               = 1;
-  const int DIV_UNSIGNED             = 2;
-// LOGICAL /////////////////////////////////
-const int LOGICAL_AND              = 1;
-  const int AND_COMPLEMENTED         = 1;
-  const int AND_SHIFTED              = 2;
-const int LOGICAL_CNTLZW           = 2;
-const int LOGICAL_EQUIV            = 3;
-const int LOGICAL_EXTEND           = 4;
-  const int EXTEND_BYTE             = 1;
-  const int EXTEND_HALFWORD         = 2;
-const int LOGICAL_NAND             = 5;
-const int LOGICAL_NEG              = 6;
-const int LOGICAL_NOR              = 7;
-const int LOGICAL_OR               = 8;
-  const int OR_COMPLEMENTED          = 1;
-  const int OR_SHIFTED               = 2;
-const int LOGICAL_XOR              = 9;
-  const int XOR_SHIFTED              = 1;
-// COMPARE /////////////////////////////////
-  // "OR-able" qualifers:
-  const int COMPARE_LOGICAL          = 1;
-  const int COMPARE_SIGN_EXTENDED    = 2;
-  const int COMPARE_UNSIGNED         = 4;
+const int OP_ADD   =  0;
+const int OP_AND   =  1;
+const int OP_CMP   =  2;
+const int OP_CLZ   =  3;
+const int OP_DIV   =  4;
+const int OP_EQV   =  5;
+const int OP_EXT   =  6;
+const int OP_LOAD  =  7;
+const int OP_MUL   =  8;
+const int OP_NAND  =  9;
+const int OP_NEG   = 10;
+const int OP_NOR   = 11;
+const int OP_OR    = 12;
+const int OP_ROTL  = 13;
+const int OP_SHL   = 14;
+const int OP_SHR   = 15;
+const int OP_STORE = 16;
+const int OP_SUB   = 17;
+const int OP_XOR   = 18;
+
+const int ARG_NONE = 0;
+const int ARG_REG  = 1;
+const int ARG_SIMM = 2;
+const int ARG_UIMM = 3;
+
+const int QUAL_NONE             =  0;
+const int QUAL_ALEGBRAIC        =  1;
+const int QUAL_ANDMASK          =  2;
+const int QUAL_CARRY            =  3;
+const int QUAL_COMPLEMENT       =  4;
+const int QUAL_EXTEND           =  5;
+const int QUAL_EXTEND_MINUS_ONE =  6;
+const int QUAL_EXTEND_ZERO      =  7;
+const int QUAL_INDEX            =  8;
+const int QUAL_LOGICAL          =  9;
+const int QUAL_MASKINSERT       = 10;
+const int QUAL_MSB              = 11;
+const int QUAL_REVERSE          = 12;
+const int QUAL_SHIFT            = 13;
+const int QUAL_UNSIGNED         = 14;
+const int QUAL_UPDATE           = 15;
+
+const int SIZE_NONE     = 0;
+const int SIZE_BYTE     = 1; 
+const int SIZE_HALFWORD = 2;
+const int SIZE_WORD     = 4;
+
 // ROTATE //////////////////////////////////
-  const int ROTATE_AND_MASK          = 1;
-  const int ROTATE_MASK_INSERT       = 2;
-// SHIFT ///////////////////////////////////
-const int SHIFT_LEFT               = 1;
-  const int LEFT_LOGICAL             = 1;
-const int SHIFT_RIGHT              = 2;
-  const int RIGHT_ALEGBRAIC          = 1;
-  const int RIGHT_LOGICAL            = 3;
-// MEMORY //////////////////////////////////
-const int MEMORY_LOAD              = 1;
-  // "OR-able" qualifers:
-  const int LOAD_ALGEBRAIC           = 1;
-  const int LOAD_REVERSED            = 2;
-  const int LOAD_UPDATING            = 4;
-  const int LOAD_INDEXED             = 8;
-    const int LOAD_BYTE                = 1;
-    const int LOAD_HALFWORD            = 2;
-    const int LOAD_WORD                = 4;
-const int MEMORY_STORE             = 2;
-  const int STORE_REVERSED           = 1;
-  const int STORE_UPDATING           = 2;
-  const int STORE_INDEXED            = 4;
-    const int STORE_BYTE               = 1; 
-    const int STORE_HALFWORD           = 2;
-    const int STORE_WORD               = 4;
+
 // BRANCH //////////////////////////////////
-  // "OR-able" qualifers:
   const int BRANCH_UNCONDITIONALLY     = 1;
   const int BRANCH_CONDITIONALLY       = 2;
   const int BRANCH_TOCTR               = 4;
   const int BRANCH_TOLR                = 8;
 ////////////////////////////////////////////
-////////////////////////////////////////////
 
 // Arithmetic instructions:
 
-void _ARITHM( int operator, int qualifier, uint5_t rD, uint5_t rA, uint5_t rB_or_SIMM, uint1_t OE, uint1_t Rc ) {
-  if ( operator == ARITHM_ADD )
-  { if ( qualifier == 0                      ) { rD = rA +  rB_or_SIMM;                                     }
-    if ( qualifier == ADD_CARRYING           ) { rD = rA +  rB_or_SIMM;  setXER (XER_OV.index, 0); }  // TODO: 0 -&gt; ?
-    if ( qualifier == ADD_EXTENDED           ) { rD = rA +  rB_or_SIMM + getBit (_XER , XER_CA.index); }
-    if ( qualifier == ADD_EXTENDED_MINUS_ONE ) { rD = rA -  1          + getBit (_XER , XER_CA.index); }
-    if ( qualifier == ADD_EXTENDED_ZERO      ) { rD = rA               + getBit (_XER , XER_CA.index); }
-    if ( qualifier == ADD_SHIFTED            ) { rD = rA + (rB_or_SIMM &lt;&lt; 16);                              }}
+void _ARITHM( int op, int arg, int qual, uint5_t rD, uint5_t rA, uint5_t rB, sint16_t SIMM, uint1_t OE, uint1_t Rc ) {
+  uint32_t uGPRS_rA = GPRS[rA];
+  uint32_t uGPRS_rB = GPRS[rB];
 
-  if ( operator == ARITHM_MUL )
-  { if ( qualifier == MUL_HIGH               ) { rD = rA * rB_or_SIMM; }  // TODO: perform a 64-bit multiplication; store the HIGH-order 32 bits in rD
-    if ( qualifier == MUL_LOW                ) { rD = rA * rB_or_SIMM; }} // TODO: perform a 64-bit multiplication; store the LOW-order 32 bits in rD
+  uint1_t CA = getBit (XER, XER_CA);
+  if ( op == OP_ADD
+    || op == OP_SUB ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] + ( GPRS[rB] &lt;&lt;  0 )      ; }
+                                                 if ( qual == QUAL_EXTEND           ) { GPRS[rD] = GPRS[rA] + ( GPRS[rB] &lt;&lt;  0 ) + CA ; }
+                                                 if ( qual == QUAL_SHIFT            ) { GPRS[rD] = GPRS[rA] + ( GPRS[rB] &lt;&lt; 16 )      ; }
+                                                 if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] + ( GPRS[rB] &lt;&lt;  0 )      ; } }
+                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] + ( SIMM     &lt;&lt;  0 )      ; }
+                                                 if ( qual == QUAL_SHIFT            ) { GPRS[rD] = GPRS[rA] + ( SIMM     &lt;&lt; 16 )      ; } }
+                        if ( arg == ARG_NONE ) { if ( qual == QUAL_EXTEND_MINUS_ONE ) { GPRS[rD] = GPRS[rA] - ( 1        &lt;&lt;  0 ) + CA ; }
+                                                 if ( qual == QUAL_EXTEND_ZERO      ) { GPRS[rD] = GPRS[rA]                      + CA ; } }
+                                                 if ( qual &amp;  QUAL_CARRY            ) { setXER (XER_CA, 0)                            ; }   } // TODO: 0 -&gt; ?
 
-  if ( operator == ARITHM_DIV )
-  { if ( qualifier == DIV_SIGNED             ) { rD = rA / rB_or_SIMM; }  
-    if ( qualifier == DIV_UNSIGNED           ) { rD = rA / rB_or_SIMM; }} // TODO: how to perform an unsigned division?
+  if ( op == OP_DIV ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] /   GPRS[rB]              ; }  
+                                                 if ( qual == QUAL_UNSIGNED         ) { GPRS[rD] = uGPRS_rA /   uGPRS_rB              ; } } }
 
-  if ( OE ) { setXER (      XER_OV.index , 0);   // TODO: 0 -&gt; ?
-              setXER (      XER_SO.index , 0); } // TODO: 0 -&gt; ?
-  if ( Rc ) { setCR  (cr0 , CR_SO.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_EQ.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_GT.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_LT.index  , 0); } // TODO: 0 -&gt; ?
+  if ( op == OP_MUL ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] *   GPRS[rB]              ; } }   // TODO: 64-bit multiplication; store the 32 LSB in rD
+                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] *   SIMM                  ; } }   // TODO: 64-bit multiplication; store the 32 LSB in rD
+                                                 if ( qual == QUAL_MSB              ) { GPRS[rD] = GPRS[rA] *   GPRS[rB]              ; }   } // TODO: 64-bit multiplication; store the 32 MSB in rD
+
+
+  if ( OE ) { setXER (     XER_OV, 0);   // TODO: 0 -&gt; ?
+              setXER (     XER_SO, 0); } // TODO: 0 -&gt; ?
+  if ( Rc ) { setCR  (cr0,  CR_SO, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0,  CR_EQ, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0,  CR_GT, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0,  CR_LT, 0); } // TODO: 0 -&gt; ?
 }
 
-void _add      ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , rB   , false , false ); }
-void _add_     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , rB   , false , true  ); }
-void _addo     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , rB   , true  , false ); }
-void _addo_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , rB   , true  , true  ); }
-void _addc     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , rB   , false , false ); }
-void _addc_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , rB   , false , true  ); }
-void _addco    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , rB   , true  , false ); }
-void _addco_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , rB   , true  , true  ); }
-void _adde     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD ,  rA , rB   , false , false ); }
-void _adde_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD ,  rA , rB   , false , true  ); }
-void _addeo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD ,  rA , rB   , true  , false ); }
-void _addeo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD ,  rA , rB   , true  , true  ); }
-void _addi     ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , 0                      , rD ,  rA , SIMM , false , false ); }
-void _addic    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , SIMM , false , false ); }
-void _addic_   ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD ,  rA , SIMM , false , true  ); }
-void _addis    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , ADD_SHIFTED            , rD ,  rA , SIMM , false , false ); }
-void _addme    ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD ,  rA , 0    , false , false ); }
-void _addme_   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD ,  rA , 0    , false , true  ); }
-void _addmeo   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD ,  rA , 0    , true  , false ); }
-void _addmeo_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD ,  rA , 0    , true  , true  ); }
-void _addze    ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD ,  rA , 0    , false , false ); }
-void _addze_   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD ,  rA , 0    , false , true  ); }
-void _addzeo   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD ,  rA , 0    , true  , false ); }
-void _addzeo_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD ,  rA , 0    , true  , true  ); }
+void _add      ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , false ); }
+void _add_     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , true  ); }
+void _addo     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , false ); }
+void _addo_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , true  ); }
+void _addc     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_CARRY            , rD ,  rA , rB , 0    , false , false ); }
+void _addc_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_CARRY            , rD ,  rA , rB , 0    , false , true  ); }
+void _addco    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_CARRY            , rD ,  rA , rB , 0    , true  , false ); }
+void _addco_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_CARRY            , rD ,  rA , rB , 0    , true  , true  ); }
+void _adde     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , rD ,  rA , rB , 0    , false , false ); }
+void _adde_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , rD ,  rA , rB , 0    , false , true  ); }
+void _addeo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , rD ,  rA , rB , 0    , true  , false ); }
+void _addeo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , rD ,  rA , rB , 0    , true  , true  ); }
+void _addi     ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_NONE             , rD ,  rA , 0  , SIMM , false , false ); }
+void _addic    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_CARRY            , rD ,  rA , 0  , SIMM , false , false ); }
+void _addic_   ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_CARRY            , rD ,  rA , 0  , SIMM , false , true  ); }
+void _addis    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_SHIFT            , rD ,  rA , 0  , SIMM , false , false ); }
+void _addme    ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_EXTEND_MINUS_ONE , rD ,  rA , 0  , 0    , false , false ); }
+void _addme_   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD ,  rA , 0  , 0    , false , true  ); }
+void _addmeo   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD ,  rA , 0  , 0    , true  , false ); }
+void _addmeo_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD ,  rA , 0  , 0    , true  , true  ); }
+void _addze    ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , rD ,  rA , 0  , 0    , false , false ); }
+void _addze_   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , rD ,  rA , 0  , 0    , false , true  ); }
+void _addzeo   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , rD ,  rA , 0  , 0    , true  , false ); }
+void _addzeo_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , rD ,  rA , 0  , 0    , true  , true  ); }
 
-void _divw     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_DIV , DIV_SIGNED             , rD ,  rA , rB   , false , false ); }
-void _divw_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_DIV , DIV_SIGNED             , rD ,  rA , rB   , false , true  ); }
-void _divwo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_DIV , DIV_SIGNED             , rD ,  rA , rB   , true  , false ); }
-void _divwo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_DIV , DIV_SIGNED             , rD ,  rA , rB   , true  , true  ); }
-void _divwu    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_DIV , DIV_UNSIGNED           , rD ,  rA , rB   , false , false ); }
-void _divwu_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_DIV , DIV_UNSIGNED           , rD ,  rA , rB   , false , true  ); }
-void _divwuo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_DIV , DIV_UNSIGNED           , rD ,  rA , rB   , true  , false ); }
-void _divwuo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_DIV , DIV_UNSIGNED           , rD ,  rA , rB   , true  , true  ); }
+void _subf     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , rD , -rA , rB , 0    , false , false ); }
+void _subf_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , rD , -rA , rB , 0    , false , true  ); }
+void _subfo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , rD , -rA , rB , 0    , true  , false ); }
+void _subfo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , rD , -rA , rB , 0    , true  , true  ); }
+void _subfc    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_CARRY            , rD , -rA , rB , 0    , false , false ); }
+void _subfc_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_CARRY            , rD , -rA , rB , 0    , false , true  ); }
+void _subfco   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_CARRY            , rD , -rA , rB , 0    , true  , false ); }
+void _subfco_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_CARRY            , rD , -rA , rB , 0    , true  , true  ); }
+void _subfe    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , rD , -rA , rB , 0    , false , false ); }
+void _subfe_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , rD , -rA , rB , 0    , false , true  ); }
+void _subfeo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , rD , -rA , rB , 0    , true  , false ); }
+void _subfeo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , rD , -rA , rB , 0    , true  , true  ); }
+void _subfic   ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_SUB , ARG_SIMM , QUAL_CARRY            , rD , -rA , 0  , SIMM , false , false ); }
+void _subfme   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD , -rA , 0  , 0    , false , false ); }
+void _subfme_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD , -rA , 0  , 0    , false , true  ); }
+void _subfmeo  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD , -rA , 0  , 0    , true  , false ); }
+void _subfmeo_ ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD , -rA , 0  , 0    , true  , true  ); }
+void _subfze   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , rD , -rA , 0  , 0    , false , false ); }
+void _subfze_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , rD , -rA , 0  , 0    , false , true  ); }
+void _subfzeo  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , rD , -rA , 0  , 0    , true  , false ); }
+void _subfzeo_ ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , rD , -rA , 0  , 0    , true  , true  ); }
 
-void _mulhw    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_MUL , MUL_HIGH               , rD ,  rA , rB   , false , false ); }
-void _mulhw_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_MUL , MUL_HIGH               , rD ,  rA , rB   , false , true  ); }
-void _mulhwu   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_MUL , MUL_HIGH               , rD ,  rA , rB   , false , false ); }
-void _mulhwu_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_MUL , MUL_HIGH               , rD ,  rA , rB   , false , true  ); }
-void _mullw    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , rB   , false , false ); }
-void _mullw_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , rB   , false , true  ); }
-void _mullwo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , rB   , true  , false ); }
-void _mullwo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , rB   , true  , true  ); }
-void _mulli    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( ARITHM_MUL , MUL_LOW                , rD ,  rA , SIMM , false , false ); }
+void _divw     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , false ); }
+void _divw_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , true  ); }
+void _divwo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , false ); }
+void _divwo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , true  ); }
+void _divwu    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , rD ,  rA , rB , 0    , false , false ); }
+void _divwu_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , rD ,  rA , rB , 0    , false , true  ); }
+void _divwuo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , rD ,  rA , rB , 0    , true  , false ); }
+void _divwuo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , rD ,  rA , rB , 0    , true  , true  ); }
 
-void _subf     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD , -rA , rB   , false , false ); }
-void _subf_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD , -rA , rB   , false , true  ); }
-void _subfo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD , -rA , rB   , true  , false ); }
-void _subfo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , 0                      , rD , -rA , rB   , true  , true  ); }
-void _subfc    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , rB   , false , false ); }
-void _subfc_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , rB   , false , true  ); }
-void _subfco   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , rB   , true  , false ); }
-void _subfco_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , rB   , true  , true  ); }
-void _subfe    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD , -rA , rB   , false , false ); }
-void _subfe_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD , -rA , rB   , false , true  ); }
-void _subfeo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD , -rA , rB   , true  , false ); }
-void _subfeo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED           , rD , -rA , rB   , true  , true  ); }
-void _subfic   ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( ARITHM_ADD , ADD_CARRYING           , rD , -rA , SIMM , false , false ); }
-void _subfme   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD , -rA , 0    , false , false ); }
-void _subfme_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD , -rA , 0    , false , true  ); }
-void _subfmeo  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD , -rA , 0    , true  , false ); }
-void _subfmeo_ ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_MINUS_ONE , rD , -rA , 0    , true  , true  ); }
-void _subfze   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD , -rA , 0    , false , false ); }
-void _subfze_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD , -rA , 0    , false , true  ); }
-void _subfzeo  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD , -rA , 0    , true  , false ); }
-void _subfzeo_ ( uint5_t rD , uint5_t rA                  ) { _ARITHM( ARITHM_ADD , ADD_EXTENDED_ZERO      , rD , -rA , 0    , true  , true  ); }
+void _mullw    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , false ); }
+void _mullw_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , true  ); }
+void _mullwo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , false ); }
+void _mullwo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , true  ); }
+void _mulli    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_MUL , ARG_SIMM , QUAL_NONE             , rD ,  rA , 0  , SIMM , false , false ); }
+void _mulhw    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , rD ,  rA , rB , 0    , false , false ); }
+void _mulhw_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , rD ,  rA , rB , 0    , false , true  ); }
+void _mulhwu   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , rD ,  rA , rB , 0    , false , false ); }
+void _mulhwu_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , rD ,  rA , rB , 0    , false , true  ); }
 
 void _li       ( uint5_t rD ,               sint16_t SIMM ) { _addi    ( rD,  0,  SIMM ); }
 void _lis      ( uint5_t rD ,               sint16_t SIMM ) { _addis   ( rD,  0,  SIMM ); }
@@ -464,29 +455,31 @@ void _subic_   ( uint5_t rD , uint5_t  rA , sint16_t SIMM ) { _addic_  ( rD, rA,
 
 // Compare instructions:
 
-sint32_t EXTS ( sint32_t x ) { return 0; } // TODO: how to perform a sign extension?
+sint32_t EXTS ( sint32_t x ) { return x; } // TODO: how to perform a sign extension?
 
-void _COMPARE( int qualifier, uint3_t crfD, uint1_t L, uint5_t rA, uint5_t rB_or_IMM ) {
-  int a = rA;
-  int b = rB_or_IMM;
-  int c;
+void _COMPARE( int op, int arg, int qual, uint3_t crfD, uint5_t rA, uint5_t rB, sint32_t IMM ) {
+  sint16_t SIMM = IMM;
+  uint16_t UIMM = IMM;
 
-  if ( qualifier == 0                                      ) { if ( L ) { a = EXTS(a); b = EXTS(b); } }
-  if ( qualifier == ( COMPARE_SIGN_EXTENDED              ) ) {                         b = EXTS(b);   }
-  if ( qualifier == ( COMPARE_LOGICAL                    ) ) {                                        } // TODO: how to perform an unsigned evaluation?
-  if ( qualifier == ( COMPARE_LOGICAL | COMPARE_UNSIGNED ) ) {                                        } // TODO: how to perform an unsigned evaluation?
+  sint32_t a;
+  sint32_t b;
+  uint4_t  c;
+  if ( op == OP_CMP ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE    ) { a = GPRS[rA]; b =     ( GPRS[rB] ); }
+                                                 if ( qual == QUAL_LOGICAL ) { a = GPRS[rA]; b =     ( GPRS[rB] ); } }   // TODO: how to perform an unsigned evaluation?
+                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE    ) { a = GPRS[rA]; b = EXTS( SIMM     ); } }
+                        if ( arg == ARG_UIMM ) { if ( qual == QUAL_LOGICAL ) { a = GPRS[rA]; b =     ( UIMM     ); } } } // TODO: how to perform an unsigned evaluation?
 
-       if ( a &lt; b ) { c = CR_LT.value; }
-  else if ( a &gt; b ) { c = CR_GT.value; }
-  else              { c = CR_EQ.value; }
+       if ( a &lt; b ) { c = (1 &lt;&lt; CR_LT); }
+  else if ( a &gt; b ) { c = (1 &lt;&lt; CR_GT); }
+  else              { c = (1 &lt;&lt; CR_EQ); }
 
-  crfD = c | getBit(_XER, XER_SO.index); // TODO: crfD -&gt; CR[4 ∗ crfD–4 ∗ crfD + 3]
+  CR[crfD] = c | getBit(XER, XER_SO);
 }
 
-void _cmp    ( uint3_t crfD , uint5_t rA , uint5_t  rB   ) { _COMPARE( 0                                  , crfD , false , rA , rB   ); }
-void _cmpi   ( uint3_t crfD , uint5_t rA , sint16_t SIMM ) { _COMPARE( COMPARE_SIGN_EXTENDED              , crfD , false , rA , SIMM ); }
-void _cmpl   ( uint3_t crfD , uint5_t rA , uint5_t  rB   ) { _COMPARE( COMPARE_LOGICAL                    , crfD , false , rA , rB   ); }
-void _cmpli  ( uint3_t crfD , uint5_t rA , uint16_t UIMM ) { _COMPARE( COMPARE_LOGICAL | COMPARE_UNSIGNED , crfD , false , rA , UIMM ); }
+void _cmp    ( uint3_t crfD , uint5_t rA , uint5_t  rB   ) { _COMPARE( OP_CMP , ARG_REG  , QUAL_NONE    , crfD , rA , rB , 0    ); }
+void _cmpl   ( uint3_t crfD , uint5_t rA , uint5_t  rB   ) { _COMPARE( OP_CMP , ARG_REG  , QUAL_LOGICAL , crfD , rA , rB , 0    ); }
+void _cmpi   ( uint3_t crfD , uint5_t rA , sint16_t SIMM ) { _COMPARE( OP_CMP , ARG_SIMM , QUAL_NONE    , crfD , rA , 0  , SIMM ); }
+void _cmpli  ( uint3_t crfD , uint5_t rA , uint16_t UIMM ) { _COMPARE( OP_CMP , ARG_UIMM , QUAL_LOGICAL , crfD , rA , 0  , UIMM ); }
 
 void _cmpw   ( uint3_t crfD , uint5_t rA , uint5_t  rB   ) { _cmp   ( crfD, rA, rB   ); }
 void _cmpwi  ( uint3_t crfD , uint5_t rA , sint16_t SIMM ) { _cmpi  ( crfD, rA, SIMM ); }
@@ -495,111 +488,107 @@ void _cmplwi ( uint3_t crfD , uint5_t rA , uint16_t UIMM ) { _cmpli ( crfD, rA, 
 
 // Logical instructions:
 
-void _LOGICAL( int operator, int qualifier, uint5_t rA_or_rD, uint5_t rS_or_rA, uint5_t rB_or_UIMM, uint1_t OE, uint1_t Rc ) {
-  uint5_t n;
+void _LOGICAL( int op, int arg, int qual, int size, uint5_t rA, uint5_t rS, uint5_t rB, uint16_t UIMM, uint1_t OE, uint1_t Rc ) {
 
-  if ( operator  == LOGICAL_AND        )
-  { if ( qualifier == 0                ) { rA_or_rD =  rS_or_rA &amp;  rB_or_UIMM;        }
-    if ( qualifier == AND_COMPLEMENTED ) { rA_or_rD =  rS_or_rA &amp; -rB_or_UIMM;        }  // TODO: check if -rB == complement(rB)
-    if ( qualifier == AND_SHIFTED      ) { rA_or_rD =  rS_or_rA &amp; (rB_or_UIMM &lt;&lt; 16); }}
+  uint5_t n        = 31;
+  uint5_t sign_bit = (size == SIZE_BYTE ? 7 : 15);
+  uint1_t S        = getBit (GPRS[rS], sign_bit);
+  if ( op == OP_AND  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] &amp;    ( GPRS[rB] &lt;&lt;  0 ) ); }
+                                                  if ( qual == QUAL_COMPLEMENT ) { GPRS[rA] =    ( GPRS[rS] &amp; NOT( GPRS[rB] &lt;&lt;  0 ) ); } }
+                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] &amp;    ( UIMM     &lt;&lt;  0 ) ); }
+                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( GPRS[rS] &amp;    ( UIMM     &lt;&lt; 16 ) ); } } }
+  if ( op == OP_CLZ  ) { if ( arg == ARG_NONE ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = CLZ( GPRS[rS]                         ); } } }
+  if ( op == OP_EQV  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( GPRS[rS] ^    ( GPRS[rB] &lt;&lt;  0 ) ); } } }
+  if ( op == OP_EXT  ) { if ( arg == ARG_NONE ) { if ( size == SIZE_BYTE       ) { GPRS[rA] =    ( GPRS[rS] &amp;    (   255    &lt;&lt;  0 ) ); }
+                                                  if ( size == SIZE_HALFWORD   ) { GPRS[rA] =    ( GPRS[rS] &amp;    ( 65535    &lt;&lt;  0 ) ); }
+                                                  setBits (GPRS[rA], 31, sign_bit, S)                                                ;   } }
 
-  if ( operator  == LOGICAL_CNTLZW     ) { for (n = 31; n &gt;= 0 &amp;&amp; !getBit(rS_or_rA, n); --n);
-                                           rA_or_rD = 32 - (n +1);               }
-  if ( operator  == LOGICAL_EQUIV      ) { rA_or_rD = -(rS_or_rA ^  rB_or_UIMM); } // TODO: check if -X == complement(X)
-  if ( operator  == LOGICAL_EXTEND     )
-  { if ( qualifier == EXTEND_BYTE      ) { rA_or_rD = rS_or_rA &amp;   127; setBits (rA_or_rD,  7, 31, getBit (rS_or_rA,  7)); }
-    if ( qualifier == EXTEND_HALFWORD  ) { rA_or_rD = rS_or_rA &amp; 32767; setBits (rA_or_rD, 15, 31, getBit (rS_or_rA, 15)); }}
+  if ( op == OP_NAND ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( GPRS[rS] &amp;    ( GPRS[rB] &lt;&lt;  0 ) ); } } }
+  if ( op == OP_NEG  ) { if ( arg == ARG_NONE ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( GPRS[rS]                         ); } } }
+  if ( op == OP_NOR  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( GPRS[rS] |    ( GPRS[rB] &lt;&lt;  0 ) ); } } }
+  if ( op == OP_OR   ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] |    ( GPRS[rB] &lt;&lt;  0 ) ); }
+                                                  if ( qual == QUAL_COMPLEMENT ) { GPRS[rA] =    ( GPRS[rS] | NOT( GPRS[rB] &lt;&lt;  0 ) ); } }
+                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] |    ( UIMM     &lt;&lt;  0 ) ); } }
+                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( GPRS[rS] |    ( GPRS[rB] &lt;&lt; 16 ) ); }   }
+  if ( op == OP_XOR  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] ^    ( GPRS[rB] &lt;&lt;  0 ) ); } }
+                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] ^    ( GPRS[rB] &lt;&lt;  0 ) ); }
+                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( GPRS[rS] ^    ( GPRS[rB] &lt;&lt; 16 ) ); } } }
 
-  if ( operator  == LOGICAL_NAND       ) { rA_or_rD = -rS_or_rA | -rB_or_UIMM;  } // TODO: check if -rS | -rB == rS NAND rB
-  if ( operator  == LOGICAL_NEG        ) { rA_or_rD = -rS_or_rA;                } // TODO: check if -rA == bitwiseNot(rA)
-  if ( operator  == LOGICAL_NOR        ) { rA_or_rD = -rS_or_rA &amp; -rB_or_UIMM;  } // TODO: check if -rS &amp; -rB == rS NOR rB
-  if ( operator  == LOGICAL_OR         )
-  { if ( qualifier == 0                ) { rA_or_rD = rS_or_rA |  rB_or_UIMM;        }
-    if ( qualifier == OR_COMPLEMENTED  ) { rA_or_rD = rS_or_rA | -rB_or_UIMM;        }  // TODO: check if -X == complement(X)
-    if ( qualifier == OR_SHIFTED       ) { rA_or_rD = rS_or_rA | (rB_or_UIMM &lt;&lt; 16); }}
-
-  if ( operator  == LOGICAL_XOR        )
-  { if ( qualifier == 0                ) { rA_or_rD = rS_or_rA ^  rB_or_UIMM;        }
-    if ( qualifier == XOR_SHIFTED      ) { rA_or_rD = rS_or_rA ^ (rB_or_UIMM &lt;&lt; 16); }} 
-
-  if ( OE ) { setXER (      XER_OV.index , 0);   // TODO: 0 -&gt; ?
-              setXER (      XER_SO.index , 0); } // TODO: 0 -&gt; ?
-  if ( Rc ) { setCR  (cr0 , CR_SO.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_EQ.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_GT.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_LT.index  , 0); } // TODO: 0 -&gt; ?
+  if ( OE ) { setXER (     XER_OV, 0);   // TODO: 0 -&gt; ?
+              setXER (     XER_SO, 0); } // TODO: 0 -&gt; ?
+  if ( Rc ) { setCR  (cr0,  CR_SO, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0,  CR_EQ, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0,  CR_GT, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0,  CR_LT, 0); } // TODO: 0 -&gt; ?
 }
 
-void _and     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_AND  , 0                 , rA , rS , rB   , false , false ); }
-void _and_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_AND  , 0                 , rA , rS , rB   , false , true  ); }
-void _andc    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_AND  , AND_COMPLEMENTED  , rA , rS , rB   , false , false ); }
-void _andc_   ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_AND  , AND_COMPLEMENTED  , rA , rS , rB   , false , true  ); }
-void _andi_   ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( LOGICAL_AND  , 0                 , rA , rS , UIMM , false , true  ); }
-void _andis_  ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( LOGICAL_AND  , AND_SHIFTED       , rA , rS , UIMM , false , true  ); }
+void _and     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_AND  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
+void _and_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_AND  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , true  ); }
+void _andc    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_AND  , ARG_REG  , QUAL_COMPLEMENT , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
+void _andc_   ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_AND  , ARG_REG  , QUAL_COMPLEMENT , SIZE_NONE     , rA , rS , rB , 0    , false , true  ); }
+void _andi_   ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( OP_AND  , ARG_UIMM , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , UIMM , false , true  ); }
+void _andis_  ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( OP_AND  , ARG_UIMM , QUAL_SHIFT      , SIZE_NONE     , rA , rS , 0  , UIMM , false , true  ); }
 
-void _cntlzw  ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( LOGICAL_CNTLZW , 0               , rA , rS , 0    , false , false ); }
-void _cntlzw_ ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( LOGICAL_CNTLZW , 0               , rA , rS , 0    , false , true  ); }
-void _eqv     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_EQUIV  , 0               , rA , rS , rB   , false , false ); }
-void _eqv_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_EQUIV  , 0               , rA , rS , rB   , false , true  ); }
-void _extsb   ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( LOGICAL_EXTEND , EXTEND_BYTE     , rA , rS , 0    , false , false ); }
-void _extsb_  ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( LOGICAL_EXTEND , EXTEND_BYTE     , rA , rS , 0    , false , true  ); }
-void _extsh   ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( LOGICAL_EXTEND , EXTEND_HALFWORD , rA , rS , 0    , false , false ); }
-void _extsh_  ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( LOGICAL_EXTEND , EXTEND_HALFWORD , rA , rS , 0    , false , true  ); }
+void _cntlzw  ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_CLZ  , ARG_NONE , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , 0    , false , false ); }
+void _cntlzw_ ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_CLZ  , ARG_NONE , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , 0    , false , true  ); }
+void _eqv     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_EQV  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
+void _eqv_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_EQV  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , true  ); }
+void _extsb   ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_EXT  , ARG_NONE , QUAL_NONE       , SIZE_BYTE     , rA , rS , 0  , 0    , false , false ); }
+void _extsb_  ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_EXT  , ARG_NONE , QUAL_NONE       , SIZE_BYTE     , rA , rS , 0  , 0    , false , true  ); }
+void _extsh   ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_EXT  , ARG_NONE , QUAL_NONE       , SIZE_HALFWORD , rA , rS , 0  , 0    , false , false ); }
+void _extsh_  ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_EXT  , ARG_NONE , QUAL_NONE       , SIZE_HALFWORD , rA , rS , 0  , 0    , false , true  ); }
 
-void _nand    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_NAND , 0                 , rA , rS , rB   , false , false ); }
-void _nand_   ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_NAND , 0                 , rA , rS , rB   , false , true  ); }
+void _nand    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_NAND , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
+void _nand_   ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_NAND , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , true  ); }
+void _neg     ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_NEG  , ARG_NONE , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , 0    , false , false ); }
+void _neg_    ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_NEG  , ARG_NONE , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , 0    , false , true  ); }
+void _nego    ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_NEG  , ARG_NONE , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , 0    , true  , false ); }
+void _nego_   ( uint5_t rA , uint5_t rS                 ) { _LOGICAL( OP_NEG  , ARG_NONE , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , 0    , true  , true  ); }
+void _nor     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_NOR  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
+void _nor_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_NOR  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , true  ); }
 
-void _neg     ( uint5_t rD , uint5_t rA                 ) { _LOGICAL( LOGICAL_NEG  , 0                 , rD , rA , 0    , false , false ); }
-void _neg_    ( uint5_t rD , uint5_t rA                 ) { _LOGICAL( LOGICAL_NEG  , 0                 , rD , rA , 0    , false , true  ); }
-void _nego    ( uint5_t rD , uint5_t rA                 ) { _LOGICAL( LOGICAL_NEG  , 0                 , rD , rA , 0    , true  , false ); }
-void _nego_   ( uint5_t rD , uint5_t rA                 ) { _LOGICAL( LOGICAL_NEG  , 0                 , rD , rA , 0    , true  , true  ); }
-
-void _nor     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_NOR  , 0                 , rA , rS , rB   , false , false ); }
-void _nor_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_NOR  , 0                 , rA , rS , rB   , false , true  ); }
-
-void _or      ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_OR   , 0                 , rA , rS , rB   , false , false ); }
-void _or_     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_OR   , 0                 , rA , rS , rB   , false , true  ); }
-void _orc     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_OR   , OR_COMPLEMENTED   , rA , rS , rB   , false , false ); }
-void _orc_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_OR   , OR_COMPLEMENTED   , rA , rS , rB   , false , true  ); }
-void _ori     ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( LOGICAL_OR   , 0                 , rA , rS , UIMM , false , false ); }
-void _oris    ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( LOGICAL_OR   , OR_SHIFTED        , rA , rS , UIMM , false , false ); }
-
-void _xor     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_XOR  , 0                 , rA , rS , rB   , false , false ); }
-void _xor_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( LOGICAL_XOR  , 0                 , rA , rS , rB   , false , true  ); }
-void _xori    ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( LOGICAL_XOR  , 0                 , rA , rS , UIMM , false , false ); }
-void _xoris   ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( LOGICAL_XOR  , XOR_SHIFTED       , rA , rS , UIMM , false , false ); }
+void _or      ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_OR   , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
+void _or_     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_OR   , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , true  ); }
+void _orc     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_OR   , ARG_REG  , QUAL_COMPLEMENT , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
+void _orc_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_OR   , ARG_REG  , QUAL_COMPLEMENT , SIZE_NONE     , rA , rS , rB , 0    , false , true  ); }
+void _ori     ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( OP_OR   , ARG_UIMM , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , UIMM , false , false ); }
+void _oris    ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( OP_OR   , ARG_UIMM , QUAL_SHIFT      , SIZE_NONE     , rA , rS , 0  , UIMM , false , false ); }
+void _xor     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_XOR  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
+void _xor_    ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_XOR  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , true  ); }
+void _xori    ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( OP_XOR  , ARG_UIMM , QUAL_NONE       , SIZE_NONE     , rA , rS , 0  , UIMM , false , false ); }
+void _xoris   ( uint5_t rA , uint5_t rS , uint16_t UIMM ) { _LOGICAL( OP_XOR  , ARG_UIMM , QUAL_SHIFT      , SIZE_NONE     , rA , rS , 0  , UIMM , false , false ); }
 
 void _not     ( uint5_t rA , uint5_t rS                 ) { _nor  ( rA, rS, rS ); }
 void _not_    ( uint5_t rA , uint5_t rS                 ) { _nor_ ( rA, rS, rS ); }
 void _mr      ( uint5_t rA , uint5_t rS                 ) { _or   ( rA, rS, rS ); }
 void _mr_     ( uint5_t rA , uint5_t rS                 ) { _or_  ( rA, rS, rS ); }
-void _nop     (                                         ) { /*   "ori 0,0,0"   */ }
+void _nop     (                                         ) { _ori  (  0,  0,  0 ); }
 
 // Rotate instructions:
 
-sint32_t ROTL ( sint32_t x , sint32_t y ) { return 0; } // TODO: implement according to the semantics given in the specs
-sint32_t MASK ( uint5_t  x , uint5_t  y ) { return 0; } // TODO: implement according to the semantics given in the specs
+sint32_t ROTL ( sint32_t x , sint32_t y ) { return 0; } // TODO: implement
+sint32_t MASK ( uint5_t  x , uint5_t  y ) { return 0; } // TODO: implement
 
-void _ROTATE( int qualifier, uint5_t rA, uint5_t rS, uint5_t SH_or_rB, uint5_t MB, uint5_t ME, uint1_t Rc ) {
-  uint5_t  n = getBits (SH_or_rB, 0, 4);
-  sint32_t r = ROTL (rS, n);
+void _ROTATE( int op, int arg, int qual, uint5_t rA, uint5_t rS, uint5_t rB, uint5_t SH, uint5_t MB, uint5_t ME, uint1_t Rc ) {
+
+  uint5_t  n = ( arg == ARG_REG ? getBits (GPRS[rB], 4, 0) : SH );
+  sint32_t r = ROTL (GPRS[rS], n);
   sint32_t m = MASK (MB, ME);
+  if ( op == OP_ROTL ) { if ( qual == QUAL_ANDMASK    ) { GPRS[rA] = (r &amp; m)                 ; }
+                         if ( qual == QUAL_MASKINSERT ) { GPRS[rA] = (r &amp; m) | ( rA &amp; NOT(m)); } } // TODO: check semantics
 
-  if ( qualifier == ROTATE_AND_MASK    ) { rA =  r &amp; m;               }
-  if ( qualifier == ROTATE_MASK_INSERT ) { rA = (r &amp; m) | ( rA &amp; -m); } // TODO: check if -m == bitwiseNot(m)
-
-  if ( Rc ) { setCR  (cr0 , CR_SO.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_EQ.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_GT.index  , 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0 , CR_LT.index  , 0); } // TODO: 0 -&gt; ?
+  if ( Rc ) { setCR  (cr0, CR_SO, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0, CR_EQ, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0, CR_GT, 0);   // TODO: 0 -&gt; ?
+              setCR  (cr0, CR_LT, 0); } // TODO: 0 -&gt; ?
 }
 
-void _rlwimi    ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_MASK_INSERT , rA , rS , SH , MB , ME , false ); }
-void _rlwimi_   ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_MASK_INSERT , rA , rS , SH , MB , ME , true  ); }
-void _rlwinm    ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_AND_MASK    , rA , rS , SH , MB , ME , false ); }
-void _rlwinm_   ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_AND_MASK    , rA , rS , SH , MB , ME , true  ); }
-void _rlwnm     ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_AND_MASK    , rA , rS , rB , MB , ME , false ); }
-void _rlwnm_    ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( ROTATE_AND_MASK    , rA , rS , rB , MB , ME , true  ); }
+void _rlwnm     ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_REG  , QUAL_ANDMASK    , rA , rS , rB , 0  , MB , ME , false ); }
+void _rlwnm_    ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_REG  , QUAL_ANDMASK    , rA , rS , rB , 0  , MB , ME , true  ); }
+void _rlwimi    ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_MASKINSERT , rA , rS , 0  , SH , MB , ME , false ); }
+void _rlwimi_   ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_MASKINSERT , rA , rS , 0  , SH , MB , ME , true  ); }
+void _rlwinm    ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_ANDMASK    , rA , rS , 0  , SH , MB , ME , false ); }
+void _rlwinm_   ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_ANDMASK    , rA , rS , 0  , SH , MB , ME , true  ); }
 
 void _inslwi    ( uint5_t rA , uint5_t rS , uint5_t n  , uint5_t b ) { _rlwimi  ( rA , rS , 32 - (b + 0) ,  b + 0 , (b +  n) - 1 ); } // (n &gt; 0)
 void _inslwi_   ( uint5_t rA , uint5_t rS , uint5_t n  , uint5_t b ) { _rlwimi_ ( rA , rS , 32 - (b + 0) ,  b + 0 , (b +  n) - 1 ); } // (n &gt; 0)
@@ -643,12 +632,12 @@ void _SHIFT( int operator, int qualifier, uint5_t rA, uint5_t rS, uint5_t rB_or_
   if ( qualifier == RIGHT_ALEGBRAIC )
   { setBits (tmp , 0, 31, S);
     rA |= tmp &amp; -m;
-    setBit (_XER , XER_CA.index , (S &amp; ((r &amp; -m) == 0))); } // TODO: check if -m == bitwiseNot(m)
+    setBit (XER, XER_CA, (S &amp; ((r &amp; -m) == 0))); } // TODO: check if -m == bitwiseNot(m)
 
-  if ( Rc ) { setCR (cr0, CR_SO.index, 0);   // TODO: 0 -&gt; ?
-              setCR (cr0, CR_EQ.index, 0);   // TODO: 0 -&gt; ?
-              setCR (cr0, CR_GT.index, 0);   // TODO: 0 -&gt; ?
-              setCR (cr0, CR_LT.index, 0); } // TODO: 0 -&gt; ?
+  if ( Rc ) { setCR (cr0, CR_SO, 0);   // TODO: 0 -&gt; ?
+              setCR (cr0, CR_EQ, 0);   // TODO: 0 -&gt; ?
+              setCR (cr0, CR_GT, 0);   // TODO: 0 -&gt; ?
+              setCR (cr0, CR_LT, 0); } // TODO: 0 -&gt; ?
 }
 
 void _slw    ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( SHIFT_LEFT  , LEFT_LOGICAL    , rA , rS , rB, false ); }
@@ -779,165 +768,165 @@ void _bcctrl   ( uint5_t BO , uint5_t BI                        ) { _BRANCH( BRA
 void _bclr     ( uint5_t BO , uint5_t BI                        ) { _BRANCH( BRANCH_CONDITIONALLY   | BRANCH_TOLR  , BO , BI , 0           , false , false ); }
 void _bclrl    ( uint5_t BO , uint5_t BI                        ) { _BRANCH( BRANCH_CONDITIONALLY   | BRANCH_TOLR  , BO , BI , 0           , false , true  ); }
 
-void _bt       ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , 0           , target_addr ); }
-void _bf       ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 0           , target_addr ); }
-void _bdnz     ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_not_ctr_________ , 0           , target_addr ); }
-void _bdnzt    ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_not_ctr_____cond , 0           , target_addr ); }
-void _bdnzf    ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_not_ctr_not_cond , 0           , target_addr ); }
-void _bdz      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____ctr_________ , 0           , target_addr ); }
-void _bdzt     ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____ctr_____cond , 0           , target_addr ); }
-void _bdzf     ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____ctr_not_cond , 0           , target_addr ); }
-void _blt      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , CR_LT.index , target_addr ); }
-void _ble      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , CR_GT.index , target_addr ); }
-void _beq      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , CR_EQ.index , target_addr ); }
-void _bge      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , CR_LT.index , target_addr ); }
-void _bgt      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , CR_GT.index , target_addr ); }
-void _bnl      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , CR_LT.index , target_addr ); }
-void _bne      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , CR_EQ.index , target_addr ); }
-void _bng      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , CR_GT.index , target_addr ); }
-void _bso      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , CR_SO.index , target_addr ); }
-void _bns      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , CR_SO.index , target_addr ); }
-void _bun      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , CR_SO.index , target_addr ); }
-void _bnu      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , CR_SO.index , target_addr ); }
+void _bt       ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , 4 * crfD + 0            , target_addr ); }
+void _bf       ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + 0            , target_addr ); }
+void _bdnz     ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_not_ctr_________ , 4 * crfD + 0            , target_addr ); }
+void _bdnzt    ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_not_ctr_____cond , 4 * crfD + 0            , target_addr ); }
+void _bdnzf    ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_not_ctr_not_cond , 4 * crfD + 0            , target_addr ); }
+void _bdz      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____ctr_________ , 4 * crfD + 0            , target_addr ); }
+void _bdzt     ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____ctr_____cond , 4 * crfD + 0            , target_addr ); }
+void _bdzf     ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____ctr_not_cond , 4 * crfD + 0            , target_addr ); }
+void _blt      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _ble      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _beq      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_EQ) , target_addr ); }
+void _bge      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _bgt      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _bnl      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _bne      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_EQ) , target_addr ); }
+void _bng      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _bso      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bns      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bun      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bnu      ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
 
-void _bta      ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , 0           , target_addr ); }
-void _bfa      ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 0           , target_addr ); }
-void _bdnza    ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_not_ctr_________ , 0           , target_addr ); }
-void _bdnzta   ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_not_ctr_____cond , 0           , target_addr ); }
-void _bdnzfa   ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_not_ctr_not_cond , 0           , target_addr ); }
-void _bdza     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____ctr_________ , 0           , target_addr ); }
-void _bdzta    ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____ctr_____cond , 0           , target_addr ); }
-void _bdzfa    ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____ctr_not_cond , 0           , target_addr ); }
-void _blta     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , CR_LT.index , target_addr ); }
-void _blea     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , CR_GT.index , target_addr ); }
-void _beqa     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , CR_EQ.index , target_addr ); }
-void _bgea     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , CR_LT.index , target_addr ); }
-void _bgta     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , CR_GT.index , target_addr ); }
-void _bnla     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , CR_LT.index , target_addr ); }
-void _bnea     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , CR_EQ.index , target_addr ); }
-void _bnga     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , CR_GT.index , target_addr ); }
-void _bsoa     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , CR_SO.index , target_addr ); }
-void _bnsa     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , CR_SO.index , target_addr ); }
-void _buna     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , CR_SO.index , target_addr ); }
-void _bnua     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , CR_SO.index , target_addr ); }
+void _bta      ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , 4 * crfD + 0            , target_addr ); }
+void _bfa      ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 4 * crfD + 0            , target_addr ); }
+void _bdnza    ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_not_ctr_________ , 4 * crfD + 0            , target_addr ); }
+void _bdnzta   ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_not_ctr_____cond , 4 * crfD + 0            , target_addr ); }
+void _bdnzfa   ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_not_ctr_not_cond , 4 * crfD + 0            , target_addr ); }
+void _bdza     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____ctr_________ , 4 * crfD + 0            , target_addr ); }
+void _bdzta    ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____ctr_____cond , 4 * crfD + 0            , target_addr ); }
+void _bdzfa    ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____ctr_not_cond , 4 * crfD + 0            , target_addr ); }
+void _blta     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _blea     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _beqa     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_EQ) , target_addr ); }
+void _bgea     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _bgta     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _bnla     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _bnea     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_EQ) , target_addr ); }
+void _bnga     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _bsoa     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bnsa     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _buna     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bnua     ( uint3_t crfD , sint32_t target_addr ) { _bca    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
 
-void _btl      ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , 0           , target_addr ); }
-void _bfl      ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 0           , target_addr ); }
-void _bdnzl    ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_not_ctr_________ , 0           , target_addr ); }
-void _bdnztl   ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_not_ctr_____cond , 0           , target_addr ); }
-void _bdnzfl   ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_not_ctr_not_cond , 0           , target_addr ); }
-void _bdzl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____ctr_________ , 0           , target_addr ); }
-void _bdztl    ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____ctr_____cond , 0           , target_addr ); }
-void _bdzfl    ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____ctr_not_cond , 0           , target_addr ); }
-void _bltl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , CR_LT.index , target_addr ); }
-void _blel     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , CR_GT.index , target_addr ); }
-void _beql     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , CR_EQ.index , target_addr ); }
-void _bgel     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , CR_LT.index , target_addr ); }
-void _bgtl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , CR_GT.index , target_addr ); }
-void _bnll     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , CR_LT.index , target_addr ); }
-void _bnel     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , CR_EQ.index , target_addr ); }
-void _bngl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , CR_GT.index , target_addr ); }
-void _bsol     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , CR_SO.index , target_addr ); }
-void _bnsl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , CR_SO.index , target_addr ); }
-void _bunl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , CR_SO.index , target_addr ); }
-void _bnul     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , CR_SO.index , target_addr ); }
+void _btl      ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , 4 * crfD + 0            , target_addr ); }
+void _bfl      ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 4 * crfD + 0            , target_addr ); }
+void _bdnzl    ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_not_ctr_________ , 4 * crfD + 0            , target_addr ); }
+void _bdnztl   ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_not_ctr_____cond , 4 * crfD + 0            , target_addr ); }
+void _bdnzfl   ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_not_ctr_not_cond , 4 * crfD + 0            , target_addr ); }
+void _bdzl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____ctr_________ , 4 * crfD + 0            , target_addr ); }
+void _bdztl    ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____ctr_____cond , 4 * crfD + 0            , target_addr ); }
+void _bdzfl    ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____ctr_not_cond , 4 * crfD + 0            , target_addr ); }
+void _bltl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _blel     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _beql     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_EQ) , target_addr ); }
+void _bgel     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _bgtl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _bnll     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _bnel     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_EQ) , target_addr ); }
+void _bngl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _bsol     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bnsl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bunl     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bnul     ( uint3_t crfD , sint32_t target_addr ) { _bcl    ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
 
-void _btla     ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , 0           , target_addr ); }
-void _bfla     ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 0           , target_addr ); }
-void _bdnzla   ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_not_ctr_________ , 0           , target_addr ); }
-void _bdnztla  ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_not_ctr_____cond , 0           , target_addr ); }
-void _bdnzfla  ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_not_ctr_not_cond , 0           , target_addr ); }
-void _bdzla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____ctr_________ , 0           , target_addr ); }
-void _bdztla   ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____ctr_____cond , 0           , target_addr ); }
-void _bdzfla   ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____ctr_not_cond , 0           , target_addr ); }
-void _bltla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , CR_LT.index , target_addr ); }
-void _blela    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , CR_GT.index , target_addr ); }
-void _beqla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , CR_EQ.index , target_addr ); }
-void _bgela    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , CR_LT.index , target_addr ); }
-void _bgtla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , CR_GT.index , target_addr ); }
-void _bnlla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , CR_LT.index , target_addr ); }
-void _bnela    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , CR_EQ.index , target_addr ); }
-void _bngla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , CR_GT.index , target_addr ); }
-void _bsola    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , CR_SO.index , target_addr ); }
-void _bnsla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , CR_SO.index , target_addr ); }
-void _bunla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , CR_SO.index , target_addr ); }
-void _bnula    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , CR_SO.index , target_addr ); }
+void _btla     ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , 4 * crfD + 0            , target_addr ); }
+void _bfla     ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 4 * crfD + 0            , target_addr ); }
+void _bdnzla   ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_not_ctr_________ , 4 * crfD + 0            , target_addr ); }
+void _bdnztla  ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_not_ctr_____cond , 4 * crfD + 0            , target_addr ); }
+void _bdnzfla  ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_not_ctr_not_cond , 4 * crfD + 0            , target_addr ); }
+void _bdzla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____ctr_________ , 4 * crfD + 0            , target_addr ); }
+void _bdztla   ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____ctr_____cond , 4 * crfD + 0            , target_addr ); }
+void _bdzfla   ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____ctr_not_cond , 4 * crfD + 0            , target_addr ); }
+void _bltla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _blela    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _beqla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_EQ) , target_addr ); }
+void _bgela    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _bgtla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _bnlla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT) , target_addr ); }
+void _bnela    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_EQ) , target_addr ); }
+void _bngla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT) , target_addr ); }
+void _bsola    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bnsla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bunla    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
+void _bnula    ( uint3_t crfD , sint32_t target_addr ) { _bcla   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO) , target_addr ); }
 
-void _blr      ( uint3_t crfD                        ) { _bclr   ( BO_________________ , 0                         ); }
-void _btlr     ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , 0                         ); }
-void _bflr     ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 0                         ); }
-void _bdnzlr   ( uint3_t crfD                        ) { _bclr   ( BO_not_ctr_________ , 0                         ); }
-void _bdnztlr  ( uint3_t crfD                        ) { _bclr   ( BO_not_ctr_____cond , 0                         ); }
-void _bdnzflr  ( uint3_t crfD                        ) { _bclr   ( BO_not_ctr_not_cond , 0                         ); }
-void _bdzlr    ( uint3_t crfD                        ) { _bclr   ( BO_____ctr_________ , 0                         ); }
-void _bdztlr   ( uint3_t crfD                        ) { _bclr   ( BO_____ctr_____cond , 0                         ); }
-void _bdzflr   ( uint3_t crfD                        ) { _bclr   ( BO_____ctr_not_cond , 0                         ); }
-void _bltlr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , CR_LT.index               ); }
-void _blelr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , CR_GT.index               ); }
-void _beqlr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , CR_EQ.index               ); }
-void _bgelr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , CR_LT.index               ); }
-void _bgtlr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , CR_GT.index               ); }
-void _bnllr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , CR_LT.index               ); }
-void _bnelr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , CR_EQ.index               ); }
-void _bnglr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , CR_GT.index               ); }
-void _bsolr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , CR_SO.index               ); }
-void _bnslr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , CR_SO.index               ); }
-void _bunlr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , CR_SO.index               ); }
-void _bnulr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , CR_SO.index               ); }
-			                            						                  
-void _bctr     ( uint3_t crfD                        ) { _bcctr  ( BO_________________ , 0                         ); }
-void _btctr    ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , 0                         ); }
-void _bfctr    ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 0                         ); }			        
-void _bltctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , CR_LT.index               ); }
-void _blectr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , CR_GT.index               ); }
-void _beqctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , CR_EQ.index               ); }
-void _bgectr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , CR_LT.index               ); }
-void _bgtctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , CR_GT.index               ); }
-void _bnlctr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , CR_LT.index               ); }
-void _bnectr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , CR_EQ.index               ); }
-void _bngctr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , CR_GT.index               ); }
-void _bsoctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , CR_SO.index               ); }
-void _bnsctr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , CR_SO.index               ); }
-void _bunctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , CR_SO.index               ); }
-void _bnuctr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , CR_SO.index               ); }
-			                            						                  
-void _blrl     ( uint3_t crfD                        ) { _bclrl  ( BO_________________ , 0                         ); }
-void _btlrl    ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , 0                         ); }
-void _bflrl    ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 0                         ); }
-void _bdnzlrl  ( uint3_t crfD                        ) { _bclrl  ( BO_not_ctr_________ , 0                         ); }
-void _bdnztlrl ( uint3_t crfD                        ) { _bclrl  ( BO_not_ctr_____cond , 0                         ); }
-void _bdnzflrl ( uint3_t crfD                        ) { _bclrl  ( BO_not_ctr_not_cond , 0                         ); }
-void _bdzlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____ctr_________ , 0                         ); }
-void _bdztlrl  ( uint3_t crfD                        ) { _bclrl  ( BO_____ctr_____cond , 0                         ); }
-void _bdzflrl  ( uint3_t crfD                        ) { _bclrl  ( BO_____ctr_not_cond , 0                         ); }
-void _bltlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , CR_LT.index               ); }
-void _blelrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , CR_GT.index               ); }
-void _beqlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , CR_EQ.index               ); }
-void _bgelrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , CR_LT.index               ); }
-void _bgtlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , CR_GT.index               ); }
-void _bnllrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , CR_LT.index               ); }
-void _bnelrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , CR_EQ.index               ); }
-void _bnglrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , CR_GT.index               ); }
-void _bsolrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , CR_SO.index               ); }
-void _bnslrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , CR_SO.index               ); }
-void _bunlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , CR_SO.index               ); }
-void _bnulrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , CR_SO.index               ); }
-			                            						                  
-void _bctrl    ( uint3_t crfD                        ) { _bcctrl ( BO_________________ , 0                         ); }
-void _btctrl   ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , 0                         ); }
-void _bfctrl   ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 0                         ); }	
-void _bltctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , CR_LT.index               ); }
-void _blectrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , CR_GT.index               ); }
-void _beqctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , CR_EQ.index               ); }
-void _bgectrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , CR_LT.index               ); }
-void _bgtctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , CR_GT.index               ); }
-void _bnlctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , CR_LT.index               ); }
-void _bnectrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , CR_EQ.index               ); }
-void _bngctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , CR_GT.index               ); }
-void _bsoctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , CR_SO.index               ); }
-void _bnsctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , CR_SO.index               ); }
-void _bunctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , CR_SO.index               ); }
-void _bnuctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , CR_SO.index               ); }
+void _blr      ( uint3_t crfD                        ) { _bclr   ( BO_________________ , 4 * crfD + 0                          ); }
+void _btlr     ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , 4 * crfD + 0                          ); }
+void _bflr     ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 4 * crfD + 0                          ); }
+void _bdnzlr   ( uint3_t crfD                        ) { _bclr   ( BO_not_ctr_________ , 4 * crfD + 0                          ); }
+void _bdnztlr  ( uint3_t crfD                        ) { _bclr   ( BO_not_ctr_____cond , 4 * crfD + 0                          ); }
+void _bdnzflr  ( uint3_t crfD                        ) { _bclr   ( BO_not_ctr_not_cond , 4 * crfD + 0                          ); }
+void _bdzlr    ( uint3_t crfD                        ) { _bclr   ( BO_____ctr_________ , 4 * crfD + 0                          ); }
+void _bdztlr   ( uint3_t crfD                        ) { _bclr   ( BO_____ctr_____cond , 4 * crfD + 0                          ); }
+void _bdzflr   ( uint3_t crfD                        ) { _bclr   ( BO_____ctr_not_cond , 4 * crfD + 0                          ); }
+void _bltlr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _blelr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _beqlr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_EQ)               ); }
+void _bgelr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _bgtlr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _bnllr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _bnelr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_EQ)               ); }
+void _bnglr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _bsolr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bnslr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bunlr    ( uint3_t crfD                        ) { _bclr   ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bnulr    ( uint3_t crfD                        ) { _bclr   ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+
+void _bctr     ( uint3_t crfD                        ) { _bcctr  ( BO_________________ , 4 * crfD + 0                          ); }
+void _btctr    ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , 4 * crfD + 0                          ); }
+void _bfctr    ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 4 * crfD + 0                          ); }			        
+void _bltctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _blectr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _beqctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_EQ)               ); }
+void _bgectr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _bgtctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _bnlctr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _bnectr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_EQ)               ); }
+void _bngctr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _bsoctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bnsctr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bunctr   ( uint3_t crfD                        ) { _bcctr  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bnuctr   ( uint3_t crfD                        ) { _bcctr  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+
+void _blrl     ( uint3_t crfD                        ) { _bclrl  ( BO_________________ , 4 * crfD + 0                          ); }
+void _btlrl    ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , 4 * crfD + 0                          ); }
+void _bflrl    ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 4 * crfD + 0                          ); }
+void _bdnzlrl  ( uint3_t crfD                        ) { _bclrl  ( BO_not_ctr_________ , 4 * crfD + 0                          ); }
+void _bdnztlrl ( uint3_t crfD                        ) { _bclrl  ( BO_not_ctr_____cond , 4 * crfD + 0                          ); }
+void _bdnzflrl ( uint3_t crfD                        ) { _bclrl  ( BO_not_ctr_not_cond , 4 * crfD + 0                          ); }
+void _bdzlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____ctr_________ , 4 * crfD + 0                          ); }
+void _bdztlrl  ( uint3_t crfD                        ) { _bclrl  ( BO_____ctr_____cond , 4 * crfD + 0                          ); }
+void _bdzflrl  ( uint3_t crfD                        ) { _bclrl  ( BO_____ctr_not_cond , 4 * crfD + 0                          ); }
+void _bltlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _blelrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _beqlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_EQ)               ); }
+void _bgelrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _bgtlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _bnllrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _bnelrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_EQ)               ); }
+void _bnglrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _bsolrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bnslrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bunlrl   ( uint3_t crfD                        ) { _bclrl  ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bnulrl   ( uint3_t crfD                        ) { _bclrl  ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+
+void _bctrl    ( uint3_t crfD                        ) { _bcctrl ( BO_________________ , 4 * crfD + 0                          ); }
+void _btctrl   ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , 4 * crfD + 0                          ); }
+void _bfctrl   ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + 0                          ); }	
+void _bltctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _blectrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _beqctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_EQ)               ); }
+void _bgectrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _bgtctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _bnlctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_LT)               ); }
+void _bnectrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_EQ)               ); }
+void _bngctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_GT)               ); }
+void _bsoctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bnsctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bunctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
+void _bnuctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
 
 // Processor contreol instructions:
 /* TODO: reimplement.
