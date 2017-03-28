@@ -194,7 +194,7 @@ const uint5_t r24 = 24 , r25 = 25 , r26 = 26 , r27 = 27 , r28 = 28 , r29 = 29 , 
 
 uint4_t  CR[8], XER;
 sint32_t GPRS[32];
-sint32_t ctr;
+sint32_t CTR;
 
 sint32_t /* REPLACE_WITH_REGS */ _REGS;
 
@@ -260,18 +260,22 @@ const int  CR_GT = 2;
 const int  CR_LT = 3;
 
 bool     getBit  ( sint32_t  field ,             uint5_t i             ) { return (((field &gt;&gt; i) % 2) == 1); }
-sint32_t getBits ( sint32_t  field , uint5_t j , uint5_t i             ) { return ((field &gt;&gt; (32 -i)) &amp; (2^(j +1) -1)); } // TODO: check
+sint32_t getBits ( sint32_t  field , uint5_t j , uint5_t i             ) { return ((field &gt;&gt; (32 -i)) &amp; (2^(j +1) -1)); }
 void     setBit  ( sint32_t &amp;field ,             uint5_t i , uint1_t b ) { field |= (b &lt;&lt; i); }
-void     setBits ( sint32_t &amp;field , uint5_t j , uint5_t i , uint1_t b ) { while (i &lt;= j) setBit (field, i++, b); } // TODO: check
+void     setBits ( sint32_t &amp;field , uint5_t j , uint5_t i , uint1_t b ) { while (i &lt;= j) setBit (field, i++, b); }
 
 sint32_t NOT  ( sint32_t field ) { int i; for (i = 0; i &lt; 32; ++i) field ^= (1 &lt;&lt; i); return field; }
 sint32_t CLZ  ( sint32_t field ) { int n; for (n = 31; n &gt;= 0 &amp;&amp; !getBit(field, n); --n); return 32 - (n +1); }
-//sint32_t CPMT ( sint32_t field ) { return NOT(field) + 1; }
+sint32_t EXTS ( sint32_t field, uint5_t sign_bit ) { setBits (field, 31, sign_bit, getBit(field, sign_bit)); return field; }
+sint32_t ROTL ( sint32_t field, uint5_t n ) { sint32_t shl = (field &lt;&lt; n); sint32_t shr = (field &gt;&gt; (32 - n)); return (shl | shr); }
+sint32_t MASK ( uint5_t  me, uint5_t  mb ) { sint32_t field; if (me &gt;= mb) { setBits (field, 31, 0, 0); setBits (field, me   , mb   , 1); }
+                                                             else          { setBits (field, 31, 0, 1); setBits (field, mb -1, me +1, 0); } return field; }
+sint32_t MEM  ( sint32_t addr, uint5_t size ) { return 0; } // TODO: what to do with memory accesses?
 
 void setCR  ( uint3_t crfD , uint2_t i , uint1_t b ) { CR[crfD] = ( b ? (CR[crfD] | (1 &lt;&lt; i)) : (CR[crfD] &amp; NOT(1 &lt;&lt; i)) ); }
 void setXER (                uint2_t i , uint1_t b ) { XER      = ( b ? (XER      | (1 &lt;&lt; i)) : (XER      &amp; NOT(1 &lt;&lt; i)) ); }
 
-bool  z () { return ((ctr -1) == 0);    }
+bool  z () { return ((CTR -1) == 0);    }
 bool nz () { return !z();               }
 
 bool eq ( uint3_t crfD ) { return getBit(crfD, CR_EQ); }
@@ -283,23 +287,24 @@ bool ge ( uint3_t crfD ) { return !lt(crfD);                 }
 
 const int OP_ADD   =  0;
 const int OP_AND   =  1;
-const int OP_CMP   =  2;
-const int OP_CLZ   =  3;
-const int OP_DIV   =  4;
-const int OP_EQV   =  5;
-const int OP_EXT   =  6;
-const int OP_LOAD  =  7;
-const int OP_MUL   =  8;
-const int OP_NAND  =  9;
-const int OP_NEG   = 10;
-const int OP_NOR   = 11;
-const int OP_OR    = 12;
-const int OP_ROTL  = 13;
-const int OP_SHL   = 14;
-const int OP_SHR   = 15;
-const int OP_STORE = 16;
-const int OP_SUB   = 17;
-const int OP_XOR   = 18;
+const int OP_BR    =  2;
+const int OP_CMP   =  3;
+const int OP_CLZ   =  4;
+const int OP_DIV   =  5;
+const int OP_EQV   =  6;
+const int OP_EXT   =  7;
+const int OP_LOAD  =  8;
+const int OP_MUL   =  9;
+const int OP_NAND  = 10;
+const int OP_NEG   = 11;
+const int OP_NOR   = 12;
+const int OP_OR    = 13;
+const int OP_ROTL  = 14;
+const int OP_SHL   = 15;
+const int OP_SHR   = 16;
+const int OP_STORE = 17;
+const int OP_SUB   = 18;
+const int OP_XOR   = 19;
 
 const int ARG_NONE = 0;
 const int ARG_REG  = 1;
@@ -307,7 +312,7 @@ const int ARG_SIMM = 2;
 const int ARG_UIMM = 3;
 
 const int QUAL_NONE             =  0;
-const int QUAL_ALEGBRAIC        =  1;
+const int QUAL_ALGEBRAIC        =  1;
 const int QUAL_ANDMASK          =  2;
 const int QUAL_CARRY            =  3;
 const int QUAL_COMPLEMENT       =  4;
@@ -320,55 +325,48 @@ const int QUAL_MASKINSERT       = 10;
 const int QUAL_MSB              = 11;
 const int QUAL_REVERSE          = 12;
 const int QUAL_SHIFT            = 13;
-const int QUAL_UNSIGNED         = 14;
-const int QUAL_UPDATE           = 15;
+const int QUAL_TOCTR            = 14;
+const int QUAL_TOLR             = 15;
+const int QUAL_UNSIGNED         = 16;
+const int QUAL_UPDATE           = 17;
 
 const int SIZE_NONE     = 0;
 const int SIZE_BYTE     = 1; 
 const int SIZE_HALFWORD = 2;
 const int SIZE_WORD     = 4;
 
-// ROTATE //////////////////////////////////
-
-// BRANCH //////////////////////////////////
-  const int BRANCH_UNCONDITIONALLY     = 1;
-  const int BRANCH_CONDITIONALLY       = 2;
-  const int BRANCH_TOCTR               = 4;
-  const int BRANCH_TOLR                = 8;
-////////////////////////////////////////////
-
 // Arithmetic instructions:
 
 void _ARITHM( int op, int arg, int qual, uint5_t rD, uint5_t rA, uint5_t rB, sint16_t SIMM, uint1_t OE, uint1_t Rc ) {
-  uint32_t uGPRS_rA = GPRS[rA];
-  uint32_t uGPRS_rB = GPRS[rB];
+  sint32_t rA_sval = GPRS[rA], rB_sval = GPRS[rB], rD_sval;
+  uint32_t rA_uval = GPRS[rA], rB_uval = GPRS[rB];
 
   uint1_t CA = getBit (XER, XER_CA);
   if ( op == OP_ADD
-    || op == OP_SUB ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] + ( GPRS[rB] &lt;&lt;  0 )      ; }
-                                                 if ( qual == QUAL_EXTEND           ) { GPRS[rD] = GPRS[rA] + ( GPRS[rB] &lt;&lt;  0 ) + CA ; }
-                                                 if ( qual == QUAL_SHIFT            ) { GPRS[rD] = GPRS[rA] + ( GPRS[rB] &lt;&lt; 16 )      ; }
-                                                 if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] + ( GPRS[rB] &lt;&lt;  0 )      ; } }
-                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] + ( SIMM     &lt;&lt;  0 )      ; }
-                                                 if ( qual == QUAL_SHIFT            ) { GPRS[rD] = GPRS[rA] + ( SIMM     &lt;&lt; 16 )      ; } }
-                        if ( arg == ARG_NONE ) { if ( qual == QUAL_EXTEND_MINUS_ONE ) { GPRS[rD] = GPRS[rA] - ( 1        &lt;&lt;  0 ) + CA ; }
-                                                 if ( qual == QUAL_EXTEND_ZERO      ) { GPRS[rD] = GPRS[rA]                      + CA ; } }
-                                                 if ( qual &amp;  QUAL_CARRY            ) { setXER (XER_CA, 0)                            ; }   } // TODO: 0 -&gt; ?
+    || op == OP_SUB ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = rA_sval + ( rB_sval &lt;&lt;  0 )       ; }
+                                                 if ( qual == QUAL_EXTEND           ) { GPRS[rD] = rA_sval + ( rB_sval &lt;&lt;  0 )  + CA ; }
+                                                 if ( qual == QUAL_SHIFT            ) { GPRS[rD] = rA_sval + ( rB_sval &lt;&lt; 16 )       ; }
+                                                 if ( qual == QUAL_NONE             ) { GPRS[rD] = rA_sval + ( rB_sval &lt;&lt;  0 )       ; } }
+                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = rA_sval + ( SIMM     &lt;&lt;  0 )      ; }
+                                                 if ( qual == QUAL_SHIFT            ) { GPRS[rD] = rA_sval + ( SIMM     &lt;&lt; 16 )      ; } }
+                        if ( arg == ARG_NONE ) { if ( qual == QUAL_EXTEND_MINUS_ONE ) { GPRS[rD] = rA_sval - ( 1        &lt;&lt;  0 ) + CA ; }
+                                                 if ( qual == QUAL_EXTEND_ZERO      ) { GPRS[rD] = rA_sval                      + CA ; } }
+                                                 if ( qual &amp;  QUAL_CARRY            ) { setXER (XER_CA, false)                       ; }   } /* Always false as UPPAAL disallow overflowing. */
 
-  if ( op == OP_DIV ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] /   GPRS[rB]              ; }  
-                                                 if ( qual == QUAL_UNSIGNED         ) { GPRS[rD] = uGPRS_rA /   uGPRS_rB              ; } } }
+  if ( op == OP_DIV ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = rA_sval /   rB_sval               ; }  
+                                                 if ( qual == QUAL_UNSIGNED         ) { GPRS[rD] = rA_uval /   rB_uval               ; } } }
 
-  if ( op == OP_MUL ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] *   GPRS[rB]              ; } }   // TODO: 64-bit multiplication; store the 32 LSB in rD
-                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = GPRS[rA] *   SIMM                  ; } }   // TODO: 64-bit multiplication; store the 32 LSB in rD
-                                                 if ( qual == QUAL_MSB              ) { GPRS[rD] = GPRS[rA] *   GPRS[rB]              ; }   } // TODO: 64-bit multiplication; store the 32 MSB in rD
+  if ( op == OP_MUL ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = rA_sval *   rB_sval               ; } }   // TODO: 64-bit multiplication; store the 32 LSB in rD
+                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = rA_sval *   SIMM                  ; } }   // TODO: 64-bit multiplication; store the 32 LSB in rD
+                                                 if ( qual == QUAL_MSB              ) { GPRS[rD] = rA_sval *   rB_sval               ; }   } // TODO: 64-bit multiplication; store the 32 MSB in rD
 
-
-  if ( OE ) { setXER (     XER_OV, 0);   // TODO: 0 -&gt; ?
-              setXER (     XER_SO, 0); } // TODO: 0 -&gt; ?
-  if ( Rc ) { setCR  (cr0,  CR_SO, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0,  CR_EQ, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0,  CR_GT, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0,  CR_LT, 0); } // TODO: 0 -&gt; ?
+  rD_sval = GPRS[rD];
+  if ( OE ) { setXER (     XER_OV, false                        );   /* Always false as UPPAAL disallow overflowing. */
+              setXER (     XER_SO, getBit (XER, XER_OV)         ); }
+  if ( Rc ) { setCR  (cr0,  CR_SO, getBit (XER, XER_SO)         );
+              setCR  (cr0,  CR_EQ, (rD_sval == 0 ? true : false));
+              setCR  (cr0,  CR_GT, (rD_sval &gt;  0 ? true : false));
+              setCR  (cr0,  CR_LT, (rD_sval &lt;  0 ? true : false)); }
 }
 
 void _add      ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , false ); }
@@ -455,21 +453,21 @@ void _subic_   ( uint5_t rD , uint5_t  rA , sint16_t SIMM ) { _addic_  ( rD, rA,
 
 // Compare instructions:
 
-sint32_t EXTS ( sint32_t x ) { return x; } // TODO: how to perform a sign extension?
-
 void _COMPARE( int op, int arg, int qual, uint3_t crfD, uint5_t rA, uint5_t rB, sint32_t IMM ) {
+  sint32_t rA_sval = GPRS[rA], rB_sval = GPRS[rB];
+  uint32_t rA_uval = GPRS[rA], rB_uval = GPRS[rB];
   sint16_t SIMM = IMM;
   uint16_t UIMM = IMM;
 
   sint32_t a;
   sint32_t b;
   uint4_t  c;
-  if ( op == OP_CMP ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE    ) { a = GPRS[rA]; b =     ( GPRS[rB] ); }
-                                                 if ( qual == QUAL_LOGICAL ) { a = GPRS[rA]; b =     ( GPRS[rB] ); } }   // TODO: how to perform an unsigned evaluation?
-                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE    ) { a = GPRS[rA]; b = EXTS( SIMM     ); } }
-                        if ( arg == ARG_UIMM ) { if ( qual == QUAL_LOGICAL ) { a = GPRS[rA]; b =     ( UIMM     ); } } } // TODO: how to perform an unsigned evaluation?
+  if ( op == OP_CMP ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE    ) { a = rA_sval; b =     ( rB_sval      ); }
+                                                 if ( qual == QUAL_LOGICAL ) { a = rA_uval; b =     ( rB_uval      ); } }
+                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE    ) { a = rA_sval; b = EXTS( SIMM    , 15 ); } }
+                        if ( arg == ARG_UIMM ) { if ( qual == QUAL_LOGICAL ) { a = rA_uval; b =     ( UIMM         ); } } }
 
-       if ( a &lt; b ) { c = (1 &lt;&lt; CR_LT); }
+       if ( a &lt; b ) { c = (1 &lt;&lt; CR_LT); } // TODO: does it perform an "unsigned evaluation" if a and b are unsigned?
   else if ( a &gt; b ) { c = (1 &lt;&lt; CR_GT); }
   else              { c = (1 &lt;&lt; CR_EQ); }
 
@@ -489,37 +487,46 @@ void _cmplwi ( uint3_t crfD , uint5_t rA , uint16_t UIMM ) { _cmpli ( crfD, rA, 
 // Logical instructions:
 
 void _LOGICAL( int op, int arg, int qual, int size, uint5_t rA, uint5_t rS, uint5_t rB, uint16_t UIMM, uint1_t OE, uint1_t Rc ) {
+  sin32t_t rA_sval;
+  sint32_t rS_uval = GPRS[rS], rB_uval = GPRS[rB];
+  /* Using a signed type (sint32_t) for usigned variables (rX_uval)
+   * because the value 0xffffffff can't be represented in UPPAAL as
+   * an unsigned value (max. unsigned value in UPPAAL is 0x7fffffff).
+   * It us not a problem since we don't make any algebraic operation
+   * but only bitwise operations.
+   */
 
   uint5_t n        = 31;
   uint5_t sign_bit = (size == SIZE_BYTE ? 7 : 15);
-  uint1_t S        = getBit (GPRS[rS], sign_bit);
-  if ( op == OP_AND  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] &amp;    ( GPRS[rB] &lt;&lt;  0 ) ); }
-                                                  if ( qual == QUAL_COMPLEMENT ) { GPRS[rA] =    ( GPRS[rS] &amp; NOT( GPRS[rB] &lt;&lt;  0 ) ); } }
-                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] &amp;    ( UIMM     &lt;&lt;  0 ) ); }
-                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( GPRS[rS] &amp;    ( UIMM     &lt;&lt; 16 ) ); } } }
-  if ( op == OP_CLZ  ) { if ( arg == ARG_NONE ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = CLZ( GPRS[rS]                         ); } } }
-  if ( op == OP_EQV  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( GPRS[rS] ^    ( GPRS[rB] &lt;&lt;  0 ) ); } } }
-  if ( op == OP_EXT  ) { if ( arg == ARG_NONE ) { if ( size == SIZE_BYTE       ) { GPRS[rA] =    ( GPRS[rS] &amp;    (   255    &lt;&lt;  0 ) ); }
-                                                  if ( size == SIZE_HALFWORD   ) { GPRS[rA] =    ( GPRS[rS] &amp;    ( 65535    &lt;&lt;  0 ) ); }
+  uint1_t S        = getBit (rS_uval, sign_bit);
+  if ( op == OP_AND  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( rS_uval &amp;    ( rB_uval &lt;&lt;  0 ) ); }
+                                                  if ( qual == QUAL_COMPLEMENT ) { GPRS[rA] =    ( rS_uval &amp; NOT( rB_uval &lt;&lt;  0 ) ); } }
+                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( rS_uval &amp;    ( UIMM    &lt;&lt;  0 ) ); }
+                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( rS_uval &amp;    ( UIMM    &lt;&lt; 16 ) ); } } }
+  if ( op == OP_CLZ  ) { if ( arg == ARG_NONE ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = CLZ( rS_uval                        ); } } }
+  if ( op == OP_EQV  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( rS_uval ^    ( rB_uval &lt;&lt;  0 ) ); } } }
+  if ( op == OP_EXT  ) { if ( arg == ARG_NONE ) { if ( size == SIZE_BYTE       ) { GPRS[rA] =    ( rS_uval &amp;    (   255   &lt;&lt;  0 ) ); }
+                                                  if ( size == SIZE_HALFWORD   ) { GPRS[rA] =    ( rS_uval &amp;    ( 65535   &lt;&lt;  0 ) ); }
                                                   setBits (GPRS[rA], 31, sign_bit, S)                                                ;   } }
 
-  if ( op == OP_NAND ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( GPRS[rS] &amp;    ( GPRS[rB] &lt;&lt;  0 ) ); } } }
-  if ( op == OP_NEG  ) { if ( arg == ARG_NONE ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( GPRS[rS]                         ); } } }
-  if ( op == OP_NOR  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( GPRS[rS] |    ( GPRS[rB] &lt;&lt;  0 ) ); } } }
-  if ( op == OP_OR   ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] |    ( GPRS[rB] &lt;&lt;  0 ) ); }
-                                                  if ( qual == QUAL_COMPLEMENT ) { GPRS[rA] =    ( GPRS[rS] | NOT( GPRS[rB] &lt;&lt;  0 ) ); } }
-                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] |    ( UIMM     &lt;&lt;  0 ) ); } }
-                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( GPRS[rS] |    ( GPRS[rB] &lt;&lt; 16 ) ); }   }
-  if ( op == OP_XOR  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] ^    ( GPRS[rB] &lt;&lt;  0 ) ); } }
-                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( GPRS[rS] ^    ( GPRS[rB] &lt;&lt;  0 ) ); }
-                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( GPRS[rS] ^    ( GPRS[rB] &lt;&lt; 16 ) ); } } }
+  if ( op == OP_NAND ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( rS_uval &amp;    ( rB_uval &lt;&lt;  0 ) ); } } }
+  if ( op == OP_NEG  ) { if ( arg == ARG_NONE ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( rS_uval                        ); } } }
+  if ( op == OP_NOR  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] = NOT( rS_uval |    ( rB_uval &lt;&lt;  0 ) ); } } }
+  if ( op == OP_OR   ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( rS_uval |    ( rB_uval &lt;&lt;  0 ) ); }
+                                                  if ( qual == QUAL_COMPLEMENT ) { GPRS[rA] =    ( rS_uval | NOT( rB_uval &lt;&lt;  0 ) ); } }
+                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( rS_uval |    ( UIMM    &lt;&lt;  0 ) ); } }
+                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( rS_uval |    ( rB_uval &lt;&lt; 16 ) ); }   }
+  if ( op == OP_XOR  ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( rS_uval ^    ( rB_uval &lt;&lt;  0 ) ); } }
+                         if ( arg == ARG_UIMM ) { if ( qual == QUAL_NONE       ) { GPRS[rA] =    ( rS_uval ^    ( rB_uval &lt;&lt;  0 ) ); }
+                                                  if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( rS_uval ^    ( rB_uval &lt;&lt; 16 ) ); } } }
 
-  if ( OE ) { setXER (     XER_OV, 0);   // TODO: 0 -&gt; ?
-              setXER (     XER_SO, 0); } // TODO: 0 -&gt; ?
-  if ( Rc ) { setCR  (cr0,  CR_SO, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0,  CR_EQ, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0,  CR_GT, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0,  CR_LT, 0); } // TODO: 0 -&gt; ?
+  rA_sval = GPRS[rA]; // TODO: consider as unsigned?
+  if ( OE ) { setXER (     XER_OV, false                        );   /* Always false as UPPAAL disallow overflowing. */
+              setXER (     XER_SO, getBit (XER, XER_OV)         ); }
+  if ( Rc ) { setCR  (cr0,  CR_SO, getBit (XER, XER_SO)         );
+              setCR  (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
+              setCR  (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
+              setCR  (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
 }
 
 void _and     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_AND  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
@@ -566,21 +573,27 @@ void _nop     (                                         ) { _ori  (  0,  0,  0 )
 
 // Rotate instructions:
 
-sint32_t ROTL ( sint32_t x , sint32_t y ) { return 0; } // TODO: implement
-sint32_t MASK ( uint5_t  x , uint5_t  y ) { return 0; } // TODO: implement
-
 void _ROTATE( int op, int arg, int qual, uint5_t rA, uint5_t rS, uint5_t rB, uint5_t SH, uint5_t MB, uint5_t ME, uint1_t Rc ) {
+  sint32_t rA_sval;
+  sint32_t rA_uval = GPRS[rA], rS_uval = GPRS[rS], rB_uval = GPRS[rB];
+  /* Using a signed type (sint32_t) for usigned variables (rX_uval)
+   * because the value 0xffffffff can't be represented in UPPAAL as
+   * an unsigned value (max. unsigned value in UPPAAL is 0x7fffffff).
+   * It us not a problem since we don't make any algebraic operation
+   * but only bitwise operations.
+   */
 
-  uint5_t  n = ( arg == ARG_REG ? getBits (GPRS[rB], 4, 0) : SH );
-  sint32_t r = ROTL (GPRS[rS], n);
-  sint32_t m = MASK (MB, ME);
-  if ( op == OP_ROTL ) { if ( qual == QUAL_ANDMASK    ) { GPRS[rA] = (r &amp; m)                 ; }
-                         if ( qual == QUAL_MASKINSERT ) { GPRS[rA] = (r &amp; m) | ( rA &amp; NOT(m)); } } // TODO: check semantics
+  uint5_t  n = ( arg == ARG_REG ? getBits (rB_uval, 4, 0) : SH );
+  sint32_t r = ROTL (rS_uval, n);
+  sint32_t m = MASK (ME, MB);
+  if ( op == OP_ROTL ) { if ( qual == QUAL_ANDMASK    ) { GPRS[rA] = (r &amp; m)                         ; }
+                         if ( qual == QUAL_MASKINSERT ) { GPRS[rA] = (r &amp; m) | ( rA_uval &amp; NOT( m ) ); } }
 
-  if ( Rc ) { setCR  (cr0, CR_SO, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0, CR_EQ, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0, CR_GT, 0);   // TODO: 0 -&gt; ?
-              setCR  (cr0, CR_LT, 0); } // TODO: 0 -&gt; ?
+  rA_sval = GPRS[rA]; // TODO: consider as unsigned?
+  if ( Rc ) { setCR  (cr0,  CR_SO, getBit (XER, XER_SO)         );
+              setCR  (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
+              setCR  (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
+              setCR  (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
 }
 
 void _rlwnm     ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_REG  , QUAL_ANDMASK    , rA , rS , rB , 0  , MB , ME , false ); }
@@ -617,114 +630,111 @@ void _rotlw_    ( uint5_t rA , uint5_t rS , uint5_t rB             ) { _rlwnm_  
 
 // Shift instructions:
 
-void _SHIFT( int operator, int qualifier, uint5_t rA, uint5_t rS, uint5_t rB_or_SH, uint1_t Rc ) {
-  uint1_t  S; 
-  uint5_t  n, r;
-  sint32_t m, tmp;
+void _SHIFT( int op, int arg, int qual, uint5_t rA, uint5_t rS, uint5_t rB, uint5_t SH, uint1_t Rc ) {
+  sint32_t rS_uval = GPRS[rS], rB_uval = GPRS[rB];
+  /* Using a signed type (sint32_t) for usigned variables (rX_uval)
+   * because the value 0xffffffff can't be represented in UPPAAL as
+   * an unsigned value (max. unsigned value in UPPAAL is 0x7fffffff).
+   * It us not a problem since we don't make any algebraic operation
+   * but only bitwise operations.
+   */
 
-  m = 0;
-  n = getBits (rB_or_SH, 0, 4);
-  if ( operator == SHIFT_LEFT  ) { r = ROTL(rS,      n); if (getBit (rB_or_SH, 5) == 0) m = MASK (0, 31 - n); }
-  if ( operator == SHIFT_RIGHT ) { r = ROTL(rS, 32 - n); if (getBit (rB_or_SH, 5) == 0) m = MASK (n, 31    ); }
+  uint5_t  r;
+  uint1_t  S;
+  sint32_t _32xS;
+  uint5_t  n = ( arg == ARG_REG ? getBits (GPRS[rB], 4, 0) : SH );
+  sint32_t m = 0;
+  if ( op == OP_SHL ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_LOGICAL   ) { r = ROTL(rS_uval,      n); if (getBit (rB_uval, 5) == 0) m = MASK( 31     , n ); } } }
+  if ( op == OP_SHR ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_LOGICAL   ) { r = ROTL(rS_uval, 32 - n); if (getBit (rB_uval, 5) == 0) m = MASK( 31 - n , 0 ); } }
+                        if ( arg == ARG_REG  ) { if ( qual == QUAL_ALGEBRAIC ) { r = ROTL(rS_uval, 32 - n); if (getBit (rB_uval, 5) == 0) m = MASK( 31 - n , 0 ); } }
+                        if ( arg == ARG_UIMM ) { if ( qual == QUAL_ALGEBRAIC ) { r = ROTL(rS_uval, 32 - n);                               m = MASK( 31 - n , 0 ); } } }
 
-  S  = getBit (rS, 31); // TODO: check if S should be the sign bit (not clear in the specs.)
-  rA = r &amp; m;
-  if ( qualifier == RIGHT_ALEGBRAIC )
-  { setBits (tmp , 0, 31, S);
-    rA |= tmp &amp; -m;
-    setBit (XER, XER_CA, (S &amp; ((r &amp; -m) == 0))); } // TODO: check if -m == bitwiseNot(m)
+  S = getBit (GPRS[rS], 31);
+  setBits (_32xS, 31, 0, S); /* _32xS is S's value concatenated 32 times. */
+  GPRS[rA] = r &amp; m;
+  if ( qual == QUAL_ALGEBRAIC )
+  { GPRS[rA] |= _32xS &amp; NOT( m );
+    setBit (XER, XER_CA, (S &amp; ((r &amp; NOT( m )) != 0))); }
 
-  if ( Rc ) { setCR (cr0, CR_SO, 0);   // TODO: 0 -&gt; ?
-              setCR (cr0, CR_EQ, 0);   // TODO: 0 -&gt; ?
-              setCR (cr0, CR_GT, 0);   // TODO: 0 -&gt; ?
-              setCR (cr0, CR_LT, 0); } // TODO: 0 -&gt; ?
+  rA_sval = GPRS[rA]; // TODO: consider as unsigned?
+  if ( Rc ) { setCR  (cr0,  CR_SO, getBit (XER, XER_SO)         );
+              setCR  (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
+              setCR  (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
+              setCR  (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
 }
 
-void _slw    ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( SHIFT_LEFT  , LEFT_LOGICAL    , rA , rS , rB, false ); }
-void _slw_   ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( SHIFT_LEFT  , LEFT_LOGICAL    , rA , rS , rB, true  ); }
-void _sraw   ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( SHIFT_RIGHT , RIGHT_ALEGBRAIC , rA , rS , rB, false ); }
-void _sraw_  ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( SHIFT_RIGHT , RIGHT_ALEGBRAIC , rA , rS , rB, true  ); }
-void _srawi  ( uint5_t rA , uint5_t rS , uint5_t SH ) { _SHIFT( SHIFT_RIGHT , RIGHT_ALEGBRAIC , rA , rS , SH, false ); } // TODO: check impl.
-void _srawi_ ( uint5_t rA , uint5_t rS , uint5_t SH ) { _SHIFT( SHIFT_RIGHT , RIGHT_ALEGBRAIC , rA , rS , SH, true  ); } // TODO: check impl.
-void _srw    ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( SHIFT_RIGHT , RIGHT_LOGICAL   , rA , rS , rB, false ); }
-void _srw_   ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( SHIFT_RIGHT , RIGHT_LOGICAL   , rA , rS , rB, true  ); }
+void _slw    ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( OP_SHL , ARG_REG  , QUAL_LOGICAL   , rA , rS , rB , 0  , false ); }
+void _slw_   ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( OP_SHL , ARG_REG  , QUAL_LOGICAL   , rA , rS , rB , 0  , true  ); }
+void _sraw   ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( OP_SHR , ARG_REG  , QUAL_ALGEBRAIC , rA , rS , rB , 0  , false ); }
+void _sraw_  ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( OP_SHR , ARG_REG  , QUAL_ALGEBRAIC , rA , rS , rB , 0  , true  ); }
+void _srawi  ( uint5_t rA , uint5_t rS , uint5_t SH ) { _SHIFT( OP_SHR , ARG_UIMM , QUAL_ALGEBRAIC , rA , rS , 0  , SH , false ); }
+void _srawi_ ( uint5_t rA , uint5_t rS , uint5_t SH ) { _SHIFT( OP_SHR , ARG_UIMM , QUAL_ALGEBRAIC , rA , rS , 0  , SH , true  ); }
+void _srw    ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( OP_SHR , ARG_REG  , QUAL_LOGICAL   , rA , rS , rB , 0  , false ); }
+void _srw_   ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( OP_SHR , ARG_REG  , QUAL_LOGICAL   , rA , rS , rB , 0  , true  ); }
 
 // Memory instructions:
 
-sint32_t MEM ( sint32_t x, uint5_t y ) { return 0; } // TODO: what to do with memory accesses?
+void _MEMORY( int op, int arg, int qual, int size, bool updates, bool indexed, uint5_t rD, uint5_t rS , uint5_t rA, sint16_t d, uint5_t rB ) {
+  sint32_t rS_uval = GPRS[rS], rA_uval = GPRS[rA], rB_uval = GPRS[rB];
+  /* Using a signed type (sint32_t) for usigned variables (rX_uval)
+   * because the value 0xffffffff can't be represented in UPPAAL as
+   * an unsigned value (max. unsigned value in UPPAAL is 0x7fffffff).
+   * It us not a problem since we don't make any algebraic operation
+   * but only bitwise operations.
+   */
 
-void _MEMORY( int operator, int qualifier, int size,  uint5_t rD_or_RS , uint5_t d_or_rA  , uint5_t rA_or_rB ) {
-  sint16_t d;
-  sint32_t rD, rS, rA, rB;
-  sint32_t EA;
+  sint32_t a, b, EA;
+  a  = 0;           if (updates || (rA != 0)) a        = rA_uval;
+  b  = EXTS(d, 15); if (indexed             ) b        = rB_uval;
+  EA = a + b;       if (updates             ) GPRS[rA] = EA;
 
-  if ( operator == MEMORY_LOAD )
-  { if ( !( qualifier &amp; LOAD_INDEXED ) ) { rD = rD_or_RS; d  = d_or_rA; rA = rA_or_rB; }
-    if (  ( qualifier &amp; LOAD_INDEXED ) ) { rD = rD_or_RS; rA = d_or_rA; rB = rA_or_rB; }
+  if ( op == OP_LOAD  ) { if ( qual == QUAL_NONE       ) { GPRS[rD] =       MEM( EA, size )                 ; }
+                          if ( qual == QUAL_ALGEBRAIC  ) { GPRS[rD] = EXTS( MEM( EA, size ), (size * 8) -1 ); }
+                          if ( qual == QUAL_REVERSE    ) {
+                            if ( size == SIZE_HALFWORD ) { GPRS[rD]  = (MEM( EA +0, 1 ) &lt;&lt;  0); GPRS[rD] |= (MEM( EA +1, 1 ) &lt;&lt;  8); }
+                            if ( size == SIZE_WORD     ) { GPRS[rD]  = (MEM( EA +0, 1 ) &lt;&lt;  0); GPRS[rD] |= (MEM( EA +1, 1 ) &lt;&lt;  8);
+                                                           GPRS[rD] |= (MEM( EA +2, 1 ) &lt;&lt; 16); GPRS[rD] |= (MEM( EA +3, 1 ) &lt;&lt; 24); } } }
 
-    if ( qualifier == ( 0                                             ) ) { EA = rA + EXTS(d); rD =      MEM(EA, size);           } // TODO: if rA == 0 then b = 0 else b = (rA)
-    if ( qualifier == (                  LOAD_UPDATING                ) ) { EA = rA + EXTS(d); rD =      MEM(EA, size);  rA = EA; }
-    if ( qualifier == (                  LOAD_UPDATING | LOAD_INDEXED ) ) { EA = rA + rB;      rD =      MEM(EA, size);  rA = EA; }
-    if ( qualifier == (                                  LOAD_INDEXED ) ) { EA = rA + rB;      rD =      MEM(EA, size);           } // TODO: if rA == 0 then b = 0 else b = (rA)
-
-    if ( qualifier == ( LOAD_ALGEBRAIC                                ) ) { EA = rA + EXTS(d); rD = EXTS(MEM(EA, size));          } // TODO: if rA == 0 then b = 0 else b = (rA)
-    if ( qualifier == ( LOAD_ALGEBRAIC | LOAD_UPDATING                ) ) { EA = rA + EXTS(d); rD = EXTS(MEM(EA, size)); rA = EA; }
-    if ( qualifier == ( LOAD_ALGEBRAIC | LOAD_UPDATING | LOAD_INDEXED ) ) { EA = rA + rB;      rD = EXTS(MEM(EA, size)); rA = EA; }
-    if ( qualifier == ( LOAD_ALGEBRAIC                 | LOAD_INDEXED ) ) { EA = rA + rB;      rD = EXTS(MEM(EA, size));          } // TODO: if rA == 0 then b = 0 else b = (rA)
-
-    if ( qualifier == ( LOAD_REVERSED                  | LOAD_INDEXED ) )
-    { if ( size == LOAD_HALFWORD ) { EA = rA + rB; rD  = ((MEM(EA +0, 1) &lt;&lt;  0) | (MEM(EA +1, 1) &lt;&lt;  8)); }   // TODO: if rA == 0 then b = 0 else b = (rA)
-      if ( size == LOAD_WORD     ) { EA = rA + rB; rD  = ((MEM(EA +0, 1) &lt;&lt;  0) | (MEM(EA +1, 1) &lt;&lt;  8));     // TODO: if rA == 0 then b = 0 else b = (rA)
-                                                   rD |= ((MEM(EA +2, 1) &lt;&lt; 16) | (MEM(EA +3, 1) &lt;&lt; 24)); }}}
-
-  if ( operator == MEMORY_STORE )
-  { if ( !( qualifier &amp; STORE_INDEXED ) ) { rS = rD_or_RS; d  = d_or_rA; rA = rA_or_rB; }
-    if (  ( qualifier &amp; STORE_INDEXED ) ) { rS = rD_or_RS; rA = d_or_rA; rB = rA_or_rB; }
-
-    if ( qualifier == ( 0                              ) ) { EA = rA + EXTS(d); /* MEM(EA, size) = ((rS)); */          } // TODO: if rA == 0 then b = 0 else b = (rA)
-    if ( qualifier == ( STORE_UPDATING                 ) ) { EA = rA + EXTS(d); /* MEM(EA, size) = ((rS)); */ rA = EA; }
-    if ( qualifier == ( STORE_UPDATING | STORE_INDEXED ) ) { EA = rA + rB;      /* MEM(EA, size) = ((rS)); */ rA = EA; }
-    if ( qualifier == (                  STORE_INDEXED ) ) { EA = rA + rB;      /* MEM(EA, size) = ((rS)); */          } // TODO: if rA == 0 then b = 0 else b = (rA)
-
-    if ( qualifier == ( STORE_REVERSED | STORE_INDEXED ) )
-    { if ( size == STORE_HALFWORD ) { EA = rA + rB; /* MEM(EA +0, 1) = ((rS)); MEM(EA +1, 1) &lt;&lt;  8)) = ((rS)); */ }   // TODO: if rA == 0 then b = 0 else b = (rA)
-      if ( size == STORE_WORD     ) { EA = rA + rB; /* MEM(EA +0, 1) = ((rS)); MEM(EA +1, 1) &lt;&lt;  8)) = ((rS)); */     // TODO: if rA == 0 then b = 0 else b = (rA)
-                                                    /* MEM(EA +2, 1) = ((rS)); MEM(EA +3, 1) &lt;&lt;  8)) = ((rS)); */ }}}
+  if ( op == OP_STORE ) { if ( qual == QUAL_NONE       ) { /* MEM(EA, size) = (rS_uval &gt;&gt;  0); */ }
+                          if ( qual == QUAL_REVERSE    ) {
+                            if ( size == SIZE_HALFWORD ) { /* MEM(EA +0, 1) = (rS_uval &gt;&gt;  0); MEM(EA +1, 1) = (rS_uval &gt;&gt;  8); */ }
+                            if ( size == SIZE_WORD     ) { /* MEM(EA +0, 1) = (rS_uval &gt;&gt;  0); MEM(EA +1, 1) = (rS_uval &gt;&gt;  8); */
+                                                           /* MEM(EA +2, 1) = (rS_uval &gt;&gt; 16); MEM(EA +3, 1) = (rS_uval &gt;&gt; 24); */ } } }
 }
 
-void _lbz    ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_LOAD  , 0                                               , LOAD_BYTE      , rD , d  , rA ); }
-void _lbzu   ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING                  , LOAD_BYTE      , rD , d  , rA ); }
-void _lbzux  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING  | LOAD_INDEXED  , LOAD_BYTE      , rD , rA , rB ); }
-void _lbzx   ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  ,                                   LOAD_INDEXED  , LOAD_BYTE      , rD , rA , rB ); }
-void _lha    ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_LOAD  , LOAD_ALGEBRAIC                                  , LOAD_HALFWORD  , rD , d  , rA ); }
-void _lhau   ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_LOAD  , LOAD_ALGEBRAIC | LOAD_UPDATING                  , LOAD_HALFWORD  , rD , d  , rA ); }
-void _lhaux  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  , LOAD_ALGEBRAIC | LOAD_UPDATING  | LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
-void _lhax   ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  , LOAD_ALGEBRAIC                  | LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
-void _lhz    ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_LOAD  , 0                                               , LOAD_HALFWORD  , rD , d  , rA ); }
-void _lhzu   ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING                  , LOAD_HALFWORD  , rD , d  , rA ); }
-void _lhzux  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING  | LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
-void _lhzx   ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  ,                                   LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
-void _lhbrx  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  , LOAD_REVERSED                   | LOAD_INDEXED  , LOAD_HALFWORD  , rD , rA , rB ); }
-void _lwz    ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_LOAD  , 0                                               , LOAD_WORD      , rD , d  , rA ); }
-void _lwzu   ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING                  , LOAD_WORD      , rD , d  , rA ); }
-void _lwzux  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  ,                  LOAD_UPDATING  | LOAD_INDEXED  , LOAD_WORD      , rD , rA , rB ); }
-void _lwzx   ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  ,                                   LOAD_INDEXED  , LOAD_WORD      , rD , rA , rB ); }
-void _lwbrx  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_LOAD  , LOAD_REVERSED                   | LOAD_INDEXED  , LOAD_WORD      , rD , rA , rB ); }
+void _lbz    ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( OP_LOAD  , ARG_UIMM , QUAL_NONE      , false , false , SIZE_BYTE     , rD , 0  , rA , d  , 0  ); }
+void _lbzu   ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( OP_LOAD  , ARG_UIMM , QUAL_NONE      , true  , false , SIZE_BYTE     , rD , 0  , rA , d  , 0  ); }
+void _lbzux  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_NONE      , true  , true  , SIZE_BYTE     , rD , 0  , rA , 0  , rB ); }
+void _lbzx   ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_NONE      , false , true  , SIZE_BYTE     , rD , 0  , rA , 0  , rB ); }
+void _lha    ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( OP_LOAD  , ARG_UIMM , QUAL_ALGEBRAIC , false , false , SIZE_HALFWORD , rD , 0  , rA , d  , 0  ); }
+void _lhau   ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( OP_LOAD  , ARG_UIMM , QUAL_ALGEBRAIC , true  , false , SIZE_HALFWORD , rD , 0  , rA , d  , 0  ); }
+void _lhaux  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_ALGEBRAIC , true  , true  , SIZE_HALFWORD , rD , 0  , rA , 0  , rB ); }
+void _lhax   ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_ALGEBRAIC , false , true  , SIZE_HALFWORD , rD , 0  , rA , 0  , rB ); }
+void _lhz    ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( OP_LOAD  , ARG_UIMM , QUAL_NONE      , false , false , SIZE_HALFWORD , rD , 0  , rA , d  , 0  ); }
+void _lhzu   ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( OP_LOAD  , ARG_UIMM , QUAL_NONE      , true  , false , SIZE_HALFWORD , rD , 0  , rA , d  , 0  ); }
+void _lhzux  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_NONE      , true  , true  , SIZE_HALFWORD , rD , 0  , rA , 0  , rB ); }
+void _lhzx   ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_NONE      , false , true  , SIZE_HALFWORD , rD , 0  , rA , 0  , rB ); }
+void _lhbrx  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_REVERSE   , false , true  , SIZE_HALFWORD , rD , 0  , rA , 0  , rB ); }
+void _lwz    ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( OP_LOAD  , ARG_UIMM , QUAL_NONE      , false , false , SIZE_WORD     , rD , 0  , rA , d  , 0  ); }
+void _lwzu   ( uint5_t rD , sint16_t d  , uint5_t rA ) { _MEMORY( OP_LOAD  , ARG_UIMM , QUAL_NONE      , true  , false , SIZE_WORD     , rD , 0  , rA , d  , 0  ); }
+void _lwzux  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_NONE      , true  , true  , SIZE_WORD     , rD , 0  , rA , 0  , rB ); }
+void _lwzx   ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_NONE      , false , true  , SIZE_WORD     , rD , 0  , rA , 0  , rB ); }
+void _lwbrx  ( uint5_t rD , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_LOAD  , ARG_REG  , QUAL_REVERSE   , false , true  , SIZE_WORD     , rD , 0  , rA , 0  , rB ); }
 
-void _stb    ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_STORE , 0                                               , STORE_BYTE     , rS , d  , rA ); }
-void _stbu   ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING                 , STORE_BYTE     , rS , d  , rA ); }
-void _stbux  ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING | STORE_INDEXED , STORE_BYTE     , rS , rA , rB ); }
-void _stbx   ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_STORE ,                                   STORE_INDEXED , STORE_BYTE     , rS , rA , rB ); }
-void _sth    ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_STORE , 0                                               , STORE_HALFWORD , rS , d  , rA ); }
-void _sthu   ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING                 , STORE_HALFWORD , rS , d  , rA ); }
-void _sthux  ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING | STORE_INDEXED , STORE_HALFWORD , rS , rA , rB ); }
-void _sthx   ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_STORE ,                                   STORE_INDEXED , STORE_HALFWORD , rS , rA , rB ); }
-void _sthbrx ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_STORE , STORE_REVERSED                  | STORE_INDEXED , STORE_HALFWORD , rS , rA , rB ); }
-void _stw    ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_STORE , 0                                               , STORE_WORD     , rS , d  , rA ); }
-void _stwu   ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING                 , STORE_WORD     , rS , d  , rA ); }
-void _stwux  ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_STORE ,                  STORE_UPDATING | STORE_INDEXED , STORE_WORD     , rS , rA , rB ); }
-void _stwx   ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_STORE ,                                   STORE_INDEXED , STORE_WORD     , rS , rA , rB ); }
-void _stwbrx ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( MEMORY_STORE , STORE_REVERSED                  | STORE_INDEXED , STORE_WORD     , rS , rA , rB ); }
+void _stb    ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( OP_STORE , ARG_UIMM , QUAL_NONE      , false , false , SIZE_BYTE     , 0  , rS , rA , d  , 0  ); }
+void _stbu   ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( OP_STORE , ARG_UIMM , QUAL_NONE      , true  , false , SIZE_BYTE     , 0  , rS , rA , d  , 0  ); }
+void _stbux  ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_STORE , ARG_REG  , QUAL_NONE      , true  , true  , SIZE_BYTE     , 0  , rS , rA , 0  , rB ); }
+void _stbx   ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_STORE , ARG_REG  , QUAL_NONE      , false , true  , SIZE_BYTE     , 0  , rS , rA , 0  , rB ); }
+void _sth    ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( OP_STORE , ARG_UIMM , QUAL_NONE      , false , false , SIZE_HALFWORD , 0  , rS , rA , d  , 0  ); }
+void _sthu   ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( OP_STORE , ARG_UIMM , QUAL_NONE      , true  , false , SIZE_HALFWORD , 0  , rS , rA , d  , 0  ); }
+void _sthux  ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_STORE , ARG_REG  , QUAL_NONE      , true  , true  , SIZE_HALFWORD , 0  , rS , rA , 0  , rB ); }
+void _sthx   ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_STORE , ARG_REG  , QUAL_NONE      , false , true  , SIZE_HALFWORD , 0  , rS , rA , 0  , rB ); }
+void _sthbrx ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_STORE , ARG_REG  , QUAL_REVERSE   , false , true  , SIZE_HALFWORD , 0  , rS , rA , 0  , rB ); }
+void _stw    ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( OP_STORE , ARG_UIMM , QUAL_NONE      , false , false , SIZE_WORD     , 0  , rS , rA , d  , 0  ); }
+void _stwu   ( uint5_t rS , sint16_t d  , uint5_t rA ) { _MEMORY( OP_STORE , ARG_UIMM , QUAL_NONE      , true  , false , SIZE_WORD     , 0  , rS , rA , d  , 0  ); }
+void _stwux  ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_STORE , ARG_REG  , QUAL_NONE      , true  , true  , SIZE_WORD     , 0  , rS , rA , 0  , rB ); }
+void _stwx   ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_STORE , ARG_REG  , QUAL_NONE      , false , true  , SIZE_WORD     , 0  , rS , rA , 0  , rB ); }
+void _stwbrx ( uint5_t rS , uint5_t  rA , uint5_t rB ) { _MEMORY( OP_STORE , ARG_REG  , QUAL_REVERSE   , false , true  , SIZE_WORD     , 0  , rS , rA , 0  , rB ); }
 
 // Branching instructions:
 
@@ -738,35 +748,34 @@ const int BO_not_ctr_________ = 16;
 const int BO_____ctr_________ = 18;
 const int BO_________________ = 20; // Branch always
 
-void _BRANCH( int qualifier, uint5_t BO, uint5_t BI, sint32_t target_addr , uint1_t AA, uint1_t LK ) {
-  bool ctr_ok, cond_ok;
+void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32_t target_addr, uint1_t AA, uint1_t LK ) {
 
+  bool ctr_ok, cond_ok;
   uint3_t crfD     = BI / 4;
   uint2_t crfD_bit = BI % 4; 
-
-  if ( qualifier == BRANCH_CONDITIONALLY )
-  { if (!getBit(BO, 2)) { ctr = ctr -1; }
-    ctr_ok  = getBit(BO, 2) || ((ctr != 0) ^ getBit(BO, 1));
+  if ( conditional )
+  { if (!getBit(BO, 2)) { CTR = CTR -1; }
+    ctr_ok  = getBit(BO, 2) || ((CTR != 0) ^ getBit(BO, 1));
     cond_ok = getBit(BO, 4) || (getBit(crfD, crfD_bit) == getBit(BO, 3)); }
 
-  if ( qualifier == BRANCH_UNCONDITIONALLY ) {                        /* jump to target_addr */; }
-  if ( qualifier == BRANCH_CONDITIONALLY   ) { if (ctr_ok &amp;&amp; cond_ok) /* jump to target_addr */; }
-    if ( qualifier &amp;  BRANCH_TOLR          ) { if (ctr_ok &amp;&amp; cond_ok) /* jump to LR          */; }
-    if ( qualifier &amp;  BRANCH_TOCTR         ) { if (true   &amp;&amp; cond_ok) /* jump to CTR         */; }
+  if ( !conditional         ) { if ( qual == QUAL_NONE  ) {                        /* jump to target_addr */; } }
+  if (  conditional         ) { if ( qual == QUAL_NONE  ) { if (ctr_ok &amp;&amp; cond_ok) /* jump to target_addr */; }
+                                if ( qual == QUAL_TOLR  ) { if (ctr_ok &amp;&amp; cond_ok) /* jump to LR          */; }
+                                if ( qual == QUAL_TOCTR ) { if (true   &amp;&amp; cond_ok) /* jump to CTR         */; } }
 }
 
-void _b        (                           sint32_t target_addr ) { _BRANCH( BRANCH_UNCONDITIONALLY                , 0  , 0  , target_addr , false , false ); }
-void _ba       (                           sint32_t target_addr ) { _BRANCH( BRANCH_UNCONDITIONALLY                , 0  , 0  , target_addr , true  , false ); }
-void _bl       (                           sint32_t target_addr ) { _BRANCH( BRANCH_UNCONDITIONALLY                , 0  , 0  , target_addr , false , true  ); }
-void _bla      (                           sint32_t target_addr ) { _BRANCH( BRANCH_UNCONDITIONALLY                , 0  , 0  , target_addr , true  , true  ); }
-void _bc       ( uint5_t BO , uint5_t BI , sint32_t target_addr ) { _BRANCH( BRANCH_CONDITIONALLY                  , BO , BI , target_addr , false , false ); }
-void _bca      ( uint5_t BO , uint5_t BI , sint32_t target_addr ) { _BRANCH( BRANCH_CONDITIONALLY                  , BO , BI , target_addr , true  , false ); }
-void _bcl      ( uint5_t BO , uint5_t BI , sint32_t target_addr ) { _BRANCH( BRANCH_CONDITIONALLY                  , BO , BI , target_addr , false , true  ); }
-void _bcla     ( uint5_t BO , uint5_t BI , sint32_t target_addr ) { _BRANCH( BRANCH_CONDITIONALLY                  , BO , BI , target_addr , true  , true  ); }
-void _bcctr    ( uint5_t BO , uint5_t BI                        ) { _BRANCH( BRANCH_CONDITIONALLY   | BRANCH_TOCTR , BO , BI , 0           , false , false ); }
-void _bcctrl   ( uint5_t BO , uint5_t BI                        ) { _BRANCH( BRANCH_CONDITIONALLY   | BRANCH_TOCTR , BO , BI , 0           , false , true  ); }
-void _bclr     ( uint5_t BO , uint5_t BI                        ) { _BRANCH( BRANCH_CONDITIONALLY   | BRANCH_TOLR  , BO , BI , 0           , false , false ); }
-void _bclrl    ( uint5_t BO , uint5_t BI                        ) { _BRANCH( BRANCH_CONDITIONALLY   | BRANCH_TOLR  , BO , BI , 0           , false , true  ); }
+void _b        (                           sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , false , 0  , 0  , target_addr , false , false ); }
+void _ba       (                           sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , false , 0  , 0  , target_addr , true  , false ); }
+void _bl       (                           sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , false , 0  , 0  , target_addr , false , true  ); }
+void _bla      (                           sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , false , 0  , 0  , target_addr , true  , true  ); }
+void _bc       ( uint5_t BO , uint5_t BI , sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , true  , BO , BI , target_addr , false , false ); }
+void _bca      ( uint5_t BO , uint5_t BI , sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , true  , BO , BI , target_addr , true  , false ); }
+void _bcl      ( uint5_t BO , uint5_t BI , sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , true  , BO , BI , target_addr , false , true  ); }
+void _bcla     ( uint5_t BO , uint5_t BI , sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , true  , BO , BI , target_addr , true  , true  ); }
+void _bcctr    ( uint5_t BO , uint5_t BI                        ) { _BRANCH( OP_BR , QUAL_TOCTR , true  , BO , BI , 0           , false , false ); }
+void _bcctrl   ( uint5_t BO , uint5_t BI                        ) { _BRANCH( OP_BR , QUAL_TOCTR , true  , BO , BI , 0           , false , true  ); }
+void _bclr     ( uint5_t BO , uint5_t BI                        ) { _BRANCH( OP_BR , QUAL_TOLR  , true  , BO , BI , 0           , false , false ); }
+void _bclrl    ( uint5_t BO , uint5_t BI                        ) { _BRANCH( OP_BR , QUAL_TOLR  , true  , BO , BI , 0           , false , true  ); }
 
 void _bt       ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_____________cond , 4 * crfD + 0            , target_addr ); }
 void _bf       ( uint3_t crfD , sint32_t target_addr ) { _bc     ( BO_________not_cond , 4 * crfD + 0            , target_addr ); }
@@ -928,19 +937,26 @@ void _bnsctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________no
 void _bunctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_____________cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
 void _bnuctrl  ( uint3_t crfD                        ) { _bcctrl ( BO_________not_cond , 4 * crfD + (1 &lt;&lt; CR_SO)               ); }
 
-// Processor contreol instructions:
-/* TODO: reimplement.
-void _mfcr  ( uint5_t rD               ) { rD  = cr;                      }
-void _mfxer ( uint5_t rD               ) { rD  = xer;                     }
-void _mfctr ( uint5_t rD               ) { rD  = ctr;                     }
+// Processor control instructions:
+
+void _mfxer ( uint5_t rD               ) { GPRS[rD]  = XER;               }
+void _mfctr ( uint5_t rD               ) { GPRS[rD]  = CTR;               }
+void _mfcr  ( uint5_t rD               ) { GPRS[rD]  = (CR[0] &lt;&lt;  0);
+                                           GPRS[rD] |= (CR[1] &lt;&lt;  4); 
+                                           GPRS[rD] |= (CR[2] &lt;&lt;  8); 
+                                           GPRS[rD] |= (CR[3] &lt;&lt; 12); 
+                                           GPRS[rD] |= (CR[4] &lt;&lt; 16); 
+                                           GPRS[rD] |= (CR[5] &lt;&lt; 20); 
+                                           GPRS[rD] |= (CR[6] &lt;&lt; 24); 
+                                           GPRS[rD] |= (CR[7] &lt;&lt; 28);     }
 void _mfspr ( uint5_t rD , uint5_t spr ) { if (spr == 1) { _mfxer (rD); }
                                            if (spr == 9) { _mfctr (rD); } }
 
-void _mtxer (               uint5_t rS ) { xer = rS;                      }
-void _mtctr (               uint5_t rS ) { ctr = rS;                      }
+void _mtxer (               uint5_t rS ) { XER = GPRS[rS];                }
+void _mtctr (               uint5_t rS ) { CTR = GPRS[rS];                }
 void _mtspr ( uint5_t spr , uint5_t rS ) { if (spr == 1) { _mtxer (rS); }
                                            if (spr == 9) { _mtctr (rS); } }
-*/
+
 /* Flash: */
 
 void Flash_Init() {
