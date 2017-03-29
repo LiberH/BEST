@@ -1159,7 +1159,7 @@ const char* const e200z4_CR0_crfd_fcmpo_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpo");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr0");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1173,7 +1173,7 @@ const char* const e200z4_CR1_crfd_fcmpo_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpo");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr1");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1187,7 +1187,7 @@ const char* const e200z4_CR2_crfd_fcmpo_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpo");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr2");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1201,7 +1201,7 @@ const char* const e200z4_CR3_crfd_fcmpo_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpo");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr3");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1215,7 +1215,7 @@ const char* const e200z4_CR4_crfd_fcmpo_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpo");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr4");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1229,7 +1229,7 @@ const char* const e200z4_CR5_crfd_fcmpo_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpo");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr5");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1243,7 +1243,7 @@ const char* const e200z4_CR6_crfd_fcmpo_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpo");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr6");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1257,7 +1257,7 @@ const char* const e200z4_CR7_crfd_fcmpo_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpo");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr7");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1271,7 +1271,7 @@ const char* const e200z4_CR0_crfd_fcmpu_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpu");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr0");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1285,7 +1285,7 @@ const char* const e200z4_CR1_crfd_fcmpu_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpu");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr1");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1299,7 +1299,7 @@ const char* const e200z4_CR2_crfd_fcmpu_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpu");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr2");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1313,7 +1313,7 @@ const char* const e200z4_CR3_crfd_fcmpu_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpu");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr3");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1327,7 +1327,7 @@ const char* const e200z4_CR4_crfd_fcmpu_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpu");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr4");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1341,7 +1341,7 @@ const char* const e200z4_CR5_crfd_fcmpu_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpu");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr5");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1355,7 +1355,7 @@ const char* const e200z4_CR6_crfd_fcmpu_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpu");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr6");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -1369,7 +1369,7 @@ const char* const e200z4_CR7_crfd_fcmpu_fra_frb::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_fcmpu");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr7");
 	index += sprintf (result + index,",f%u,f%u",(u32)((u32)(frA)),(u32)((u32)(frB)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -2807,8 +2807,8 @@ const char* const e200z4_CR0_crfd_crfs_mcrf::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr0");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR0_crfd_crfs_mcrf)");
@@ -2821,8 +2821,8 @@ const char* const e200z4_CR1_crfd_crfs_mcrf::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr1");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR1_crfd_crfs_mcrf)");
@@ -2835,8 +2835,8 @@ const char* const e200z4_CR2_crfd_crfs_mcrf::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr2");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR2_crfd_crfs_mcrf)");
@@ -2849,8 +2849,8 @@ const char* const e200z4_CR3_crfd_crfs_mcrf::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr3");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR3_crfd_crfs_mcrf)");
@@ -2863,8 +2863,8 @@ const char* const e200z4_CR4_crfd_crfs_mcrf::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr4");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR4_crfd_crfs_mcrf)");
@@ -2877,8 +2877,8 @@ const char* const e200z4_CR5_crfd_crfs_mcrf::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr5");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR5_crfd_crfs_mcrf)");
@@ -2891,8 +2891,8 @@ const char* const e200z4_CR6_crfd_crfs_mcrf::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr6");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR6_crfd_crfs_mcrf)");
@@ -2905,8 +2905,8 @@ const char* const e200z4_CR7_crfd_crfs_mcrf::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr7");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR7_crfd_crfs_mcrf)");
@@ -2919,8 +2919,8 @@ const char* const e200z4_CR0_crfd_crfs_mcrfs::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrfs");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr0");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR0_crfd_crfs_mcrfs)");
@@ -2933,8 +2933,8 @@ const char* const e200z4_CR1_crfd_crfs_mcrfs::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrfs");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr1");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR1_crfd_crfs_mcrfs)");
@@ -2947,8 +2947,8 @@ const char* const e200z4_CR2_crfd_crfs_mcrfs::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrfs");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr2");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR2_crfd_crfs_mcrfs)");
@@ -2961,8 +2961,8 @@ const char* const e200z4_CR3_crfd_crfs_mcrfs::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrfs");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr3");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR3_crfd_crfs_mcrfs)");
@@ -2975,8 +2975,8 @@ const char* const e200z4_CR4_crfd_crfs_mcrfs::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrfs");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr4");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR4_crfd_crfs_mcrfs)");
@@ -2989,8 +2989,8 @@ const char* const e200z4_CR5_crfd_crfs_mcrfs::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrfs");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr5");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR5_crfd_crfs_mcrfs)");
@@ -3003,8 +3003,8 @@ const char* const e200z4_CR6_crfd_crfs_mcrfs::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrfs");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr6");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR6_crfd_crfs_mcrfs)");
@@ -3017,8 +3017,8 @@ const char* const e200z4_CR7_crfd_crfs_mcrfs::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrfs");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
-	index += sprintf (result + index,",cr");
+	index += sprintf (result + index,"cr7");
+	index += sprintf (result + index,",cr%u",(u32)((u32)(crfS)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR7_crfd_crfs_mcrfs)");
@@ -3031,7 +3031,7 @@ const char* const e200z4_CR0_crfd_mcrxr::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrxr");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr0");
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR0_crfd_mcrxr)");
@@ -3044,7 +3044,7 @@ const char* const e200z4_CR1_crfd_mcrxr::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrxr");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr1");
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR1_crfd_mcrxr)");
@@ -3057,7 +3057,7 @@ const char* const e200z4_CR2_crfd_mcrxr::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrxr");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr2");
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR2_crfd_mcrxr)");
@@ -3070,7 +3070,7 @@ const char* const e200z4_CR3_crfd_mcrxr::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrxr");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr3");
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR3_crfd_mcrxr)");
@@ -3083,7 +3083,7 @@ const char* const e200z4_CR4_crfd_mcrxr::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrxr");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr4");
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR4_crfd_mcrxr)");
@@ -3096,7 +3096,7 @@ const char* const e200z4_CR5_crfd_mcrxr::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrxr");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr5");
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR5_crfd_mcrxr)");
@@ -3109,7 +3109,7 @@ const char* const e200z4_CR6_crfd_mcrxr::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrxr");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr6");
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR6_crfd_mcrxr)");
@@ -3122,7 +3122,7 @@ const char* const e200z4_CR7_crfd_mcrxr::funct(){
 	int index = 0;
 	index += sprintf (result + index,"_mcrxr");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"cr");
+	index += sprintf (result + index,"cr7");
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR7_crfd_mcrxr)");
@@ -5105,12 +5105,12 @@ const char* const e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmpw(");
-		if(((crfD)!=(0U))){
+		// if(((crfD)!=(0U))){
 			index += sprintf (result + index,"cr");
-		}
-		index += sprintf (result + index,",r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
+		// }
+		index += sprintf (result + index,"%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmp(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmp(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR0_arith_cmp_crfd_l_ra_rb_reg)");
@@ -5123,12 +5123,12 @@ const char* const e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmpw(");
-		if(((crfD)!=(0U))){
+		// if(((crfD)!=(0U))){
 			index += sprintf (result + index,"cr");
-		}
-		index += sprintf (result + index,",r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
+		// }
+		index += sprintf (result + index,"%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmp(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmp(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR1_arith_cmp_crfd_l_ra_rb_reg)");
@@ -5141,12 +5141,12 @@ const char* const e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmpw(");
-		if(((crfD)!=(0U))){
+		// if(((crfD)!=(0U))){
 			index += sprintf (result + index,"cr");
-		}
-		index += sprintf (result + index,",r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
+		// }
+		index += sprintf (result + index,"%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmp(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmp(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR2_arith_cmp_crfd_l_ra_rb_reg)");
@@ -5159,12 +5159,12 @@ const char* const e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmpw(");
-		if(((crfD)!=(0U))){
+		// if(((crfD)!=(0U))){
 			index += sprintf (result + index,"cr");
-		}
-		index += sprintf (result + index,",r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
+		// }
+		index += sprintf (result + index,"%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmp(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmp(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR3_arith_cmp_crfd_l_ra_rb_reg)");
@@ -5177,12 +5177,12 @@ const char* const e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmpw(");
-		if(((crfD)!=(0U))){
+		// if(((crfD)!=(0U))){
 			index += sprintf (result + index,"cr");
-		}
-		index += sprintf (result + index,",r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
+		// }
+		index += sprintf (result + index,"%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmp(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmp(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR4_arith_cmp_crfd_l_ra_rb_reg)");
@@ -5195,12 +5195,12 @@ const char* const e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmpw(");
-		if(((crfD)!=(0U))){
+		// if(((crfD)!=(0U))){
 			index += sprintf (result + index,"cr");
-		}
-		index += sprintf (result + index,",r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
+		// }
+		index += sprintf (result + index,"%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmp(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmp(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR5_arith_cmp_crfd_l_ra_rb_reg)");
@@ -5213,12 +5213,12 @@ const char* const e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmpw(");
-		if(((crfD)!=(0U))){
+		// if(((crfD)!=(0U))){
 			index += sprintf (result + index,"cr");
-		}
-		index += sprintf (result + index,",r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
+		// }
+		index += sprintf (result + index,"%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmp(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmp(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR6_arith_cmp_crfd_l_ra_rb_reg)");
@@ -5231,12 +5231,12 @@ const char* const e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmpw(");
-		if(((crfD)!=(0U))){
+		// if(((crfD)!=(0U))){
 			index += sprintf (result + index,"cr");
-		}
-		index += sprintf (result + index,",r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
+		// }
+		index += sprintf (result + index,"%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmp(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmp(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR7_arith_cmp_crfd_l_ra_rb_reg)");
@@ -5248,17 +5248,17 @@ const char* const e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpwi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpwi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpdi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpdi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR0_arith_cmp_crfd_immediate_l_ra_simm)");
@@ -5270,17 +5270,17 @@ const char* const e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpwi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpwi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpdi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpdi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR1_arith_cmp_crfd_immediate_l_ra_simm)");
@@ -5292,17 +5292,17 @@ const char* const e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpwi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpwi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpdi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpdi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR2_arith_cmp_crfd_immediate_l_ra_simm)");
@@ -5314,17 +5314,17 @@ const char* const e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpwi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpwi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpdi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpdi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR3_arith_cmp_crfd_immediate_l_ra_simm)");
@@ -5336,17 +5336,17 @@ const char* const e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpwi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpwi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpdi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpdi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR4_arith_cmp_crfd_immediate_l_ra_simm)");
@@ -5358,17 +5358,17 @@ const char* const e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpwi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpwi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpdi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpdi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR5_arith_cmp_crfd_immediate_l_ra_simm)");
@@ -5380,17 +5380,17 @@ const char* const e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpwi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpwi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpdi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpdi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR6_arith_cmp_crfd_immediate_l_ra_simm)");
@@ -5402,17 +5402,17 @@ const char* const e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpwi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpwi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpwi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpdi(cr,r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpdi(r%u,%d)",(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpdi(cr%u,r%u,%d)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(SIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR7_arith_cmp_crfd_immediate_l_ra_simm)");
@@ -5425,12 +5425,12 @@ const char* const e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmplw(");
-		if(((crfD)!=(0U))){
-			index += sprintf (result + index,"cr,");
-		}
+		// if(((crfD)!=(0U))){
+			index += sprintf (result + index,"cr%u,",(u32)((u32)(crfD)));
+		// }
 		index += sprintf (result + index,"r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmpl(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmpl(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR0_cmp_crfd_l_logical_ra_rb_reg)");
@@ -5443,12 +5443,12 @@ const char* const e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmplw(");
-		if(((crfD)!=(0U))){
-			index += sprintf (result + index,"cr,");
-		}
+		// if(((crfD)!=(0U))){
+			index += sprintf (result + index,"cr%u,",(u32)((u32)(crfD)));
+		// }
 		index += sprintf (result + index,"r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmpl(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmpl(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR1_cmp_crfd_l_logical_ra_rb_reg)");
@@ -5461,12 +5461,12 @@ const char* const e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmplw(");
-		if(((crfD)!=(0U))){
-			index += sprintf (result + index,"cr,");
-		}
+		// if(((crfD)!=(0U))){
+			index += sprintf (result + index,"cr%u,",(u32)((u32)(crfD)));
+		// }
 		index += sprintf (result + index,"r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmpl(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmpl(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR2_cmp_crfd_l_logical_ra_rb_reg)");
@@ -5479,12 +5479,12 @@ const char* const e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmplw(");
-		if(((crfD)!=(0U))){
-			index += sprintf (result + index,"cr,");
-		}
+		// if(((crfD)!=(0U))){
+			index += sprintf (result + index,"cr%u,",(u32)((u32)(crfD)));
+		// }
 		index += sprintf (result + index,"r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmpl(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmpl(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR3_cmp_crfd_l_logical_ra_rb_reg)");
@@ -5497,12 +5497,12 @@ const char* const e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmplw(");
-		if(((crfD)!=(0U))){
-			index += sprintf (result + index,"cr,");
-		}
+		// if(((crfD)!=(0U))){
+			index += sprintf (result + index,"cr%u,",(u32)((u32)(crfD)));
+		// }
 		index += sprintf (result + index,"r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmpl(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmpl(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR4_cmp_crfd_l_logical_ra_rb_reg)");
@@ -5515,12 +5515,12 @@ const char* const e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmplw(");
-		if(((crfD)!=(0U))){
-			index += sprintf (result + index,"cr,");
-		}
+		// if(((crfD)!=(0U))){
+			index += sprintf (result + index,"cr%u,",(u32)((u32)(crfD)));
+		// }
 		index += sprintf (result + index,"r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmpl(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmpl(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR5_cmp_crfd_l_logical_ra_rb_reg)");
@@ -5533,12 +5533,12 @@ const char* const e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmplw(");
-		if(((crfD)!=(0U))){
-			index += sprintf (result + index,"cr,");
-		}
+		// if(((crfD)!=(0U))){
+			index += sprintf (result + index,"cr%u,",(u32)((u32)(crfD)));
+		// }
 		index += sprintf (result + index,"r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmpl(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmpl(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR6_cmp_crfd_l_logical_ra_rb_reg)");
@@ -5551,12 +5551,12 @@ const char* const e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg::funct(){
 	int index = 0;
 	if(((L)==(0U))){
 		index += sprintf (result + index,"_cmplw(");
-		if(((crfD)!=(0U))){
-			index += sprintf (result + index,"cr,");
-		}
+		// if(((crfD)!=(0U))){
+			index += sprintf (result + index,"cr%u,",(u32)((u32)(crfD)));
+		// }
 		index += sprintf (result + index,"r%u,r%u)",(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}else{
-		index += sprintf (result + index,"_cmpl(cr,%u,r%u,r%u)",(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
+		index += sprintf (result + index,"_cmpl(cr%u,%u,r%u,r%u)",(u32)((u32)(crfD)),(u32)((u32)(L)),(u32)((u32)(rA)),(u32)((u32)(rB)));
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR7_cmp_crfd_l_logical_ra_rb_reg)");
@@ -5568,17 +5568,17 @@ const char* const e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmplwi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmplwi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpldi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpldi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR0_cmp_crfd_immediate_l_logical_ra_uimm)");
@@ -5590,17 +5590,17 @@ const char* const e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmplwi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmplwi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpldi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpldi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR1_cmp_crfd_immediate_l_logical_ra_uimm)");
@@ -5612,17 +5612,17 @@ const char* const e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmplwi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmplwi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpldi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpldi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR2_cmp_crfd_immediate_l_logical_ra_uimm)");
@@ -5634,17 +5634,17 @@ const char* const e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmplwi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmplwi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpldi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpldi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR3_cmp_crfd_immediate_l_logical_ra_uimm)");
@@ -5656,17 +5656,17 @@ const char* const e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmplwi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmplwi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpldi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpldi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR4_cmp_crfd_immediate_l_logical_ra_uimm)");
@@ -5678,17 +5678,17 @@ const char* const e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmplwi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmplwi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpldi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpldi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR5_cmp_crfd_immediate_l_logical_ra_uimm)");
@@ -5700,17 +5700,17 @@ const char* const e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmplwi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmplwi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpldi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpldi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR6_cmp_crfd_immediate_l_logical_ra_uimm)");
@@ -5722,17 +5722,17 @@ const char* const e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm::funct(){
 	char *result = new char[128];
 	int index = 0;
 	if(((L)==(0U))){
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmplwi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmplwi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmplwi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}else{
-		if(((crfD)==(0U))){
-			index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}else{
-			index += sprintf (result + index,"_cmpldi(cr,r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
-		}
+		// if(((crfD)==(0U))){
+		// 	index += sprintf (result + index,"_cmpldi(r%u,%u)",(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }else{
+			index += sprintf (result + index,"_cmpldi(cr%u,r%u,%u)",(u32)((u32)(crfD)),(u32)((u32)(rA)),(u32)((u32)(UIMM)));
+		// }
 	}
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_CR7_cmp_crfd_immediate_l_logical_ra_uimm)");
@@ -5746,8 +5746,17 @@ const char* const e200z4_bc_bd_bi_bo_d_nz_rel_revStatPred_t::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"dnzt");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -5763,8 +5772,17 @@ const char* const e200z4_bc_bd_bi_bo_d_nz_rel_statPred_t::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"dnzt");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -5780,8 +5798,17 @@ const char* const e200z4_bc_bd_bi_bo_d_f_nz_rel_revStatPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"dnzf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -5797,8 +5824,17 @@ const char* const e200z4_bc_bd_bi_bo_d_f_nz_rel_statPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"dnzf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -5818,21 +5854,21 @@ const char* const e200z4_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred::funct(){
 		index += sprintf (result + index,"c");
 	}
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -5851,21 +5887,21 @@ const char* const e200z4_bc_bd_bi_bo_d_noCond_nz_rel_statPred::funct(){
 		index += sprintf (result + index,"c");
 	}
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -5880,8 +5916,17 @@ const char* const e200z4_bc_bd_bi_bo_d_rel_revStatPred_t_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"dzt");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -5897,8 +5942,17 @@ const char* const e200z4_bc_bd_bi_bo_d_rel_statPred_t_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"dzt");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -5914,8 +5968,17 @@ const char* const e200z4_bc_bd_bi_bo_d_f_rel_revStatPred_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"dzf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -5931,8 +5994,17 @@ const char* const e200z4_bc_bd_bi_bo_d_f_rel_statPred_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"dzf");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -5952,23 +6024,23 @@ const char* const e200z4_bc_bd_bi_bo_d_noCond_rel_revStatPred_z::funct(){
 		index += sprintf (result + index,"c");
 	}
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}else if(((BO)==(20U))){
-		index += sprintf (result + index,"lt,");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }else if(((BO)==(20U))){
+	// 	index += sprintf (result + index,"lt,");
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -5987,23 +6059,23 @@ const char* const e200z4_bc_bd_bi_bo_d_noCond_rel_statPred_z::funct(){
 		index += sprintf (result + index,"c");
 	}
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}else if(((BO)==(20U))){
-		index += sprintf (result + index,"lt,");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }else if(((BO)==(20U))){
+	// 	index += sprintf (result + index,"lt,");
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6019,8 +6091,17 @@ const char* const e200z4_bc_bd_bi_bo_nd_noCond_rel_revStatPred::funct(){
 	index += sprintf (result + index,"c");
 	index += sprintf (result + index,"(");
 	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6037,8 +6118,17 @@ const char* const e200z4_bc_bd_bi_bo_nd_noCond_rel_statPred::funct(){
 	index += sprintf (result + index,"c");
 	index += sprintf (result + index,"(");
 	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6052,6 +6142,7 @@ const char* const e200z4_bc_bd_bi_bo_nd_rel_revStatPred_t::funct(){
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"_b");
+	//*/
 	if(((FIELD(BI,(1U),(0U)))==(0U))){
 		index += sprintf (result + index,"lt");
 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
@@ -6061,11 +6152,11 @@ const char* const e200z4_bc_bd_bi_bo_nd_rel_revStatPred_t::funct(){
 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
 		index += sprintf (result + index,"so");
 	}
-
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6078,6 +6169,7 @@ const char* const e200z4_bc_bd_bi_bo_nd_rel_statPred_t::funct(){
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"_b");
+	//*/
 	if(((FIELD(BI,(1U),(0U)))==(0U))){
 		index += sprintf (result + index,"lt");
 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
@@ -6087,11 +6179,11 @@ const char* const e200z4_bc_bd_bi_bo_nd_rel_statPred_t::funct(){
 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
 		index += sprintf (result + index,"so");
 	}
-
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6114,9 +6206,9 @@ const char* const e200z4_bc_bd_bi_bo_f_nd_rel_revStatPred::funct(){
 		index += sprintf (result + index,"ns");
 	}
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6139,9 +6231,9 @@ const char* const e200z4_bc_bd_bi_bo_f_nd_rel_statPred::funct(){
 		index += sprintf (result + index,"ns");
 	}
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6157,8 +6249,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_nz_revStatPred_t::funct(){
 	index += sprintf (result + index,"dnzt");
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6175,8 +6276,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_nz_statPred_t::funct(){
 	index += sprintf (result + index,"dnzt");
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6193,8 +6303,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_f_nz_revStatPred::funct(){
 	index += sprintf (result + index,"dnzf");
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6211,8 +6330,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_f_nz_statPred::funct(){
 	index += sprintf (result + index,"dnzf");
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6233,21 +6361,21 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred::funct(){
 	}
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6267,21 +6395,21 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_noCond_nz_statPred::funct(){
 	}
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6297,8 +6425,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_revStatPred_t_z::funct(){
 	index += sprintf (result + index,"dzt");
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6315,8 +6452,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_statPred_t_z::funct(){
 	index += sprintf (result + index,"dzt");
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6333,8 +6479,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_f_revStatPred_z::funct(){
 	index += sprintf (result + index,"dzf");
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6351,8 +6506,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_f_statPred_z::funct(){
 	index += sprintf (result + index,"dzf");
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6373,23 +6537,23 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_noCond_revStatPred_z::funct(){
 	}
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}else if(((BO)==(20U))){
-		index += sprintf (result + index,"lt,");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }else if(((BO)==(20U))){
+	// 	index += sprintf (result + index,"lt,");
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6409,23 +6573,23 @@ const char* const e200z4_abs_bc_bd_bi_bo_d_noCond_statPred_z::funct(){
 	}
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}else if(((BO)==(20U))){
-		index += sprintf (result + index,"lt,");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }else if(((BO)==(20U))){
+	// 	index += sprintf (result + index,"lt,");
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6442,8 +6606,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_nd_noCond_revStatPred::funct(){
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
 	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6461,8 +6634,17 @@ const char* const e200z4_abs_bc_bd_bi_bo_nd_noCond_statPred::funct(){
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
 	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -6476,6 +6658,7 @@ const char* const e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t::funct(){
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"_b");
+	//*/
 	if(((FIELD(BI,(1U),(0U)))==(0U))){
 		index += sprintf (result + index,"lt");
 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
@@ -6485,12 +6668,12 @@ const char* const e200z4_abs_bc_bd_bi_bo_nd_revStatPred_t::funct(){
 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
 		index += sprintf (result + index,"so");
 	}
-
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6503,6 +6686,7 @@ const char* const e200z4_abs_bc_bd_bi_bo_nd_statPred_t::funct(){
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"_b");
+	//*/
 	if(((FIELD(BI,(1U),(0U)))==(0U))){
 		index += sprintf (result + index,"lt");
 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
@@ -6512,12 +6696,12 @@ const char* const e200z4_abs_bc_bd_bi_bo_nd_statPred_t::funct(){
 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
 		index += sprintf (result + index,"so");
 	}
-
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6541,9 +6725,9 @@ const char* const e200z4_abs_bc_bd_bi_bo_f_nd_revStatPred::funct(){
 	}
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6567,9 +6751,9 @@ const char* const e200z4_abs_bc_bd_bi_bo_f_nd_statPred::funct(){
 	}
 	index += sprintf (result + index,"a");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6585,8 +6769,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_revStatPred_t_updatelr::f
 	index += sprintf (result + index,"dnzt");
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6603,8 +6796,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_nz_rel_statPred_t_updatelr::func
 	index += sprintf (result + index,"dnzt");
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6621,8 +6823,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_revStatPred_updatelr::f
 	index += sprintf (result + index,"dnzf");
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6639,8 +6850,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_f_nz_rel_statPred_updatelr::func
 	index += sprintf (result + index,"dnzf");
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6661,21 +6881,21 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_revStatPred_update
 	}
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6695,21 +6915,21 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_noCond_nz_rel_statPred_updatelr:
 	}
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6725,8 +6945,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_rel_revStatPred_t_updatelr_z::fu
 	index += sprintf (result + index,"dzt");
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6743,8 +6972,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_rel_statPred_t_updatelr_z::funct
 	index += sprintf (result + index,"dzt");
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6761,8 +6999,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_revStatPred_updatelr_z::fu
 	index += sprintf (result + index,"dzf");
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6779,8 +7026,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_f_rel_statPred_updatelr_z::funct
 	index += sprintf (result + index,"dzf");
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6801,23 +7057,23 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_revStatPred_updatelr_
 	}
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}else if(((BO)==(20U))){
-		index += sprintf (result + index,"lt,");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }else if(((BO)==(20U))){
+	// 	index += sprintf (result + index,"lt,");
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6837,23 +7093,23 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_d_noCond_rel_statPred_updatelr_z::
 	}
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}else if(((BO)==(20U))){
-		index += sprintf (result + index,"lt,");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }else if(((BO)==(20U))){
+	// 	index += sprintf (result + index,"lt,");
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6870,8 +7126,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_revStatPred_updatelr
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
 	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6889,8 +7154,17 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_nd_noCond_rel_statPred_updatelr::f
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
 	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
@@ -6904,6 +7178,7 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_nd_rel_revStatPred_t_updatelr::fun
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"_b");
+	//*/
 	if(((FIELD(BI,(1U),(0U)))==(0U))){
 		index += sprintf (result + index,"lt");
 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
@@ -6913,12 +7188,12 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_nd_rel_revStatPred_t_updatelr::fun
 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
 		index += sprintf (result + index,"so");
 	}
-
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6931,6 +7206,7 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_nd_rel_statPred_t_updatelr::funct(
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"_b");
+	//*/
 	if(((FIELD(BI,(1U),(0U)))==(0U))){
 		index += sprintf (result + index,"lt");
 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
@@ -6940,12 +7216,12 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_nd_rel_statPred_t_updatelr::funct(
 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
 		index += sprintf (result + index,"so");
 	}
-
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6969,9 +7245,9 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_revStatPred_updatelr::fun
 	}
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -6995,9 +7271,9 @@ const char* const e200z4_SP_Check_bc_bd_bi_bo_f_nd_rel_statPred_updatelr::funct(
 	}
 	index += sprintf (result + index,"l");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%u",(u32)((u32)(((((u64)((((u32)((((BD)<<((s16)(2U)))) & 0xFFFFFFFF))-((u32)(4U)))))+((u64)(getInstructionPointer())))) & 0xFFFFFFFF)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7013,8 +7289,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_revStatPred_t_updatelr::f
 	index += sprintf (result + index,"dnzt");
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7031,8 +7316,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_nz_statPred_t_updatelr::func
 	index += sprintf (result + index,"dnzt");
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7049,8 +7343,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_revStatPred_updatelr::f
 	index += sprintf (result + index,"dnzf");
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7067,8 +7370,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_nz_statPred_updatelr::func
 	index += sprintf (result + index,"dnzf");
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7089,21 +7401,21 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_revStatPred_update
 	}
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7123,21 +7435,21 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_nz_statPred_updatelr:
 	}
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7153,8 +7465,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_revStatPred_t_updatelr_z::fu
 	index += sprintf (result + index,"dzt");
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7171,8 +7492,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_statPred_t_updatelr_z::funct
 	index += sprintf (result + index,"dzt");
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7189,8 +7519,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_revStatPred_updatelr_z::fu
 	index += sprintf (result + index,"dzf");
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7207,8 +7546,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_f_statPred_updatelr_z::funct
 	index += sprintf (result + index,"dzf");
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7229,23 +7577,23 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_revStatPred_updatelr_
 	}
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}else if(((BO)==(20U))){
-		index += sprintf (result + index,"lt,");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }else if(((BO)==(20U))){
+	// 	index += sprintf (result + index,"lt,");
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7265,23 +7613,23 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_d_noCond_statPred_updatelr_z::
 	}
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	if(((BI)!=(0U))){
+	// if(((BI)!=(0U))){
 		index += sprintf (result + index,"%u,",(u32)((u32)((((u8)(FIELD(BO,(4U),(1U))))*((u8)(2U))))));
-	}
-	if(((BI)!=(0U))){
-		if(((FIELD(BI,(1U),(0U)))==(0U))){
-			index += sprintf (result + index,"lt");
-		}else if(((FIELD(BI,(1U),(0U)))==(1U))){
-			index += sprintf (result + index,"gt");
-		}else if(((FIELD(BI,(1U),(0U)))==(2U))){
-			index += sprintf (result + index,"eq");
-		}else if(((FIELD(BI,(1U),(0U)))==(3U))){
-			index += sprintf (result + index,"so");
-		}
-		index += sprintf (result + index,",");
-	}else if(((BO)==(20U))){
-		index += sprintf (result + index,"lt,");
-	}
+	// }
+	// if(((BI)!=(0U))){
+	// 	if(((FIELD(BI,(1U),(0U)))==(0U))){
+	// 		index += sprintf (result + index,"lt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+	// 		index += sprintf (result + index,"gt");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+	// 		index += sprintf (result + index,"eq");
+	// 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+	// 		index += sprintf (result + index,"so");
+	// 	}
+	// 	index += sprintf (result + index,",");
+	// }else if(((BO)==(20U))){
+	// 	index += sprintf (result + index,"lt,");
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7298,8 +7646,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_revStatPred_updatelr
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
 	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7317,8 +7674,17 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_noCond_statPred_updatelr::f
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
 	index += sprintf (result + index,"%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,",");
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
@@ -7332,6 +7698,7 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr::fun
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"_b");
+	//*/
 	if(((FIELD(BI,(1U),(0U)))==(0U))){
 		index += sprintf (result + index,"lt");
 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
@@ -7341,12 +7708,12 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_revStatPred_t_updatelr::fun
 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
 		index += sprintf (result + index,"so");
 	}
-
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7359,6 +7726,7 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr::funct(
 	char *result = new char[128];
 	int index = 0;
 	index += sprintf (result + index,"_b");
+	//*/
 	if(((FIELD(BI,(1U),(0U)))==(0U))){
 		index += sprintf (result + index,"lt");
 	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
@@ -7368,12 +7736,12 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_nd_statPred_t_updatelr::funct(
 	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
 		index += sprintf (result + index,"so");
 	}
-
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7397,9 +7765,9 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_revStatPred_updatelr::fun
 	}
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7423,9 +7791,9 @@ const char* const e200z4_SP_Check_abs_bc_bd_bi_bo_f_nd_statPred_updatelr::funct(
 	}
 	index += sprintf (result + index,"la");
 	index += sprintf (result + index,"(");
-	if(((FIELD(BI,(4U),(2U)))!=(0U))){
-	  //index += sprintf (result + index,"cr,");
-	}
+	// if(((FIELD(BI,(4U),(2U)))!=(0U))){
+		index += sprintf (result + index,"cr%u,",(u32)((u32)(FIELD(BI,(4U),(2U)))));
+	// }
 	index += sprintf (result + index,"%d",(u32)((u32)(((BD)<<((s16)(2U))))));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
@@ -7440,8 +7808,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_nz_revStatPred_t)");
@@ -7455,8 +7832,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_f_nz_revStatPred)");
@@ -7470,8 +7856,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred)");
@@ -7485,8 +7880,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_revStatPred_t_z)");
@@ -7500,8 +7904,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_f_revStatPred_z)");
@@ -7515,8 +7928,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_noCond_revStatPred_z)");
@@ -7530,8 +7952,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_nd_noCond_revStatPred)");
@@ -7545,8 +7976,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_nd_revStatPred_t)");
@@ -7560,8 +8000,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_f_nd_revStatPred)");
@@ -7575,8 +8024,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_nz_statPred_t)");
@@ -7590,8 +8048,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_f_nz_statPred)");
@@ -7605,8 +8072,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_noCond_nz_statPred)");
@@ -7620,8 +8096,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_statPred_t_z)");
@@ -7635,8 +8120,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_f_statPred_z)");
@@ -7650,8 +8144,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_d_noCond_statPred_z)");
@@ -7665,8 +8168,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_nd_noCond_statPred)");
@@ -7680,8 +8192,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_nd_statPred_t::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_nd_statPred_t)");
@@ -7695,8 +8216,17 @@ const char* const e200z4_abs_bc_bi_bo_ctr_f_nd_statPred::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_ctr_f_nd_statPred)");
@@ -7710,8 +8240,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr::
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_revStatPred_t_updatelr)");
@@ -7725,8 +8264,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr::
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_revStatPred_updatelr)");
@@ -7740,8 +8288,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updat
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_revStatPred_updatelr)");
@@ -7755,8 +8312,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z::f
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_revStatPred_t_updatelr_z)");
@@ -7770,8 +8336,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z::f
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_revStatPred_updatelr_z)");
@@ -7785,8 +8360,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_revStatPred_updatelr_z)");
@@ -7800,8 +8384,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatel
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_revStatPred_updatelr)");
@@ -7815,8 +8408,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr::fu
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_revStatPred_t_updatelr)");
@@ -7830,8 +8432,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr::fu
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_revStatPred_updatelr)");
@@ -7845,8 +8456,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr::fun
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_nz_statPred_t_updatelr)");
@@ -7860,8 +8480,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr::fun
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_nz_statPred_updatelr)");
@@ -7875,8 +8504,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_nz_statPred_updatelr)");
@@ -7890,8 +8528,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z::func
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_statPred_t_updatelr_z)");
@@ -7905,8 +8552,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z::func
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_f_statPred_updatelr_z)");
@@ -7920,8 +8576,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z:
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_d_noCond_statPred_updatelr_z)");
@@ -7935,8 +8600,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr::
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_noCond_statPred_updatelr)");
@@ -7950,8 +8624,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr::funct
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_nd_statPred_t_updatelr)");
@@ -7965,8 +8648,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr::funct
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"cctrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_ctr_f_nd_statPred_updatelr)");
@@ -7980,8 +8672,17 @@ const char* const e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_nz_revStatPred_t_tolr)");
@@ -7995,8 +8696,17 @@ const char* const e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_f_nz_revStatPred_tolr)");
@@ -8010,8 +8720,17 @@ const char* const e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr)");
@@ -8025,8 +8744,17 @@ const char* const e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_revStatPred_t_tolr_z)");
@@ -8040,8 +8768,17 @@ const char* const e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_f_revStatPred_tolr_z)");
@@ -8055,8 +8792,17 @@ const char* const e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_noCond_revStatPred_tolr_z)");
@@ -8070,8 +8816,17 @@ const char* const e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_nd_noCond_revStatPred_tolr)");
@@ -8085,8 +8840,17 @@ const char* const e200z4_abs_bc_bi_bo_nd_revStatPred_t_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_nd_revStatPred_t_tolr)");
@@ -8100,8 +8864,17 @@ const char* const e200z4_abs_bc_bi_bo_f_nd_revStatPred_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_f_nd_revStatPred_tolr)");
@@ -8115,8 +8888,17 @@ const char* const e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_nz_statPred_t_tolr)");
@@ -8130,8 +8912,17 @@ const char* const e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_f_nz_statPred_tolr)");
@@ -8145,8 +8936,17 @@ const char* const e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_noCond_nz_statPred_tolr)");
@@ -8160,8 +8960,17 @@ const char* const e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_statPred_t_tolr_z)");
@@ -8175,8 +8984,17 @@ const char* const e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_f_statPred_tolr_z)");
@@ -8190,8 +9008,17 @@ const char* const e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_d_noCond_statPred_tolr_z)");
@@ -8205,8 +9032,17 @@ const char* const e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_nd_noCond_statPred_tolr)");
@@ -8220,8 +9056,17 @@ const char* const e200z4_abs_bc_bi_bo_nd_statPred_t_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_nd_statPred_t_tolr)");
@@ -8235,8 +9080,17 @@ const char* const e200z4_abs_bc_bi_bo_f_nd_statPred_tolr::funct(){
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clr");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_abs_bc_bi_bo_f_nd_statPred_tolr)");
@@ -8250,8 +9104,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr:
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_nz_revStatPred_t_tolr_updatelr)");
@@ -8265,8 +9128,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr:
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_revStatPred_tolr_updatelr)");
@@ -8280,8 +9152,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_upda
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_revStatPred_tolr_updatelr)");
@@ -8295,8 +9176,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z::
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_revStatPred_t_tolr_updatelr_z)");
@@ -8310,8 +9200,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z::
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_f_revStatPred_tolr_updatelr_z)");
@@ -8325,8 +9224,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatel
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_noCond_revStatPred_tolr_updatelr_z)");
@@ -8340,8 +9248,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_update
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_revStatPred_tolr_updatelr)");
@@ -8355,8 +9272,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr::f
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_nd_revStatPred_t_tolr_updatelr)");
@@ -8370,8 +9296,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr::f
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_f_nd_revStatPred_tolr_updatelr)");
@@ -8385,8 +9320,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr::fu
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_nz_statPred_t_tolr_updatelr)");
@@ -8400,8 +9344,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr::fu
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_f_nz_statPred_tolr_updatelr)");
@@ -8415,8 +9368,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatel
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_noCond_nz_statPred_tolr_updatelr)");
@@ -8430,8 +9392,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z::fun
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_statPred_t_tolr_updatelr_z)");
@@ -8445,8 +9416,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z::fun
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_f_statPred_tolr_updatelr_z)");
@@ -8460,8 +9440,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_d_noCond_statPred_tolr_updatelr_z)");
@@ -8475,8 +9464,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr:
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_nd_noCond_statPred_tolr_updatelr)");
@@ -8490,8 +9488,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr::func
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_nd_statPred_t_tolr_updatelr)");
@@ -8505,8 +9512,17 @@ const char* const e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr::func
 	index += sprintf (result + index,"_b");
 	index += sprintf (result + index,"clrl");
 	index += sprintf (result + index,"(%u,",(u32)((u32)(BO)));
-	index += sprintf (result + index,"%u",(u32)((u32)(BI)));
-
+	/*/
+	if(((FIELD(BI,(1U),(0U)))==(0U))){
+		index += sprintf (result + index,"lt");
+	}else if(((FIELD(BI,(1U),(0U)))==(1U))){
+		index += sprintf (result + index,"gt");
+	}else if(((FIELD(BI,(1U),(0U)))==(2U))){
+		index += sprintf (result + index,"eq");
+	}else if(((FIELD(BI,(1U),(0U)))==(3U))){
+		index += sprintf (result + index,"so");
+	}
+        //*/index += sprintf (result + index,"%u",(u32)((u32)(BI)));
 	index += sprintf (result + index,")");
 	#ifdef DEBUG_MNEMO
 		index += sprintf (result + index, " (e200z4_SP_Check_abs_bc_bi_bo_f_nd_statPred_tolr_updatelr)");

@@ -357,7 +357,7 @@ CFG::pre_jump (XMLDocument *doc, Inst *src_inst, string trg_id, bool taken)
   upd += (taken ? "true" : "false");
   switch (src_inst -> m_test)
     {
-    case  0: oss <<"true"; break;
+    case  0: oss << "true"; break;
       
     case  1: oss << "lt(cr" << src_inst -> m_crfD << ")"; break;
     case  2: oss << "gt(cr" << src_inst -> m_crfD << ")"; break;
@@ -645,7 +645,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   string::size_type index;
   string pattern_inst_max = " /* REPLACE_WITH_INST_MAX */ 1;";
   string pattern_regs     = " /* REPLACE_WITH_REGS */ _REGS;";
-  string pattern_insts    = " /* REPLACE_WITH_INSTS */ _EMPTY_INST;";
+  string pattern_insts    = " /* REPLACE_WITH_INSTS */ { _EMPTY_INST };";
 
   index = 0;
   index = nta_decl_txt.find (pattern_inst_max, index);
@@ -673,42 +673,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 	  << " " << inst -> m_function << "; "
 	  << "}" << endl;
     }
-  
-/*
-// TODO: generate from tool (currently hand written)
-void execute_3004() { li(r10, 3);        }
-void execute_300c() { li(r7, 4);         } // TODO: modified for simulation
-					   // ease; set back to "28" for real
-					   // testing
-void execute_3010() { mtctr(r7);         }
-void execute_3014() { cmpi(cr, r3, 1);   }
-void execute_3018() { bgt(12340);        }
-void execute_3024() { addi(r10, r10, 1); }
-void execute_302c() { bdz(12352);        }
-void execute_3034() { cmpw(cr, r3, r10); }
-void execute_3038() { bge(12320);        }
-void execute_3058() { li(r3, 30);        }
-*/
-
-  /*
-  oss << "/ * Functions: * /" << endl;
-  oss << endl;
-  oss << "int dumb;" << endl;
-  inst_it = slice -> begin ();
-  for (; inst_it != slice -> end (); ++inst_it)
-    {
-      Inst *inst = *inst_it;
-      if (inst -> m_branch) continue;
-      
-      oss << "void execute_" << hex << inst -> m_addr << "() {" << endl;
-      oss << "  // TODO" << endl;
-      oss << "  dumb = 0;" << endl;
-      oss << "}" << endl;
-      oss << endl;
-    }
-  oss.seekp (-1, oss.cur);
-  */
-  
+    
   nta_decl -> SetText (C(oss.str ()));
   // </declaration>
   
@@ -716,13 +681,6 @@ void execute_3058() { li(r3, 30);        }
 
   // <tempalte>
   XMLElement *tmplt = nta -> FirstChildElement ("template");
-  //XMLElement *tmplt = doc -> NewElement ("template");
-  //XMLElement *tmplt_name = doc -> NewElement ("name");  
-  //tmplt_name -> SetText ("Binary");
-  //tmplt -> InsertEndChild (tmplt_name);
-  
-  //XMLElement *tmplt_decl = doc -> NewElement ("declaration");
-  //tmplt -> InsertEndChild (tmplt_decl);
 
   /*****************/
   /*****************/
@@ -759,81 +717,6 @@ void execute_3058() { li(r3, 30);        }
   ///////////////////////////
   // <location id="id..."> //
   ///////////////////////////
-
-  /*
-  ListDigraph::NodeIt n (*cfg -> m_graph);
-  for (; n != INVALID; ++n)
-    {
-      BB   *bb       = (*cfg -> m_bbs)[n];
-      Inst *bb_entry = bb -> m_insts -> front ();
-      Inst *bb_exit  = bb -> m_insts -> back ();
-
-      vector<Inst *>          *insts   = bb    -> m_insts;
-      vector<Inst *>::iterator inst_it = insts -> begin ();  
-      for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-
-	  XMLElement *loc_name = NULL;
-	  if (inst == bb_entry)
-	    {
-	      oss.str (""); oss << bb -> m_label;
-	      loc_name = newElementWrapper (doc, "name", C(oss.str ()), NULL, NULL);
-	    }
-
-	  if (inst == bb_exit
-           && inst -> m_branch)
-	    {
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_";
-	      attr_t attrs[] = {{"id"    , C(oss.str ()) },
-				{"x"     , C(S(inst -> m_x))},
-				{"y"     , C(S(inst -> m_y))},
-				{"color" , "#ffc0cb"     },
-				{NULL    , NULL          }};
-	      XMLElement *loc_comm = newElementWrapper (doc, "committed", NULL, NULL, NULL);
-	      XMLElement *loc_childs[] = {(loc_name ? loc_name : loc_comm),
-					  (loc_name ? loc_comm : NULL    ), NULL};
-	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
-	      tmplt -> InsertEndChild (loc);
-	      loc_name = NULL;
-
-	      /////
-	      
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "true";
-	      attr_t true_attrs[] = {{"id" , C(oss.str ()) },
-				     {"x"  , C(S(inst -> m_x))},
-				     {"y"  , C(S(inst -> m_y))},
-				     {NULL , NULL          }};
-	      XMLElement *true_loc_childs[] = {loc_name, NULL};
-	      XMLElement *true_loc = newElementWrapper (doc, "location", NULL, true_attrs, true_loc_childs);
-	      tmplt -> InsertEndChild (true_loc);
-	      
-	      if (inst -> m_test)
-		{ 
-		  oss.str (""); oss << "id" << hex << inst -> m_addr << "false";
-		  attr_t false_attrs[] = {{"id" , C(oss.str ()) },
-					  {"x"  , C(S(inst -> m_x))},
-					  {"y"  , C(S(inst -> m_y))},
-					  {NULL , NULL          }};
-		  XMLElement *false_loc_childs[] = {loc_name, NULL};
-		  XMLElement *false_loc = newElementWrapper (doc, "location", NULL, false_attrs, false_loc_childs);
-		  tmplt -> InsertEndChild (false_loc);
-		}
-	      
-	      continue;
-	    }
-
-	  oss.str (""); oss << "id" << hex << inst -> m_addr;
-	  attr_t attrs[] = {{"id" , C(oss.str ()) },
-			    {"x"  , C(S(inst -> m_x))},
-			    {"y"  , C(S(inst -> m_y))},
-			    {NULL , NULL          }};
-	  XMLElement *loc_childs[] = {loc_name, NULL};
-	  XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
-	  tmplt -> InsertEndChild (loc);
-	}
-    }
-  */
 
   {
   vector<BB *> *bbs = cfg -> bbs ();
@@ -1097,309 +980,8 @@ void execute_3058() { li(r3, 30);        }
     }
   }
   
-  /*
-  ListDigraph::NodeIt m (*cfg -> m_graph);
-  for (; m != INVALID; ++m)
-    {
-      BB   *bb       = (*cfg -> m_bbs)[m];
-      Inst *bb_entry = bb -> m_insts -> front ();
-      Inst *bb_exit  = bb -> m_insts -> back  ();
-      Inst *bb_prev  = NULL;
-
-      // Intra-BB transistions:
-      
-      vector<Inst *>          *insts   = bb    -> m_insts;
-      vector<Inst *>::iterator inst_it = insts -> begin ();  
-      for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-
-	  // Special case: one-instruction BB.
-	  if (inst == bb_entry
-	   && inst == bb_exit
-	   && inst -> m_branch)
-	    {
-	      string src, trg, grd, upd;
-		  		  
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_"; src = oss.str ();
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "true"; trg = oss.str ();
-	      attr_t tr_src_attrs[] = {{"ref"  , C(src)       } , {NULL , NULL}};
-	      attr_t tr_trg_attrs[] = {{"ref"  , C(trg)       } , {NULL , NULL}};
-	      attr_t tr_grd_attrs[] = {{"kind" , "guard"      } , {NULL , NULL}};  
-	      attr_t tr_upd_attrs[] = {{"kind" , "assignment" } , {NULL , NULL}};
-
-	      bool taken = true;
-	      if ((inst -> m_test)
-	       &&  inst -> m_target == inst -> m_addr +4)
-		taken = false;
-	      
-	      grd = (taken ? "" : "!");
-	      upd = "_taken = ";
-	      upd += (taken ? "true" : "false");
-	      switch (inst -> m_test)
-		{
-		case  0: grd += "true"; break;
-		  
-		case  1: grd += "lt()"; break;
-		case  2: grd += "gt()"; break;
-		case  3: grd += "eq()"; break;
-		case  4: grd += "so()"; break;
-		  
-		case  5: grd += "ge()"; break;
-		case  6: grd += "le()"; break;
-		case  7: grd += "ne()"; break;
-		  
-		case  9: grd +=  "z()"; break;
-		case 10: grd += "nz()"; break;
-		  
-		default: grd += "####"; break;
-		}
-	      
-	      XMLElement *tr_src = newElementWrapper (doc, "source" , NULL   , tr_src_attrs , NULL);
-	      XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL   , tr_trg_attrs , NULL);
-	      XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd) , tr_grd_attrs , NULL);
-	      XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd) , tr_upd_attrs , NULL);
-	      
-	      XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_upd, NULL};
-	      XMLElement *tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
-	      tmplt -> InsertEndChild (tr);
-	      
-	      bb_prev = inst;
-	      continue;
-	    }
-	  
-	  // Special case: instruction is BB entry point.
-	  if (inst == bb_entry)
-	    {
-	      bb_prev = inst;
-	      continue;
-	    }
-	  
-	  // Special case: instruction is BB exit point.
-	  if (inst == bb_exit)
-	    {
-	      string src, trg, grd, upd;
-	      
-	      /////
-	      
-	      oss.str (""); oss << "id" << hex << bb_prev -> m_addr;        src = oss.str ();
-	      oss.str (""); oss << "id" << hex << inst    -> m_addr << "_"; trg = oss.str ();
-	      attr_t tr0_src_attrs[] = {{"ref"  , C(src)           } , {NULL , NULL}};
-	      attr_t tr0_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
-	      attr_t tr0_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
-	      attr_t tr0_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
-	      attr_t tr0_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
-	      
-	      oss.str (""); oss << "IMU_IsAccessed(" << dec << bb_prev -> m_num << ")"; grd = oss.str ();
-	      if (find (slice -> begin (), slice -> end (), bb_prev ) != slice -> end ())
-		{ oss.str (""); oss << "execute_" << hex << bb_prev -> m_addr << "()"; upd = oss.str (); }
-	      
-	      XMLElement *tr0_src = newElementWrapper (doc, "source" , NULL              , tr0_src_attrs , NULL);
-	      XMLElement *tr0_trg = newElementWrapper (doc, "target" , NULL              , tr0_trg_attrs , NULL);
-	      XMLElement *tr0_grd = newElementWrapper (doc, "label"  , C(grd)            , tr0_grd_attrs , NULL);
-	      XMLElement *tr0_syn = newElementWrapper (doc, "label"  , "IMU_doneAccess?" , tr0_syn_attrs , NULL);
-	      XMLElement *tr0_upd = newElementWrapper (doc, "label"  , C(upd)            , tr0_upd_attrs , NULL);
-	      
-	      XMLElement *tr0_childs[] = {tr0_src, tr0_trg, tr0_grd, tr0_syn, tr0_upd, NULL};
-	      XMLElement *tr0 = newElementWrapper (doc, "transition", NULL, NULL, tr0_childs);
-	      tmplt -> InsertEndChild (tr0);
-	      
-	      /////
-		  
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_";    src = oss.str ();
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "true"; trg = oss.str ();
-	      attr_t tr1_src_attrs[] = {{"ref"  , C(src)       } , {NULL , NULL}};
-	      attr_t tr1_trg_attrs[] = {{"ref"  , C(trg)       } , {NULL , NULL}};
-	      attr_t tr1_grd_attrs[] = {{"kind" , "guard"      } , {NULL , NULL}};  
-	      attr_t tr1_upd_attrs[] = {{"kind" , "assignment" } , {NULL , NULL}};
-
-	      grd = ""; upd = "";
-	      //if (inst -> m_branch)
-		{
-		  grd = "";
-		  upd = "_taken = true";
-		  switch (inst -> m_test)
-		    {
-		    case  0: grd += "true"; break;
-		      
-		    case  1: grd += "lt()"; break;
-		    case  2: grd += "gt()"; break;
-		    case  3: grd += "eq()"; break;
-		    case  4: grd += "so()"; break;
-
-		    case  5: grd += "ge()"; break;
-		    case  6: grd += "le()"; break;
-		    case  7: grd += "ne()"; break;
-
-		    case  9: grd +=  "z()"; break;
-		    case 10: grd += "nz()"; break;
-		      
-		    default: grd += "####"; break;
-		    }
-		}
-
-	      XMLElement *tr1_src = newElementWrapper (doc, "source" , NULL   , tr1_src_attrs , NULL);
-	      XMLElement *tr1_trg = newElementWrapper (doc, "target" , NULL   , tr1_trg_attrs , NULL);
-	      XMLElement *tr1_grd = newElementWrapper (doc, "label"  , C(grd) , tr1_grd_attrs , NULL);
-	      XMLElement *tr1_upd = newElementWrapper (doc, "label"  , C(upd) , tr1_upd_attrs , NULL);
-	      
-	      XMLElement *tr1_childs[] = {tr1_src, tr1_trg, tr1_grd, tr1_upd, NULL};
-	      XMLElement *tr1 = newElementWrapper (doc, "transition", NULL, NULL, tr1_childs);
-	      tmplt -> InsertEndChild (tr1);
-	      
-	      /////
-		  
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_";     src = oss.str ();
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "false"; trg = oss.str ();
-	      attr_t tr2_src_attrs[] = {{"ref"  , C(src)       } , {NULL , NULL}};
-	      attr_t tr2_trg_attrs[] = {{"ref"  , C(trg)       } , {NULL , NULL}};
-	      attr_t tr2_grd_attrs[] = {{"kind" , "guard"      } , {NULL , NULL}};  
-	      attr_t tr2_upd_attrs[] = {{"kind" , "assignment" } , {NULL , NULL}};
-
-	      grd = ""; upd = "";
-	      //if (inst -> m_branch)
-		{
-		  grd = "!";
-		  upd = "_taken = false";
-		  switch (inst -> m_test)
-		    {
-		    case  0: grd += "true"; break;
-		      
-		    case  1: grd += "lt()"; break;
-		    case  2: grd += "gt()"; break;
-		    case  3: grd += "eq()"; break;
-		    case  4: grd += "so()"; break;
-
-		    case  5: grd += "ge()"; break;
-		    case  6: grd += "le()"; break;
-		    case  7: grd += "ne()"; break;
-
-		    case  9: grd +=  "z()"; break;
-		    case 10: grd += "nz()"; break;
-		      
-		    default: grd += "####"; break;
-		    }
-		}
-
-	      XMLElement *tr2_src = newElementWrapper (doc, "source" , NULL   , tr2_src_attrs , NULL);
-	      XMLElement *tr2_trg = newElementWrapper (doc, "target" , NULL   , tr2_trg_attrs , NULL);
-	      XMLElement *tr2_grd = newElementWrapper (doc, "label"  , C(grd) , tr2_grd_attrs , NULL);
-	      XMLElement *tr2_upd = newElementWrapper (doc, "label"  , C(upd) , tr2_upd_attrs , NULL);
-	      
-	      XMLElement *tr2_childs[] = {tr2_src, tr2_trg, tr2_grd, tr2_upd, NULL};
-	      XMLElement *tr2 = newElementWrapper (doc, "transition", NULL, NULL, tr2_childs);
-	      tmplt -> InsertEndChild (tr2);
-	      
-	      bb_prev = inst;
-	      continue;
-	    }
-
-	  // Standard case.
-	  string src, trg, grd, upd;
-		  
-	  oss.str (""); oss << "id" << hex << bb_prev -> m_addr; src = oss.str ();
-	  oss.str (""); oss << "id" << hex << inst    -> m_addr; trg = oss.str ();
-	  attr_t tr_src_attrs[] = {{"ref"  , C(src)           } , {NULL , NULL}};
-	  attr_t tr_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
-	  attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
-	  attr_t tr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
-	  attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
-	  
-	  oss.str (""); oss << "IMU_IsAccessed(" << dec << bb_prev -> m_num << ")"; grd = oss.str ();
-	  if (find (slice -> begin (), slice -> end (), bb_prev ) != slice -> end ())
-	    { oss.str (""); oss << "execute_" << hex << bb_prev -> m_addr << "()"; upd = oss.str (); }
-	  
-	  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
-	  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
-	  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)            , tr_grd_attrs , NULL);
-	  XMLElement *tr_syn = newElementWrapper (doc, "label"  , "IMU_doneAccess?" , tr_syn_attrs , NULL);
-	  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)            , tr_upd_attrs , NULL);
-	  
-	  XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_syn, tr_upd, NULL};
-	  XMLElement *tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
-	  tmplt -> InsertEndChild (tr);	  
-	  bb_prev = inst;
-	}
-      
-      // Inter-BBs transistions:
-      
-      vector<BB *> *next_bbs = (*cfg -> m_succs)[m];
-      vector<BB *>::iterator next_bb_it = next_bbs -> begin ();
-      for (; next_bb_it != next_bbs -> end (); ++next_bb_it)
-	{
-	  BB             *next_bb    = *next_bb_it;
-	  vector<Inst *> *next_insts =  next_bb -> m_insts;
-	  Inst           *next_inst  =  next_insts -> front ();
-
-	  // remove last self loop
-	  if (bb_exit -> m_next == NULL)
-	    continue;
-
-	  string src, trg, grd, upd;
-
-	  bool taken = true;
-	  if (next_inst -> m_addr == bb_exit -> m_addr +4)
-	    taken = false;
-	    
-	  oss.str (""); oss << "id" << hex << bb_exit   -> m_addr;
-	  if (bb_exit -> m_branch)
-	    oss << (bb_exit -> m_test ? (taken ? "true" : "false") : "true");
-	  src = oss.str ();
-	  oss.str (""); oss << "id" << hex << next_inst -> m_addr; trg = oss.str ();
-	  if (next_inst  -> m_branch
-	   && next_insts -> size () == 1)
-	    trg += "_";
-	  attr_t tr_src_attrs[] = {{"ref"  , C(src)           } , {NULL , NULL}};
-	  attr_t tr_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
-	  attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
-	  attr_t tr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
-	  attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
-	  
-	  oss.str (""); oss << "IMU_IsAccessed(" << dec << bb_prev -> m_num << ")"; grd = oss.str ();
-	  if (find (slice -> begin (), slice -> end (), bb_prev ) != slice -> end ())
-	    { oss.str (""); oss << "execute_" << hex << bb_prev -> m_addr << "()"; upd = oss.str (); }
-	  
-	  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
-	  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
-	  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)            , tr_grd_attrs , NULL);
-	  XMLElement *tr_syn = newElementWrapper (doc, "label"  , "IMU_doneAccess?" , tr_syn_attrs , NULL);
-	  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)            , tr_upd_attrs , NULL);
-	  
-	  XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_syn, tr_upd, NULL};
-	  XMLElement *tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
-	  tmplt -> InsertEndChild (tr);
-	}
-    }
-  */
   nta -> InsertFirstChild (tmplt);
   nta -> InsertFirstChild (nta_decl);
-  // </template>
-
-  // TODO: move to ppc-no_binary.xml
-  /*
-  vector<string> queries;
-  queries.push_back ("sup: wcet");
-  queries.push_back ("sup: fetch_count");
-  queries.push_back ("sup: stall_count");
-  queries.push_back ("sup: cache_default");
-  queries.push_back ("sup: memory_access");
-  
-  XMLElement *nta_queries = nta -> FirstChildElement ("queries");
-  vector<string>::iterator query_it = queries.begin ();
-  for (; query_it != queries.end (); ++query_it)
-    {
-      string query = *query_it;
-      
-      XMLElement *q_query   = doc -> NewElement ("query");
-      XMLElement *q_formula = doc -> NewElement ("formula");
-      
-      q_formula   -> SetText (C(query));
-      q_query     -> InsertEndChild (q_formula);
-      nta_queries -> InsertEndChild (q_query);
-    }
-  
-  nta -> InsertEndChild (nta_queries);
-  */
   doc -> SaveFile (C(fn));
 }
 

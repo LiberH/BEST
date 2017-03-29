@@ -39,8 +39,8 @@ e200z4_instruction::getStaticInfo (arch *_arch)
 
   i -> test = 0;
   if (i -> is_branch  &&
-      this -> hasID_bo() && this -> getBO() != 0 &&
-      this -> hasID_bi() && this -> getBI() != 0)
+      this -> hasID_bo() &&
+      this -> hasID_bi())
     {
       int BO = this -> getBO();
       int BI = this -> getBI();
