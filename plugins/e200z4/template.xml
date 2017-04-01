@@ -28,7 +28,7 @@ typedef int[0, _UINT5_MAX ] uint5_t;
 typedef int[0, _UINT16_MAX] uint16_t;
 typedef int[0, _UINT32_MAX] uint32_t;
 
-const int _SINT16_MIN =      -32767;
+const int _SINT16_MIN =      -32768;
 const int _SINT16_MAX =       32767;
 const int _SINT32_MIN = -2147483648;
 const int _SINT32_MAX =  2147483647;
