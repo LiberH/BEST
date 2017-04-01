@@ -63,6 +63,26 @@ Inst::Inst (const staticInfo &si)
       oss << hex << i +4;
       m_disass += oss.str ();
     }
+
+  // Fix unspecific depedence to cr:
+        int crX_index;
+  const int cr__index = 0;
+  bitset<64> refs_bs (m_refs);
+  bitset<64> defs_bs (m_defs);
+  if (refs_bs[cr__index])
+    {
+      crX_index = m_crfD + 16;
+      refs_bs[cr__index] = 0;
+      refs_bs[crX_index] = 1;
+      m_refs = refs_bs.to_ulong ();
+    }
+  if (defs_bs[cr__index])
+    {
+      crX_index = m_crfD + 16;
+      defs_bs[cr__index] = 0;
+      defs_bs[crX_index] = 1;
+      m_defs = defs_bs.to_ulong ();
+    }
 }
 
 Inst::Inst (const Inst &inst)

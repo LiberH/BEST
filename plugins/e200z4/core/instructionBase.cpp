@@ -64,6 +64,8 @@ e200z4_instruction::getStaticInfo (arch *_arch)
     i -> test = 0;
 
   i -> crfD = -1;
+  if (this -> hasID_crfd())
+    i -> crfD = this -> getcrfD();
   if (this -> hasID_bi())
     {
       int BI = this -> getBI();

@@ -278,9 +278,9 @@ void setXER (                uint2_t i , uint1_t b ) { XER      = ( b ? (XER    
 bool  z () { return ((CTR -1) == 0);    }
 bool nz () { return !z();               }
 
-bool eq ( uint3_t crfD ) { return getBit(crfD, CR_EQ); }
-bool gt ( uint3_t crfD ) { return getBit(crfD, CR_GT); }
-bool lt ( uint3_t crfD ) { return getBit(crfD, CR_LT); }
+bool eq ( uint3_t crfD ) { return getBit(CR[crfD], CR_EQ); }
+bool gt ( uint3_t crfD ) { return getBit(CR[crfD], CR_GT); }
+bool lt ( uint3_t crfD ) { return getBit(CR[crfD], CR_LT); }
 bool ne ( uint3_t crfD ) { return !eq(crfD);           }
 bool le ( uint3_t crfD ) { return !gt(crfD);           }
 bool ge ( uint3_t crfD ) { return !lt(crfD);           }
