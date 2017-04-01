@@ -281,9 +281,9 @@ bool nz () { return !z();               }
 bool eq ( uint3_t crfD ) { return getBit(crfD, CR_EQ); }
 bool gt ( uint3_t crfD ) { return getBit(crfD, CR_GT); }
 bool lt ( uint3_t crfD ) { return getBit(crfD, CR_LT); }
-bool ne ( uint3_t crfD ) { return !eq(crfD);                 }
-bool le ( uint3_t crfD ) { return !gt(crfD);                 }
-bool ge ( uint3_t crfD ) { return !lt(crfD);                 }
+bool ne ( uint3_t crfD ) { return !eq(crfD);           }
+bool le ( uint3_t crfD ) { return !gt(crfD);           }
+bool ge ( uint3_t crfD ) { return !lt(crfD);           }
 
 const int OP_ADD   =  0;
 const int OP_AND   =  1;
@@ -314,21 +314,20 @@ const int ARG_UIMM = 3;
 const int QUAL_NONE             =  0;
 const int QUAL_ALGEBRAIC        =  1;
 const int QUAL_ANDMASK          =  2;
-const int QUAL_CARRY            =  3;
-const int QUAL_COMPLEMENT       =  4;
-const int QUAL_EXTEND           =  5;
-const int QUAL_EXTEND_MINUS_ONE =  6;
-const int QUAL_EXTEND_ZERO      =  7;
-const int QUAL_INDEX            =  8;
-const int QUAL_LOGICAL          =  9;
-const int QUAL_MASKINSERT       = 10;
-const int QUAL_MSB              = 11;
-const int QUAL_REVERSE          = 12;
-const int QUAL_SHIFT            = 13;
-const int QUAL_TOCTR            = 14;
-const int QUAL_TOLR             = 15;
-const int QUAL_UNSIGNED         = 16;
-const int QUAL_UPDATE           = 17;
+const int QUAL_COMPLEMENT       =  3;
+const int QUAL_EXTEND           =  4;
+const int QUAL_EXTEND_MINUS_ONE =  5;
+const int QUAL_EXTEND_ZERO      =  6;
+const int QUAL_INDEX            =  7;
+const int QUAL_LOGICAL          =  8;
+const int QUAL_MASKINSERT       =  9;
+const int QUAL_MSB              = 10;
+const int QUAL_REVERSE          = 11;
+const int QUAL_SHIFT            = 12;
+const int QUAL_TOCTR            = 13;
+const int QUAL_TOLR             = 14;
+const int QUAL_UNSIGNED         = 15;
+const int QUAL_UPDATE           = 16;
 
 const int SIZE_NONE     = 0;
 const int SIZE_BYTE     = 1; 
@@ -337,7 +336,7 @@ const int SIZE_WORD     = 4;
 
 // Arithmetic instructions:
 
-void _ARITHM( int op, int arg, int qual, uint5_t rD, uint5_t rA, uint5_t rB, sint16_t SIMM, uint1_t OE, uint1_t Rc ) {
+void _ARITHM( int op, int arg, int qual, bool carries , uint5_t rD, uint5_t rA, uint5_t rB, sint16_t SIMM, uint1_t OE, uint1_t Rc ) {
   sint32_t rA_sval = GPRS[rA], rB_sval = GPRS[rB], rD_sval;
 //uint32_t rA_uval = GPRS[rA], rB_uval = GPRS[rB]; // TODO: fix
 
@@ -346,11 +345,13 @@ void _ARITHM( int op, int arg, int qual, uint5_t rD, uint5_t rA, uint5_t rB, sin
                                                  if ( qual == QUAL_EXTEND           ) { GPRS[rD] =  rA_sval + ( rB_sval &lt;&lt;  0 )  + CA ; }
                                                  if ( qual == QUAL_SHIFT            ) { GPRS[rD] =  rA_sval + ( rB_sval &lt;&lt; 16 )       ; }
                                                  if ( qual == QUAL_NONE             ) { GPRS[rD] =  rA_sval + ( rB_sval &lt;&lt;  0 )       ; } }
-                        if ( arg == ARG_SIMM ) { if ( qual == QUAL_NONE             ) { GPRS[rD] =  rA_sval + ( SIMM     &lt;&lt;  0 )      ; }
+
+                        if ( arg == ARG_SIMM ) { rA_sval = (carries || (rA != 0) ? rA_sval : 0);
+                                                 if ( qual == QUAL_NONE             ) { GPRS[rD] =  rA_sval + ( SIMM     &lt;&lt;  0 )      ; }
                                                  if ( qual == QUAL_SHIFT            ) { GPRS[rD] =  rA_sval + ( SIMM     &lt;&lt; 16 )      ; } }
                         if ( arg == ARG_NONE ) { if ( qual == QUAL_EXTEND_MINUS_ONE ) { GPRS[rD] =  rA_sval - ( 1        &lt;&lt;  0 ) + CA ; }
                                                  if ( qual == QUAL_EXTEND_ZERO      ) { GPRS[rD] =  rA_sval                      + CA ; } }
-                                                 if ( qual &amp;  QUAL_CARRY            ) { setXER (XER_CA, false)                       ; }   } /* Always false as UPPAAL disallow overflowing. */
+                        if ( carries         ) { setXER (XER_CA, false)                                                               ; } } /* Always false as UPPAAL disallow overflowing. */
 
   if ( op == OP_SUB ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = -rA_sval + ( rB_sval &lt;&lt;  0 )       ; }
                                                  if ( qual == QUAL_EXTEND           ) { GPRS[rD] = -rA_sval + ( rB_sval &lt;&lt;  0 )  + CA ; }
@@ -360,7 +361,7 @@ void _ARITHM( int op, int arg, int qual, uint5_t rD, uint5_t rA, uint5_t rB, sin
                                                  if ( qual == QUAL_SHIFT            ) { GPRS[rD] = -rA_sval + ( SIMM     &lt;&lt; 16 )      ; } }
                         if ( arg == ARG_NONE ) { if ( qual == QUAL_EXTEND_MINUS_ONE ) { GPRS[rD] = -rA_sval - ( 1        &lt;&lt;  0 ) + CA ; }
                                                  if ( qual == QUAL_EXTEND_ZERO      ) { GPRS[rD] = -rA_sval                      + CA ; } }
-                                                 if ( qual &amp;  QUAL_CARRY            ) { setXER (XER_CA, false)                       ; }   } /* Always false as UPPAAL disallow overflowing. */
+                        if ( carries         ) { setXER (XER_CA, false)                                                               ; } } /* Always false as UPPAAL disallow overflowing. */
 
   if ( op == OP_DIV ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] =  rA_sval /   rB_sval               ; }  
                                                  if ( qual == QUAL_UNSIGNED         ) { GPRS[rD] =  rA_sval /   rB_sval               ; } } } // TODO: set back to rA_uval
@@ -378,71 +379,71 @@ void _ARITHM( int op, int arg, int qual, uint5_t rD, uint5_t rA, uint5_t rB, sin
               setCR  (cr0,  CR_LT, (rD_sval &lt;  0 ? true : false)); }
 }
 
-void _add      ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , false ); }
-void _add_     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , true  ); }
-void _addo     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , false ); }
-void _addo_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , true  ); }
-void _addc     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_CARRY            , rD ,  rA , rB , 0    , false , false ); }
-void _addc_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_CARRY            , rD ,  rA , rB , 0    , false , true  ); }
-void _addco    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_CARRY            , rD ,  rA , rB , 0    , true  , false ); }
-void _addco_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_CARRY            , rD ,  rA , rB , 0    , true  , true  ); }
-void _adde     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , rD ,  rA , rB , 0    , false , false ); }
-void _adde_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , rD ,  rA , rB , 0    , false , true  ); }
-void _addeo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , rD ,  rA , rB , 0    , true  , false ); }
-void _addeo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , rD ,  rA , rB , 0    , true  , true  ); }
-void _addi     ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_NONE             , rD ,  rA , 0  , SIMM , false , false ); }
-void _addic    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_CARRY            , rD ,  rA , 0  , SIMM , false , false ); }
-void _addic_   ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_CARRY            , rD ,  rA , 0  , SIMM , false , true  ); }
-void _addis    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_SHIFT            , rD ,  rA , 0  , SIMM , false , false ); }
-void _addme    ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_EXTEND_MINUS_ONE , rD ,  rA , 0  , 0    , false , false ); }
-void _addme_   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD ,  rA , 0  , 0    , false , true  ); }
-void _addmeo   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD ,  rA , 0  , 0    , true  , false ); }
-void _addmeo_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD ,  rA , 0  , 0    , true  , true  ); }
-void _addze    ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , rD ,  rA , 0  , 0    , false , false ); }
-void _addze_   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , rD ,  rA , 0  , 0    , false , true  ); }
-void _addzeo   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , rD ,  rA , 0  , 0    , true  , false ); }
-void _addzeo_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , rD ,  rA , 0  , 0    , true  , true  ); }
+void _add      ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , false , false ); }
+void _add_     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , false , true  ); }
+void _addo     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , true  , false ); }
+void _addo_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , true  , true  ); }
+void _addc     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , true  , rD ,  rA , rB , 0    , false , false ); }
+void _addc_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , true  , rD ,  rA , rB , 0    , false , true  ); }
+void _addco    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , true  , rD ,  rA , rB , 0    , true  , false ); }
+void _addco_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , true  , rD ,  rA , rB , 0    , true  , true  ); }
+void _adde     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , false , rD ,  rA , rB , 0    , false , false ); }
+void _adde_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , false , rD ,  rA , rB , 0    , false , true  ); }
+void _addeo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , false , rD ,  rA , rB , 0    , true  , false ); }
+void _addeo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_EXTEND           , false , rD ,  rA , rB , 0    , true  , true  ); }
+void _addi     ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_NONE             , false , rD ,  rA , 0  , SIMM , false , false ); }
+void _addic    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_NONE             , true  , rD ,  rA , 0  , SIMM , false , false ); }
+void _addic_   ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_NONE             , true  , rD ,  rA , 0  , SIMM , false , true  ); }
+void _addis    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_ADD , ARG_SIMM , QUAL_SHIFT            , false , rD ,  rA , 0  , SIMM , false , false ); }
+void _addme    ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , false , rD ,  rA , 0  , 0    , false , false ); }
+void _addme_   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , false , rD ,  rA , 0  , 0    , false , true  ); }
+void _addmeo   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , false , rD ,  rA , 0  , 0    , true  , false ); }
+void _addmeo_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_MINUS_ONE , false , rD ,  rA , 0  , 0    , true  , true  ); }
+void _addze    ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , false , rD ,  rA , 0  , 0    , false , false ); }
+void _addze_   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , false , rD ,  rA , 0  , 0    , false , true  ); }
+void _addzeo   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , false , rD ,  rA , 0  , 0    , true  , false ); }
+void _addzeo_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_ADD , ARG_NONE , QUAL_EXTEND_ZERO      , false , rD ,  rA , 0  , 0    , true  , true  ); }
 
-void _subf     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , rD , rA , rB , 0    , false , false ); }
-void _subf_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , rD , rA , rB , 0    , false , true  ); }
-void _subfo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , rD , rA , rB , 0    , true  , false ); }
-void _subfo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , rD , rA , rB , 0    , true  , true  ); }
-void _subfc    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_CARRY            , rD , rA , rB , 0    , false , false ); }
-void _subfc_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_CARRY            , rD , rA , rB , 0    , false , true  ); }
-void _subfco   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_CARRY            , rD , rA , rB , 0    , true  , false ); }
-void _subfco_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_CARRY            , rD , rA , rB , 0    , true  , true  ); }
-void _subfe    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , rD , rA , rB , 0    , false , false ); }
-void _subfe_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , rD , rA , rB , 0    , false , true  ); }
-void _subfeo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , rD , rA , rB , 0    , true  , false ); }
-void _subfeo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , rD , rA , rB , 0    , true  , true  ); }
-void _subfic   ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_SUB , ARG_SIMM , QUAL_CARRY            , rD , rA , 0  , SIMM , false , false ); }
-void _subfme   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD , rA , 0  , 0    , false , false ); }
-void _subfme_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD , rA , 0  , 0    , false , true  ); }
-void _subfmeo  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD , rA , 0  , 0    , true  , false ); }
-void _subfmeo_ ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , rD , rA , 0  , 0    , true  , true  ); }
-void _subfze   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , rD , rA , 0  , 0    , false , false ); }
-void _subfze_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , rD , rA , 0  , 0    , false , true  ); }
-void _subfzeo  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , rD , rA , 0  , 0    , true  , false ); }
-void _subfzeo_ ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , rD , rA , 0  , 0    , true  , true  ); }
+void _subf     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , false , rD , rA , rB , 0    , false , false ); }
+void _subf_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , false , rD , rA , rB , 0    , false , true  ); }
+void _subfo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , false , rD , rA , rB , 0    , true  , false ); }
+void _subfo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , false , rD , rA , rB , 0    , true  , true  ); }
+void _subfc    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , true  , rD , rA , rB , 0    , false , false ); }
+void _subfc_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , true  , rD , rA , rB , 0    , false , true  ); }
+void _subfco   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , true  , rD , rA , rB , 0    , true  , false ); }
+void _subfco_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_NONE             , true  , rD , rA , rB , 0    , true  , true  ); }
+void _subfe    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , false , rD , rA , rB , 0    , false , false ); }
+void _subfe_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , false , rD , rA , rB , 0    , false , true  ); }
+void _subfeo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , false , rD , rA , rB , 0    , true  , false ); }
+void _subfeo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_SUB , ARG_REG  , QUAL_EXTEND           , false , rD , rA , rB , 0    , true  , true  ); }
+void _subfic   ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_SUB , ARG_SIMM , QUAL_NONE             , true  , rD , rA , 0  , SIMM , false , false ); }
+void _subfme   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , false , rD , rA , 0  , 0    , false , false ); }
+void _subfme_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , false , rD , rA , 0  , 0    , false , true  ); }
+void _subfmeo  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , false , rD , rA , 0  , 0    , true  , false ); }
+void _subfmeo_ ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_MINUS_ONE , false , rD , rA , 0  , 0    , true  , true  ); }
+void _subfze   ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , false , rD , rA , 0  , 0    , false , false ); }
+void _subfze_  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , false , rD , rA , 0  , 0    , false , true  ); }
+void _subfzeo  ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , false , rD , rA , 0  , 0    , true  , false ); }
+void _subfzeo_ ( uint5_t rD , uint5_t rA                  ) { _ARITHM( OP_SUB , ARG_NONE , QUAL_EXTEND_ZERO      , false , rD , rA , 0  , 0    , true  , true  ); }
 
-void _divw     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , false ); }
-void _divw_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , true  ); }
-void _divwo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , false ); }
-void _divwo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , true  ); }
-void _divwu    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , rD ,  rA , rB , 0    , false , false ); }
-void _divwu_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , rD ,  rA , rB , 0    , false , true  ); }
-void _divwuo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , rD ,  rA , rB , 0    , true  , false ); }
-void _divwuo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , rD ,  rA , rB , 0    , true  , true  ); }
+void _divw     ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , false , false ); }
+void _divw_    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , false , true  ); }
+void _divwo    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , true  , false ); }
+void _divwo_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , true  , true  ); }
+void _divwu    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , false , rD ,  rA , rB , 0    , false , false ); }
+void _divwu_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , false , rD ,  rA , rB , 0    , false , true  ); }
+void _divwuo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , false , rD ,  rA , rB , 0    , true  , false ); }
+void _divwuo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_DIV , ARG_REG  , QUAL_UNSIGNED         , false , rD ,  rA , rB , 0    , true  , true  ); }
 
-void _mullw    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , false ); }
-void _mullw_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , false , true  ); }
-void _mullwo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , false ); }
-void _mullwo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , rD ,  rA , rB , 0    , true  , true  ); }
-void _mulli    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_MUL , ARG_SIMM , QUAL_NONE             , rD ,  rA , 0  , SIMM , false , false ); }
-void _mulhw    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , rD ,  rA , rB , 0    , false , false ); }
-void _mulhw_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , rD ,  rA , rB , 0    , false , true  ); }
-void _mulhwu   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , rD ,  rA , rB , 0    , false , false ); }
-void _mulhwu_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , rD ,  rA , rB , 0    , false , true  ); }
+void _mullw    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , false , false ); }
+void _mullw_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , false , true  ); }
+void _mullwo   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , true  , false ); }
+void _mullwo_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , true  , true  ); }
+void _mulli    ( uint5_t rD , uint5_t rA  , sint16_t SIMM ) { _ARITHM( OP_MUL , ARG_SIMM , QUAL_NONE             , false , rD ,  rA , 0  , SIMM , false , false ); }
+void _mulhw    ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , false , rD ,  rA , rB , 0    , false , false ); }
+void _mulhw_   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , false , rD ,  rA , rB , 0    , false , true  ); }
+void _mulhwu   ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , false , rD ,  rA , rB , 0    , false , false ); }
+void _mulhwu_  ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_MUL , ARG_REG  , QUAL_MSB              , false , rD ,  rA , rB , 0    , false , true  ); }
 
 void _li       ( uint5_t rD ,               sint16_t SIMM ) { _addi    ( rD,  0,  SIMM ); }
 void _lis      ( uint5_t rD ,               sint16_t SIMM ) { _addis   ( rD,  0,  SIMM ); }
