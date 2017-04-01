@@ -37,7 +37,7 @@ e200z4_instruction::getStaticInfo (arch *_arch)
   i -> do_link = this -> hasID_SP_Check ();
   i -> is_uncond = this -> isBranchUnconditional ();
 
-  i -> test = 0;
+  i -> test = -1;
   if (i -> is_branch  &&
       this -> hasID_bo() &&
       this -> hasID_bi())
@@ -53,12 +53,15 @@ e200z4_instruction::getStaticInfo (arch *_arch)
       else
 	i -> test = tt +4;
     }
-  else if (i -> is_branch  &&
-	   this -> hasID_z ())
+  if (i -> is_branch  &&
+     this -> hasID_z ())
     i -> test = 9;
-  else if (i -> is_branch  &&
-	   this -> hasID_nz ())
+  if (i -> is_branch  &&
+     this -> hasID_nz ())
     i -> test = 10;
+  if (i -> is_branch &&
+      i -> is_uncond)
+    i -> test = 0;
 
   i -> crfD = -1;
   if (this -> hasID_bi())
