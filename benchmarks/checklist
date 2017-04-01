@@ -4,63 +4,67 @@
       fibcall-O2.elf - OK
       fibcall-O3.elf - OK
        expint-O2.elf - OK
-       expint-O3.elf - ?
-         fdct-O1.elf - ?
-         fdct-O2.elf - ?
-     jfdctint-O3.elf - ?
-     jfdctint-O1.elf - ?
-     jfdctint-O2.elf - ?
-      fibcall-O1.elf - ?
-         fdct-O0.elf - ?
-      fibcall-O0.elf - ?
-        prime-O3.elf - ?
-           bs-O2.elf - ?
-           bs-O3.elf - ?
-     bsort100-O2.elf - ?
-     bsort100-O3.elf - ?
-           bs-O1.elf - ?
-          fir-O0.elf - ?
-janne_complex-O0.elf - ?
-janne_complex-O1.elf - ?
-     bsort100-O1.elf - ?
-          cnt-O2.elf - ?
-janne_complex-O3.elf - ?
-           bs-O0.elf - ?
-           ns-O2.elf - ?
-janne_complex-O2.elf - ?
-     jfdctint-O0.elf - ?
-           ns-O1.elf - ?
-        prime-O2.elf - ?
-       expint-O0.elf - ?
-          fir-O2.elf - ?
-          fir-O3.elf - ?
-          fir-O1.elf - ?
-           ns-O0.elf - ?
-      matmult-O0.elf - ?
-          cnt-O1.elf - ?
+       expint-O3.elf - OK
+         fdct-O1.elf - OK
+         fdct-O2.elf - OK
+     jfdctint-O3.elf - OK
+     jfdctint-O1.elf - OK
+     jfdctint-O2.elf - OK
+      fibcall-O1.elf - OK
+        prime-O3.elf - OK
+janne_complex-O1.elf - No: ?
+janne_complex-O3.elf - OK
+janne_complex-O2.elf - OK
+        prime-O2.elf - No: ?
+          fir-O2.elf - No: ?
+          fir-O3.elf - No: ?
+          fir-O1.elf - No: ?
       matmult-O3.elf - ?
-        prime-O1.elf - ?
-     bsort100-O0.elf - ?
-      matmult-O1.elf - ?
+        prime-O1.elf - No: ?
       matmult-O2.elf - ?
-          cnt-O0.elf - ?
-          crc-O0.elf - ?
-          crc-O2.elf - ?
-          crc-O1.elf - ?
-       expint-O1.elf - ?
-        prime-O0.elf - ?
-          cnt-O3.elf - ?
-           ns-O3.elf - ?
-          crc-O3.elf - ?
-         ndes-O1.elf - ?
-         ndes-O0.elf - ?
-     compress-O1.elf - ?
-        adpcm-O0.elf - ?
-         ndes-O2.elf - ?
-     compress-O2.elf - ?
-     compress-O0.elf - ?
-     compress-O3.elf - ?
-        adpcm-O3.elf - ?
-        adpcm-O1.elf - ?
-        adpcm-O2.elf - ?
-         ndes-O3.elf - ?
+          crc-O2.elf - No: ?
+          crc-O1.elf - No: ?
+       expint-O1.elf - No: Needs _mtcrf implementation
+          crc-O3.elf - No :?
+
+
+           bs-O2.elf - No: Needs constant data loading
+           bs-O3.elf - No: Needs constant data loading
+     bsort100-O2.elf - No: Needs constant data loading
+     bsort100-O3.elf - No: Needs constant data loading
+           bs-O1.elf - No: Needs constant data loading
+     bsort100-O1.elf - No: Needs constant data loading
+          cnt-O2.elf - No: Needs constant data loading
+           ns-O2.elf - No: Needs constant data loading
+           ns-O1.elf - No: Needs constant data loading
+          cnt-O1.elf - No: Needs constant data loading
+      matmult-O1.elf - No: Needs constant data loading
+          cnt-O3.elf - No: Needs constant data loading
+           ns-O3.elf - No: Needs constant data loading
+         ndes-O1.elf - No: Needs constant data loading
+     compress-O1.elf - No: Needs constant data loading
+         ndes-O2.elf - No: Needs constant data loading
+     compress-O2.elf - No: Needs constant data loading
+     compress-O3.elf - No: Needs constant data loading
+        adpcm-O3.elf - No: Needs constant data loading
+        adpcm-O1.elf - No: Needs constant data loading
+        adpcm-O2.elf - No: Needs constant data loading
+         ndes-O3.elf - No: Needs constant data loading
+
+
+         fdct-O0.elf - No: Needs stack data loading
+      fibcall-O0.elf - No: Needs stack data loading
+          fir-O0.elf - No: Needs stack data loading
+janne_complex-O0.elf - No: Needs stack data loading
+           bs-O0.elf - No: Needs stack data loading
+       expint-O0.elf - No: Needs stack data loading
+           ns-O0.elf - No: Needs stack data loading
+      matmult-O0.elf - No: Needs stack data loading
+     jfdctint-O0.elf - No: Needs stack data loading
+     bsort100-O0.elf - No: Needs stack data loading
+          cnt-O0.elf - No: Needs stack data loading
+          crc-O0.elf - No: Needs stack data loading
+        prime-O0.elf - No: Needs stack data loading
+         ndes-O0.elf - No: Needs stack data loading
+        adpcm-O0.elf - No: Needs stack data loading
+     compress-O0.elf - No: Needs stack data loading
