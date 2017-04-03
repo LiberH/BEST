@@ -11,18 +11,6 @@
 using namespace std;
 using namespace lemon;
 
-static
-string reg_names[] = {
-  "cr"      , "ctr"   , "l1csr0" , "l1csr1" , "l1finv1" , "lr"   , "msr"  , "pc"   ,
-  "serial0" , "srr0"  , "srr1"   , "xer"    , "hit"     , "miss" , "fpr0" , "fpr1" ,
-  "fpr2"    , "fpr3"  , "fpr4"   , "fpr5"   , "fpr6"    , "fpr7" , "fpr8" , "fpr9" ,
-  "fpr10"   , "fpr11" , "fpr12"  , "fpr13"  , "fpr14"  , "fpr15" ,
-  
-  "r0"  , "r1"  , "r2"  , "r3"  , "r4"  , "r5"  , "r6"  , "r7"  ,
-  "r8"  , "r9"  , "r10" , "r11" , "r12" , "r13" , "r14" , "r15" ,
-  "r16" , "r17" , "r18" , "r19" , "r20" , "r21" , "r22" , "r23" ,
-  "r24" , "r25" , "r26" , "r27" , "r28" , "r29" , "r30" , "r31" };
-
 /* PUBLIC */
 
 Slicer::Slicer (CFG *cfg, PDG *pdg)

@@ -183,6 +183,7 @@ bool _mustTerminate;
 bool _predict_taken;
 bool _dynamic_prediction;
 bool _taken;
+int[0, _INST_MAX -1] _next;
 
 /* Binary: */
 
@@ -1190,21 +1191,27 @@ void InCU_IBuff_Push() {
 
   if (InCU.IR.index == -1) {
     InCU.IR.index              = IMU.ICache.index;
-    InCU.IR.predict_taken      = _predict_taken;
-    InCU.IR.dynamic_prediction = _dynamic_prediction;
-    InCU.IR.taken              = _taken;
+    if (IMU_IsAccessed (_next)) {
+      InCU.IR.predict_taken      = _predict_taken;
+      InCU.IR.dynamic_prediction = _dynamic_prediction;
+      InCU.IR.taken              = _taken;
+    }
     
   } else {
     InCU.IBuff.buffer[InCU.IBuff.count].index              = IMU.ICache.index;
-    InCU.IBuff.buffer[InCU.IBuff.count].predict_taken      = _predict_taken;
-    InCU.IBuff.buffer[InCU.IBuff.count].dynamic_prediction = _dynamic_prediction;
-    InCU.IBuff.buffer[InCU.IBuff.count].taken              = _taken;
-    InCU.IBuff.count++;
+    if (IMU_IsAccessed (_next)) {
+      InCU.IBuff.buffer[InCU.IBuff.count].predict_taken      = _predict_taken;
+      InCU.IBuff.buffer[InCU.IBuff.count].dynamic_prediction = _dynamic_prediction;
+      InCU.IBuff.buffer[InCU.IBuff.count].taken              = _taken;
+      InCU.IBuff.count++;
+    }
   }
   
-  _predict_taken      = false;
-  _dynamic_prediction = false;
-  _taken              = false;
+  if (IMU_IsAccessed (_next)) {
+    _predict_taken      = false;
+    _dynamic_prediction = false;
+    _taken              = false;
+  }
 }
 
 InCU_IR_t InCU_IBuff_Pop() {

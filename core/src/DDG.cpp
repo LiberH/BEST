@@ -12,17 +12,16 @@
 #include <fstream>
 
 #define C(s) ((char *) (s).c_str ())
-#define DEBUG false
 
 using namespace std;
 using namespace lemon;
 
 static
-string reg_names[] = {
+string reg_names[62] = {
   "cr"      , "ctr"   , "l1csr0" , "l1csr1" , "l1finv1" , "lr"   , "msr"  , "pc"   ,
-  "serial0" , "srr0"  , "srr1"   , "xer"    , "hit"     , "miss" , "fpr0" , "fpr1" ,
-  "fpr2"    , "fpr3"  , "fpr4"   , "fpr5"   , "fpr6"    , "fpr7" , "fpr8" , "fpr9" ,
-  "fpr10"   , "fpr11" , "fpr12"  , "fpr13"  , "fpr14"  , "fpr15" ,
+  "serial0" , "srr0"  , "srr1"   , "xer"    , "hit"     , "miss" , "XXXX" , "XXXX" ,
+  "cr0"     , "cr1"   , "cr2"    , "cr3"    , "cr4"     , "cr5"  , "cr6"  , "cr7"  ,
+   "XXXX"   , "XXXX"  , "XXXX"   , "XXXX"   , "XXXX"    , "XXXX" ,
   
   "r0"  , "r1"  , "r2"  , "r3"  , "r4"  , "r5"  , "r6"  , "r7"  ,
   "r8"  , "r9"  , "r10" , "r11" , "r12" , "r13" , "r14" , "r15" ,
@@ -76,7 +75,6 @@ DDG::DDG (CFG *cfg)
   vector<Inst *> w;
   set<Inst *>::iterator it;
   w.push_back ((*cfg -> m_bbs)[cfg -> m_entry] -> m_insts -> front ());
-  ListDigraph::Node bb10 = (*cfg -> m_nodes)[0x3050];
   while (!w.empty ())
     {
       // pick and remove an inst from the worklist.
@@ -165,45 +163,6 @@ DDG::DDG (CFG *cfg)
 		  Inst *bb_entry = bb -> m_insts -> front ();
 		  w.push_back (bb_entry);
 		}
-	    }
-	}
-    }
-
-  if (DEBUG)
-    {
-      ListDigraph::NodeIt n (*cfg -> m_graph);
-      for (; n != INVALID; ++n)
-	{
-	  BB *bb = (*cfg -> m_bbs)[n];
-	  cout << bb -> m_label << endl;
-
-	  vector<Inst *>::iterator inst_it = bb -> m_insts -> begin ();
-	  for (; inst_it != bb -> m_insts -> end (); ++inst_it)
-	    {
-	      // TODO: retreivable form Inst::FromFile function.
-	      Inst *inst = *inst_it;
-	      cout << hex << inst -> m_addr << ": " << inst -> m_disass
-		   << " ( ";
-	      
-	      bitset<64> bs (inst -> m_refs);
-	      for (int b = 0; b < 64; ++b)
-		if (b != 7 && b != 11 && bs[b])
-		  cout << reg_names[b] << " ";
-	      cout << ")" << endl;
-	      
-	      set<Inst *> *ins = (*m_ins)[inst -> m_addr];
-	      set<Inst *>::iterator in_it = ins -> begin ();
-	      for (; in_it != ins -> end (); ++in_it)
-		{
-		  Inst *in = *in_it;
-		  ListDigraph::Node m = (*cfg -> m_nodes)[in -> m_addr];
-		  BB *cc = (*cfg -> m_bbs)[m];
-		  cout << "  "
-		       << cc -> m_label << " "
-		       << hex << in -> m_addr << ": " << in -> m_disass << endl;
-		}
-	      
-	      cout << endl;
 	    }
 	}
     }

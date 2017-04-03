@@ -12,7 +12,7 @@
      jfdctint-O2.elf - OK
       fibcall-O1.elf - OK
         prime-O3.elf - OK
-janne_complex-O1.elf - No: ?
+janne_complex-O1.elf - OK
 janne_complex-O3.elf - OK
 janne_complex-O2.elf - OK
         prime-O2.elf - No: ?

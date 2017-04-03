@@ -350,27 +350,30 @@ CFG::pre_jump (XMLDocument *doc, Inst *src_inst, string trg_id, bool taken)
   attr_t tr_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
   attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
   attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
+
+  oss.str ("");
+  oss << "_taken = " << (taken ? "true" : "false") << "," << endl;
+  oss << "_next = " << dec << src_inst -> m_num;
+  upd = oss.str ();
   
-  oss .str ("");
+  oss.str ("");
   oss << (taken ? "" : "!");
-  upd = "_taken = ";
-  upd += (taken ? "true" : "false");
   switch (src_inst -> m_test)
     {
     case  0: oss << "true"; break;
-      
+
     case  1: oss << "lt(cr" << src_inst -> m_crfD << ")"; break;
     case  2: oss << "gt(cr" << src_inst -> m_crfD << ")"; break;
     case  3: oss << "eq(cr" << src_inst -> m_crfD << ")"; break;
     case  4: oss << "so(cr" << src_inst -> m_crfD << ")"; break;
-      
+
     case  5: oss << "ge(cr" << src_inst -> m_crfD << ")"; break;
     case  6: oss << "le(cr" << src_inst -> m_crfD << ")"; break;
     case  7: oss << "ne(cr" << src_inst -> m_crfD << ")"; break;
-      
+
     case  9: oss <<  "z()"; break;
     case 10: oss << "nz()"; break;
-      
+
     default: oss << "####"; break;
     }
   grd = oss.str ();
@@ -420,9 +423,9 @@ CFG::jump (XMLDocument *doc, string src_id, Inst *src_inst, Inst *trg_inst, bool
 static
 string reg_names[62] = {
   "cr"      , "ctr"   , "l1csr0" , "l1csr1" , "l1finv1" , "lr"   , "msr"  , "pc"   ,
-  "serial0" , "srr0"  , "srr1"   , "xer"    , "hit"     , "miss" , "fpr0" , "fpr1" ,
-  "fpr2"    , "fpr3"  , "fpr4"   , "fpr5"   , "fpr6"    , "fpr7" , "fpr8" , "fpr9" ,
-  "fpr10"   , "fpr11" , "fpr12"  , "fpr13"  , "fpr14"  , "fpr15" ,
+  "serial0" , "srr0"  , "srr1"   , "xer"    , "hit"     , "miss" , "XXXX" , "XXXX" ,
+  "cr0"     , "cr1"   , "cr2"    , "cr3"    , "cr4"     , "cr5"  , "cr6"  , "cr7"  ,
+   "XXXX"   , "XXXX"  , "XXXX"   , "XXXX"   , "XXXX"    , "XXXX" ,
   
   "r0"  , "r1"  , "r2"  , "r3"  , "r4"  , "r5"  , "r6"  , "r7"  ,
   "r8"  , "r9"  , "r10" , "r11" , "r12" , "r13" , "r14" , "r15" ,
