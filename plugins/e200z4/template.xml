@@ -18,6 +18,7 @@ const int _UINT2_MAX  =           3;
 const int _UINT3_MAX  =           7;
 const int _UINT4_MAX  =          15;
 const int _UINT5_MAX  =          31;
+const int _UINT8_MAX  =         255;
 const int _UINT16_MAX =       65535;
 const int _UINT32_MAX =  2147483647; // not 4294967295 because of UPPAAL internal limitation...
 typedef int[0, _UINT1_MAX ] uint1_t;
@@ -25,6 +26,7 @@ typedef int[0, _UINT2_MAX ] uint2_t;
 typedef int[0, _UINT3_MAX ] uint3_t;
 typedef int[0, _UINT4_MAX ] uint4_t;
 typedef int[0, _UINT5_MAX ] uint5_t;
+typedef int[0, _UINT8_MAX ] uint8_t;
 typedef int[0, _UINT16_MAX] uint16_t;
 typedef int[0, _UINT32_MAX] uint32_t;
 
@@ -127,6 +129,14 @@ typedef struct {
   bool predict_taken;
   bool dynamic_prediction;
   bool taken;
+} InCU_PC_t;
+const InCU_PC_t INCU_EMPTY_PC = { -1, false, false, false };
+
+typedef struct {
+  int[-1, _INST_MAX -1] index;
+  bool predict_taken;
+  bool dynamic_prediction;
+  bool taken;
 } InCU_IBuff_Entry_t;
 const InCU_IBuff_Entry_t INCU_EMPTY_IBUFF_ENTRY = { -1, false, false, false };
 
@@ -146,7 +156,7 @@ const InCU_IR_t INCU_EMPTY_IR = { -1, false, false, false };
 
 typedef struct {
   InCU_BTB_t BTB;
-  int PC;
+  InCU_PC_t PC;
   InCU_IBuff_t IBuff;
   InCU_IR_t IR;
 } InCU_t;
@@ -180,9 +190,6 @@ broadcast chan _doInitialize;
    urgent chan _do;
 
 bool _mustTerminate;
-bool _predict_taken;
-bool _dynamic_prediction;
-bool _taken;
 int[0, _INST_MAX -1] _next;
 
 /* Binary: */
@@ -243,10 +250,7 @@ broadcast chan EUs_doStep;
 /* (global:) */
 
 void _Init() {
-  _mustTerminate      = false;
-  _predict_taken      = false;
-  _dynamic_prediction = false;
-  _taken              = false;
+  _mustTerminate = false;
 }
 
 /* Binary: */
@@ -963,6 +967,14 @@ void _mfcr  ( uint5_t rD               ) { GPRS[rD]  = (CR[0] &lt;&lt;  0);
 void _mfspr ( uint5_t rD , uint5_t spr ) { if (spr == 1) { _mfxer (rD); }
                                            if (spr == 9) { _mfctr (rD); } }
 
+void _mtcrf ( uint8_t CRM , uint5_t rS ) { CR[0] = (getBit(CRM, 7) ? CR[0] : getBits(rS, (7 * 4) + 3, (7 * 4) + 0));
+                                           CR[1] = (getBit(CRM, 6) ? CR[1] : getBits(rS, (6 * 4) + 3, (6 * 4) + 0));
+                                           CR[2] = (getBit(CRM, 5) ? CR[2] : getBits(rS, (5 * 4) + 3, (5 * 4) + 0));
+                                           CR[3] = (getBit(CRM, 4) ? CR[3] : getBits(rS, (4 * 4) + 3, (4 * 4) + 0));
+                                           CR[4] = (getBit(CRM, 3) ? CR[4] : getBits(rS, (3 * 4) + 3, (3 * 4) + 0));
+                                           CR[5] = (getBit(CRM, 2) ? CR[5] : getBits(rS, (2 * 4) + 3, (2 * 4) + 0));
+                                           CR[6] = (getBit(CRM, 1) ? CR[6] : getBits(rS, (1 * 4) + 3, (1 * 4) + 0));
+                                           CR[7] = (getBit(CRM, 0) ? CR[7] : getBits(rS, (0 * 4) + 3, (0 * 4) + 0)); }
 void _mtxer (               uint5_t rS ) { XER = GPRS[rS];                }
 void _mtctr (               uint5_t rS ) { CTR = GPRS[rS];                }
 void _mtspr ( uint5_t spr , uint5_t rS ) { if (spr == 1) { _mtxer (rS); }
@@ -1015,7 +1027,7 @@ bool IMU_IsTerminated() {
 }
 
 void IMU_Set() {
-  IMU.ICache.index = InCU.PC;
+  IMU.ICache.index = InCU.PC.index;
 }
 
 void IMU_FillBuffer_Update() {
@@ -1105,7 +1117,7 @@ void InCU_Init() {
     InCU.BTB.buffer[i].prediction = -1;
   }
 
-  InCU.PC = -1;
+  InCU.PC.index = -1;
   InCU.IBuff.count = 0;
   for (i = 0; i &lt; INCU_IBUFF_MAX; ++i)
     InCU.IBuff.buffer[i] = INCU_EMPTY_IBUFF_ENTRY;  
@@ -1165,17 +1177,17 @@ void InCU_PC_Update() {
   int i;
   int index;
   
-  if (InCU.PC != IMU.ICache.index)
+  if (InCU.PC.index != IMU.ICache.index)
     return;
 
-  InCU.PC = InCU_BTB_Predict(InCU.PC);
+  InCU.PC.index = InCU_BTB_Predict(InCU.PC.index);
   for (i = 0; i &lt; INCU_BTB_MAX; ++i)
-    if (InCU.BTB.buffer[i].index == InCU.PC) {
+    if (InCU.BTB.buffer[i].index == InCU.PC.index) {
       
-      _dynamic_prediction = true;
-      index = InCU_BTB_Predict(InCU.PC);
-      if (index != InCU.PC +1)
-	    _predict_taken = true;
+      InCU.PC.dynamic_prediction = true;
+      index = InCU_BTB_Predict(InCU.PC.index);
+      if (index != InCU.PC.index +1)
+	    InCU.PC.predict_taken = true;
 
       return;
     }
@@ -1186,32 +1198,26 @@ bool InCU_IBuff_IsFull() {
 }
 
 void InCU_IBuff_Push() {
-  if (InCU.PC != IMU.ICache.index)
+  if (InCU.PC.index != IMU.ICache.index)
     return;
 
   if (InCU.IR.index == -1) {
     InCU.IR.index              = IMU.ICache.index;
-    if (IMU_IsAccessed (_next)) {
-      InCU.IR.predict_taken      = _predict_taken;
-      InCU.IR.dynamic_prediction = _dynamic_prediction;
-      InCU.IR.taken              = _taken;
-    }
+    InCU.IR.predict_taken      = InCU.PC.predict_taken;
+    InCU.IR.dynamic_prediction = InCU.PC.dynamic_prediction;
+    InCU.IR.taken              = InCU.PC.taken;
     
   } else {
     InCU.IBuff.buffer[InCU.IBuff.count].index              = IMU.ICache.index;
-    if (IMU_IsAccessed (_next)) {
-      InCU.IBuff.buffer[InCU.IBuff.count].predict_taken      = _predict_taken;
-      InCU.IBuff.buffer[InCU.IBuff.count].dynamic_prediction = _dynamic_prediction;
-      InCU.IBuff.buffer[InCU.IBuff.count].taken              = _taken;
-      InCU.IBuff.count++;
-    }
+    InCU.IBuff.buffer[InCU.IBuff.count].predict_taken      = InCU.PC.predict_taken;
+    InCU.IBuff.buffer[InCU.IBuff.count].dynamic_prediction = InCU.PC.dynamic_prediction;
+    InCU.IBuff.buffer[InCU.IBuff.count].taken              = InCU.PC.taken;
+    InCU.IBuff.count++;
   }
   
-  if (IMU_IsAccessed (_next)) {
-    _predict_taken      = false;
-    _dynamic_prediction = false;
-    _taken              = false;
-  }
+  InCU.PC.predict_taken      = false;
+  InCU.PC.dynamic_prediction = false;
+  InCU.PC.taken              = false;
 }
 
 InCU_IR_t InCU_IBuff_Pop() {
@@ -1340,11 +1346,13 @@ void EUs_Update() {
  
 	    // Check for incorrect predictions:
 	    if (EUs.predict_taken &amp;&amp; !EUs.taken) {
-	      InCU.PC = EUs.pipeline[EUS_PIPELINE_E] +1;
+	      InCU.PC.index = EUs.pipeline[EUS_PIPELINE_E] +1;
+          InCU.PC.taken = true;
 	      InCU_Flush();
 	    }
         if (!EUs.predict_taken &amp;&amp; EUs.taken) {
-	      InCU.PC = _INSTS[EUs.pipeline[EUS_PIPELINE_E]].target;
+	      InCU.PC.index = _INSTS[EUs.pipeline[EUS_PIPELINE_E]].target;
+          InCU.PC.taken = true;
 	      InCU_Flush();
 	    }
       }
@@ -1366,7 +1374,7 @@ void EUs_Update() {
     &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D]].do_branch
     &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D]].target &lt; EUs.pipeline[EUS_PIPELINE_D]) {
       EUs.predict_taken = true;
-      InCU.PC = _INSTS[EUs.pipeline[EUS_PIPELINE_D]].target;
+      InCU.PC.index = _INSTS[EUs.pipeline[EUS_PIPELINE_D]].target;
       InCU_Flush(); // TODO: check wether it should be done or not
     }
   }

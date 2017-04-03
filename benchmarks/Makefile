@@ -54,10 +54,10 @@ malardalen/%:
 
 # Verifying:
 VERIFYTA = $(UPPAAL_PATH)/bin-Linux/verifyta
-malardalen-verify:
-	@for elf in $(BIN_MDL)/*.elf; do \
-	  $(VERIFYTA) $$elf-model.xml; \
-	done
+malardalen-verify/%:
+	@$(VERIFYTA) $(BIN_MDL)/$*.elf-model_sliced.xml
+	@$(VERIFYTA) $(BIN_MDL)/$*.elf-model.xml
+
 # Cleaning:
 clean:
 	rm -rf ./$(OBJ)

@@ -24,7 +24,7 @@ janne_complex-O2.elf - OK
       matmult-O2.elf - ?
           crc-O2.elf - No: ?
           crc-O1.elf - No: ?
-       expint-O1.elf - No: Needs _mtcrf implementation
+       expint-O1.elf - OK
           crc-O3.elf - No :?
 
 

@@ -352,7 +352,7 @@ CFG::pre_jump (XMLDocument *doc, Inst *src_inst, string trg_id, bool taken)
   attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
 
   oss.str ("");
-  oss << "_taken = " << (taken ? "true" : "false") << "," << endl;
+  oss << "InCU.PC.taken = " << (taken ? "true" : "false") << "," << endl;
   oss << "_next = " << dec << src_inst -> m_num;
   upd = oss.str ();
   
@@ -839,7 +839,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   attr_t ftr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
   attr_t ftr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
   
-  oss.str (""); oss << "InCU.PC = " << dec << entry -> m_num << ",\n_clock = 0";
+  oss.str (""); oss << "InCU.PC.index = " << dec << entry -> m_num << ",\n_clock = 0";
   XMLElement *ftr_src = newElementWrapper (doc, "source" , NULL             , ftr_src_attrs , NULL);
   XMLElement *ftr_trg = newElementWrapper (doc, "target" , NULL             , ftr_trg_attrs , NULL);
   XMLElement *ftr_syn = newElementWrapper (doc, "label"  , "_doInitialize?" , ftr_syn_attrs , NULL);
