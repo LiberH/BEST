@@ -611,12 +611,12 @@ void _ROTATE( int op, int arg, int qual, uint5_t rA, uint5_t rS, uint5_t rB, uin
               setCR  (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
 }
 
-void _rlwnm     ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_REG  , QUAL_ANDMASK    , rA , rS , rB , 0  , 31 - ME , MB + 31 , false ); }
-void _rlwnm_    ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_REG  , QUAL_ANDMASK    , rA , rS , rB , 0  , 31 - ME , MB + 31 , true  ); }
-void _rlwimi    ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_MASKINSERT , rA , rS , 0  , SH , 31 - ME , MB + 31 , false ); }
-void _rlwimi_   ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_MASKINSERT , rA , rS , 0  , SH , 31 - ME , MB + 31 , true  ); }
-void _rlwinm    ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_ANDMASK    , rA , rS , 0  , SH , 31 - ME , MB + 31 , false ); }
-void _rlwinm_   ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_ANDMASK    , rA , rS , 0  , SH , 31 - ME , MB + 31 , true  ); }
+void _rlwnm     ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_REG  , QUAL_ANDMASK    , rA , rS , rB , 0  , 31 - ME , 31 - MB , false ); }
+void _rlwnm_    ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_REG  , QUAL_ANDMASK    , rA , rS , rB , 0  , 31 - ME , 31 - MB , true  ); }
+void _rlwimi    ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_MASKINSERT , rA , rS , 0  , SH , 31 - ME , 31 - MB , false ); }
+void _rlwimi_   ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_MASKINSERT , rA , rS , 0  , SH , 31 - ME , 31 - MB , true  ); }
+void _rlwinm    ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_ANDMASK    , rA , rS , 0  , SH , 31 - ME , 31 - MB , false ); }
+void _rlwinm_   ( uint5_t rA , uint5_t rS , uint5_t SH , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_UIMM , QUAL_ANDMASK    , rA , rS , 0  , SH , 31 - ME , 31 - MB , true  ); }
 
 void _inslwi    ( uint5_t rA , uint5_t rS , uint5_t n  , uint5_t b ) { _rlwimi  ( rA , rS , 32 - (b + 0) , b  + 0 , (b +  n) - 1); } // (n &gt; 0)
 void _inslwi_   ( uint5_t rA , uint5_t rS , uint5_t n  , uint5_t b ) { _rlwimi_ ( rA , rS , 32 - (b + 0) , b  + 0 , (b +  n) - 1); } // (n &gt; 0)
