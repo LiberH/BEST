@@ -12,6 +12,8 @@
 #include <lemon/dfs.h>
 #include <vector>
 #include <bitset>
+#include <iostream>
+#include <iomanip>
 
 #define S(i) static_cast<std::ostringstream &>((std::ostringstream() << std::dec << i)).str()
 #define C(s) ((char *) (s).c_str ())
@@ -137,10 +139,14 @@ CFG::Reverse (const CFG *cfg)
 CFG *
 CFG::FromFile (string f)
 {
-  u32 entry_addr, exit_addr;
+  u32 entry_addr, exit_addr, data_addr;
   
-  CFG          *cfg = new CFG ();
-  vector<BB *> *bbs = BB::FromFile (f, &entry_addr, &exit_addr);
+  CFG *cfg = new CFG ();
+  vector<BB *> *bbs  = NULL;
+  vector<s32 > *data = NULL;
+  BB::FromFile (f, &entry_addr, &exit_addr, &bbs, &data_addr, &data);
+  cfg -> m_data = data;
+  cfg -> m_data_addr = data_addr;
   vector<BB *>::iterator bb_it = bbs -> begin ();
   for (; bb_it != bbs -> end (); ++bb_it)
     {
@@ -496,7 +502,9 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   // <nta> 
   XMLElement *nta = doc -> FirstChildElement ("nta");
 
-  vector<Inst *> *insts = cfg -> insts ();
+  vector<Inst *> *insts      = cfg -> insts ();
+  vector<s32   > *data       = cfg -> m_data;
+  u32             data_addr  = cfg -> m_data_addr;
   u64 refs = 0;
   vector<Inst *>::iterator inst_it = slice -> begin ();  
   for (; inst_it != slice -> end (); ++inst_it)
@@ -509,6 +517,15 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   ostringstream inst_max_oss;
   inst_max_oss << " " << dec << n_insts +32 << ";";
   string inst_max_str = inst_max_oss.str ();
+
+  ostringstream data_addr_oss;
+  data_addr_oss << " " << dec << data_addr << ";";
+  string data_addr_str = data_addr_oss.str ();
+
+  int n_data = data -> size () * 4;
+  ostringstream data_max_oss;
+  data_max_oss << " " << dec << n_data << ";";
+  string data_max_str = data_max_oss.str ();
   
   ostringstream regs_oss;
   bitset<64> bs (refs & ~0b100010000011);
@@ -638,6 +655,46 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   insts_oss << endl << "};";
   string insts_str = insts_oss.str ();
 
+  int i = 0;
+  ostringstream data_oss;
+  data_oss << " {" << endl << "  ";
+  vector<s32>::iterator byte_it = data -> begin ();
+  for (; byte_it != data -> end (); ++byte_it, ++i)
+    {
+      ostringstream o;
+      string oct0_str, oct1_str, oct2_str, oct3_str;
+      string oct0_spc, oct1_spc, oct2_spc, oct3_spc;
+      s32 byte = *byte_it;
+      
+      unsigned int oct0 = (byte >>  0) & 0xff;
+      o.str (""); o << dec << oct0;
+      oct0_str = o.str ();
+      oct0_spc = string (4 - oct0_str.length (), ' ');
+      
+      unsigned int oct1 = (byte >>  8) & 0xff;
+      o.str (""); o << dec << oct1;
+      oct1_str = o.str ();
+      oct1_spc = string (4 - oct1_str.length (), ' ');
+      
+      unsigned int oct2 = (byte >> 16) & 0xff;
+      o.str (""); o << dec << oct2;
+      oct2_str = o.str ();
+      oct2_spc = string (4 - oct2_str.length (), ' ');
+      
+      unsigned int oct3 = (byte >> 24) & 0xff;
+      o.str (""); o << dec << oct3;
+      oct3_str = o.str ();
+      oct3_spc = string (4 - oct3_str.length (), ' ');
+      
+      if (i == 4) { i = 0; data_oss << endl << "  "; }
+      data_oss << oct3_spc << oct3_str << ", "
+	       << oct2_spc << oct2_str << ", "
+	       << oct1_spc << oct1_str << ", "
+	       << oct0_spc << oct0_str << ", /* */ ";
+    }
+  data_oss.seekp (-8, data_oss.cur);
+  data_oss << endl << "};      ";
+  string data_str = data_oss.str ();
   /////
   
   // <declaration>
@@ -646,13 +703,20 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   string nta_decl_txt = nta_decl -> GetText ();
 
   string::size_type index;
-  string pattern_inst_max = " /* REPLACE_WITH_INST_MAX */ 1;";
-  string pattern_regs     = " /* REPLACE_WITH_REGS */ _REGS;";
-  string pattern_insts    = " /* REPLACE_WITH_INSTS */ { _EMPTY_INST };";
+  string pattern_inst_max  = " /* REPLACE_WITH_INST_MAX */ 1;";
+  string pattern_data_max  = " /* REPLACE_WITH_DATA_MAX */ 1;";
+  string pattern_regs      = " /* REPLACE_WITH_REGS */ _REGS;";
+  string pattern_insts     = " /* REPLACE_WITH_INSTS */ { _EMPTY_INST };";
+  string pattern_data_addr = " /* REPLACE_WITH_DATA_ADDR */ 0;";
+  string pattern_data      = " /* REPLACE_WITH_DATA */ { 0 };";
 
   index = 0;
   index = nta_decl_txt.find (pattern_inst_max, index);
   nta_decl_txt.replace (index, pattern_inst_max.length (), inst_max_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_data_max, index);
+  nta_decl_txt.replace (index, pattern_data_max.length (), data_max_str);
 
   //index = 0;
   //index = nta_decl_txt.find (pattern_regs, index);
@@ -661,6 +725,14 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   index = 0;
   index = nta_decl_txt.find (pattern_insts, index);
   nta_decl_txt.replace (index, pattern_insts.length (), insts_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_data_addr, index);
+  nta_decl_txt.replace (index, pattern_data_addr.length (), data_addr_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_data, index);
+  nta_decl_txt.replace (index, pattern_data.length (), data_str);
 
   /////
   

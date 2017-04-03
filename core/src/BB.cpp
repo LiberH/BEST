@@ -36,21 +36,22 @@ BB::addInst (Inst &i)
 }
 
 // static
-vector<BB *> *
-BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
+void
+BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<BB *> **bbs, u32 *data_addr, vector<s32> **data)
 {
-  vector<BB   *> *bbs     = new vector<BB *> ();  
-  vector<Inst *> *insts   = Inst::FromFile (f, entry_addr, exit_addr);
-  vector<u32   > *leaders =   BB::Leaders  (*insts);
+  vector<Inst *> *insts = NULL;
+  Inst::FromFile (f, entry_addr, exit_addr, &insts, data_addr, data);
+  vector<u32> *leaders = BB::Leaders (*insts);
   
   Inst *inst = insts -> front ();
-  insts   -> erase (insts   -> begin ());
+  insts -> erase (insts -> begin ());
   //leaders -> erase (leaders -> begin ());
   
   BB *bb = new BB ();  
   bb -> addInst (*inst);
   bb -> m_entry = inst -> m_addr;
 
+  *bbs = new vector<BB *> ();  
   vector<Inst *>::iterator inst_it = insts -> begin ();
   for (; inst_it != insts -> end (); ++inst_it)
     {
@@ -62,7 +63,7 @@ BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
       
       if (addr_it != leaders -> end ())
 	{
-	  bbs -> push_back (bb);
+	  (*bbs) -> push_back (bb);
 	  
 	  bb = new BB ();
 	  bb -> m_entry = inst -> m_addr;
@@ -71,9 +72,7 @@ BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
       bb -> addInst (*inst);
     }
 
-  bbs -> push_back (bb);
-
-  return bbs;
+  (*bbs) -> push_back (bb);
 }
 
 // static

@@ -15,41 +15,43 @@
 janne_complex-O1.elf - OK
 janne_complex-O3.elf - OK
 janne_complex-O2.elf - OK
-        prime-O2.elf - No: ?
-          fir-O2.elf - No: ?
-          fir-O3.elf - No: ?
-          fir-O1.elf - No: ?
-      matmult-O3.elf - ?
-        prime-O1.elf - No: ?
-      matmult-O2.elf - ?
-          crc-O2.elf - No: ?
-          crc-O1.elf - No: ?
+          fir-O2.elf - OK
+          fir-O3.elf - OK
+          fir-O1.elf - OK
+      matmult-O3.elf - OK
+      matmult-O2.elf - OK
        expint-O1.elf - OK
-          crc-O3.elf - No :?
 
 
+           bs-O3.elf - OK
            bs-O2.elf - No: Needs constant data loading
-           bs-O3.elf - No: Needs constant data loading
-     bsort100-O2.elf - No: Needs constant data loading
-     bsort100-O3.elf - No: Needs constant data loading
            bs-O1.elf - No: Needs constant data loading
+     bsort100-O3.elf - No: Needs constant data loading
+     bsort100-O2.elf - No: Needs constant data loading
      bsort100-O1.elf - No: Needs constant data loading
+          cnt-O3.elf - No: Needs constant data loading
           cnt-O2.elf - No: Needs constant data loading
+          cnt-O1.elf - No: Needs constant data loading
+           ns-O3.elf - No: Needs constant data loading
            ns-O2.elf - No: Needs constant data loading
            ns-O1.elf - No: Needs constant data loading
-          cnt-O1.elf - No: Needs constant data loading
       matmult-O1.elf - No: Needs constant data loading
-          cnt-O3.elf - No: Needs constant data loading
-           ns-O3.elf - No: Needs constant data loading
-         ndes-O1.elf - No: Needs constant data loading
-     compress-O1.elf - No: Needs constant data loading
-         ndes-O2.elf - No: Needs constant data loading
-     compress-O2.elf - No: Needs constant data loading
-     compress-O3.elf - No: Needs constant data loading
-        adpcm-O3.elf - No: Needs constant data loading
-        adpcm-O1.elf - No: Needs constant data loading
-        adpcm-O2.elf - No: Needs constant data loading
          ndes-O3.elf - No: Needs constant data loading
+         ndes-O2.elf - No: Needs constant data loading
+         ndes-O1.elf - No: Needs constant data loading
+     compress-O3.elf - No: Needs constant data loading
+     compress-O2.elf - No: Needs constant data loading
+     compress-O1.elf - No: Needs constant data loading
+        adpcm-O3.elf - No: Needs constant data loading
+        adpcm-O2.elf - No: Needs constant data loading
+        adpcm-O1.elf - No: Needs constant data loading
+          crc-O2.elf - No: Needs constant data loading
+          crc-O3.elf - No: Needs constant data loading
+          crc-O1.elf - No: Needs constant data loading
+
+
+        prime-O2.elf - No: Missing branches
+        prime-O1.elf - No: Missing branches
 
 
          fdct-O0.elf - No: Needs stack data loading

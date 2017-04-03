@@ -18,10 +18,10 @@ public:
   BB ();
   
   void addInst (Inst &);
-  static std::vector<BB *> *FromFile (std::string, u32 *, u32 *);
-  static      void          ToFile   (std::string, std::vector<BB *> *);
-  static      void          ToFile   (std::string, BB *);
-  static std::vector<u32 > *Leaders  (std::vector<Inst *> &);
+  static      void         FromFile (std::string, u32 *, u32 *, std::vector<BB *> **, u32 * , std::vector<s32> **);
+  static      void         ToFile   (std::string, std::vector<BB *> *);
+  static      void         ToFile   (std::string, BB *);
+  static std::vector<u32> *Leaders  (std::vector<Inst *> &);
   static bool byAddr (const BB *, const BB *);
   
 protected:

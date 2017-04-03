@@ -111,19 +111,20 @@ Inst::Inst (const Inst &inst)
 }
 
 // static
-vector<Inst *> *
-Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
+void
+Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts, u32 *data_addr, vector<s32> **data)
 {
   arch a;
   codeReader *reader;
   codeSection *section;
   int nbCodeSection;
   u32 addr, end_addr;
+  s32 raw_data;
   staticInfo *info;
   Inst *inst, *prev;
-  vector<Inst *> *insts;
   
-  insts = new vector<Inst *> ();
+  *insts = new vector<Inst *> ();
+  *data = new vector<s32>();
   a.readCodeFile (f.c_str ());
   a.getFunctionName ("launchTest", *entry_addr);
   a.getFunctionName ("shouldNotHappen", *exit_addr);
@@ -136,26 +137,33 @@ Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr)
       addr = section -> v_addr ();
       end_addr = addr + section -> size ();
 
-      prev = NULL;
-      while (addr < end_addr)
+      if (section -> name () == ".data")
 	{
-	  info = a.getInstructionStaticInfo (addr);
-	  /*
-	    size_t pos = info -> mnemo.find("Stall");
-	    if (pos != string::npos)
-	      break;
-	  */
-	  inst = new Inst (*info);
-	  inst -> m_prev = prev;
-	  insts -> push_back (inst);
-	  
-	  if (prev)
-	    prev -> m_next = inst;
-	  prev = inst;
+	  *data_addr = addr;
+	  while (addr < end_addr)
+	    {
+	      raw_data = a.defaultFetch (addr);
+	      (*data) -> push_back (raw_data);
+	    }
+	}
+      
+      if (section -> name () == ".text"
+      ||  section -> name () == ".text.startup" )
+	{
+	  prev = NULL;
+	  while (addr < end_addr)
+	    {
+	      info = a.getInstructionStaticInfo (addr);
+	      inst = new Inst (*info);
+	      inst -> m_prev = prev;
+	      (*insts) -> push_back (inst);
+	      
+	      if (prev)
+		prev -> m_next = inst;
+	      prev = inst;
+	    }
 	}
     }
-  
-  return insts;
 }
 
 // static

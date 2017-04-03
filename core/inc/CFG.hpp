@@ -37,6 +37,8 @@ public:
 protected:
     std::             string                             m_name;
     std::             string                             m_label;
+    std::             vector<s32>                       *m_data;
+                      u32                                m_data_addr;
   
   lemon::             ListDigraph                       *m_graph;
     std::             map<int,lemon::ListDigraph::Node> *m_nodes;

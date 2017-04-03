@@ -18,10 +18,12 @@ class codeSection
 {
 	u32 m_v_addr;
 	u32 m_size;
+	std::string m_name;
 	public:
-	codeSection(const u32 v_addr,const u32 size) : m_v_addr(v_addr),m_size(size) {};
+ codeSection(const u32 v_addr,const u32 size, std::string name) : m_v_addr(v_addr),m_size(size),m_name(name) {};
 	u32 const size() {return m_size;};
 	u32 const v_addr() {return m_v_addr;};
+	std::string const name() {return m_name;};
 };
 
 /** pure abstract class that should be inherited by code reader formats: Intel Hex, Motorola SRecord, Elf, ...

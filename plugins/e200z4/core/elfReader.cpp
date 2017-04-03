@@ -135,7 +135,6 @@ bool elfReader::readFile(const char * filename, arch *_arch, const bool verbose)
 			
 				//get section name
 				const char *name = elf_strptr(m_elfFile, sectionHeaderStringIndex, sectionHeader.sh_name);
-
 				Elf_Data *data = elf_getdata (section, NULL);
 
 				ok = ok && manageBinaryCode(data, &sectionHeader, verbose, name, _arch);
@@ -166,7 +165,7 @@ bool elfReader::manageBinaryCode(Elf_Data *data, GElf_Shdr *sectionHeader, const
 		if(verbose) cout << endl << "	" << sectionHeader->sh_size << " bytes from section " << name << "...";
 		const unsigned int v_addr_start = sectionHeader->sh_addr;
 		ok = loadIntoSimulator(v_addr_start, data, _arch);
-		if(ok) m_codeSectionVector.push_back(new codeSection(v_addr_start, data->d_size));
+		if(ok) m_codeSectionVector.push_back(new codeSection(v_addr_start, data->d_size, name));
 	}
 	return ok;
 }

@@ -39,6 +39,7 @@ typedef int[_SINT32_MIN, _SINT32_MAX] sint32_t;
 
 const int _REGS_MAX = 8;
 const int _INST_MAX = /* REPLACE_WITH_INST_MAX */ 1;
+const int _DATA_MAX = /* REPLACE_WITH_DATA_MAX */ 1;
 
 typedef struct {
   int  addr;
@@ -49,8 +50,8 @@ typedef struct {
   int  read_regs[_REGS_MAX];
   int  write_regs[_REGS_MAX];
 } _Inst_t;
-const  int    _EMPTY_REGS[_REGS_MAX] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-const _Inst_t _EMPTY_INST            = { 0, 0, false, 0, false, _EMPTY_REGS, _EMPTY_REGS };
+const  int     _EMPTY_REGS[_REGS_MAX] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+const _Inst_t  _EMPTY_INST            = { 0, 0, false, 0, false, _EMPTY_REGS, _EMPTY_REGS };
 
 /* Flash: */
 
@@ -206,7 +207,11 @@ sint32_t CTR;
 
 sint32_t /* REPLACE_WITH_REGS */ _REGS;
 
+
 const _Inst_t _INSTS[_INST_MAX] = /* REPLACE_WITH_INSTS */ { _EMPTY_INST };
+
+const uint32_t _DATA_ADDR = /* REPLACE_WITH_DATA_ADDR */ 0;
+const sint32_t _DATA[_DATA_MAX] = /* REPLACE_WITH_DATA */ { 0 };
 
 /* Flash: */
 
@@ -275,7 +280,17 @@ sint32_t EXTS ( sint32_t field, uint5_t sign_bit ) { setBits (field, 31, sign_bi
 sint32_t ROTL ( sint32_t field, uint5_t n ) { sint32_t shl = (field &lt;&lt; n); sint32_t shr = (field &gt;&gt; (32 - n)); return (shl | shr); }
 sint32_t MASK ( uint5_t  me, uint5_t  mb ) { sint32_t field; if (me &gt;= mb) { setBits (field, 31, 0, 0); setBits (field, me   , mb   , 1); }
                                                              else          { setBits (field, 31, 0, 1); setBits (field, mb -1, me +1, 0); } return field; }
-sint32_t MEM  ( sint32_t addr, uint5_t size ) { return 0; } // TODO: what to do with memory accesses?
+sint32_t MEM  ( sint32_t addr, uint5_t size ) {
+  int[0,4] i;
+  int[0, _DATA_MAX] data_index = addr - _DATA_ADDR;
+  sint32_t data = 0;
+
+  data_index = addr - _DATA_ADDR;
+  for (i = 0; i &lt; size; ++i)
+    data |= (_DATA[data_index + i] &lt;&lt; ((size - i -1) * 4));
+
+  return data;
+}
 
 void setCR  ( uint3_t crfD , uint2_t i , uint1_t b ) { CR[crfD] = ( b ? (CR[crfD] | (1 &lt;&lt; i)) : (CR[crfD] &amp; NOT(1 &lt;&lt; i)) ); }
 void setXER (                uint2_t i , uint1_t b ) { XER      = ( b ? (XER      | (1 &lt;&lt; i)) : (XER      &amp; NOT(1 &lt;&lt; i)) ); }
