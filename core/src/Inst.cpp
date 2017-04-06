@@ -112,7 +112,7 @@ Inst::Inst (const Inst &inst)
 
 // static
 void
-Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts, u32 *data_addr, vector<s32> **data)
+Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts, u32 *data_addr, vector<s32> **data, u32 *bss_addr, vector<s32> **bss)
 {
   arch a;
   codeReader *reader;
@@ -125,10 +125,13 @@ Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts
   
   *insts = new vector<Inst *> ();
   *data = new vector<s32>();
+  *bss  = new vector<s32>();
   a.readCodeFile (f.c_str ());
   a.getFunctionName ("launchTest", *entry_addr);
   a.getFunctionName ("shouldNotHappen", *exit_addr);
   
+  *data_addr = 0;
+  *bss_addr = 0;
   reader = a.getCodeReader ();
   nbCodeSection = reader -> getNbCodeSection ();
   for (int i = 0; i < nbCodeSection; ++i)
@@ -162,6 +165,21 @@ Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts
 		prev -> m_next = inst;
 	      prev = inst;
 	    }
+	}
+    }
+
+  /* .bss section: */
+  section = reader -> getBSSSection();
+  if (section != NULL)
+    {
+      addr = section -> v_addr ();
+      end_addr = addr + section -> size ();
+
+      *bss_addr = addr;
+      while (addr < end_addr)
+	{
+	  addr += 4;
+	  (*bss) -> push_back (0);
 	}
     }
 }

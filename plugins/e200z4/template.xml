@@ -30,16 +30,20 @@ typedef int[0, _UINT8_MAX ] uint8_t;
 typedef int[0, _UINT16_MAX] uint16_t;
 typedef int[0, _UINT32_MAX] uint32_t;
 
+const int _SINT8_MIN =         -128;
+const int _SINT8_MAX =          127;
 const int _SINT16_MIN =      -32768;
 const int _SINT16_MAX =       32767;
 const int _SINT32_MIN = -2147483648;
 const int _SINT32_MAX =  2147483647;
+typedef int[_SINT8_MIN, _SINT8_MAX] sint8_t;
 typedef int[_SINT16_MIN, _SINT16_MAX] sint16_t;
 typedef int[_SINT32_MIN, _SINT32_MAX] sint32_t;
 
 const int _REGS_MAX = 8;
 const int _INST_MAX = /* REPLACE_WITH_INST_MAX */ 1;
 const int _DATA_MAX = /* REPLACE_WITH_DATA_MAX */ 1;
+const int _BSS_MAX  = /* REPLACE_WITH_BSS_MAX */ 1;
 
 typedef struct {
   int  addr;
@@ -127,19 +131,21 @@ typedef struct {
 
 typedef struct {
   int[-1, _INST_MAX -1] index;
+  int cycles;
   bool predict_taken;
   bool dynamic_prediction;
   bool taken;
 } InCU_PC_t;
-const InCU_PC_t INCU_EMPTY_PC = { -1, false, false, false };
+const InCU_PC_t INCU_EMPTY_PC = { -1, -1, false, false, false };
 
 typedef struct {
   int[-1, _INST_MAX -1] index;
+  int cycles;
   bool predict_taken;
   bool dynamic_prediction;
   bool taken;
 } InCU_IBuff_Entry_t;
-const InCU_IBuff_Entry_t INCU_EMPTY_IBUFF_ENTRY = { -1, false, false, false };
+const InCU_IBuff_Entry_t INCU_EMPTY_IBUFF_ENTRY = { -1, -1, false, false, false };
 
 const int INCU_IBUFF_MAX = 8;
 typedef struct {
@@ -149,11 +155,12 @@ typedef struct {
 
 typedef struct {
   int[-1, _INST_MAX -1] index;
+  int cycles;
   bool predict_taken;
   bool dynamic_prediction;
   bool taken;
 } InCU_IR_t;
-const InCU_IR_t INCU_EMPTY_IR = { -1, false, false, false };
+const InCU_IR_t INCU_EMPTY_IR = { -1, -1, false, false, false };
 
 typedef struct {
   InCU_BTB_t BTB;
@@ -164,6 +171,15 @@ typedef struct {
 
 /* Execution Units (EUs): */
 
+typedef struct {
+  int[-1, _INST_MAX -1] index;
+  int cycles;
+  bool predict_taken;
+  bool dynamic_prediction;
+  bool taken;
+} EUs_Pipeline_Stage_t;
+const EUs_Pipeline_Stage_t EUS_EMPTY_PIPELINE_STAGE = { -1, -1, false, false, false };
+
 const int EUS_PIPELINE_D   = 0;
 const int EUS_PIPELINE_E   = 1;
 const int EUS_PIPELINE_M   = 2;
@@ -171,11 +187,7 @@ const int EUS_PIPELINE_W   = 3;
 const int EUS_PIPELINE_MAX = 4;
 const int EUS_CYCLES_MAX   = 5; // TODO: arbitrary; set properly
 typedef struct {
-  int pipeline[EUS_PIPELINE_MAX];
-  bool predict_taken;
-  bool dynamic_prediction;
-  bool taken;
-  int cycles;
+  EUs_Pipeline_Stage_t pipeline[EUS_PIPELINE_MAX];
 } EUs_t;
 
 //////////////////////////////////////////
@@ -211,7 +223,10 @@ sint32_t /* REPLACE_WITH_REGS */ _REGS;
 const _Inst_t _INSTS[_INST_MAX] = /* REPLACE_WITH_INSTS */ { _EMPTY_INST };
 
 const uint32_t _DATA_ADDR = /* REPLACE_WITH_DATA_ADDR */ 0;
-const sint32_t _DATA[_DATA_MAX] = /* REPLACE_WITH_DATA */ { 0 };
+const sint8_t  _DATA[_DATA_MAX] = /* REPLACE_WITH_DATA */ { 0 };
+
+const uint32_t _BSS_ADDR = /* REPLACE_WITH_BSS_ADDR */ 0;
+      sint8_t  _BSS[_BSS_MAX] = /* REPLACE_WITH_BSS */ { 0 };
 
 /* Flash: */
 
@@ -258,6 +273,365 @@ void _Init() {
   _mustTerminate = false;
 }
 
+/* Flash: */
+
+void Flash_Init() {
+  Flash.burst_index = 0;
+}
+
+bool Flash_IsTerminated() {
+  return _mustTerminate;
+}
+
+/* Static RAM (SRAM): */
+
+void SRAM_Init() {
+  SRAM.executing = false;
+}
+
+bool SRAM_IsAccessed() {
+  return ((EUs.pipeline[EUS_PIPELINE_E] != EUS_EMPTY_PIPELINE_STAGE) &amp;&amp;
+          _INSTS[EUs.pipeline[EUS_PIPELINE_E].index].do_memory);
+}
+
+bool SRAM_IsTerminated() {
+  return _mustTerminate;
+}
+
+/* Instruction Memory Unit (IMU): */
+
+void IMU_Init(){
+  int w, s;
+
+  IMU.FillBuffer   = IMU_EMPTY_FILLBUFFER_LINE;
+  IMU.ICache.index = -1;
+  IMU.ICache.rp_way =  0;
+  for (w = 0; w &lt; IMU_WAYS_MAX; ++w)
+    for (s = 0; s &lt; IMU_USED_SETS_MAX; ++s)
+      IMU.ICache.tags[w][s] = -1;
+}
+
+bool IMU_IsTerminated() {
+  return _mustTerminate;
+}
+
+void IMU_Set() {
+  IMU.ICache.index = InCU.PC.index;
+}
+
+void IMU_FillBuffer_Update() {
+  IMU.FillBuffer.filled[IMU.FillBuffer.dword] = true;
+  IMU.FillBuffer.dword = (IMU.FillBuffer.dword +1) % IMU_FILLBUFFER_DWORDS_MAX;
+}
+
+int IMU_ICache_Lookup() {
+  // return wether the current instruction is in the instruction cache (or line buffer) or not
+  int                          addr  = _INSTS[IMU.ICache.index].addr;
+  int[0, IMU_WAYS_MAX]         way;
+  int[0, IMU_USED_SETS_MAX -1] set   = (addr /  32) % IMU_SETS_MAX;
+  int                          tag   =  addr / (32  * IMU_SETS_MAX);
+  int                          dword = (addr /   8) % IMU_FILLBUFFER_DWORDS_MAX;
+
+  // Is in cache?
+  int icache_tag;
+  for (way = 0; way &lt; IMU_WAYS_MAX; ++way) {
+    icache_tag = IMU.ICache.tags[way][set];
+
+    if (icache_tag != -1
+    &amp;&amp;  icache_tag == tag)
+      return IMU_CACHE_HIT;
+  }
+
+  // Is in fill buffer?
+  if (IMU.FillBuffer.set == set
+  &amp;&amp;  IMU.FillBuffer.tag == tag) {
+    if (IMU.FillBuffer.filled[dword]) return IMU_FILLBUFFER_HIT;
+    else                              return IMU_FILLBUFFER_MISS;
+  }
+
+  return IMU_CACHE_MISS;
+}
+
+bool IMU_ICache_Hit      () { return ( IMU_ICache_Lookup() == IMU_CACHE_HIT       ); }
+bool IMU_FillBuffer_Hit  () { return ( IMU_ICache_Lookup() == IMU_FILLBUFFER_HIT  ); }
+bool IMU_FillBuffer_Miss () { return ( IMU_ICache_Lookup() == IMU_FILLBUFFER_MISS ); }
+bool IMU_ICache_Miss     () { return ( IMU_ICache_Lookup() == IMU_CACHE_MISS      ); }
+
+void IMU_ICache_Update() {
+  // on a miss, insert the current instruction on the instruction cache
+  int                          addr = _INSTS[IMU.FillBuffer.index].addr;
+  int[0, IMU_WAYS_MAX]         way;
+  int[0, IMU_USED_SETS_MAX -1] set   = (addr /  32) % IMU_SETS_MAX;
+  int                          tag   =  addr / (32  * IMU_SETS_MAX);
+
+  bool found = false;
+
+  way = 0;
+  while (!found &amp;&amp; way &lt; IMU_WAYS_MAX)
+    if (IMU.ICache.tags[way][set] == -1)
+      found = true;
+    else ++way; // conditional increment (thus not a for loop)
+  if (found) {
+    // free slot found
+    IMU.ICache.tags[way][set] = tag;
+
+  } else {
+    // no free slot found (pseudo round-robin replacement policy)
+    way = IMU.ICache.rp_way;
+    IMU.ICache.tags[way][set] = tag;
+    IMU.ICache.rp_way = (IMU.ICache.rp_way +1) % IMU_WAYS_MAX;
+  }
+}
+
+void IMU_FillBuffer_Set() {
+  int                     addr = _INSTS[IMU.ICache.index].addr;
+  int[0, IMU_SETS_MAX -1] set  = (addr /  32) % IMU_SETS_MAX;  // TODO: add _USED
+  int                     tag  =  addr / (32  * IMU_SETS_MAX);
+
+  IMU.FillBuffer       = IMU_EMPTY_FILLBUFFER_LINE;
+  IMU.FillBuffer.index = IMU.ICache.index;
+  IMU.FillBuffer.dword = (addr / 8) % IMU_FILLBUFFER_DWORDS_MAX;
+  IMU.FillBuffer.set   = set;
+  IMU.FillBuffer.tag   = tag;
+}
+
+/* Instruction and Control Unit (InCU): */
+
+void InCU_Init() {
+  int i;
+
+  InCU.BTB.top = 0;
+  for (i = 0; i &lt; INCU_BTB_MAX; ++i) {
+    InCU.BTB.buffer[i].index = -1;
+    InCU.BTB.buffer[i].prediction = -1;
+  }
+
+  InCU.PC.index = -1;
+  InCU.IBuff.count = 0;
+  for (i = 0; i &lt; INCU_IBUFF_MAX; ++i)
+    InCU.IBuff.buffer[i] = INCU_EMPTY_IBUFF_ENTRY;  
+  InCU.IR = INCU_EMPTY_IR;
+}
+
+void InCU_PC_Set(int index) {
+  InCU.PC        = INCU_EMPTY_PC;
+  InCU.PC.index  = index;
+  InCU.PC.cycles = _INSTS[index].cycles;
+}
+
+void InCU_PC_Update() {
+  int i;
+  int index = InCU.PC.index;
+  int btb_index = -1;
+
+  InCU_PC_Set(index +1);
+  if (_INSTS[index].do_branch)
+    for (i = 0; i &lt; INCU_BTB_MAX; ++i)
+      if (InCU.BTB.buffer[i].index == index)
+        btb_index = i;
+
+  if (btb_index != -1) {
+    InCU.PC.dynamic_prediction = true;
+    if (InCU.BTB.buffer[btb_index].prediction == INCU_WEAKLY_______TAKEN
+    ||  InCU.BTB.buffer[btb_index].prediction == INCU_STRONGLY_____TAKEN) {
+      InCU_PC_Set(_INSTS[index].target);
+      InCU.PC.dynamic_prediction = true;
+      InCU.PC.predict_taken      = true;
+    }
+  }
+}
+
+void InCU_BTB_Update(int index, bool taken) {
+  int i;
+  int btb_index = -1;
+
+  for (i = 0; i &lt; INCU_BTB_MAX; ++i)
+    if (InCU.BTB.buffer[i].index == index)
+      btb_index = i;
+    
+  if (btb_index != -1) {
+    // Fix prediction
+    if (taken) {
+      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction +1;
+      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &gt; INCU_STRONGLY_____TAKEN) ? INCU_STRONGLY_____TAKEN : InCU.BTB.buffer[btb_index].prediction;
+    } else {
+      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction -1;
+      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &lt; INCU_STRONGLY_NOT_TAKEN) ? INCU_STRONGLY_NOT_TAKEN : InCU.BTB.buffer[btb_index].prediction;
+    }
+
+  } else {
+    /* "On initial allocation of an entry to the BTB for a taken branch,
+     *  the counter is initialized to the weakly-taken state."
+     *  (cf. e200z4 manual, p. 4-7) */
+    if (taken) { // Insert (FIFO)
+      InCU_BTB_Entry_t new_entry = {index, INCU_WEAKLY_______TAKEN};
+
+      InCU.BTB.buffer[InCU.BTB.top] = new_entry;
+      InCU.BTB.top = (InCU.BTB.top +1) % INCU_BTB_MAX;
+    }
+  }
+}
+
+bool InCU_IBuff_IsFull() {
+  return (InCU.IBuff.count == INCU_IBUFF_MAX);
+}
+
+void InCU_IBuff_Push() {
+  if (InCU.IR == INCU_EMPTY_IR)      InCU.IR = InCU.PC;
+  else InCU.IBuff.buffer[InCU.IBuff.count++] = InCU.PC;
+}
+
+InCU_IR_t InCU_IBuff_Pop() {
+  InCU_IR_t entry = INCU_EMPTY_IR;
+
+  if (InCU.IBuff.count &gt; 0) {
+    entry                = InCU.IBuff.buffer[0];
+    InCU.IBuff.buffer[0] = InCU.IBuff.buffer[1];
+    InCU.IBuff.buffer[1] = InCU.IBuff.buffer[2];
+    InCU.IBuff.buffer[2] = InCU.IBuff.buffer[3];
+    InCU.IBuff.buffer[3] = InCU.IBuff.buffer[4];
+    InCU.IBuff.buffer[4] = InCU.IBuff.buffer[5];
+    InCU.IBuff.buffer[5] = InCU.IBuff.buffer[6];
+    InCU.IBuff.buffer[6] = InCU.IBuff.buffer[7];
+    InCU.IBuff.buffer[7] = INCU_EMPTY_IBUFF_ENTRY;
+    
+    InCU.IBuff.count--;
+    return entry;
+  }
+
+  return entry;
+}
+
+bool InCU_IsTerminated() {
+  return _mustTerminate;
+}
+
+void InCU_Flush(int pipeline_stage) {
+  int i;
+
+  InCU.IBuff.count = 0;
+  InCU.PC = INCU_EMPTY_PC;
+  for (i = 0; i &lt; INCU_IBUFF_MAX; ++i)
+    InCU.IBuff.buffer[i] = INCU_EMPTY_IBUFF_ENTRY;
+  InCU.IR = INCU_EMPTY_IR;
+
+  if (pipeline_stage == EUS_PIPELINE_E)
+    EUs.pipeline[EUS_PIPELINE_D] = EUS_EMPTY_PIPELINE_STAGE;
+}
+
+void InCU_Update() {
+  if (InCU.PC.index != IMU.ICache.index)
+    return;
+
+  InCU_IBuff_Push();
+  InCU_PC_Update();
+}
+
+/* Execution Units (EUs): */
+
+void EUs_Init() {
+  int i;
+
+  for (i = 0; i &lt; EUS_PIPELINE_MAX; ++i)
+    EUs.pipeline[i] = EUS_EMPTY_PIPELINE_STAGE;
+}
+
+bool EUs_ExecuteNext(int index) {
+  bool do_stall = true;
+
+  if (EUs.pipeline[EUS_PIPELINE_D].index == index
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E] == EUS_EMPTY_PIPELINE_STAGE)
+    do_stall = false;
+
+  if (EUs.pipeline[EUS_PIPELINE_D].index == index
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E] != EUS_EMPTY_PIPELINE_STAGE
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].cycles == 0
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_M] == EUS_EMPTY_PIPELINE_STAGE)
+    do_stall = false;
+
+  if (EUs.pipeline[EUS_PIPELINE_D].index == index
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E] != EUS_EMPTY_PIPELINE_STAGE
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].cycles == 0
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_M] != EUS_EMPTY_PIPELINE_STAGE
+  &amp;&amp; !SRAM.executing)
+    do_stall = false;
+
+  return !do_stall;
+}
+
+bool EUs_IsTerminated() {
+  return (_mustTerminate
+       &amp;&amp; InCU.IR                      == INCU_EMPTY_IR
+       &amp;&amp; EUs.pipeline[EUS_PIPELINE_D] == EUS_EMPTY_PIPELINE_STAGE
+       &amp;&amp; EUs.pipeline[EUS_PIPELINE_E] == EUS_EMPTY_PIPELINE_STAGE
+       &amp;&amp; EUs.pipeline[EUS_PIPELINE_M] == EUS_EMPTY_PIPELINE_STAGE
+       &amp;&amp; EUs.pipeline[EUS_PIPELINE_W] == EUS_EMPTY_PIPELINE_STAGE);
+}
+
+bool EUs_D_DoStall() { return                                                              EUs.pipeline[EUS_PIPELINE_D] != EUS_EMPTY_PIPELINE_STAGE; }
+bool EUs_E_DoStall() { return                   EUs.pipeline[EUS_PIPELINE_E].cycles &gt; 0 || EUs.pipeline[EUS_PIPELINE_E] != EUS_EMPTY_PIPELINE_STAGE; }
+bool EUs_M_DoStall() { return SRAM.executing || EUs.pipeline[EUS_PIPELINE_E].cycles &gt; 0 || EUs.pipeline[EUS_PIPELINE_M] != EUS_EMPTY_PIPELINE_STAGE; }
+bool EUs_W_DoStall() { return SRAM.executing; }
+
+void EUs_Update() {
+  bool do_stall = false;
+  
+  // Execute W (if doesn't stall):
+  EUs.pipeline[EUS_PIPELINE_W] = EUS_EMPTY_PIPELINE_STAGE;
+  if (!EUs_W_DoStall()) {
+    EUs.pipeline[EUS_PIPELINE_W] = EUs.pipeline[EUS_PIPELINE_M];
+    EUs.pipeline[EUS_PIPELINE_M] = EUS_EMPTY_PIPELINE_STAGE;
+  }
+
+  // Execute M (if doesn't stall):
+  if (!EUs_M_DoStall()) {
+    EUs.pipeline[EUS_PIPELINE_M] = EUs.pipeline[EUS_PIPELINE_E];
+    EUs.pipeline[EUS_PIPELINE_E] = EUS_EMPTY_PIPELINE_STAGE;
+  }
+
+  // Execute E (if doesn't stall):
+  if (EUs.pipeline[EUS_PIPELINE_E] != EUS_EMPTY_PIPELINE_STAGE
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].cycles &gt; 0)
+    EUs.pipeline[EUS_PIPELINE_E].cycles--;
+
+  /* Don't move inst in D to E if there are
+   * data dependencies between D and M:
+   */
+  if (EUs.pipeline[EUS_PIPELINE_D] != EUS_EMPTY_PIPELINE_STAGE
+   &amp;&amp; EUs.pipeline[EUS_PIPELINE_E] == EUS_EMPTY_PIPELINE_STAGE
+   &amp;&amp; EUs.pipeline[EUS_PIPELINE_M] != EUS_EMPTY_PIPELINE_STAGE
+   &amp;&amp; _INSTS[EUs.pipeline[EUS_PIPELINE_M].index].do_memory) {
+    int i;
+    _Inst_t inD = _INSTS[EUs.pipeline[EUS_PIPELINE_D].index];
+    _Inst_t inM = _INSTS[EUs.pipeline[EUS_PIPELINE_M].index];
+
+    for (i = 0; i &lt; _REGS_MAX; ++i)
+      if (inM.write_regs[i] &amp; inD.read_regs[i])
+        do_stall = true;
+  }
+
+  if (!EUs_E_DoStall() &amp;&amp; !do_stall) {
+    EUs.pipeline[EUS_PIPELINE_E] = EUs.pipeline[EUS_PIPELINE_D];
+    EUs.pipeline[EUS_PIPELINE_D] = EUS_EMPTY_PIPELINE_STAGE;
+  }
+
+  // Execute D (if doesn't stall):
+  if (!EUs_D_DoStall()) {
+    EUs.pipeline[EUS_PIPELINE_D] = InCU.IR;
+    InCU.IR = InCU_IBuff_Pop();
+
+    // inst. in D is a backward branch then statically predict taken
+    if (EUs.pipeline[EUS_PIPELINE_D] != EUS_EMPTY_PIPELINE_STAGE
+    &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D].index].do_branch
+    &amp;&amp; !EUs.pipeline[EUS_PIPELINE_D].dynamic_prediction  
+    &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D].index].target &lt; EUs.pipeline[EUS_PIPELINE_D].index) {
+      EUs.pipeline[EUS_PIPELINE_D].predict_taken = true;
+      InCU_Flush(EUS_PIPELINE_D); // TODO: check wether it should be done or not
+      InCU_PC_Set(_INSTS[EUs.pipeline[EUS_PIPELINE_D].index].target);
+    }
+  }
+}
+
 /* Binary: */
 
 const int XER_CA = 1;
@@ -280,16 +654,40 @@ sint32_t EXTS ( sint32_t field, uint5_t sign_bit ) { setBits (field, 31, sign_bi
 sint32_t ROTL ( sint32_t field, uint5_t n ) { sint32_t shl = (field &lt;&lt; n); sint32_t shr = (field &gt;&gt; (32 - n)); return (shl | shr); }
 sint32_t MASK ( uint5_t  me, uint5_t  mb ) { sint32_t field; if (me &gt;= mb) { setBits (field, 31, 0, 0); setBits (field, me   , mb   , 1); }
                                                              else          { setBits (field, 31, 0, 1); setBits (field, mb -1, me +1, 0); } return field; }
-sint32_t MEM  ( sint32_t addr, uint5_t size ) {
+void to_MEM  ( sint32_t addr, uint5_t size, sint32_t blob ) {
   int[0,4] i;
-  int[0, _DATA_MAX] data_index = addr - _DATA_ADDR;
-  sint32_t data = 0;
+  int[0, _BSS_MAX] bss_index;
 
-  data_index = addr - _DATA_ADDR;
-  for (i = 0; i &lt; size; ++i)
-    data |= (_DATA[data_index + i] &lt;&lt; ((size - i -1) * 4));
+  if (addr &gt;= _BSS_ADDR
+  &amp;&amp;  addr &lt;  _BSS_ADDR + _BSS_MAX) { /* if in .bss section */
+    bss_index = addr - _BSS_ADDR;
+    for (i = 0; i &lt; size; ++i) {
+      _BSS[bss_index + i] = EXTS((blob &gt;&gt; (size - i -1) * 8) &amp; 255, 7);
+    }
+  }
+}
 
-  return data;
+sint32_t from_MEM  ( sint32_t addr, uint5_t size ) {
+  int[0,4] i;
+  int[0, _DATA_MAX] data_index;
+  int[0, _BSS_MAX] bss_index;
+  sint32_t blob = 0;
+
+  if (addr &gt;= _DATA_ADDR
+  &amp;&amp;  addr &lt;  _DATA_ADDR + _DATA_MAX) { /* if in .data section */
+    data_index = addr - _DATA_ADDR;
+    for (i = 0; i &lt; size; ++i)
+      blob |= (_DATA[data_index + i] &lt;&lt; ((size - i -1) * 8));
+  }
+
+  if (addr &gt;= _BSS_ADDR
+  &amp;&amp;  addr &lt;  _BSS_ADDR + _BSS_MAX) { /* if in .bss section */
+    bss_index = addr - _BSS_ADDR;
+    for (i = 0; i &lt; size; ++i)
+      blob |= (_BSS[bss_index + i] &lt;&lt; ((size - i -1) * 8));
+  }
+
+  return blob;
 }
 
 void setCR  ( uint3_t crfD , uint2_t i , uint1_t b ) { CR[crfD] = ( b ? (CR[crfD] | (1 &lt;&lt; i)) : (CR[crfD] &amp; NOT(1 &lt;&lt; i)) ); }
@@ -486,8 +884,8 @@ void _subic_   ( uint5_t rD , uint5_t  rA , sint16_t SIMM ) { _addic_  ( rD, rA,
 void _COMPARE( int op, int arg, int qual, uint3_t crfD, uint5_t rA, uint5_t rB, sint32_t IMM ) {
   sint32_t rA_sval = GPRS[rA], rB_sval = GPRS[rB];
 //uint32_t rA_uval = GPRS[rA], rB_uval = GPRS[rB];
-  sint16_t SIMM = IMM;
-  uint16_t UIMM = IMM;
+  sint16_t SIMM = (arg == ARG_SIMM ? IMM : 0);
+  uint16_t UIMM = (arg == ARG_UIMM ? IMM : 0);
 
   sint32_t a;
   sint32_t b;
@@ -718,14 +1116,14 @@ void _MEMORY( int op, int arg, int qual, bool updates, bool indexed, int size, u
   b  = EXTS(d, 15); if (indexed             ) b        = rB_uval;
   EA = a + b;       if (updates             ) GPRS[rA] = EA;
 
-  if ( op == OP_LOAD  ) { if ( qual == QUAL_NONE       ) { GPRS[rD] =       MEM( EA, size )                 ; }
-                          if ( qual == QUAL_ALGEBRAIC  ) { GPRS[rD] = EXTS( MEM( EA, size ), (size * 8) -1 ); }
+  if ( op == OP_LOAD  ) { if ( qual == QUAL_NONE       ) { GPRS[rD] =       from_MEM( EA, size )                 ; }
+                          if ( qual == QUAL_ALGEBRAIC  ) { GPRS[rD] = EXTS( from_MEM( EA, size ), (size * 8) -1 ); }
                           if ( qual == QUAL_REVERSE    ) {
-                            if ( size == SIZE_HALFWORD ) { GPRS[rD]  = (MEM( EA +0, 1 ) &lt;&lt;  0); GPRS[rD] |= (MEM( EA +1, 1 ) &lt;&lt;  8); }
-                            if ( size == SIZE_WORD     ) { GPRS[rD]  = (MEM( EA +0, 1 ) &lt;&lt;  0); GPRS[rD] |= (MEM( EA +1, 1 ) &lt;&lt;  8);
-                                                           GPRS[rD] |= (MEM( EA +2, 1 ) &lt;&lt; 16); GPRS[rD] |= (MEM( EA +3, 1 ) &lt;&lt; 24); } } }
+                            if ( size == SIZE_HALFWORD ) { GPRS[rD]  = (from_MEM( EA +0, 1 ) &lt;&lt;  0); GPRS[rD] |= (from_MEM( EA +1, 1 ) &lt;&lt;  8); }
+                            if ( size == SIZE_WORD     ) { GPRS[rD]  = (from_MEM( EA +0, 1 ) &lt;&lt;  0); GPRS[rD] |= (from_MEM( EA +1, 1 ) &lt;&lt;  8);
+                                                           GPRS[rD] |= (from_MEM( EA +2, 1 ) &lt;&lt; 16); GPRS[rD] |= (from_MEM( EA +3, 1 ) &lt;&lt; 24); } } }
 
-  if ( op == OP_STORE ) { if ( qual == QUAL_NONE       ) { /* MEM(EA, size) = (rS_uval &gt;&gt;  0); */ }
+  if ( op == OP_STORE ) { if ( qual == QUAL_NONE       ) { to_MEM(EA, size, (rS_uval &gt;&gt;  0)); }
                           if ( qual == QUAL_REVERSE    ) {
                             if ( size == SIZE_HALFWORD ) { /* MEM(EA +0, 1) = (rS_uval &gt;&gt;  0); MEM(EA +1, 1) = (rS_uval &gt;&gt;  8); */ }
                             if ( size == SIZE_WORD     ) { /* MEM(EA +0, 1) = (rS_uval &gt;&gt;  0); MEM(EA +1, 1) = (rS_uval &gt;&gt;  8); */
@@ -788,10 +1186,23 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
     ctr_ok  = getBit(BO, 2) || ((CTR != 0) ^ getBit(BO, 1));
     cond_ok = getBit(BO, 4) || (getBit(crfD, crfD_bit) == getBit(BO, 3)); }
 
-  if ( !conditional         ) { if ( qual == QUAL_NONE  ) {                        /* jump to target_addr */; } }
-  if (  conditional         ) { if ( qual == QUAL_NONE  ) { if (ctr_ok &amp;&amp; cond_ok) /* jump to target_addr */; }
-                                if ( qual == QUAL_TOLR  ) { if (ctr_ok &amp;&amp; cond_ok) /* jump to LR          */; }
-                                if ( qual == QUAL_TOCTR ) { if (true   &amp;&amp; cond_ok) /* jump to CTR         */; } }
+  if ( !conditional         ) { if ( qual == QUAL_NONE  ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((true   &amp;&amp; true   ) ? true : false); } }
+  if (  conditional         ) { if ( qual == QUAL_NONE  ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((ctr_ok &amp;&amp; cond_ok) ? true : false); }
+                                if ( qual == QUAL_TOLR  ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((ctr_ok &amp;&amp; cond_ok) ? true : false); }
+                                if ( qual == QUAL_TOCTR ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((true   &amp;&amp; cond_ok) ? true : false); } }
+
+  /* Update the BTB: */
+  InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E].index, EUs.pipeline[EUS_PIPELINE_E].taken);
+
+  /* Check for incorrect predictions: */
+  if (EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].taken) {
+    InCU_Flush(EUS_PIPELINE_E);
+    InCU_PC_Set(EUs.pipeline[EUS_PIPELINE_E].index +1);
+  }
+  if (!EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; EUs.pipeline[EUS_PIPELINE_E].taken) {
+    InCU_Flush(EUS_PIPELINE_E);
+    InCU_PC_Set(_INSTS[EUs.pipeline[EUS_PIPELINE_E].index].target);
+  }
 }
 
 void _b        (                                          sint32_t target_addr ) { _BRANCH( OP_BR , QUAL_NONE  , false , 0  , 0  , target_addr , false , false ); }
@@ -994,406 +1405,6 @@ void _mtxer (               uint5_t rS ) { XER = GPRS[rS];                }
 void _mtctr (               uint5_t rS ) { CTR = GPRS[rS];                }
 void _mtspr ( uint5_t spr , uint5_t rS ) { if (spr == 1) { _mtxer (rS); }
                                            if (spr == 9) { _mtctr (rS); } }
-
-/* Flash: */
-
-void Flash_Init() {
-  Flash.burst_index = 0;
-}
-
-bool Flash_IsTerminated() {
-  return _mustTerminate;
-}
-
-/* Static RAM (SRAM): */
-
-void SRAM_Init() {
-  SRAM.executing = false;
-}
-
-bool SRAM_IsAccessed() {
-  return ((EUs.pipeline[EUS_PIPELINE_E] != -1) &amp;&amp;
-          _INSTS[EUs.pipeline[EUS_PIPELINE_E]].do_memory);
-}
-
-bool SRAM_IsTerminated() {
-  return _mustTerminate;
-}
-
-/* Instruction Memory Unit (IMU): */
-
-void IMU_Init(){
-  int w, s;
-
-  IMU.FillBuffer   = IMU_EMPTY_FILLBUFFER_LINE;
-  IMU.ICache.index = -1;
-  IMU.ICache.rp_way =  0;
-  for (w = 0; w &lt; IMU_WAYS_MAX; ++w)
-    for (s = 0; s &lt; IMU_USED_SETS_MAX; ++s)
-      IMU.ICache.tags[w][s] = -1;
-}
-
-bool IMU_IsAccessed(int index) {
-  return (IMU.ICache.index == index);
-}
-
-bool IMU_IsTerminated() {
-  return _mustTerminate;
-}
-
-void IMU_Set() {
-  IMU.ICache.index = InCU.PC.index;
-}
-
-void IMU_FillBuffer_Update() {
-  IMU.FillBuffer.filled[IMU.FillBuffer.dword] = true;
-  IMU.FillBuffer.dword = (IMU.FillBuffer.dword +1) % IMU_FILLBUFFER_DWORDS_MAX;
-}
-
-int IMU_ICache_Lookup() {
-  // return wether the current instruction is in the instruction cache (or line buffer) or not
-  int                          addr  = _INSTS[IMU.ICache.index].addr;
-  int[0, IMU_WAYS_MAX]         way;
-  int[0, IMU_USED_SETS_MAX -1] set   = (addr /  32) % IMU_SETS_MAX;
-  int                          tag   =  addr / (32  * IMU_SETS_MAX);
-  int                          dword = (addr /   8) % IMU_FILLBUFFER_DWORDS_MAX;
-
-  // Is in cache?
-  int icache_tag;
-  for (way = 0; way &lt; IMU_WAYS_MAX; ++way) {
-    icache_tag = IMU.ICache.tags[way][set];
-
-    if (icache_tag != -1
-    &amp;&amp;  icache_tag == tag)
-      return IMU_CACHE_HIT;
-  }
-
-  // Is in fill buffer?
-  if (IMU.FillBuffer.set == set
-  &amp;&amp;  IMU.FillBuffer.tag == tag) {
-    if (IMU.FillBuffer.filled[dword]) return IMU_FILLBUFFER_HIT;
-    else                              return IMU_FILLBUFFER_MISS;
-  }
-
-  return IMU_CACHE_MISS;
-}
-
-bool IMU_ICache_Hit      () { return ( IMU_ICache_Lookup() == IMU_CACHE_HIT       ); }
-bool IMU_FillBuffer_Hit  () { return ( IMU_ICache_Lookup() == IMU_FILLBUFFER_HIT  ); }
-bool IMU_FillBuffer_Miss () { return ( IMU_ICache_Lookup() == IMU_FILLBUFFER_MISS ); }
-bool IMU_ICache_Miss     () { return ( IMU_ICache_Lookup() == IMU_CACHE_MISS      ); }
-
-void IMU_ICache_Update() {
-  // on a miss, insert the current instruction on the instruction cache
-  int                          addr = _INSTS[IMU.FillBuffer.index].addr;
-  int[0, IMU_WAYS_MAX]         way;
-  int[0, IMU_USED_SETS_MAX -1] set   = (addr /  32) % IMU_SETS_MAX;
-  int                          tag   =  addr / (32  * IMU_SETS_MAX);
-
-  bool found = false;
-
-  way = 0;
-  while (!found &amp;&amp; way &lt; IMU_WAYS_MAX)
-    if (IMU.ICache.tags[way][set] == -1)
-      found = true;
-    else ++way; // conditional increment (thus not a for loop)
-  if (found) {
-    // free slot found
-    IMU.ICache.tags[way][set] = tag;
-
-  } else {
-    // no free slot found (pseudo round-robin replacement policy)
-    way = IMU.ICache.rp_way;
-    IMU.ICache.tags[way][set] = tag;
-    IMU.ICache.rp_way = (IMU.ICache.rp_way +1) % IMU_WAYS_MAX;
-  }
-}
-
-void IMU_FillBuffer_Set() {
-  int                     addr = _INSTS[IMU.ICache.index].addr;
-  int[0, IMU_SETS_MAX -1] set  = (addr /  32) % IMU_SETS_MAX;  // TODO: add _USED
-  int                     tag  =  addr / (32  * IMU_SETS_MAX);
-
-  IMU.FillBuffer       = IMU_EMPTY_FILLBUFFER_LINE;
-  IMU.FillBuffer.index = IMU.ICache.index;
-  IMU.FillBuffer.dword = (addr / 8) % IMU_FILLBUFFER_DWORDS_MAX;
-  IMU.FillBuffer.set   = set;
-  IMU.FillBuffer.tag   = tag;
-}
-
-/* Instruction and Control Unit (InCU): */
-
-void InCU_Init() {
-  int i;
-
-  InCU.BTB.top = 0;
-  for (i = 0; i &lt; INCU_BTB_MAX; ++i) {
-    InCU.BTB.buffer[i].index = -1;
-    InCU.BTB.buffer[i].prediction = -1;
-  }
-
-  InCU.PC.index = -1;
-  InCU.IBuff.count = 0;
-  for (i = 0; i &lt; INCU_IBUFF_MAX; ++i)
-    InCU.IBuff.buffer[i] = INCU_EMPTY_IBUFF_ENTRY;  
-  InCU.IR = INCU_EMPTY_IR;
-}
-
-int InCU_BTB_Predict(int index) {
-  int i;
-  int btb_index = -1;
-
-  if (_INSTS[index].do_branch)
-    for (i = 0; i &lt; INCU_BTB_MAX; ++i)
-      if (InCU.BTB.buffer[i].index == index)
-        btb_index = i;
-
-  if (btb_index != -1) {
-    if (InCU.BTB.buffer[btb_index].prediction == INCU_WEAKLY_______TAKEN
-    ||  InCU.BTB.buffer[btb_index].prediction == INCU_STRONGLY_____TAKEN)
-      return _INSTS[index].target;
-  }
-
-  return index +1;
-}
-
-void InCU_BTB_Update(int index, bool taken) {
-  int i;
-  int btb_index = -1;
-
-  for (i = 0; i &lt; INCU_BTB_MAX; ++i)
-    if (InCU.BTB.buffer[i].index == index)
-      btb_index = i;
-    
-  if (btb_index != -1) {
-    // Fix prediction
-    if (taken) {
-      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction +1;
-      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &gt; INCU_STRONGLY_____TAKEN) ? INCU_STRONGLY_____TAKEN : InCU.BTB.buffer[btb_index].prediction;
-    } else {
-      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction -1;
-      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &lt; INCU_STRONGLY_NOT_TAKEN) ? INCU_STRONGLY_NOT_TAKEN : InCU.BTB.buffer[btb_index].prediction;
-    }
-
-  } else {
-    /* "On initial allocation of an entry to the BTB for a taken branch,
-     *  the counter is initialized to the weakly-taken state."
-     *  (cf. e200z4 manual, p. 4-7) */
-    if (taken) { // Insert (FIFO)
-      InCU_BTB_Entry_t new_entry = {index, INCU_WEAKLY_______TAKEN};
-
-      InCU.BTB.buffer[InCU.BTB.top] = new_entry;
-      InCU.BTB.top = (InCU.BTB.top +1) % INCU_BTB_MAX;
-    }
-  }
-}
-
-void InCU_PC_Update() {
-  int i;
-  int index;
-  
-  if (InCU.PC.index != IMU.ICache.index)
-    return;
-
-  InCU.PC.index = InCU_BTB_Predict(InCU.PC.index);
-  for (i = 0; i &lt; INCU_BTB_MAX; ++i)
-    if (InCU.BTB.buffer[i].index == InCU.PC.index) {
-      
-      InCU.PC.dynamic_prediction = true;
-      index = InCU_BTB_Predict(InCU.PC.index);
-      if (index != InCU.PC.index +1)
-	    InCU.PC.predict_taken = true;
-
-      return;
-    }
-}
-
-bool InCU_IBuff_IsFull() {
-  return (InCU.IBuff.count == INCU_IBUFF_MAX);
-}
-
-void InCU_IBuff_Push() {
-  if (InCU.PC.index != IMU.ICache.index)
-    return;
-
-  if (InCU.IR.index == -1) {
-    InCU.IR.index              = IMU.ICache.index;
-    InCU.IR.predict_taken      = InCU.PC.predict_taken;
-    InCU.IR.dynamic_prediction = InCU.PC.dynamic_prediction;
-    InCU.IR.taken              = InCU.PC.taken;
-    
-  } else {
-    InCU.IBuff.buffer[InCU.IBuff.count].index              = IMU.ICache.index;
-    InCU.IBuff.buffer[InCU.IBuff.count].predict_taken      = InCU.PC.predict_taken;
-    InCU.IBuff.buffer[InCU.IBuff.count].dynamic_prediction = InCU.PC.dynamic_prediction;
-    InCU.IBuff.buffer[InCU.IBuff.count].taken              = InCU.PC.taken;
-    InCU.IBuff.count++;
-  }
-  
-  InCU.PC.predict_taken      = false;
-  InCU.PC.dynamic_prediction = false;
-  InCU.PC.taken              = false;
-}
-
-InCU_IR_t InCU_IBuff_Pop() {
-  InCU_IR_t entry = INCU_EMPTY_IR;
-
-  if (InCU.IBuff.count &gt; 0) {
-    entry.index              = InCU.IBuff.buffer[0].index;
-    entry.predict_taken      = InCU.IBuff.buffer[0].predict_taken;
-    entry.dynamic_prediction = InCU.IBuff.buffer[0].dynamic_prediction;
-    entry.taken              = InCU.IBuff.buffer[0].taken;
-    
-    InCU.IBuff.buffer[0] = InCU.IBuff.buffer[1];
-    InCU.IBuff.buffer[1] = InCU.IBuff.buffer[2];
-    InCU.IBuff.buffer[2] = InCU.IBuff.buffer[3];
-    InCU.IBuff.buffer[3] = InCU.IBuff.buffer[4];
-    InCU.IBuff.buffer[4] = InCU.IBuff.buffer[5];
-    InCU.IBuff.buffer[5] = InCU.IBuff.buffer[6];
-    InCU.IBuff.buffer[6] = InCU.IBuff.buffer[7];
-    InCU.IBuff.buffer[7] = INCU_EMPTY_IBUFF_ENTRY;
-    
-    InCU.IBuff.count--;
-    return entry;
-  }
-
-  return entry;
-}
-
-bool InCU_IsTerminated() {
-  return _mustTerminate;
-}
-
-void InCU_Flush() {
-  int i;
-
-  InCU.IBuff.count = 0;
-  for (i = 0; i &lt; INCU_IBUFF_MAX; ++i)
-    InCU.IBuff.buffer[i] = INCU_EMPTY_IBUFF_ENTRY;
-  InCU.IR = INCU_EMPTY_IR;
-}
-
-void InCU_Update() {
-  InCU_IBuff_Push();
-  InCU_PC_Update();
-}
-
-/* Execution Units (EUs): */
-
-void EUs_Init() {
-  int i;
-
-  for (i = 0; i &lt; EUS_PIPELINE_MAX; ++i)
-    EUs.pipeline[i] = -1;
-  
-  EUs.predict_taken      = false;
-  EUs.dynamic_prediction = false;
-  EUs.taken              = false;
-  
-  EUs.cycles = 0;
-}
-
-bool EUs_IsExecuting(int index) {
-  return (EUs.pipeline[EUS_PIPELINE_D] == index);
-}
-
-bool EUs_IsTerminated() {
-  return (_mustTerminate
-       &amp;&amp; InCU.IR.index                == -1
-       &amp;&amp; EUs.pipeline[EUS_PIPELINE_D] == -1
-       &amp;&amp; EUs.pipeline[EUS_PIPELINE_E] == -1
-       &amp;&amp; EUs.pipeline[EUS_PIPELINE_M] == -1
-       &amp;&amp; EUs.pipeline[EUS_PIPELINE_W] == -1);
-}
-
-bool EUs_D_DoStall() { return EUs.pipeline[EUS_PIPELINE_D] != -1; }
-bool EUs_E_DoStall() { return EUs.cycles != 0 || EUs.pipeline[EUS_PIPELINE_E] != -1; }
-bool EUs_M_DoStall() { return SRAM.executing || EUs.cycles != 0 || EUs.pipeline[EUS_PIPELINE_M] != -1; }
-bool EUs_W_DoStall() { return SRAM.executing; }
-
-void EUs_Update() {
-  bool do_stall = false;
-  
-  // Execute W (if doesn't stall):
-  EUs.pipeline[EUS_PIPELINE_W] = -1;
-  if (!EUs_W_DoStall()) {
-    EUs.pipeline[EUS_PIPELINE_W] = EUs.pipeline[EUS_PIPELINE_M];
-    EUs.pipeline[EUS_PIPELINE_M] = -1;
-  }
-
-  // Execute M (if doesn't stall):
-  if (!EUs_M_DoStall()) {
-    EUs.pipeline[EUS_PIPELINE_M] = EUs.pipeline[EUS_PIPELINE_E];
-    EUs.pipeline[EUS_PIPELINE_E] = -1;
-  }
-
-  // Execute E (if doesn't stall):
-  if (EUs.cycles &gt; 0)
-    EUs.cycles--;
-
-  /* Don't move inst in D to E if there are
-   * data dependencies between D and M:
-   */
-  if (EUs.pipeline[EUS_PIPELINE_D] != -1
-   &amp;&amp; EUs.pipeline[EUS_PIPELINE_E] == -1
-   &amp;&amp; EUs.pipeline[EUS_PIPELINE_M] != -1
-   &amp;&amp; _INSTS[EUs.pipeline[EUS_PIPELINE_M]].do_memory) {
-    int i;
-    _Inst_t inD = _INSTS[EUs.pipeline[EUS_PIPELINE_D]];
-    _Inst_t inM = _INSTS[EUs.pipeline[EUS_PIPELINE_M]];
-
-    for (i = 0; i &lt; _REGS_MAX; ++i)
-      if (inM.write_regs[i] &amp; inD.read_regs[i])
-        do_stall = true;
-  }
-
-  if (!EUs_E_DoStall() &amp;&amp; !do_stall) {
-    EUs.pipeline[EUS_PIPELINE_E] = EUs.pipeline[EUS_PIPELINE_D];
-    EUs.pipeline[EUS_PIPELINE_D] = -1;
-
-    if (EUs.pipeline[EUS_PIPELINE_E] != -1) {
-      EUs.cycles = _INSTS[EUs.pipeline[EUS_PIPELINE_E]].cycles -1;
-      
-      // Instruction is a branch
-      if (_INSTS[EUs.pipeline[EUS_PIPELINE_E]].do_branch) {
-	    // Update the BTB
-	    InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E], EUs.taken);
- 
-	    // Check for incorrect predictions:
-	    if (EUs.predict_taken &amp;&amp; !EUs.taken) {
-	      InCU.PC.index = EUs.pipeline[EUS_PIPELINE_E] +1;
-          InCU.PC.taken = true;
-	      InCU_Flush();
-	    }
-        if (!EUs.predict_taken &amp;&amp; EUs.taken) {
-	      InCU.PC.index = _INSTS[EUs.pipeline[EUS_PIPELINE_E]].target;
-          InCU.PC.taken = true;
-	      InCU_Flush();
-	    }
-      }
-    }
-  }
-
-  // Execute D (if doesn't stall):
-  if (!EUs_D_DoStall()) {
-    EUs.pipeline[EUS_PIPELINE_D] = InCU.IR.index;
-    EUs.predict_taken            = InCU.IR.predict_taken;
-    EUs.dynamic_prediction       = InCU.IR.dynamic_prediction;
-    EUs.taken                    = InCU.IR.taken;
-    
-    InCU.IR = InCU_IBuff_Pop();
-
-    // inst. in D is a backward branch then statically predict taken
-    if (!EUs.dynamic_prediction
-    &amp;&amp;  EUs.pipeline[EUS_PIPELINE_D] != -1
-    &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D]].do_branch
-    &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D]].target &lt; EUs.pipeline[EUS_PIPELINE_D]) {
-      EUs.predict_taken = true;
-      InCU.PC.index = _INSTS[EUs.pipeline[EUS_PIPELINE_D]].target;
-      InCU_Flush(); // TODO: check wether it should be done or not
-    }
-  }
-}
 
 //////////////////////////////////////////
 ////////////////// Generated semantics: //

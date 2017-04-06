@@ -18,7 +18,7 @@ class Inst {
 public:
   Inst (const staticInfo &);
   Inst (const Inst &);
-  static      void FromFile  (std::string, u32 *, u32 *, std::vector<Inst *> **, u32 *, std::vector<s32> **);
+  static      void FromFile  (std::string, u32 *, u32 *, std::vector<Inst *> **, u32 *, std::vector<s32> **, u32 *, std::vector<s32> **);
   static      void ToFile    (std::string, std::vector<Inst *> *);
   static      int  CountRegs (std::vector<Inst *> *);
   

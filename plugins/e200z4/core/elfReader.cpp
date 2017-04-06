@@ -167,6 +167,17 @@ bool elfReader::manageBinaryCode(Elf_Data *data, GElf_Shdr *sectionHeader, const
 		ok = loadIntoSimulator(v_addr_start, data, _arch);
 		if(ok) m_codeSectionVector.push_back(new codeSection(v_addr_start, data->d_size, name));
 	}
+
+	if(data &&                                       //there is a data
+	   (sectionHeader->sh_type == SHT_NOBITS) &&
+	   (sectionHeader->sh_flags & (SHF_WRITE | SHF_ALLOC)))
+	{
+		if(verbose) cout << endl << "	" << sectionHeader->sh_size << " bytes from section " << name << "...";
+		const unsigned int v_addr_start = sectionHeader->sh_addr;
+		//ok = loadIntoSimulator(v_addr_start, data, _arch);
+		if(ok) m_bssSection = new codeSection(v_addr_start, data->d_size, name);
+	}
+
 	return ok;
 }
 

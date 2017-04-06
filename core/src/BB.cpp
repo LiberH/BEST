@@ -37,10 +37,12 @@ BB::addInst (Inst &i)
 
 // static
 void
-BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<BB *> **bbs, u32 *data_addr, vector<s32> **data)
+BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<BB *> **bbs,
+	      u32 *data_addr, vector<s32> **data,
+	      u32 *bss_addr,  vector<s32> **bss )
 {
   vector<Inst *> *insts = NULL;
-  Inst::FromFile (f, entry_addr, exit_addr, &insts, data_addr, data);
+  Inst::FromFile (f, entry_addr, exit_addr, &insts, data_addr, data, bss_addr, bss);
   vector<u32> *leaders = BB::Leaders (*insts);
   
   Inst *inst = insts -> front ();

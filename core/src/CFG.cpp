@@ -139,14 +139,17 @@ CFG::Reverse (const CFG *cfg)
 CFG *
 CFG::FromFile (string f)
 {
-  u32 entry_addr, exit_addr, data_addr;
+  u32 entry_addr, exit_addr, data_addr, bss_addr;
   
   CFG *cfg = new CFG ();
   vector<BB *> *bbs  = NULL;
   vector<s32 > *data = NULL;
-  BB::FromFile (f, &entry_addr, &exit_addr, &bbs, &data_addr, &data);
+  vector<s32 > *bss  = NULL;
+  BB::FromFile (f, &entry_addr, &exit_addr, &bbs, &data_addr, &data, &bss_addr, &bss);
   cfg -> m_data = data;
   cfg -> m_data_addr = data_addr;
+  cfg -> m_bss = bss;
+  cfg -> m_bss_addr = bss_addr;
   vector<BB *>::iterator bb_it = bbs -> begin ();
   for (; bb_it != bbs -> end (); ++bb_it)
     {
@@ -222,7 +225,8 @@ CFG::ToFile (string fn, CFG *cfg, int grain)
 	  
 	  if(!inst -> m_branch)
 	    {
-	      Agnode_t *nxt = agnode (agraph, C(inst -> m_next -> m_name), TRUE);
+	      string name = (inst -> m_next != NULL ? inst -> m_next -> m_name : "NULL"); // TOODO: fix
+	      Agnode_t *nxt = agnode (agraph, C(name), TRUE);
 	      agedge (agraph, src, nxt, NULL, TRUE);
 	    }
 	  else if (inst -> m_uncond)
@@ -329,39 +333,35 @@ CFG::fall_through (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_sl
   
   if (in_slice)
   { oss.str (""); oss << "execute_"        << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
-    oss.str (""); oss << "IMU_IsAccessed(" << dec << src_inst -> m_num << ")";   grd = oss.str ();
+    oss.str (""); oss << "EUs_ExecuteNext(" << dec << src_inst -> m_num << ")";   grd = oss.str ();
   
   XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
   XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
   XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)            , tr_grd_attrs , NULL);
-  XMLElement *tr_syn = newElementWrapper (doc, "label"  , "IMU_doneAccess?" , tr_syn_attrs , NULL);
+  XMLElement *tr_syn = newElementWrapper (doc, "label"  , "EUs_doStep?" , tr_syn_attrs , NULL);
   XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)            , tr_upd_attrs , NULL);
-  
+
   XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_syn, tr_upd, NULL};
   tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
-  
+
   return tr;
 }
 
 XMLElement *
-CFG::pre_jump (XMLDocument *doc, Inst *src_inst, string trg_id, bool taken)
+CFG::fall_into (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_slice, bool taken)
 {
   XMLElement *tr;
   string src, trg, grd, upd;
   ostringstream oss;
   
   oss.str (""); oss << "id" << hex << src_inst -> m_addr; src = oss.str ();
-  oss.str (""); oss << "id" << trg_id;                    trg = oss.str ();
+  oss.str (""); oss << "id" << hex << trg_inst -> m_addr; trg = oss.str ();
   attr_t tr_src_attrs[] = {{"ref"  , C(src)           } , {NULL , NULL}};
   attr_t tr_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
   attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
+  attr_t tr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
   attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
 
-  oss.str ("");
-  oss << "InCU.PC.taken = " << (taken ? "true" : "false") << "," << endl;
-  oss << "_next = " << dec << src_inst -> m_num;
-  upd = oss.str ();
-  
   oss.str ("");
   oss << (taken ? "" : "!");
   switch (src_inst -> m_test)
@@ -382,42 +382,17 @@ CFG::pre_jump (XMLDocument *doc, Inst *src_inst, string trg_id, bool taken)
 
     default: oss << "####"; break;
     }
+  oss << " &&" << endl;
   grd = oss.str ();
   
-  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL   , tr_src_attrs , NULL);
-  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL   , tr_trg_attrs , NULL);
-  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd) , tr_grd_attrs , NULL);
-  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd) , tr_upd_attrs , NULL);
-  
-  XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_upd, NULL};
-  tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
-  
-  return tr;
-}
-
-XMLElement *
-CFG::jump (XMLDocument *doc, string src_id, Inst *src_inst, Inst *trg_inst, bool in_slice)
-{
-  XMLElement *tr;
-  string src, trg, grd, upd;
-  ostringstream oss;
-  
-  oss.str (""); oss << "id" << src_id;                    src = oss.str ();
-  oss.str (""); oss << "id" << hex << trg_inst -> m_addr; trg = oss.str ();
-  attr_t tr_src_attrs[] = {{"ref"  , C(src)           } , {NULL , NULL}};
-  attr_t tr_trg_attrs[] = {{"ref"  , C(trg)           } , {NULL , NULL}};
-  attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
-  attr_t tr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
-  attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
-  
-  oss.str (""); oss << "IMU_IsAccessed(" << dec << src_inst -> m_num << ")"; grd = oss.str ();
   if (in_slice)
-    { oss.str (""); oss << "execute_" << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
+  { oss.str (""); oss        << "execute_"         << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
+    oss.str (""); oss << grd << "EUs_ExecuteNext(" << dec << src_inst -> m_num  <<  ")"; grd = oss.str ();
   
   XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
   XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
   XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)            , tr_grd_attrs , NULL);
-  XMLElement *tr_syn = newElementWrapper (doc, "label"  , "IMU_doneAccess?" , tr_syn_attrs , NULL);
+  XMLElement *tr_syn = newElementWrapper (doc, "label"  , "EUs_doStep?" , tr_syn_attrs , NULL);
   XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)            , tr_upd_attrs , NULL);
   
   XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_syn, tr_upd, NULL};
@@ -505,6 +480,8 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   vector<Inst *> *insts      = cfg -> insts ();
   vector<s32   > *data       = cfg -> m_data;
   u32             data_addr  = cfg -> m_data_addr;
+  vector<s32   > *bss        = cfg -> m_bss;
+  u32             bss_addr   = cfg -> m_bss_addr;
   u64 refs = 0;
   vector<Inst *>::iterator inst_it = slice -> begin ();  
   for (; inst_it != slice -> end (); ++inst_it)
@@ -518,14 +495,23 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   inst_max_oss << " " << dec << n_insts +32 << ";";
   string inst_max_str = inst_max_oss.str ();
 
-  ostringstream data_addr_oss;
-  data_addr_oss << " " << dec << data_addr << ";";
-  string data_addr_str = data_addr_oss.str ();
-
   int n_data = data -> size () * 4;
   ostringstream data_max_oss;
-  data_max_oss << " " << dec << n_data << ";";
+  data_max_oss << " " << dec << ((n_data == 0) ? 1 : n_data) << ";";
   string data_max_str = data_max_oss.str ();
+
+  ostringstream data_addr_oss;
+  data_addr_oss << " " << dec << ((n_data == 0) ? 0 : data_addr) << ";";
+  string data_addr_str = data_addr_oss.str ();
+
+  int n_bss = bss -> size () * 4;
+  ostringstream bss_max_oss;
+  bss_max_oss << " " << dec << ((n_bss == 0) ? 1 : n_bss) << ";";
+  string bss_max_str = bss_max_oss.str ();
+
+  ostringstream bss_addr_oss;
+  bss_addr_oss << " " << dec << ((n_bss == 0) ? 0 : bss_addr) << ";";
+  string bss_addr_str = bss_addr_oss.str ();
   
   ostringstream regs_oss;
   bitset<64> bs (refs & ~0b100010000011);
@@ -655,46 +641,63 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   insts_oss << endl << "};";
   string insts_str = insts_oss.str ();
 
-  int i = 0;
+  int i = 0, j = 0;
   ostringstream data_oss;
   data_oss << " {" << endl << "  ";
+  if (n_data == 0) data_oss << "0 " << endl;
   vector<s32>::iterator byte_it = data -> begin ();
-  for (; byte_it != data -> end (); ++byte_it, ++i)
+  for (; byte_it != data -> end (); ++byte_it, ++i, j += 4)
     {
       ostringstream o;
       string oct0_str, oct1_str, oct2_str, oct3_str;
       string oct0_spc, oct1_spc, oct2_spc, oct3_spc;
       s32 byte = *byte_it;
       
-      unsigned int oct0 = (byte >>  0) & 0xff;
-      o.str (""); o << dec << oct0;
+      signed char oct0 = (byte >>  0) & 0xff;
+      o.str (""); o << dec << +oct0;
       oct0_str = o.str ();
       oct0_spc = string (4 - oct0_str.length (), ' ');
       
-      unsigned int oct1 = (byte >>  8) & 0xff;
-      o.str (""); o << dec << oct1;
+      signed char oct1 = (byte >>  8) & 0xff;
+      o.str (""); o << dec << +oct1;
       oct1_str = o.str ();
       oct1_spc = string (4 - oct1_str.length (), ' ');
       
-      unsigned int oct2 = (byte >> 16) & 0xff;
-      o.str (""); o << dec << oct2;
+      signed char oct2 = (byte >> 16) & 0xff;
+      o.str (""); o << dec << +oct2;
       oct2_str = o.str ();
       oct2_spc = string (4 - oct2_str.length (), ' ');
       
-      unsigned int oct3 = (byte >> 24) & 0xff;
-      o.str (""); o << dec << oct3;
+      signed char oct3 = (byte >> 24) & 0xff;
+      o.str (""); o << dec << +oct3;
       oct3_str = o.str ();
       oct3_spc = string (4 - oct3_str.length (), ' ');
       
       if (i == 4) { i = 0; data_oss << endl << "  "; }
-      data_oss << oct3_spc << oct3_str << ", "
+      data_oss << "/* " << dec << j    << " */ "
+	       << oct3_spc << oct3_str << ", "
 	       << oct2_spc << oct2_str << ", "
 	       << oct1_spc << oct1_str << ", "
-	       << oct0_spc << oct0_str << ", /* */ ";
+	       << oct0_spc << oct0_str << ", ";
     }
-  data_oss.seekp (-8, data_oss.cur);
-  data_oss << endl << "};      ";
+  data_oss.seekp (-2, data_oss.cur);
+  data_oss << endl << "};";
   string data_str = data_oss.str ();
+
+  i = 0;
+  ostringstream bss_oss;
+  bss_oss << " {" << endl << "  ";
+  if (bss -> size () == 0) bss_oss << "0       " << endl;
+  byte_it = bss -> begin ();
+  for (; byte_it != bss -> end (); ++byte_it, ++i)
+    {
+      if (i == 4) { i = 0; bss_oss << endl << "  "; }
+      bss_oss << "   0,    0,    0,    0, /* */ ";
+    }
+  bss_oss.seekp (-8, bss_oss.cur);
+  bss_oss << endl << "};      ";
+  string bss_str = bss_oss.str ();
+
   /////
   
   // <declaration>
@@ -705,10 +708,13 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   string::size_type index;
   string pattern_inst_max  = " /* REPLACE_WITH_INST_MAX */ 1;";
   string pattern_data_max  = " /* REPLACE_WITH_DATA_MAX */ 1;";
+  string pattern_bss_max   = " /* REPLACE_WITH_BSS_MAX */ 1;";
   string pattern_regs      = " /* REPLACE_WITH_REGS */ _REGS;";
   string pattern_insts     = " /* REPLACE_WITH_INSTS */ { _EMPTY_INST };";
   string pattern_data_addr = " /* REPLACE_WITH_DATA_ADDR */ 0;";
   string pattern_data      = " /* REPLACE_WITH_DATA */ { 0 };";
+  string pattern_bss_addr  = " /* REPLACE_WITH_BSS_ADDR */ 0;";
+  string pattern_bss       = " /* REPLACE_WITH_BSS */ { 0 };";
 
   index = 0;
   index = nta_decl_txt.find (pattern_inst_max, index);
@@ -717,6 +723,10 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   index = 0;
   index = nta_decl_txt.find (pattern_data_max, index);
   nta_decl_txt.replace (index, pattern_data_max.length (), data_max_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_bss_max, index);
+  nta_decl_txt.replace (index, pattern_bss_max.length (), bss_max_str);
 
   //index = 0;
   //index = nta_decl_txt.find (pattern_regs, index);
@@ -733,6 +743,14 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   index = 0;
   index = nta_decl_txt.find (pattern_data, index);
   nta_decl_txt.replace (index, pattern_data.length (), data_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_bss_addr, index);
+  nta_decl_txt.replace (index, pattern_bss_addr.length (), bss_addr_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_bss, index);
+  nta_decl_txt.replace (index, pattern_bss.length (), bss_str);
 
   /////
   
@@ -816,79 +834,14 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 	      loc_name = newElementWrapper (doc, "name", C(oss.str ()), NULL, NULL);
 	    }
 
-	  if (!inst -> m_branch)
-	    {
-	      oss.str (""); oss << "id" << hex << inst -> m_addr;
-	      attr_t attrs[] = {{"id" , C(oss.str ())    },
-				{"x"  , C(S(inst -> m_x))},
-				{"y"  , C(S(inst -> m_y))},
-				{NULL , NULL             }};
-	      XMLElement *loc_childs[] = {loc_name, NULL};
-	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
-	      tmplt -> InsertEndChild (loc);
-	    }
-	  else if (inst -> m_uncond)
-	    {
-	      {
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_comm";
-	      attr_t attrs[] = {{"id" , C(oss.str ())    },
-				{"x"  , C(S(inst -> m_x))},
-				{"y"  , C(S(inst -> m_y))},
-				{NULL , NULL             }};
-	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, NULL);
-	      tmplt -> InsertEndChild (loc);
-	      }
-	      /////
-	      {
-	      oss.str (""); oss << "id" << hex << inst -> m_addr;
-	      attr_t attrs[] = {{"id"    , C(oss.str ()) },
-				{"x"     , C(S(inst -> m_x))},
-				{"y"     , C(S(inst -> m_y))},
-				{"color" , "#ffc0cb"     },
-				{NULL    , NULL          }};
-	      XMLElement *loc_comm = newElementWrapper (doc, "committed", NULL, NULL, NULL);
-	      XMLElement *loc_childs[] = {(loc_name ? loc_name : loc_comm),
-					  (loc_name ? loc_comm : NULL    ), NULL};
-	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
-	      tmplt -> InsertEndChild (loc);
-	      }
-	    }
-	  else
-	    {
-	      {
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_true";
-	      attr_t attrs[] = {{"id" , C(oss.str ())    },
-				{"x"  , C(S(inst -> m_x))},
-				{"y"  , C(S(inst -> m_y))},
-				{NULL , NULL             }};
-	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, NULL);
-	      tmplt -> InsertEndChild (loc);
-	      }
-	      /////
-	      {
-	      oss.str (""); oss << "id" << hex << inst -> m_addr << "_false";
-	      attr_t attrs[] = {{"id" , C(oss.str ())    },
-				{"x"  , C(S(inst -> m_x))},
-				{"y"  , C(S(inst -> m_y))},
-				{NULL , NULL             }};
-	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, NULL);
-	      tmplt -> InsertEndChild (loc);
-	      }
-	      /////
-	      {
-	      oss.str (""); oss << "id" << hex << inst -> m_addr;
-	      attr_t attrs[] = {{"id"    , C(oss.str ()) },
-				{"x"     , C(S(inst -> m_x))},
-				{"y"     , C(S(inst -> m_y))},
-				{"color" , "#ffc0cb"     },
-				{NULL    , NULL          }};
-	      XMLElement *loc_comm = newElementWrapper (doc, "committed", NULL, NULL, NULL);
-	      XMLElement *loc_childs[] = {(loc_name ? loc_name : loc_comm),
-					  (loc_name ? loc_comm : NULL    ), NULL};
-	      XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
-	      tmplt -> InsertEndChild (loc);
-	      }
-	    }
+	  oss.str (""); oss << "id" << hex << inst -> m_addr;
+	  attr_t attrs[] = {{"id" , C(oss.str ())    },
+			    {"x"  , C(S(inst -> m_x))},
+			    {"y"  , C(S(inst -> m_y))},
+			    {NULL , NULL             }};
+	  XMLElement *loc_childs[] = {loc_name, NULL};
+	  XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
+	  tmplt -> InsertEndChild (loc);
 	}
     }
   }
@@ -911,7 +864,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   attr_t ftr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
   attr_t ftr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
   
-  oss.str (""); oss << "InCU.PC.index = " << dec << entry -> m_num << ",\n_clock = 0";
+  oss.str (""); oss << "InCU_PC_Set(" << dec << entry -> m_num << "),\n_clock = 0";
   XMLElement *ftr_src = newElementWrapper (doc, "source" , NULL             , ftr_src_attrs , NULL);
   XMLElement *ftr_trg = newElementWrapper (doc, "target" , NULL             , ftr_trg_attrs , NULL);
   XMLElement *ftr_syn = newElementWrapper (doc, "label"  , "_doInitialize?" , ftr_syn_attrs , NULL);
@@ -925,18 +878,18 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   // Last transition: //
   //////////////////////
 
-  oss.str (""); oss << "id" << hex << exit -> m_addr << "_comm";
+  oss.str (""); oss << "id" << hex << exit -> m_addr;
   attr_t ltr_src_attrs[] = {{"ref"  , C(oss.str ())    } , {NULL , NULL}};
   attr_t ltr_trg_attrs[] = {{"ref"  , "idexit"         } , {NULL , NULL}};
   attr_t ltr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
   attr_t ltr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
   attr_t ltr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
   
-  oss.str (""); oss << "IMU_IsAccessed(" << dec << exit -> m_num << ")";
+  oss.str (""); oss << "EUs_ExecuteNext(" << dec << exit -> m_num << ")";
   XMLElement *ltr_src = newElementWrapper (doc, "source" , NULL                    , ltr_src_attrs , NULL);
   XMLElement *ltr_trg = newElementWrapper (doc, "target" , NULL                    , ltr_trg_attrs , NULL);
   XMLElement *ltr_grd = newElementWrapper (doc, "label"  , C(oss.str ())           , ltr_grd_attrs , NULL);
-  XMLElement *ltr_syn = newElementWrapper (doc, "label"  , "IMU_doneAccess?"       , ltr_syn_attrs , NULL);
+  XMLElement *ltr_syn = newElementWrapper (doc, "label"  , "EUs_doStep?"       , ltr_syn_attrs , NULL);
   XMLElement *ltr_upd = newElementWrapper (doc, "label"  , "_mustTerminate = true" , ltr_upd_attrs , NULL);
 
   XMLElement *ltr_childs[] = {ltr_src, ltr_trg, ltr_grd, ltr_syn, ltr_upd, NULL};
@@ -955,34 +908,23 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
     {
       Inst *inst = *inst_it;      
       string src, trg, grd, upd;
+      bool in_slice = false;
+
+      vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
+      if (slice_it != slice -> end ())
+	in_slice = true;
 
       if (!inst -> m_branch)
 	{
-	  bool in_slice;
-	  XMLElement *tr;
-	  
-	  in_slice = false;
-	  vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
-	  if (slice_it != slice -> end ())
-	      in_slice = true;
-	  
-	  tr = fall_through (doc, inst, inst -> m_next, in_slice);
+	  XMLElement *tr = fall_through (doc, inst, inst -> m_next, in_slice);
 	  tmplt -> InsertEndChild (tr);
 	}
       else if (inst -> m_uncond)
 	{
-	  if (inst -> m_target == inst -> m_addr)
-	    {
-	      XMLElement *tr;
-	      ostringstream oss;
-	      
-	      oss << hex << inst -> m_addr << "_comm";
-	      tr = pre_jump (doc, inst, oss.str (), true);
-	      tmplt -> InsertEndChild (tr);
-	      
-	      continue;
-	    }
+	  if (inst -> m_next == NULL)
+	    continue;
 	  
+	  // TODO: replace "targets" with "succs":
 	  Inst *target = NULL;
 	  vector<Inst *> *targets = cfg -> insts ();
 	  vector<Inst *>::iterator target_it = targets -> begin ();
@@ -992,43 +934,18 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 	      if (target -> m_addr == inst -> m_target)
 		break;
 	    }
-
-	  bool in_slice;
-	  XMLElement *tr;
-	  ostringstream oss;
-
-	  oss << hex << inst -> m_addr << "_comm";
-	  tr = pre_jump (doc, inst, oss.str (), true);
-	  tmplt -> InsertEndChild (tr);
-
-	  in_slice = false;
-	  vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
-	  if (slice_it != slice -> end ())
-	      in_slice = true;
 	  
-	  tr = jump (doc, oss.str (), inst, target, in_slice);
+	  XMLElement *tr = fall_through (doc, inst, target, in_slice);
 	  tmplt -> InsertEndChild (tr);
 	}
       else
 	{	  
-	  bool in_slice;
-	  XMLElement *tr;
-	  ostringstream oss;
-
-	  oss << hex << inst -> m_addr << "_false";
-	  tr = pre_jump (doc, inst, oss.str (), false);
-	  tmplt -> InsertEndChild (tr);
-
-	  in_slice = false;
-	  vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
-	  if (slice_it != slice -> end ())
-	      in_slice = true;
-	  
-	  tr = jump (doc, oss.str (), inst, inst -> m_next, in_slice);
+	  XMLElement *tr = fall_into (doc, inst, inst -> m_next, in_slice, false);
 	  tmplt -> InsertEndChild (tr);
 
 	  /////
 
+	  // TODO: replace "targets" with "succs":
 	  Inst *target = NULL;
 	  vector<Inst *> *targets = cfg -> insts ();
 	  vector<Inst *>::iterator target_it = targets -> begin ();
@@ -1039,17 +956,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 		break;
 	    }
 
-	  oss.str ("");
-	  oss << hex << inst -> m_addr << "_true";
-	  tr = pre_jump (doc, inst, oss.str (), true);
-	  tmplt -> InsertEndChild (tr);
-
-	  in_slice = false;
-	  slice_it = find (slice -> begin (), slice -> end (), inst);
-	  if (slice_it != slice -> end ())
-	      in_slice = true;
-	  
-	  tr = jump (doc, oss.str (), inst, target, in_slice);
+	  tr = fall_into (doc, inst, target, in_slice, true);
 	  tmplt -> InsertEndChild (tr);
 	}
     }

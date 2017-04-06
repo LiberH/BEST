@@ -61,6 +61,7 @@ class elfReader : public codeReader
 	bool m_usingPhysicalAddr;
 	std::vector<virtualToPhysicalAddr *> m_programSegmentVector;
 	std::vector<codeSection *> m_codeSectionVector;
+	codeSection *m_bssSection = NULL;
 	
 	std::map<std::string, symbolEntry> m_symbolObjectMap; /*symbol object: global var*/
 	std::map<std::string, symbolEntry> m_symbolFuncMap;   /*symbol functions */
@@ -119,6 +120,7 @@ class elfReader : public codeReader
 	virtual unsigned int const getNbCodeSection() {return m_codeSectionVector.size();};
 	/** return a code section : i.e. get info about a code chunk, its size and virtual address */
 	virtual codeSection *getCodeSection(const unsigned int index) {return m_codeSectionVector[index];}
+	virtual codeSection *getBSSSection() {return m_bssSection;}
 };
 
 #endif //USE_LIBELF

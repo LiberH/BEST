@@ -58,6 +58,15 @@ malardalen-verify/%:
 	@$(VERIFYTA) $(BIN_MDL)/$*.elf-model_sliced.xml
 	@$(VERIFYTA) $(BIN_MDL)/$*.elf-model.xml
 
+# Dot export:
+malardalen-export:
+	@for elf in $(BIN_MDL)/*.elf; do \
+	  dot -Tpng $$elf-cfg.dot -o $$elf-cfg.png; \
+	done
+
+malardalen-export/%:
+	@dot -Tpng $(BIN_MDL)/$*.elf-cfg.dot -o $(BIN_MDL)/$*.elf-cfg.png
+
 # Cleaning:
 clean:
 	rm -rf ./$(OBJ)

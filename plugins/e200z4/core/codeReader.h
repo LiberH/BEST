@@ -75,7 +75,8 @@ class codeReader
 	virtual unsigned int const getNbCodeSection() {return 0;};
 	/** return a code section : i.e. get info about a code chunk, its size and virtual address */
 	virtual codeSection *getCodeSection(const unsigned int index) {return NULL;}
-	
+	virtual codeSection *getBSSSection() {return NULL;}
+
 };
 
 #endif

@@ -32,7 +32,7 @@ Slicer::slice ()
       for (; inst_it != insts -> end (); ++inst_it)
 	{
 	  Inst *inst = *inst_it;
-	  if (inst -> m_branch && !inst -> m_uncond)
+	  if (inst -> m_branch)
 	    to_slice -> push_back (inst);
 	}
     }

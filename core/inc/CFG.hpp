@@ -39,6 +39,8 @@ protected:
     std::             string                             m_label;
     std::             vector<s32>                       *m_data;
                       u32                                m_data_addr;
+    std::             vector<s32>                       *m_bss;
+                      u32                                m_bss_addr;
   
   lemon::             ListDigraph                       *m_graph;
     std::             map<int,lemon::ListDigraph::Node> *m_nodes;
@@ -58,8 +60,7 @@ private:
   void print_state (struct state);
 
   static tinyxml2::XMLElement *fall_through (tinyxml2::XMLDocument *, Inst *, Inst *, bool);
-  static tinyxml2::XMLElement *pre_jump (tinyxml2::XMLDocument *, Inst *, std::string, bool);
-  static tinyxml2::XMLElement *jump (tinyxml2::XMLDocument *, std::string, Inst *, Inst *, bool);
+  static tinyxml2::XMLElement *fall_into    (tinyxml2::XMLDocument *, Inst *, Inst *, bool, bool);
 };
 
 #endif // _CFG_HPP_
