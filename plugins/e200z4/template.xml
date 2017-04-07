@@ -59,17 +59,16 @@ const _Inst_t  _EMPTY_INST            = { 0, 0, false, 0, false, _EMPTY_REGS, _E
 
 /* Flash: */
 
+const int FLASH_LATENCY   = 10; // TODO: arbitrary; to set correctly
 const int FLASH_BURST_MAX =  4;
 typedef struct {
   int[0, FLASH_BURST_MAX] burst_index;
 } Flash_t;
 
-const int FLASH_LATENCY = 10; // TODO: arbitrary; to set correctly
 
 /* Static RAM (SRAM): */
 
-const int SRAM_LATENCY = 10; // TODO: arbitrary; to set correctly
-
+const int SRAM_LATENCY = -1 + 10; // TODO: arbitrary; to set correctly
 typedef struct {
   bool executing;
 } SRAM_t;
@@ -414,31 +413,38 @@ void InCU_Init() {
 }
 
 void InCU_PC_Set(int index) {
+  int  btb_entry;
+  bool doBreak;
+
   InCU.PC        = INCU_EMPTY_PC;
   InCU.PC.index  = index;
-  InCU.PC.cycles = _INSTS[index].cycles;
+  InCU.PC.cycles = _INSTS[InCU.PC.index].cycles;
+
+  doBreak = false;
+  for (btb_entry = 0; !doBreak &amp;&amp; btb_entry &lt; INCU_BTB_MAX; ++btb_entry)
+    if (InCU.BTB.buffer[btb_entry].index == InCU.PC.index) {
+      doBreak = true; /* No 'break' keyword in UPPAAL, 'doBreak' emulate a breaking behavior. */
+      btb_entry--;    /* We must decrement 'btb_entry' to match the behavior of a real 'break' */
+    }
+
+  if (btb_entry != INCU_BTB_MAX) {
+    InCU.PC.dynamic_prediction = true;
+
+    if (InCU.BTB.buffer[btb_entry].prediction == INCU_WEAKLY_______TAKEN
+    ||  InCU.BTB.buffer[btb_entry].prediction == INCU_STRONGLY_____TAKEN)
+      InCU.PC.predict_taken = true;
+  }
 }
 
 void InCU_PC_Update() {
-  int i;
-  int index = InCU.PC.index;
-  int btb_index = -1;
+  int index;
 
-  InCU_PC_Set(index +1);
-  if (_INSTS[index].do_branch)
-    for (i = 0; i &lt; INCU_BTB_MAX; ++i)
-      if (InCU.BTB.buffer[i].index == index)
-        btb_index = i;
+  index = InCU.PC.index +1;
+  if (InCU.PC.dynamic_prediction
+  &amp;&amp;  InCU.PC.predict_taken)
+    index = _INSTS[InCU.PC.index].target;
 
-  if (btb_index != -1) {
-    InCU.PC.dynamic_prediction = true;
-    if (InCU.BTB.buffer[btb_index].prediction == INCU_WEAKLY_______TAKEN
-    ||  InCU.BTB.buffer[btb_index].prediction == INCU_STRONGLY_____TAKEN) {
-      InCU_PC_Set(_INSTS[index].target);
-      InCU.PC.dynamic_prediction = true;
-      InCU.PC.predict_taken      = true;
-    }
-  }
+  InCU_PC_Set(index);
 }
 
 void InCU_BTB_Update(int index, bool taken) {
@@ -589,11 +595,6 @@ void EUs_Update() {
     EUs.pipeline[EUS_PIPELINE_E] = EUS_EMPTY_PIPELINE_STAGE;
   }
 
-  // Execute E (if doesn't stall):
-  if (EUs.pipeline[EUS_PIPELINE_E] != EUS_EMPTY_PIPELINE_STAGE
-  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].cycles &gt; 0)
-    EUs.pipeline[EUS_PIPELINE_E].cycles--;
-
   /* Don't move inst in D to E if there are
    * data dependencies between D and M:
    */
@@ -610,10 +611,16 @@ void EUs_Update() {
         do_stall = true;
   }
 
+  // Execute E (if doesn't stall):
   if (!EUs_E_DoStall() &amp;&amp; !do_stall) {
     EUs.pipeline[EUS_PIPELINE_E] = EUs.pipeline[EUS_PIPELINE_D];
     EUs.pipeline[EUS_PIPELINE_D] = EUS_EMPTY_PIPELINE_STAGE;
   }
+
+  if (EUs.pipeline[EUS_PIPELINE_E] != EUS_EMPTY_PIPELINE_STAGE
+  &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].cycles &gt; 0)
+    EUs.pipeline[EUS_PIPELINE_E].cycles--;
+
 
   // Execute D (if doesn't stall):
   if (!EUs_D_DoStall()) {
@@ -638,10 +645,10 @@ const int XER_CA = 1;
 const int XER_OV = 2;
 const int XER_SO = 3;
 
-const int  CR_SO = 0;
-const int  CR_EQ = 1;
-const int  CR_GT = 2;
-const int  CR_LT = 3;
+const int  CR_SO = 3;
+const int  CR_EQ = 2;
+const int  CR_GT = 1;
+const int  CR_LT = 0;
 
 bool     getBit  ( sint32_t  field ,             uint5_t i             ) { return (((field &gt;&gt; i) % 2) == 1); }
 sint32_t getBits ( sint32_t  field , uint5_t j , uint5_t i             ) { return ((field &gt;&gt; (32 -i)) &amp; (2^(j +1) -1)); }
@@ -1184,7 +1191,7 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
   if ( conditional )
   { if (!getBit(BO, 2)) { CTR = CTR -1; }
     ctr_ok  = getBit(BO, 2) || ((CTR != 0) ^ getBit(BO, 1));
-    cond_ok = getBit(BO, 4) || (getBit(crfD, crfD_bit) == getBit(BO, 3)); }
+    cond_ok = getBit(BO, 4) || (getBit(CR[crfD], crfD_bit) == getBit(BO, 3)); }
 
   if ( !conditional         ) { if ( qual == QUAL_NONE  ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((true   &amp;&amp; true   ) ? true : false); } }
   if (  conditional         ) { if ( qual == QUAL_NONE  ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((ctr_ok &amp;&amp; cond_ok) ? true : false); }
@@ -1452,20 +1459,18 @@ _clock = 0</label>
 		<name>Flash_Memory</name>
 		<location id="id3" x="0" y="-102">
 		</location>
-		<location id="id4" x="-68" y="204">
-		</location>
-		<location id="id5" x="-102" y="204">
+		<location id="id4" x="-102" y="204">
 			<urgent/>
 		</location>
-		<location id="id6" x="-68" y="102">
+		<location id="id5" x="-68" y="102">
 		</location>
-		<location id="id7" x="-34" y="0">
+		<location id="id6" x="-34" y="0">
 			<label kind="invariant" x="-280" y="-25">Flash_clock &lt;= FLASH_LATENCY</label>
 		</location>
-		<init ref="id5"/>
+		<init ref="id4"/>
 		<transition>
 			<source ref="id3"/>
-			<target ref="id7"/>
+			<target ref="id6"/>
 			<label kind="guard" x="17" y="-93">Flash.burst_index != FLASH_BURST_MAX -1</label>
 			<label kind="synchronisation" x="17" y="-76">Flash_doneBurst[Flash.burst_index]!</label>
 			<label kind="assignment" x="17" y="-59">IMU_FillBuffer_Update(),
@@ -1474,21 +1479,15 @@ Flash_clock = 0</label>
 			<nail x="0" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id6"/>
-			<target ref="id4"/>
-			<label kind="guard" x="-51" y="136">Flash_IsTerminated()</label>
-			<label kind="synchronisation" x="-51" y="153">_do!</label>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id6"/>
+			<source ref="id4"/>
+			<target ref="id5"/>
 			<label kind="synchronisation" x="-212" y="136">_doInitialize?</label>
 			<label kind="assignment" x="-212" y="153">Flash_Init()</label>
 			<nail x="-102" y="102"/>
 		</transition>
 		<transition>
-			<source ref="id6"/>
-			<target ref="id7"/>
+			<source ref="id5"/>
+			<target ref="id6"/>
 			<label kind="guard" x="-246" y="8">!Flash_IsTerminated()</label>
 			<label kind="synchronisation" x="-246" y="25">Flash_doBurst?</label>
 			<label kind="assignment" x="-246" y="42">IMU_FillBuffer_Set(),
@@ -1498,7 +1497,7 @@ Flash_clock = 0</label>
 		</transition>
 		<transition>
 			<source ref="id3"/>
-			<target ref="id6"/>
+			<target ref="id5"/>
 			<label kind="guard" x="17" y="17">Flash.burst_index == FLASH_BURST_MAX -1</label>
 			<label kind="synchronisation" x="17" y="34">Flash_doneBurst[Flash.burst_index]!</label>
 			<label kind="assignment" x="17" y="51">IMU_FillBuffer_Update(),
@@ -1506,7 +1505,7 @@ IMU_ICache_Update()</label>
 			<nail x="0" y="102"/>
 		</transition>
 		<transition>
-			<source ref="id7"/>
+			<source ref="id6"/>
 			<target ref="id3"/>
 			<label kind="guard" x="-289" y="-85">Flash_clock == FLASH_LATENCY</label>
 			<label kind="synchronisation" x="-289" y="-68">EUs_doStep?</label>
@@ -1515,34 +1514,26 @@ IMU_ICache_Update()</label>
 	</template>
 	<template>
 		<name>Static_RAM</name>
-		<location id="id8" x="170" y="306">
-		</location>
-		<location id="id9" x="136" y="306">
+		<location id="id7" x="136" y="306">
 			<urgent/>
 		</location>
-		<location id="id10" x="170" y="204">
+		<location id="id8" x="170" y="204">
 		</location>
-		<location id="id11" x="204" y="102">
+		<location id="id9" x="204" y="102">
 			<label kind="invariant" x="221" y="110">SRAM_clock &lt;= SRAM_LATENCY</label>
 		</location>
-		<init ref="id9"/>
+		<init ref="id7"/>
 		<transition>
-			<source ref="id10"/>
+			<source ref="id7"/>
 			<target ref="id8"/>
-			<label kind="guard" x="187" y="238">SRAM_IsTerminated()</label>
-			<label kind="synchronisation" x="187" y="255">_do!</label>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id10"/>
 			<label kind="synchronisation" x="25" y="238">_doInitialize?</label>
 			<label kind="assignment" x="25" y="255">SRAM_Init()</label>
 			<nail x="136" y="289"/>
 			<nail x="136" y="204"/>
 		</transition>
 		<transition>
-			<source ref="id10"/>
-			<target ref="id11"/>
+			<source ref="id8"/>
+			<target ref="id9"/>
 			<label kind="guard" x="-34" y="110">!SRAM_IsTerminated() &amp;&amp;
 SRAM_IsAccessed()</label>
 			<label kind="synchronisation" x="-34" y="144">EUs_doStep?</label>
@@ -1551,8 +1542,8 @@ SRAM.executing = true</label>
 			<nail x="170" y="102"/>
 		</transition>
 		<transition>
-			<source ref="id11"/>
-			<target ref="id10"/>
+			<source ref="id9"/>
+			<target ref="id8"/>
 			<label kind="guard" x="221" y="144">SRAM_clock == SRAM_LATENCY</label>
 			<label kind="synchronisation" x="221" y="161">EUs_doStep?</label>
 			<label kind="assignment" x="221" y="178">SRAM.executing = false</label>
@@ -1561,75 +1552,67 @@ SRAM.executing = true</label>
 	</template>
 	<template>
 		<name>Instruction_Memory_Unit</name>
-		<location id="id12" x="-612" y="-102">
+		<location id="id10" x="-612" y="-102">
 		</location>
-		<location id="id13" x="-850" y="204">
+		<location id="id11" x="-782" y="-102">
 		</location>
-		<location id="id14" x="-782" y="-102">
-		</location>
-		<location id="id15" x="-646" y="0">
+		<location id="id12" x="-646" y="0">
 			<label kind="invariant" x="-629" y="17">IMU_clock &lt;= 1</label>
 		</location>
-		<location id="id16" x="-816" y="0">
+		<location id="id13" x="-816" y="0">
 		</location>
-		<location id="id17" x="-850" y="102">
+		<location id="id14" x="-850" y="102">
 		</location>
-		<location id="id18" x="-884" y="204">
+		<location id="id15" x="-884" y="204">
 			<urgent/>
 		</location>
-		<init ref="id18"/>
+		<init ref="id15"/>
 		<transition>
-			<source ref="id12"/>
-			<target ref="id15"/>
+			<source ref="id10"/>
+			<target ref="id12"/>
 			<label kind="synchronisation" x="-595" y="-68">IMU_doneAccess!</label>
 			<label kind="assignment" x="-595" y="-51">IMU_clock = 0</label>
 			<nail x="-612" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id15"/>
-			<target ref="id17"/>
+			<source ref="id12"/>
+			<target ref="id14"/>
 			<label kind="guard" x="-629" y="51">IMU_clock == 1</label>
 			<label kind="synchronisation" x="-629" y="68">EUs_doStep?</label>
 			<nail x="-646" y="102"/>
 		</transition>
 		<transition>
-			<source ref="id14"/>
-			<target ref="id12"/>
+			<source ref="id11"/>
+			<target ref="id10"/>
 			<label kind="synchronisation" x="-765" y="-144">Flash_doneBurst[0]?</label>
 			<label kind="assignment" x="-765" y="-127">IMU_clock = 0</label>
 		</transition>
 		<transition>
-			<source ref="id16"/>
-			<target ref="id14"/>
+			<source ref="id13"/>
+			<target ref="id11"/>
 			<label kind="guard" x="-969" y="-68">IMU_ICache_Miss()</label>
 			<label kind="synchronisation" x="-969" y="-51">Flash_doBurst!</label>
 			<nail x="-816" y="-102"/>
 		</transition>
 		<transition>
-			<source ref="id16"/>
-			<target ref="id15"/>
+			<source ref="id13"/>
+			<target ref="id12"/>
 			<label kind="guard" x="-799" y="-42">IMU_ICache_Hit() ||
 IMU_FillBuffer_Hit()</label>
 			<label kind="synchronisation" x="-799" y="8">IMU_doneAccess!</label>
 			<label kind="assignment" x="-799" y="25">IMU_clock = 0</label>
 		</transition>
 		<transition>
-			<source ref="id17"/>
-			<target ref="id16"/>
+			<source ref="id14"/>
+			<target ref="id13"/>
 			<label kind="guard" x="-1020" y="25">!IMU_IsTerminated()</label>
 			<label kind="synchronisation" x="-1020" y="42">IMU_doAccess?</label>
 			<label kind="assignment" x="-1020" y="59">IMU_Set()</label>
 			<nail x="-850" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id17"/>
-			<target ref="id13"/>
-			<label kind="guard" x="-833" y="136">IMU_IsTerminated()</label>
-			<label kind="synchronisation" x="-833" y="153">_do!</label>
-		</transition>
-		<transition>
-			<source ref="id18"/>
-			<target ref="id17"/>
+			<source ref="id15"/>
+			<target ref="id14"/>
 			<label kind="synchronisation" x="-994" y="136">_doInitialize?</label>
 			<label kind="assignment" x="-994" y="153">IMU_Init()</label>
 			<nail x="-884" y="102"/>
@@ -1637,39 +1620,31 @@ IMU_FillBuffer_Hit()</label>
 	</template>
 	<template>
 		<name>Instruction_and_Control_Unit</name>
-		<location id="id19" x="306" y="68">
-		</location>
-		<location id="id20" x="272" y="68">
+		<location id="id16" x="272" y="68">
 			<urgent/>
 		</location>
-		<location id="id21" x="340" y="-136">
+		<location id="id17" x="340" y="-136">
 		</location>
-		<location id="id22" x="306" y="-34">
+		<location id="id18" x="306" y="-34">
 		</location>
-		<init ref="id20"/>
+		<init ref="id16"/>
 		<transition>
-			<source ref="id22"/>
-			<target ref="id19"/>
-			<label kind="guard" x="323" y="0">InCU_IsTerminated()</label>
-			<label kind="synchronisation" x="323" y="17">_do!</label>
-		</transition>
-		<transition>
-			<source ref="id20"/>
-			<target ref="id22"/>
+			<source ref="id16"/>
+			<target ref="id18"/>
 			<label kind="synchronisation" x="161" y="0">_doInitialize?</label>
 			<label kind="assignment" x="161" y="17">InCU_Init()</label>
 			<nail x="272" y="-34"/>
 		</transition>
 		<transition>
-			<source ref="id21"/>
-			<target ref="id22"/>
+			<source ref="id17"/>
+			<target ref="id18"/>
 			<label kind="synchronisation" x="357" y="-102">IMU_doneAccess?</label>
 			<label kind="assignment" x="357" y="-85">InCU_Update()</label>
 			<nail x="340" y="-34"/>
 		</transition>
 		<transition>
-			<source ref="id22"/>
-			<target ref="id21"/>
+			<source ref="id18"/>
+			<target ref="id17"/>
 			<label kind="guard" x="110" y="-110">!InCU_IsTerminated() &amp;&amp;
 !InCU_IBuff_IsFull()</label>
 			<label kind="synchronisation" x="110" y="-76">IMU_doAccess!</label>
@@ -1678,32 +1653,32 @@ IMU_FillBuffer_Hit()</label>
 	</template>
 	<template>
 		<name x="5" y="5">Execution_Units</name>
-		<location id="id23" x="238" y="102">
+		<location id="id19" x="238" y="102">
 		</location>
-		<location id="id24" x="204" y="102">
+		<location id="id20" x="204" y="102">
 			<urgent/>
 		</location>
-		<location id="id25" x="238" y="0">
+		<location id="id21" x="238" y="0">
 			<label kind="invariant" x="102" y="-25">EUs_clock  &lt;= 1</label>
 		</location>
-		<init ref="id24"/>
+		<init ref="id20"/>
 		<transition>
-			<source ref="id24"/>
-			<target ref="id25"/>
+			<source ref="id20"/>
+			<target ref="id21"/>
 			<label kind="synchronisation" x="59" y="25">_doInitialize?</label>
 			<label kind="assignment" x="59" y="42">EUs_Init(),
 EUs_clock  = 0</label>
 			<nail x="204" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id25"/>
-			<target ref="id23"/>
+			<source ref="id21"/>
+			<target ref="id19"/>
 			<label kind="guard" x="255" y="34">EUs_IsTerminated()</label>
 			<label kind="synchronisation" x="255" y="51">_doTerminate!</label>
 		</transition>
 		<transition>
-			<source ref="id25"/>
-			<target ref="id25"/>
+			<source ref="id21"/>
+			<target ref="id21"/>
 			<label kind="guard" x="289" y="-93">!EUs_IsTerminated() &amp;&amp;
 EUs_clock == 1</label>
 			<label kind="synchronisation" x="289" y="-59">EUs_doStep!</label>

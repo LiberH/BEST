@@ -57,7 +57,6 @@ private:
   void findSuccs (std::vector<BB *> &);
   void deadcode_patch ();
   void blr_patch ();
-  void print_state (struct state);
 
   static tinyxml2::XMLElement *fall_through (tinyxml2::XMLDocument *, Inst *, Inst *, bool);
   static tinyxml2::XMLElement *fall_into    (tinyxml2::XMLDocument *, Inst *, Inst *, bool, bool);

@@ -35,6 +35,12 @@ BB::addInst (Inst &i)
   m_insts -> push_back (&i);
 }
 
+vector<Inst *> *
+BB::insts ()
+{
+  return m_insts;
+}
+
 // static
 void
 BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<BB *> **bbs,

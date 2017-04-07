@@ -263,22 +263,6 @@ CFG::ToFile (string fn, CFG *cfg, int grain)
 	      agedge (agraph, src, trg, NULL, TRUE);
 	    }
 	}
-
-      /*
-      vector<Inst *> *insts = cfg -> insts ();
-      sort (insts -> begin (), insts -> end (), Inst::byAddr);
-      vector<Inst *>::iterator inst_it = insts -> begin ();
-      for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  cout << hex << inst -> m_addr << ": " << inst -> m_disass << endl;
-	  if      (!inst -> m_branch) cout << " next   : " << inst -> m_next -> m_addr << endl;
-	  else if ( inst -> m_uncond) cout << " target : " << inst -> m_target << endl;
-	  else                      { cout << " next   : " << inst -> m_next -> m_addr << endl;
-                                      cout << " target : " << inst -> m_target << endl; }
-	  cout << endl;
-	}
-      */
     }
   
   agwrite (agraph, f);
@@ -332,8 +316,8 @@ CFG::fall_through (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_sl
   attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
   
   if (in_slice)
-  { oss.str (""); oss << "execute_"        << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
-    oss.str (""); oss << "EUs_ExecuteNext(" << dec << src_inst -> m_num << ")";   grd = oss.str ();
+  { oss.str (""); oss << "execute_"         << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
+    oss.str (""); oss << "EUs_ExecuteNext(" << dec << src_inst -> m_num  <<  ")";   grd = oss.str ();
   
   XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
   XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
@@ -884,13 +868,16 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   attr_t ltr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
   attr_t ltr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
   attr_t ltr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
-  
-  oss.str (""); oss << "EUs_ExecuteNext(" << dec << exit -> m_num << ")";
-  XMLElement *ltr_src = newElementWrapper (doc, "source" , NULL                    , ltr_src_attrs , NULL);
-  XMLElement *ltr_trg = newElementWrapper (doc, "target" , NULL                    , ltr_trg_attrs , NULL);
-  XMLElement *ltr_grd = newElementWrapper (doc, "label"  , C(oss.str ())           , ltr_grd_attrs , NULL);
-  XMLElement *ltr_syn = newElementWrapper (doc, "label"  , "EUs_doStep?"       , ltr_syn_attrs , NULL);
-  XMLElement *ltr_upd = newElementWrapper (doc, "label"  , "_mustTerminate = true" , ltr_upd_attrs , NULL);
+
+  string grd, upd;
+  oss.str (""); oss << "EUs_ExecuteNext(" << dec << exit -> m_num <<   ")"; grd = oss.str ();
+  oss.str (""); oss << "execute_"         << hex << exit -> m_addr << "()," << endl
+		    << "_mustTerminate = true"; upd = oss.str ();
+  XMLElement *ltr_src = newElementWrapper (doc, "source" , NULL          , ltr_src_attrs , NULL);
+  XMLElement *ltr_trg = newElementWrapper (doc, "target" , NULL          , ltr_trg_attrs , NULL);
+  XMLElement *ltr_grd = newElementWrapper (doc, "label"  , C(grd)        , ltr_grd_attrs , NULL);
+  XMLElement *ltr_syn = newElementWrapper (doc, "label"  , "EUs_doStep?" , ltr_syn_attrs , NULL);
+  XMLElement *ltr_upd = newElementWrapper (doc, "label"  , C(upd)        , ltr_upd_attrs , NULL);
 
   XMLElement *ltr_childs[] = {ltr_src, ltr_trg, ltr_grd, ltr_syn, ltr_upd, NULL};
   XMLElement *ltr = newElementWrapper (doc, "transition", NULL, NULL, ltr_childs);
@@ -900,67 +887,69 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   // Other transitions: //
   ////////////////////////
 
-  {
-  vector<Inst *> *insts = cfg -> insts ();
-  sort (insts -> begin (), insts -> end (), Inst::byAddr);
-  vector<Inst *>::iterator inst_it = insts -> begin ();
-  for (; inst_it != insts -> end (); ++inst_it)
+  ListDigraph::NodeIt n (*cfg -> m_graph);
+  for (; n != INVALID; ++n)
     {
-      Inst *inst = *inst_it;      
-      string src, trg, grd, upd;
-      bool in_slice = false;
+      bool            in_slice  = false;
+      BB             *bb        = (*cfg -> m_bbs)[n];
+      vector<Inst *> *insts     = bb -> insts ();
+      Inst           *last_inst = insts -> back ();
 
-      vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
+      /* Check if last inst. of BB is in the slice: */
+      vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), last_inst);
       if (slice_it != slice -> end ())
 	in_slice = true;
 
-      if (!inst -> m_branch)
+      /* Building intra-BB transitions: */
+      vector<Inst *>::iterator inst_it = insts -> begin ();
+      for (; inst_it != insts -> end (); ++inst_it)
 	{
-	  XMLElement *tr = fall_through (doc, inst, inst -> m_next, in_slice);
-	  tmplt -> InsertEndChild (tr);
+	  XMLElement *tr;
+	  bool        in_slice =  false;
+	  Inst        *inst     = *inst_it;
+
+	  /* Don't take account of last inst. of BB: */
+	  if (inst -> m_addr != last_inst -> m_addr)
+	    {	      
+	      /* Check if this inst. is in the slice: */
+	      vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
+	      if (slice_it != slice -> end ())
+		in_slice = true;
+
+	      tr = fall_through (doc, inst, inst -> m_next, in_slice);
+	      tmplt -> InsertEndChild (tr);
+	    }
 	}
-      else if (inst -> m_uncond)
+      
+      /* Building inter-BB transitions (last inst. of BB as source inst.): */
+      vector<BB *> *succs = (*cfg -> m_succs)[n];
+      vector<BB *>::iterator succ_it = succs -> begin ();
+      for (; succ_it != succs -> end (); ++succ_it)
 	{
-	  if (inst -> m_next == NULL)
-	    continue;
-	  
-	  // TODO: replace "targets" with "succs":
-	  Inst *target = NULL;
-	  vector<Inst *> *targets = cfg -> insts ();
-	  vector<Inst *>::iterator target_it = targets -> begin ();
-	  for (; target_it != targets -> end (); ++target_it)
+	  XMLElement     *tr;
+	  bool            taken      =  true;
+	  BB             *succ       = *succ_it;
+	  vector<Inst *> *succ_insts =  succ       -> insts ();
+	  Inst           *target     =  succ_insts -> front ();
+
+	  /* Don't take account of self loop: */
+	  if (last_inst -> m_addr != target -> m_addr)
 	    {
-	      target = *target_it;
-	      if (target -> m_addr == inst -> m_target)
-		break;
+	      if (!last_inst -> m_branch)
+		{
+		  tr = fall_through (doc, last_inst, target, in_slice);
+		  tmplt -> InsertEndChild (tr);
+		  continue;
+		}
+
+	      if (target -> m_addr == last_inst -> m_addr +4)
+		taken = false;
+	      
+	      tr = fall_into (doc, last_inst, target, in_slice, taken);
+	      tmplt -> InsertEndChild (tr);
 	    }
-	  
-	  XMLElement *tr = fall_through (doc, inst, target, in_slice);
-	  tmplt -> InsertEndChild (tr);
-	}
-      else
-	{	  
-	  XMLElement *tr = fall_into (doc, inst, inst -> m_next, in_slice, false);
-	  tmplt -> InsertEndChild (tr);
-
-	  /////
-
-	  // TODO: replace "targets" with "succs":
-	  Inst *target = NULL;
-	  vector<Inst *> *targets = cfg -> insts ();
-	  vector<Inst *>::iterator target_it = targets -> begin ();
-	  for (; target_it != targets -> end (); ++target_it)
-	    {
-	      target = *target_it;
-	      if (target -> m_addr == inst -> m_target)
-		break;
-	    }
-
-	  tr = fall_into (doc, inst, target, in_slice, true);
-	  tmplt -> InsertEndChild (tr);
 	}
     }
-  }
   
   nta -> InsertFirstChild (tmplt);
   nta -> InsertFirstChild (nta_decl);
@@ -1010,24 +999,22 @@ CFG::findSuccs (vector<BB *> &bbs)
 	  BB *cc = (*m_bbs)[m];
 	  (*m_preds)[m] -> push_back (bb);
 	  (*m_succs)[n] -> push_back (cc);
-	  
+
 	  if (!inst -> m_uncond)
-	    if (inst -> m_next)
-	      {
-		ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
-		BB *cc = (*m_bbs)[m];
-		(*m_preds)[m] -> push_back (bb);
-		(*m_succs)[n] -> push_back (cc);
-	      }
+	    {
+	      ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
+	      BB *cc = (*m_bbs)[m];
+	      (*m_preds)[m] -> push_back (bb);
+	      (*m_succs)[n] -> push_back (cc);
+	    }
 	}
       else
-	if (inst -> m_next)
-	  {
-	    ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
-	    BB *cc = (*m_bbs)[m];
-	    (*m_preds)[m] -> push_back (bb);
-	    (*m_succs)[n] -> push_back (cc);
-	  }
+	{
+	  ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
+	  BB *cc = (*m_bbs)[m];
+	  (*m_preds)[m] -> push_back (bb);
+	  (*m_succs)[n] -> push_back (cc);
+	}
     }
 }
 
@@ -1099,30 +1086,6 @@ struct state {
 };
 
 void
-CFG::print_state (struct state state)
-{
-  ListDigraph::Arc st_arc = state.arc;
-  vector<ListDigraph::Node> st_stack = state.stack;
-  ListDigraph::Node st_arc_src = m_graph -> source (st_arc);
-  ListDigraph::Node st_arc_trg = m_graph -> target (st_arc);
-  BB *bb_src = (*m_bbs)[st_arc_src];
-  BB *bb_trg = (*m_bbs)[st_arc_trg];
-  
-  cout << "(" << bb_src -> m_label << " -> " << bb_trg -> m_label << ") [ ";
-  
-  vector<ListDigraph::Node>::iterator st_ret_it = state.stack.begin ();
-  for (; st_ret_it != state.stack.end (); ++st_ret_it)
-    {
-      ListDigraph::Node st_ret = *st_ret_it;
-      BB *bb_ret = (*m_bbs)[st_ret];
-      cout << bb_ret -> m_label << " ";
-    }
-  cout << "]" << endl;
-}
-
-
-
-void
 CFG::blr_patch ()
 {
   struct state state;
@@ -1138,13 +1101,6 @@ CFG::blr_patch ()
   ListDigraph::Node ret = (*m_nodes)[last_inst -> m_addr +4];
   ListDigraph::Node trg = m_graph -> target (first_arc);
   stack_s.push_back (ret);
-  
-  //**/BB *trg_bb = (*m_bbs)[trg];
-  //**/BB *ret_bb = (*m_bbs)[ret];
-  //**/cout << endl;
-  //**/cout << bb -> m_label << endl;
-  //**/cout << " push  : " << ret_bb -> m_label << endl;
-  //**/cout << " next  : " << trg_bb -> m_label << endl;
 
   state.arc = first_arc;
   state.stack = stack_s;
@@ -1160,33 +1116,16 @@ CFG::blr_patch ()
       
       ListDigraph::Node src = m_graph -> source (state.arc);
       ListDigraph::Node trg = m_graph -> target (state.arc);
-
-      //**/cout << endl;
-      /*
-      vector<struct state>::iterator reached_it = reached.begin ();
-      for (; reached_it != reached.end (); ++reached_it)
-	{
-	  struct state reached = *reached_it;
-	  print_state (reached);
-	}
-      */
-      //**/BB *src_bb = (*m_bbs)[src];
       BB *trg_bb = (*m_bbs)[trg];
       Inst *last_inst = trg_bb -> m_insts -> back ();
-      //**/cout << trg_bb -> m_label << " (from " << src_bb -> m_label << ")" << endl;
 
       // copy stack from state:
-      //**/cout << " stack :";
       vector<ListDigraph::Node>::iterator ret_it = state.stack.begin ();
       for (; ret_it != state.stack.end (); ++ret_it)
 	{
 	  ListDigraph::Node ret = *ret_it;
 	  stack_t.push_back (ret);
-	  
-	  //**/BB *ret_bb = (*m_bbs)[ret];
-	  //**/cout << " " << ret_bb -> m_label;
 	}
-      //**/cout << endl;
 
       // trg does a return:
       size_t bclr_pos = last_inst -> m_disass.find ("bclr- ");
@@ -1203,7 +1142,6 @@ CFG::blr_patch ()
 	  
 	  BB *ret_bb = (*m_bbs)[ret];
 	  Inst *ret_inst = ret_bb -> m_insts -> front ();
-	  //**/cout << " pop   : " << ret_bb -> m_label << endl;
 	  
 	  bool exists_arc = false;
 	  ListDigraph::OutArcIt arc (*m_graph, trg);
@@ -1214,9 +1152,10 @@ CFG::blr_patch ()
 	  if (!exists_arc)
 	    {
 	      addEdge (*trg_bb, *ret_bb);
-	      //**/cout << " add   : " << trg_bb -> m_label << " -> "  << ret_bb -> m_label << endl;
+	      (*m_preds)[ret] -> push_back (trg_bb);
+	      (*m_succs)[trg] -> push_back (ret_bb);
 	    }
-
+	  
 	  ListDigraph::Arc a;
 	  m_graph -> firstOut (a, trg);
 	  while (a != INVALID)
@@ -1231,18 +1170,11 @@ CFG::blr_patch ()
 	  state.stack = stack_t;
 	  w.push_back (state);
 	  
-	  //**/cout << " next  :";	  
-	  //**/BB *ubb = (*m_bbs)[ret];
-	  //**/cout << " " << ubb -> m_label;
-
 	  if (!last_inst -> m_uncond)
 	    {
-	      //**/cout << hex << last_inst -> m_addr << ": " << last_inst -> m_disass << endl;
-	      
 	      ListDigraph::Node target = (*m_nodes)[last_inst -> m_target];
 	      BB *target_bb = (*m_bbs)[target];
-	      //**/cout << " target: " << target_bb -> m_label << endl;
-	      
+	      Inst *target_inst = target_bb -> m_insts -> front ();
 	      bool exists_arc = false;
 	      ListDigraph::OutArcIt arc (*m_graph, trg);
 	      for (; arc != INVALID; ++arc)
@@ -1252,7 +1184,8 @@ CFG::blr_patch ()
 	      if (!exists_arc)
 		{
 		  addEdge (*trg_bb, *target_bb);
-		  //**/cout << " add   : " << trg_bb -> m_label << " -> "  << target_bb -> m_label << endl;
+		  (*m_preds)[target] -> push_back (trg_bb);
+		  (*m_succs)[trg] -> push_back (target_bb);
 		}
 
 	      ListDigraph::Arc a;
@@ -1270,9 +1203,6 @@ CFG::blr_patch ()
 	      state.stack.push_back (ret);
 	      w.push_back (state);
 	    }
-
-	  (*m_preds)[ret] -> push_back (trg_bb);
-	  (*m_succs)[trg] -> push_back (ret_bb);
 	  
 	  // TODO: hacky ; to clean
 	  //last_inst -> m_disass = "blr";
@@ -1290,37 +1220,26 @@ CFG::blr_patch ()
 	    {
 	      ListDigraph::Node ret = (*m_nodes)[last_inst -> m_addr +4];
 	      stack_t.push_back (ret);
-	      
-	      //**/BB *ret_bb = (*m_bbs)[ret];
-	      //**/cout << " push  : " << ret_bb -> m_label << endl;
 	    } 
 
 	  // add states too w if not yet reached:
 	  ListDigraph::Arc arc;
 	  m_graph -> firstOut (arc, trg);
 	  state.stack = stack_t;
-	  //**/cout << " next  :";
 	  while (arc != INVALID)
 	    {
 	      ListDigraph::Node u = m_graph -> target (arc);
 	      state.arc = arc;
-	      //**/cout << endl;
-	      //**/print_state (state);
-	      //**/cout << "---" << endl;
 	      
 	      bool found = false;
 	      vector<struct state>::iterator reach_it = reached.begin ();
 	      for (; reach_it != reached.end (); ++reach_it)
 		{
-		  struct state reach = *reach_it;
-		  //**/print_state (reach);
-	      
+		  struct state reach = *reach_it;	      
 		  if (state.arc == reach.arc)
 		    {
-		      //**/cout << "same arc" << endl;
 		      if (state.stack.size () == reach.stack.size ())
 			{
-			  //**/cout << "same stack size" << endl;
 			  bool equals = true;
 			  vector<ListDigraph::Node>::iterator state_ret_it = state.stack.begin ();
 			  vector<ListDigraph::Node>::iterator reach_ret_it = reach.stack.begin ();
@@ -1345,16 +1264,10 @@ CFG::blr_patch ()
 		}
 	  
 	      if (!found)
-		{
-		  w.push_back (state);
-		  
-		  //**/BB *ubb = (*m_bbs)[u];
-		  //**/cout << " " << ubb -> m_label;
-		}
+		w.push_back (state);
 	      
 	      m_graph -> nextOut (arc);
 	    }
 	}
-      //**/cout << endl;
     }
 }

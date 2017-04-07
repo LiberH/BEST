@@ -17,7 +17,9 @@ class BB {
 public:
   BB ();
   
-  void addInst (Inst &);
+       void            addInst (Inst &);
+  std::vector<Inst *> *insts   ();
+
   static      void         FromFile (std::string, u32 *, u32 *, std::vector<BB *> **, u32 * , std::vector<s32> **, u32 * , std::vector<s32> **);
   static      void         ToFile   (std::string, std::vector<BB *> *);
   static      void         ToFile   (std::string, BB *);
