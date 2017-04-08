@@ -305,7 +305,7 @@ CFG::fall_through (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_sl
 {
   XMLElement *tr;
   string src, trg, grd, upd;
-  ostringstream oss;
+  ostringstream oss, oss_grd, oss_upd;
   
   oss.str (""); oss << "id" << hex << src_inst -> m_addr; src = oss.str ();
   oss.str (""); oss << "id" << hex << trg_inst -> m_addr; trg = oss.str ();
@@ -314,16 +314,18 @@ CFG::fall_through (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_sl
   attr_t tr_grd_attrs[] = {{"kind" , "guard"          } , {NULL , NULL}};  
   attr_t tr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
   attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
+
+  oss_grd << "EUs_ExecuteNext(" << dec << src_inst -> m_num  << ")";
+  if (in_slice) { oss_upd << "execute_" << hex << src_inst -> m_addr << "()"; }
+   
+  grd = oss_grd.str ();
+  upd = oss_upd.str ();
   
-  if (in_slice)
-  { oss.str (""); oss << "execute_"         << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
-    oss.str (""); oss << "EUs_ExecuteNext(" << dec << src_inst -> m_num  <<  ")";   grd = oss.str ();
-  
-  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
-  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
-  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)            , tr_grd_attrs , NULL);
+  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL          , tr_src_attrs , NULL);
+  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL          , tr_trg_attrs , NULL);
+  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)        , tr_grd_attrs , NULL);
   XMLElement *tr_syn = newElementWrapper (doc, "label"  , "EUs_doStep?" , tr_syn_attrs , NULL);
-  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)            , tr_upd_attrs , NULL);
+  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)        , tr_upd_attrs , NULL);
 
   XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_syn, tr_upd, NULL};
   tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
@@ -336,7 +338,7 @@ CFG::fall_into (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_slice
 {
   XMLElement *tr;
   string src, trg, grd, upd;
-  ostringstream oss;
+  ostringstream oss, oss_grd, oss_upd;
   
   oss.str (""); oss << "id" << hex << src_inst -> m_addr; src = oss.str ();
   oss.str (""); oss << "id" << hex << trg_inst -> m_addr; trg = oss.str ();
@@ -346,38 +348,53 @@ CFG::fall_into (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_slice
   attr_t tr_syn_attrs[] = {{"kind" , "synchronisation"} , {NULL , NULL}};  
   attr_t tr_upd_attrs[] = {{"kind" , "assignment"     } , {NULL , NULL}};
 
-  oss.str ("");
-  oss << (taken ? "" : "!");
+  oss_grd << (taken ? "" : "!");
   switch (src_inst -> m_test)
     {
-    case  0: oss << "true"; break;
+    case  0: oss_grd << "true"; break;
 
-    case  1: oss << "lt(cr" << src_inst -> m_crfD << ")"; break;
-    case  2: oss << "gt(cr" << src_inst -> m_crfD << ")"; break;
-    case  3: oss << "eq(cr" << src_inst -> m_crfD << ")"; break;
-    case  4: oss << "so(cr" << src_inst -> m_crfD << ")"; break;
+    case  1: oss_grd << "lt(cr" << src_inst -> m_crfD << ")"; break;
+    case  2: oss_grd << "gt(cr" << src_inst -> m_crfD << ")"; break;
+    case  3: oss_grd << "eq(cr" << src_inst -> m_crfD << ")"; break;
+    case  4: oss_grd << "so(cr" << src_inst -> m_crfD << ")"; break;
 
-    case  5: oss << "ge(cr" << src_inst -> m_crfD << ")"; break;
-    case  6: oss << "le(cr" << src_inst -> m_crfD << ")"; break;
-    case  7: oss << "ne(cr" << src_inst -> m_crfD << ")"; break;
+    case  5: oss_grd << "ge(cr" << src_inst -> m_crfD << ")"; break;
+    case  6: oss_grd << "le(cr" << src_inst -> m_crfD << ")"; break;
+    case  7: oss_grd << "ne(cr" << src_inst -> m_crfD << ")"; break;
 
-    case  9: oss <<  "z()"; break;
-    case 10: oss << "nz()"; break;
+    case  9: oss_grd <<  "z()"; break;
+    case 10: oss_grd << "nz()"; break;
 
-    default: oss << "####"; break;
+    default: oss_grd << "####"; break;
     }
-  oss << " &&" << endl;
-  grd = oss.str ();
+
+  oss_grd << " &&" << endl << "EUs_ExecuteNext(" << dec << src_inst -> m_num  <<  ")";
+  if (in_slice) { oss_upd << "execute_" << hex << src_inst -> m_addr << "()"; }
+
+  size_t bl_pos = src_inst -> m_disass.find ("bl ");
+  if (bl_pos != string::npos)
+    {
+      if (in_slice) oss_upd << "," << endl;
+      oss_upd << "_Stack_Push(" << dec << src_inst -> m_num +1 << ")";
+    }
   
-  if (in_slice)
-  { oss.str (""); oss        << "execute_"         << hex << src_inst -> m_addr << "()"; upd = oss.str (); }
-    oss.str (""); oss << grd << "EUs_ExecuteNext(" << dec << src_inst -> m_num  <<  ")"; grd = oss.str ();
-  
-  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL              , tr_src_attrs , NULL);
-  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL              , tr_trg_attrs , NULL);
-  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)            , tr_grd_attrs , NULL);
+  size_t bclr_pos = src_inst -> m_disass.find ("bclr- ");
+  if (bclr_pos != string::npos
+  &&  taken)
+    {
+      oss_grd << " &&" << endl << "_Stack_TopIs(" << dec << trg_inst -> m_num << ")";
+      if (in_slice) oss_upd << "," << endl;
+      oss_upd << "_Stack_Pop()";
+    }
+
+  grd = oss_grd.str ();
+  upd = oss_upd.str ();
+
+  XMLElement *tr_src = newElementWrapper (doc, "source" , NULL          , tr_src_attrs , NULL);
+  XMLElement *tr_trg = newElementWrapper (doc, "target" , NULL          , tr_trg_attrs , NULL);
+  XMLElement *tr_grd = newElementWrapper (doc, "label"  , C(grd)        , tr_grd_attrs , NULL);
   XMLElement *tr_syn = newElementWrapper (doc, "label"  , "EUs_doStep?" , tr_syn_attrs , NULL);
-  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)            , tr_upd_attrs , NULL);
+  XMLElement *tr_upd = newElementWrapper (doc, "label"  , C(upd)        , tr_upd_attrs , NULL);
   
   XMLElement *tr_childs[] = {tr_src, tr_trg, tr_grd, tr_syn, tr_upd, NULL};
   tr = newElementWrapper (doc, "transition", NULL, NULL, tr_childs);
@@ -553,7 +570,10 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
 	  insts_oss << dec << inst -> m_addr                    << ", ";
 	  insts_oss << 1                                        << ", "; // latency;
 	  insts_oss << (inst -> m_branch ? "true, " : "false,") << " ";
-	  if (inst -> m_branch)
+
+	  size_t bclr_pos = inst -> m_disass.find ("bclr- ");
+	  if (inst -> m_branch
+          &&  bclr_pos == string::npos)
 	    {
 	      o.str ("");
 	      o << dec << target_num;
@@ -1000,7 +1020,8 @@ CFG::findSuccs (vector<BB *> &bbs)
 	  (*m_preds)[m] -> push_back (bb);
 	  (*m_succs)[n] -> push_back (cc);
 
-	  if (!inst -> m_uncond)
+	  if (!inst -> m_uncond
+	  &&   inst -> m_next != NULL)
 	    {
 	      ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
 	      BB *cc = (*m_bbs)[m];
@@ -1010,10 +1031,13 @@ CFG::findSuccs (vector<BB *> &bbs)
 	}
       else
 	{
-	  ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
-	  BB *cc = (*m_bbs)[m];
-	  (*m_preds)[m] -> push_back (bb);
-	  (*m_succs)[n] -> push_back (cc);
+	  if (inst -> m_next != NULL)
+	    {
+	      ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
+	      BB *cc = (*m_bbs)[m];
+	      (*m_preds)[m] -> push_back (bb);
+	      (*m_succs)[n] -> push_back (cc);
+	    }
 	}
     }
 }
@@ -1174,7 +1198,6 @@ CFG::blr_patch ()
 	    {
 	      ListDigraph::Node target = (*m_nodes)[last_inst -> m_target];
 	      BB *target_bb = (*m_bbs)[target];
-	      Inst *target_inst = target_bb -> m_insts -> front ();
 	      bool exists_arc = false;
 	      ListDigraph::OutArcIt arc (*m_graph, trg);
 	      for (; arc != INVALID; ++arc)
@@ -1206,8 +1229,8 @@ CFG::blr_patch ()
 	  
 	  // TODO: hacky ; to clean
 	  //last_inst -> m_disass = "blr";
-	  last_inst -> m_refs   = 0x80; // sets pc
-	  last_inst -> m_defs   = 0x80; // id.
+	  last_inst -> m_refs   &= ~0xa0; // unsets pc and lr.
+	  last_inst -> m_defs   &= ~0xa0; // id.
 	  last_inst -> m_link   = false;
 	  last_inst -> m_uncond = true;
 	  last_inst -> m_target = ret_inst -> m_addr;

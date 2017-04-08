@@ -2,6 +2,8 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
 <nta>
 	<declaration>/* TODO:
+ *  - data struct for _Stack
+ *  - capitalize _DATA, _INSTS &amp; _BSS
  *  - microbench for memory access time
  *  - set proper values for _Inst_t.cycles
  *  - should remove '_do'?
@@ -40,10 +42,11 @@ typedef int[_SINT8_MIN, _SINT8_MAX] sint8_t;
 typedef int[_SINT16_MIN, _SINT16_MAX] sint16_t;
 typedef int[_SINT32_MIN, _SINT32_MAX] sint32_t;
 
-const int _REGS_MAX = 8;
-const int _INST_MAX = /* REPLACE_WITH_INST_MAX */ 1;
-const int _DATA_MAX = /* REPLACE_WITH_DATA_MAX */ 1;
-const int _BSS_MAX  = /* REPLACE_WITH_BSS_MAX */ 1;
+const int  _REGS_MAX =  8;
+const int _STACK_MAX = 10; // Arbitrary.
+const int  _INST_MAX = /* REPLACE_WITH_INST_MAX */ 1;
+const int  _DATA_MAX = /* REPLACE_WITH_DATA_MAX */ 1;
+const int   _BSS_MAX = /* REPLACE_WITH_BSS_MAX */ 1;
 
 typedef struct {
   int  addr;
@@ -202,7 +205,8 @@ broadcast chan _doInitialize;
    urgent chan _do;
 
 bool _mustTerminate;
-int[0, _INST_MAX -1] _next;
+int[-1,  _INST_MAX -1] _Stack[_STACK_MAX];
+int[ 0, _STACK_MAX   ] _stack_top;
 
 /* Binary: */
 
@@ -269,8 +273,17 @@ broadcast chan EUs_doStep;
 /* (global:) */
 
 void _Init() {
+  int i;
+  _stack_top = 0;
+  for (i = 0; i &lt; _STACK_MAX; ++i)
+    _Stack[i] = -1;
+
   _mustTerminate = false;
 }
+
+void _Stack_Push  (int index) { _Stack[_stack_top] = index; _stack_top++; }
+int  _Stack_Pop   (         ) { int index; _stack_top--; index = _Stack[_stack_top]; _Stack[_stack_top] = -1; return index; }
+bool _Stack_TopIs (int index) { return (_Stack[_stack_top -1] == index); }
 
 /* Flash: */
 
@@ -635,6 +648,13 @@ void EUs_Update() {
       EUs.pipeline[EUS_PIPELINE_D].predict_taken = true;
       InCU_Flush(EUS_PIPELINE_D); // TODO: check wether it should be done or not
       InCU_PC_Set(_INSTS[EUs.pipeline[EUS_PIPELINE_D].index].target);
+
+
+      ////////////////////////////////////////
+      // CANT USE .target ON BCLR BRANCHES! //
+      ////////////////////////////////////////
+
+
     }
   }
 }
@@ -1184,6 +1204,7 @@ const int BO_____ctr_________ = 18;
 const int BO_________________ = 20; // Branch always
 
 void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32_t target_addr, uint1_t AA, uint1_t LK ) {
+  int[0, _INST_MAX -1] next_index, target_index;
 
   bool ctr_ok, cond_ok;
   uint3_t crfD     = BI / 4;
@@ -1193,10 +1214,11 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
     ctr_ok  = getBit(BO, 2) || ((CTR != 0) ^ getBit(BO, 1));
     cond_ok = getBit(BO, 4) || (getBit(CR[crfD], crfD_bit) == getBit(BO, 3)); }
 
-  if ( !conditional         ) { if ( qual == QUAL_NONE  ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((true   &amp;&amp; true   ) ? true : false); } }
-  if (  conditional         ) { if ( qual == QUAL_NONE  ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((ctr_ok &amp;&amp; cond_ok) ? true : false); }
-                                if ( qual == QUAL_TOLR  ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((ctr_ok &amp;&amp; cond_ok) ? true : false); }
-                                if ( qual == QUAL_TOCTR ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((true   &amp;&amp; cond_ok) ? true : false); } }
+  if ( !conditional ) { EUs.pipeline[EUS_PIPELINE_E].taken = (                      true        ); }
+  if (  conditional ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((ctr_ok &amp;&amp; cond_ok) ? true : false); }
+
+  next_index = EUs.pipeline[EUS_PIPELINE_E].index +1;
+  if ( LK ) { _Stack_Push (next_index); }
 
   /* Update the BTB: */
   InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E].index, EUs.pipeline[EUS_PIPELINE_E].taken);
@@ -1206,9 +1228,12 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
     InCU_Flush(EUS_PIPELINE_E);
     InCU_PC_Set(EUs.pipeline[EUS_PIPELINE_E].index +1);
   }
+
   if (!EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; EUs.pipeline[EUS_PIPELINE_E].taken) {
     InCU_Flush(EUS_PIPELINE_E);
-    InCU_PC_Set(_INSTS[EUs.pipeline[EUS_PIPELINE_E].index].target);
+
+    target_index = ( qual == QUAL_TOLR ? _Stack_Pop () : _INSTS[EUs.pipeline[EUS_PIPELINE_E].index].target);
+    InCU_PC_Set(target_index);
   }
 }
 

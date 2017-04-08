@@ -5,19 +5,19 @@
       BENCHMARK NAME - SLICE LOC - STATUS
 
            bs-O0.elf -     27    - No: Needs stack data
-           bs-O1.elf -     19    - OK
-           bs-O2.elf -     18    - OK
-           bs-O3.elf -     18    - OK
+           bs-O1.elf -     19    - Yes.
+           bs-O2.elf -     18    - Yes.
+           bs-O3.elf -     18    - Yes.
 
      bsort100-O0.elf -     39    - No: Needs stack data
-     bsort100-O1.elf -     24    - No: Missing branches
-     bsort100-O2.elf -     22    - No: Missing branches
-     bsort100-O3.elf -     22    - No: Missing branches
+     bsort100-O1.elf -     24    - Yes.
+     bsort100-O2.elf -     22    - Yes.
+     bsort100-O3.elf -     22    - Yes.
      
           cnt-O0.elf -     44    - No: Needs stack data
           cnt-O1.elf -     38    - No: ?
-          cnt-O2.elf -     24    - OK
-          cnt-O3.elf -     81    - Ok
+          cnt-O2.elf -     24    - No: Not same WCET
+          cnt-O3.elf -     81    - No: Not same WCET
 
           crc-O0.elf -     44    - No: Needs stack data
           crc-O1.elf -     42    - No: ?
@@ -25,49 +25,49 @@
           crc-O3.elf -     55    - No: ?
 
        expint-O0.elf -     33    - No: Needs stack data
-       expint-O1.elf -     51    - OK
-       expint-O2.elf -      8    - OK
-       expint-O3.elf -      8    - OK
+       expint-O1.elf -     51    - Yes.
+       expint-O2.elf -      8    - Yes.
+       expint-O3.elf -      8    - Yes.
        
          fdct-O0.elf -     11    - No: Needs stack data
-         fdct-O1.elf -      6    - OK
-         fdct-O2.elf -      6    - OK
-         fdct-O3.elf -      3    - OK
+         fdct-O1.elf -      6    - Yes.
+         fdct-O2.elf -      6    - Yes.
+         fdct-O3.elf -      3    - Yes.
 
       fibcall-O0.elf -     12    - No: Needs stack data
-      fibcall-O1.elf -     10    - OK
-      fibcall-O2.elf -      3    - OK
-      fibcall-O3.elf -      3    - OK
+      fibcall-O1.elf -     10    - Yes.
+      fibcall-O2.elf -      3    - Yes.
+      fibcall-O3.elf -      3    - Yes.
       
           fir-O0.elf -     21    - No: Needs stack data	  
-          fir-O1.elf -     33    - OK
-          fir-O2.elf -     32    - OK
-          fir-O3.elf -     32    - OK
+          fir-O1.elf -     33    - Yes.
+          fir-O2.elf -     32    - Yes.
+          fir-O3.elf -     32    - Yes.
 
 janne_complex-O0.elf -     21    - No: Needs stack data
-janne_complex-O1.elf -     21    - OK
-janne_complex-O2.elf -     29    - OK
-janne_complex-O3.elf -     26    - OK
+janne_complex-O1.elf -     21    - Yes.
+janne_complex-O2.elf -     29    - Yes.
+janne_complex-O3.elf -     26    - Yes.
 
      jfdctint-O0.elf -     29    - No: Needs stack data
-     jfdctint-O1.elf -      9    - OK
-     jfdctint-O2.elf -      9    - OK
-     jfdctint-O3.elf -      6    - OK
+     jfdctint-O1.elf -      9    - Yes.
+     jfdctint-O2.elf -      9    - Yes.
+     jfdctint-O3.elf -      6    - Yes.
 
       matmult-O0.elf -     36    - No: Needs stack data     
       matmult-O1.elf -     42    - No: ?
-      matmult-O2.elf -     43    - OK
-      matmult-O3.elf -     38    - OK
+      matmult-O2.elf -     43    - No: ?
+      matmult-O3.elf -     38    - No: ?
 
            ns-O0.elf -     35    - No: Needs stack data
-           ns-O1.elf -     30    - No: ?
-           ns-O2.elf -     27    - OK
-           ns-O3.elf -     88    - OK
+           ns-O1.elf -     30    - Yes.
+           ns-O2.elf -     27    - Yes.
+           ns-O3.elf -     88    - Yes.
 
         prime-O0.elf -     63    - No: Needs stack data
-        prime-O1.elf -     37    - No: Missing branches
-        prime-O2.elf -     30    - No: Missing branches
-        prime-O3.elf -     21    - OK
+        prime-O1.elf -     37    - No: ?
+        prime-O2.elf -     30    - No: ?
+        prime-O3.elf -     21    - Yes.
 
                  ... -    ...    - ...
 
@@ -77,12 +77,12 @@ janne_complex-O3.elf -     26    - OK
         adpcm-O3.elf -    336    - No: ?
 
      compress-O0.elf -    271    - No: Needs stack data
-     compress-O1.elf -    214    - OK
+     compress-O1.elf -    214    - No: ?
      compress-O2.elf -    245    - No: ?
      compress-O3.elf -    318    - No: ?
      
          ndes-O0.elf -    162    - No: Needs stack data
          ndes-O1.elf -    156    - No: ?
-         ndes-O2.elf -    232    - OK
+         ndes-O2.elf -    232    - No: ?
          ndes-O3.elf -    518    - No: ?
 

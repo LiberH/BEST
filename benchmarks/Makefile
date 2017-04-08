@@ -55,8 +55,12 @@ malardalen/%:
 # Verifying:
 VERIFYTA = $(UPPAAL_PATH)/bin-Linux/verifyta
 malardalen-verify/%:
-	@$(VERIFYTA) $(BIN_MDL)/$*.elf-model_sliced.xml
-	@$(VERIFYTA) $(BIN_MDL)/$*.elf-model.xml
+	@((timeout 30 $(VERIFYTA) $(BIN_MDL)/$*.elf-model_sliced.xml 2> /dev/null) || \
+	  (if [ "$$?" -eq 124 ]; then >&2 echo "WCET for $* (s) .. timeout"; fi) \
+         )| (grep "_clock <= " | sed -e 's/_clock <= \([0-9]\+\)/WCET for $* (s) .. \1 cycles/')
+	@((timeout 30 $(VERIFYTA) $(BIN_MDL)/$*.elf-model.xml 2> /dev/null) || \
+	  (if [ "$$?" -eq 124 ]; then >&2 echo "WCET for $*     .. timeout"; fi) \
+         )| (grep "_clock <= " | sed -e 's/_clock <= \([0-9]\+\)/WCET for $*     .. \1 cycles/')
 
 # Dot export:
 malardalen-export:
