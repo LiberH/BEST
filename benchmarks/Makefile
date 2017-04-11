@@ -53,14 +53,53 @@ malardalen/%:
 	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $(BIN_MDL)/$*.elf
 
 # Verifying:
-VERIFYTA = $(UPPAAL_PATH)/bin-Linux/verifyta
+VERIFYTA = timeout 20 $(UPPAAL_PATH)/bin-Linux/verifyta
+malardalen-verify:
+	@rm -f $(BIN_MDL)/*-O0.elf-*.xml
+	@rm -f $(BIN_MDL)/adpcm-*.xml
+	@rm -f $(BIN_MDL)/compress-*.xml
+	@rm -f $(BIN_MDL)/ndes-*.xml
+
+	@rm -f $(BIN_MDL)/cnt-*.xml
+	@rm -f $(BIN_MDL)/crc-*.xml
+	@rm -f $(BIN_MDL)/matmult-*.xml
+
+	@for f in $(BIN_MDL)/*.elf-model_sliced.xml ; \
+	 do basename=`basename $$f`                 ; \
+	    name=`echo $$basename | cut -d'.' -f1`  ; \
+	    target="malardalen-verify/$$name"       ; \
+	    $(MAKE) --no-print-directory $$target   ; \
+	 done
+
 malardalen-verify/%:
-	@((timeout 30 $(VERIFYTA) $(BIN_MDL)/$*.elf-model_sliced.xml 2> /dev/null) || \
-	  (if [ "$$?" -eq 124 ]; then >&2 echo "WCET for $* (s) .. timeout"; fi) \
-         )| (grep "_clock <= " | sed -e 's/_clock <= \([0-9]\+\)/WCET for $* (s) .. \1 cycles/')
-	@((timeout 30 $(VERIFYTA) $(BIN_MDL)/$*.elf-model.xml 2> /dev/null) || \
-	  (if [ "$$?" -eq 124 ]; then >&2 echo "WCET for $*     .. timeout"; fi) \
-         )| (grep "_clock <= " | sed -e 's/_clock <= \([0-9]\+\)/WCET for $*     .. \1 cycles/')
+	@s_model="$*.elf-model_sliced.xml"          ; \
+	 __model="$*.elf-model.xml"                 ; \
+	    file=`echo $$s_model | cut -d'.' -f1`   ; \
+	  s_temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
+	  __temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
+\
+	 echo -n "WCET for $$file .. "                                 ; \
+	 $(VERIFYTA) $(BIN_MDL)/$$s_model > $$s_temp 2> /dev/null      ; \
+	 if [ "$$?" -eq 124 ]                                          ; \
+	   then echo "TIMEOUT"; exit 0; fi                             ; \
+	 s_abrt=`grep 'Aborted' $$s_temp`                              ; \
+	 if [ "$$s_abrt" != "" ]                                       ; \
+	   then echo "ABORTED"; exit 0; fi                             ; \
+	 s_line=`grep "_clock <= " $$s_temp`                           ; \
+	 s_wcet=`echo $$s_line | sed -e 's/_clock <= \([0-9]\+\)/\1/'` ; \
+\
+	 $(VERIFYTA) $(BIN_MDL)/$$__model > $$__temp 2> /dev/null      ; \
+	 if [ "$$?" -eq 124 ]                                          ; \
+	   then echo "TIMEOUT"; exit 0; fi                             ; \
+	 __abrt=`grep 'Aborted' $$__temp`                              ; \
+	 if [ "$$__abrt" != "" ]                                       ; \
+	   then echo "ABORTED"; exit 0; fi                             ; \
+	 __line=`grep "_clock <= " $$__temp`                           ; \
+	 __wcet=`echo $$__line | sed -e 's/_clock <= \([0-9]\+\)/\1/'` ; \
+\
+	 if [ "$$s_wcet" -ne "$$__wcet" ]    ; \
+	   then echo "DIVERGING"; exit 0; fi ; \
+	 echo "$$s_wcet cycles"
 
 # Dot export:
 malardalen-export:

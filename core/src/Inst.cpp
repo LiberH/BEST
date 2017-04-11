@@ -71,16 +71,22 @@ Inst::Inst (const staticInfo &si)
   bitset<64> defs_bs (m_defs);
   if (refs_bs[cr__index])
     {
-      crX_index = m_crfD + 16;
       refs_bs[cr__index] = 0;
-      refs_bs[crX_index] = 1;
+      crX_index = m_crfD + 16;      
+      if (m_crfD != -1) refs_bs[crX_index] = 1;
+      else for (crX_index = 16; crX_index < 24; ++crX_index)
+	     refs_bs[crX_index] = 1;
+      
       m_refs = refs_bs.to_ulong ();
     }
   if (defs_bs[cr__index])
     {
-      crX_index = m_crfD + 16;
       defs_bs[cr__index] = 0;
-      defs_bs[crX_index] = 1;
+      crX_index = m_crfD + 16;
+      if (m_crfD != -1)	defs_bs[crX_index] = 1;
+      else for (crX_index = 16; crX_index < 24; ++crX_index)
+	     defs_bs[crX_index] = 1;
+      
       m_defs = defs_bs.to_ulong ();
     }
 }

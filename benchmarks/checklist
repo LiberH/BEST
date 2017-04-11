@@ -20,9 +20,9 @@
           cnt-O3.elf -     81    - No: Not same WCET
 
           crc-O0.elf -     44    - No: Needs stack data
-          crc-O1.elf -     42    - No: ?
-          crc-O2.elf -     44    - No: ?
-          crc-O3.elf -     55    - No: ?
+          crc-O1.elf -     42    - No: Not same WCET
+          crc-O2.elf -     44    - No: Not same WCET
+          crc-O3.elf -     55    - No: Not same WCET
 
        expint-O0.elf -     33    - No: Needs stack data
        expint-O1.elf -     51    - Yes.
@@ -65,8 +65,8 @@ janne_complex-O3.elf -     26    - Yes.
            ns-O3.elf -     88    - Yes.
 
         prime-O0.elf -     63    - No: Needs stack data
-        prime-O1.elf -     37    - No: ?
-        prime-O2.elf -     30    - No: ?
+        prime-O1.elf -     37    - Yes.
+        prime-O2.elf -     30    - Yes.
         prime-O3.elf -     21    - Yes.
 
                  ... -    ...    - ...

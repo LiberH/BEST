@@ -13,6 +13,8 @@
 ////////////////// Types and Constants: //
 //////////////////////////////////////////
 
+const bool USE_DYNAMIC_PREDICTION = false;
+
 /* Binary: */
 
 const int _UINT1_MAX  =           1;
@@ -42,23 +44,24 @@ typedef int[_SINT8_MIN, _SINT8_MAX] sint8_t;
 typedef int[_SINT16_MIN, _SINT16_MAX] sint16_t;
 typedef int[_SINT32_MIN, _SINT32_MAX] sint32_t;
 
-const int  _REGS_MAX =  8;
-const int _STACK_MAX = 10; // Arbitrary.
-const int  _INST_MAX = /* REPLACE_WITH_INST_MAX */ 1;
-const int  _DATA_MAX = /* REPLACE_WITH_DATA_MAX */ 1;
-const int   _BSS_MAX = /* REPLACE_WITH_BSS_MAX */ 1;
+const int  _REGS_MAX  =  8;
+const int _CYCLES_MAX =  1; // Arbitrary.
+const int _STACK_MAX  = 10; // Arbitrary.
+const int  _INST_MAX  = /* REPLACE_WITH_INST_MAX */ 1;
+const int  _DATA_MAX  = /* REPLACE_WITH_DATA_MAX */ 1;
+const int   _BSS_MAX  = /* REPLACE_WITH_BSS_MAX */ 1;
 
 typedef struct {
   int  addr;
-  int  cycles;
+  int[-1,_CYCLES_MAX]  cycles;
   bool do_branch;
-  int  target;
+  int[0,_INST_MAX] target;
   bool do_memory;
-  int  read_regs[_REGS_MAX];
-  int  write_regs[_REGS_MAX];
+  uint8_t  read_regs[_REGS_MAX];
+  uint8_t  write_regs[_REGS_MAX];
 } _Inst_t;
-const  int     _EMPTY_REGS[_REGS_MAX] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-const _Inst_t  _EMPTY_INST            = { 0, 0, false, 0, false, _EMPTY_REGS, _EMPTY_REGS };
+const uint8_t _EMPTY_REGS[_REGS_MAX] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+const _Inst_t _EMPTY_INST            = { 0, 0, false, 0, false, _EMPTY_REGS, _EMPTY_REGS };
 
 /* Flash: */
 
@@ -92,7 +95,7 @@ const int IMU_USED_SETS_MAX = IMU_SETS_MAX;
 typedef struct {
   int[-1, _INST_MAX -1] index;
   int[0, IMU_WAYS_MAX -1] rp_way;
-  int tags[IMU_WAYS_MAX][IMU_USED_SETS_MAX];
+  int tags[IMU_WAYS_MAX][IMU_USED_SETS_MAX]; // TODO: set a range as [-1, ???]
 } IMU_ICache_t;
 
 typedef struct {
@@ -122,8 +125,10 @@ const int INCU_WEAKLY_______TAKEN = 2;
 const int INCU_STRONGLY_____TAKEN = 3;
 typedef struct {
   int[-1, _INST_MAX -1] index;
+//int[-1, _INST_MAX -1] target;
   int[-1, INCU_STRONGLY_____TAKEN +1] prediction;
 } InCU_BTB_Entry_t;
+const InCU_BTB_Entry_t INCU_EMPTY_BTB_ENTRY = { -1, /*-1,*/ INCU_STRONGLY_NOT_TAKEN };
 
 const int INCU_BTB_MAX = 8;
 typedef struct {
@@ -133,7 +138,7 @@ typedef struct {
 
 typedef struct {
   int[-1, _INST_MAX -1] index;
-  int cycles;
+  int[-1,_CYCLES_MAX] cycles;
   bool predict_taken;
   bool dynamic_prediction;
   bool taken;
@@ -142,7 +147,7 @@ const InCU_PC_t INCU_EMPTY_PC = { -1, -1, false, false, false };
 
 typedef struct {
   int[-1, _INST_MAX -1] index;
-  int cycles;
+  int[-1,_CYCLES_MAX] cycles;
   bool predict_taken;
   bool dynamic_prediction;
   bool taken;
@@ -157,7 +162,7 @@ typedef struct {
 
 typedef struct {
   int[-1, _INST_MAX -1] index;
-  int cycles;
+  int[-1,_CYCLES_MAX] cycles;
   bool predict_taken;
   bool dynamic_prediction;
   bool taken;
@@ -175,7 +180,7 @@ typedef struct {
 
 typedef struct {
   int[-1, _INST_MAX -1] index;
-  int cycles;
+  int[-1,_CYCLES_MAX] cycles;
   bool predict_taken;
   bool dynamic_prediction;
   bool taken;
@@ -210,18 +215,24 @@ int[ 0, _STACK_MAX   ] _stack_top;
 
 /* Binary: */
 
-const uint3_t cr0 =  0 , cr1 =  1 , cr2 =  2 , cr3 =  3 , cr4 =  4 , cr5 =  5 , cr6 =  6 , cr7 =  7;
-const uint5_t r0  =  0 , r1  =  1 , r2  =  2 , r3  =  3 , r4  =  4 , r5  =  5 , r6  =  6 , r7  =  7;
-const uint5_t r8  =  8 , r9  =  9 , r10 = 10 , r11 = 11 , r12 = 12 , r13 = 13 , r14 = 14 , r15 = 15;
-const uint5_t r16 = 16 , r17 = 17 , r18 = 18 , r19 = 19 , r20 = 20 , r21 = 21 , r22 = 22 , r23 = 23;
-const uint5_t r24 = 24 , r25 = 25 , r26 = 26 , r27 = 27 , r28 = 28 , r29 = 29 , r30 = 30 , r31 = 31;
+sint32_t CTR ,XER;
 
-uint4_t  CR[8];
-sint32_t GPRS[32], XER;
-sint32_t CTR;
+const int _CR_MAX = /* REPLACE_WITH_CR_MAX */ 1;
+const int[-1, _CR_MAX] IndCR[8] = /* REPLACE_WITH_INDCR */ { -1, -1, -1, -1, -1, -1, -1, -1 };
+uint4_t CR[_CR_MAX];
 
-sint32_t /* REPLACE_WITH_REGS */ _REGS;
+const uint3_t cr0 = 0;
+ /* REPLACE_WITH_CRS */
 
+const int _GPRS_MAX = /* REPLACE_WITH_GPRS_MAX */ 1;
+sint32_t GPRS[_GPRS_MAX];
+
+const uint3_t r0 = 0;
+ /* REPLACE_WITH_GPRS */
+
+const int _RETS_MAX = /* REPLACE_WITH_RETS_MAX */ 1;
+      int[-1, _INST_MAX -32] _Rets[_RETS_MAX] = /* REPLACE_WITH_RETS */ { -1 };
+const int[-1, _RETS_MAX] IndRets[_INST_MAX -32] = /* REPLACE_WITH_INDRETS */ { -1 };
 
 const _Inst_t _INSTS[_INST_MAX] = /* REPLACE_WITH_INSTS */ { _EMPTY_INST };
 
@@ -284,6 +295,7 @@ void _Init() {
 void _Stack_Push  (int index) { _Stack[_stack_top] = index; _stack_top++; }
 int  _Stack_Pop   (         ) { int index; _stack_top--; index = _Stack[_stack_top]; _Stack[_stack_top] = -1; return index; }
 bool _Stack_TopIs (int index) { return (_Stack[_stack_top -1] == index); }
+int  _Stack_Top   (         ) { return  _Stack[_stack_top -1]; }
 
 /* Flash: */
 
@@ -413,10 +425,8 @@ void InCU_Init() {
   int i;
 
   InCU.BTB.top = 0;
-  for (i = 0; i &lt; INCU_BTB_MAX; ++i) {
-    InCU.BTB.buffer[i].index = -1;
-    InCU.BTB.buffer[i].prediction = -1;
-  }
+  for (i = 0; i &lt; INCU_BTB_MAX; ++i)
+    InCU.BTB.buffer[i] = INCU_EMPTY_BTB_ENTRY;
 
   InCU.PC.index = -1;
   InCU.IBuff.count = 0;
@@ -426,69 +436,55 @@ void InCU_Init() {
 }
 
 void InCU_PC_Set(int index) {
-  int  btb_entry;
+  int  btb_entry = INCU_BTB_MAX;
   bool doBreak;
 
   InCU.PC        = INCU_EMPTY_PC;
   InCU.PC.index  = index;
   InCU.PC.cycles = _INSTS[InCU.PC.index].cycles;
 
-  doBreak = false;
-  for (btb_entry = 0; !doBreak &amp;&amp; btb_entry &lt; INCU_BTB_MAX; ++btb_entry)
-    if (InCU.BTB.buffer[btb_entry].index == InCU.PC.index) {
-      doBreak = true; /* No 'break' keyword in UPPAAL, 'doBreak' emulate a breaking behavior. */
-      btb_entry--;    /* We must decrement 'btb_entry' to match the behavior of a real 'break' */
+  if (USE_DYNAMIC_PREDICTION) {
+    doBreak = false;
+    for (btb_entry = 0; !doBreak &amp;&amp; btb_entry &lt; INCU_BTB_MAX; ++btb_entry)
+      if (InCU.BTB.buffer[btb_entry].index == InCU.PC.index) {
+        doBreak = true; /* No 'break' keyword in UPPAAL, 'doBreak' emulate a breaking behavior. */
+        btb_entry--;    /* We must decrement 'btb_entry' to match the behavior of a real 'break' */
+      }
+
+    if (btb_entry != INCU_BTB_MAX) {
+      InCU.PC.dynamic_prediction = true;
+
+      if (InCU.BTB.buffer[btb_entry].prediction == INCU_WEAKLY_______TAKEN
+      ||  InCU.BTB.buffer[btb_entry].prediction == INCU_STRONGLY_____TAKEN)
+        InCU.PC.predict_taken = true;
     }
-
-  if (btb_entry != INCU_BTB_MAX) {
-    InCU.PC.dynamic_prediction = true;
-
-    if (InCU.BTB.buffer[btb_entry].prediction == INCU_WEAKLY_______TAKEN
-    ||  InCU.BTB.buffer[btb_entry].prediction == INCU_STRONGLY_____TAKEN)
-      InCU.PC.predict_taken = true;
   }
 }
 
 void InCU_PC_Update() {
   int index;
+  int btb_entry;
+  bool doBreak;
 
   index = InCU.PC.index +1;
-  if (InCU.PC.dynamic_prediction
-  &amp;&amp;  InCU.PC.predict_taken)
-    index = _INSTS[InCU.PC.index].target;
+  if (USE_DYNAMIC_PREDICTION) {
+    btb_entry = -1;
+    if (InCU.PC.dynamic_prediction 
+    &amp;&amp;  InCU.PC.predict_taken) {
+      doBreak = false;
+      for (btb_entry = 0; !doBreak &amp;&amp; btb_entry &lt; INCU_BTB_MAX; ++btb_entry)
+        if (InCU.BTB.buffer[btb_entry].index == InCU.PC.index) {
+          doBreak = true; /* No 'break' keyword in UPPAAL, 'doBreak' emulate a breaking behavior. */
+          btb_entry--;    /* We must decrement 'btb_entry' to match the behavior of a real 'break' */
+        }
+    }
+
+  //index = (btb_entry ==        -1 ? InCU.PC.index +1 : InCU.BTB.buffer[btb_entry].target );
+    index = (btb_entry ==        -1 ? InCU.PC.index +1 : _INSTS[InCU.PC.index].target );
+    index = (index     != _INST_MAX ? index            : _Rets[IndRets[InCU.PC.index]] ); /* bclr case. */
+  }
 
   InCU_PC_Set(index);
-}
-
-void InCU_BTB_Update(int index, bool taken) {
-  int i;
-  int btb_index = -1;
-
-  for (i = 0; i &lt; INCU_BTB_MAX; ++i)
-    if (InCU.BTB.buffer[i].index == index)
-      btb_index = i;
-    
-  if (btb_index != -1) {
-    // Fix prediction
-    if (taken) {
-      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction +1;
-      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &gt; INCU_STRONGLY_____TAKEN) ? INCU_STRONGLY_____TAKEN : InCU.BTB.buffer[btb_index].prediction;
-    } else {
-      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction -1;
-      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &lt; INCU_STRONGLY_NOT_TAKEN) ? INCU_STRONGLY_NOT_TAKEN : InCU.BTB.buffer[btb_index].prediction;
-    }
-
-  } else {
-    /* "On initial allocation of an entry to the BTB for a taken branch,
-     *  the counter is initialized to the weakly-taken state."
-     *  (cf. e200z4 manual, p. 4-7) */
-    if (taken) { // Insert (FIFO)
-      InCU_BTB_Entry_t new_entry = {index, INCU_WEAKLY_______TAKEN};
-
-      InCU.BTB.buffer[InCU.BTB.top] = new_entry;
-      InCU.BTB.top = (InCU.BTB.top +1) % INCU_BTB_MAX;
-    }
-  }
 }
 
 bool InCU_IBuff_IsFull() {
@@ -546,6 +542,50 @@ void InCU_Update() {
   InCU_PC_Update();
 }
 
+void InCU_BTB_Update(int index, int target, bool taken) {
+  int i;
+  int btb_index = -1;
+
+  for (i = 0; i &lt; INCU_BTB_MAX; ++i)
+    if (InCU.BTB.buffer[i].index == index)
+      btb_index = i;
+    
+  if (btb_index != -1) {
+    // Fix prediction
+    if (taken) {
+      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction +1;
+      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &gt; INCU_STRONGLY_____TAKEN) ? INCU_STRONGLY_____TAKEN : InCU.BTB.buffer[btb_index].prediction;
+      /* if (target != InCU.BTB.buffer[btb_index].target) {
+        InCU.BTB.buffer[btb_index].target = target;
+        InCU_Flush(EUS_PIPELINE_E);
+        InCU_PC_Set(target);
+      } */
+      if (_INSTS[index].target == _INST_MAX
+      &amp;&amp;  target != _Rets[IndRets[index]]) {
+        _Rets[IndRets[index]] = target;
+        InCU_Flush(EUS_PIPELINE_E);
+        InCU_PC_Set(target);
+      }
+    } else {
+      InCU.BTB.buffer[btb_index].prediction =  InCU.BTB.buffer[btb_index].prediction -1;
+      InCU.BTB.buffer[btb_index].prediction = (InCU.BTB.buffer[btb_index].prediction &lt; INCU_STRONGLY_NOT_TAKEN) ? INCU_STRONGLY_NOT_TAKEN : InCU.BTB.buffer[btb_index].prediction;
+    }
+
+  } else {
+    /* "On initial allocation of an entry to the BTB for a taken branch,
+     *  the counter is initialized to the weakly-taken state."
+     *  (cf. e200z4 manual, p. 4-7) */
+    if (taken) { // Insert (FIFO)
+      InCU_BTB_Entry_t new_entry = {index, /*target,*/ INCU_WEAKLY_______TAKEN};
+
+      InCU.BTB.buffer[InCU.BTB.top] = new_entry;
+      InCU.BTB.top = (InCU.BTB.top +1) % INCU_BTB_MAX;
+      if (_INSTS[index].target == _INST_MAX)
+        _Rets[IndRets[index]] = target;
+    }
+  }
+}
+
 /* Execution Units (EUs): */
 
 void EUs_Init() {
@@ -594,6 +634,7 @@ bool EUs_W_DoStall() { return SRAM.executing; }
 
 void EUs_Update() {
   bool do_stall = false;
+  int[0, _INST_MAX] target;
   
   // Execute W (if doesn't stall):
   EUs.pipeline[EUS_PIPELINE_W] = EUS_EMPTY_PIPELINE_STAGE;
@@ -643,18 +684,15 @@ void EUs_Update() {
     // inst. in D is a backward branch then statically predict taken
     if (EUs.pipeline[EUS_PIPELINE_D] != EUS_EMPTY_PIPELINE_STAGE
     &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D].index].do_branch
-    &amp;&amp; !EUs.pipeline[EUS_PIPELINE_D].dynamic_prediction  
-    &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D].index].target &lt; EUs.pipeline[EUS_PIPELINE_D].index) {
-      EUs.pipeline[EUS_PIPELINE_D].predict_taken = true;
-      InCU_Flush(EUS_PIPELINE_D); // TODO: check wether it should be done or not
-      InCU_PC_Set(_INSTS[EUs.pipeline[EUS_PIPELINE_D].index].target);
+    &amp;&amp; !EUs.pipeline[EUS_PIPELINE_D].dynamic_prediction) {
 
-
-      ////////////////////////////////////////
-      // CANT USE .target ON BCLR BRANCHES! //
-      ////////////////////////////////////////
-
-
+      target = _INSTS[EUs.pipeline[EUS_PIPELINE_D].index].target;
+      target = (target == _INST_MAX ? _Stack_Top() : target); /* Check for bclr case. */
+      if (target &lt; EUs.pipeline[EUS_PIPELINE_D].index) {
+        EUs.pipeline[EUS_PIPELINE_D].predict_taken = true;
+        InCU_Flush(EUS_PIPELINE_D); // TODO: check wether it should be done or not
+        InCU_PC_Set(target);
+      }
     }
   }
 }
@@ -681,6 +719,19 @@ sint32_t EXTS ( sint32_t field, uint5_t sign_bit ) { setBits (field, 31, sign_bi
 sint32_t ROTL ( sint32_t field, uint5_t n ) { sint32_t shl = (field &lt;&lt; n); sint32_t shr = (field &gt;&gt; (32 - n)); return (shl | shr); }
 sint32_t MASK ( uint5_t  me, uint5_t  mb ) { sint32_t field; if (me &gt;= mb) { setBits (field, 31, 0, 0); setBits (field, me   , mb   , 1); }
                                                              else          { setBits (field, 31, 0, 1); setBits (field, mb -1, me +1, 0); } return field; }
+
+uint4_t  getCRn  ( uint3_t crfD                             ) { return CR[IndCR[crfD]]; }
+sint32_t getCTR  (                                          ) { return CTR;             }
+uint4_t  getXER  (                                          ) { return XER;             }
+uint1_t  getCRni ( uint3_t crfD , uint2_t i                 ) { return (CR[IndCR[crfD]] &gt;&gt; i) % 2; }
+uint1_t  getXERi (                uint2_t i                 ) { return (XER             &gt;&gt; i) % 2; }
+
+void     setCRn  ( uint3_t crfD ,             uint4_t  bbbb ) { CR[IndCR[crfD]] = bbbb; }
+void     setCTR  (                            sint32_t word ) { CTR             = word; }
+void     setXER  (                            uint4_t  bbbb ) { XER             = bbbb; }
+void     setCRni ( uint3_t crfD , uint2_t i , uint1_t  b    ) { uint4_t bbbb = getCRn(crfD); bbbb = ( b ? (bbbb | (1 &lt;&lt; i)) : (bbbb &amp; NOT(1 &lt;&lt; i)) ); setCRn(crfD, bbbb); }
+void     setXERi (                uint2_t i , uint1_t  b    ) { uint4_t bbbb = getXER(    ); bbbb = ( b ? (bbbb | (1 &lt;&lt; i)) : (bbbb &amp; NOT(1 &lt;&lt; i)) ); setXER(      bbbb); }
+
 void to_MEM  ( sint32_t addr, uint5_t size, sint32_t blob ) {
   int[0,4] i;
   int[0, _BSS_MAX] bss_index;
@@ -717,18 +768,15 @@ sint32_t from_MEM  ( sint32_t addr, uint5_t size ) {
   return blob;
 }
 
-void setCR  ( uint3_t crfD , uint2_t i , uint1_t b ) { CR[crfD] = ( b ? (CR[crfD] | (1 &lt;&lt; i)) : (CR[crfD] &amp; NOT(1 &lt;&lt; i)) ); }
-void setXER (                uint2_t i , uint1_t b ) { XER      = ( b ? (XER      | (1 &lt;&lt; i)) : (XER      &amp; NOT(1 &lt;&lt; i)) ); }
-
 bool  z () { return ((CTR -1) == 0);    }
 bool nz () { return !z();               }
 
-bool eq ( uint3_t crfD ) { return getBit(CR[crfD], CR_EQ); }
-bool gt ( uint3_t crfD ) { return getBit(CR[crfD], CR_GT); }
-bool lt ( uint3_t crfD ) { return getBit(CR[crfD], CR_LT); }
-bool ne ( uint3_t crfD ) { return !eq(crfD);           }
-bool le ( uint3_t crfD ) { return !gt(crfD);           }
-bool ge ( uint3_t crfD ) { return !lt(crfD);           }
+bool eq ( uint3_t crfD ) { return getBit(getCRn(crfD), CR_EQ); }
+bool gt ( uint3_t crfD ) { return getBit(getCRn(crfD), CR_GT); }
+bool lt ( uint3_t crfD ) { return getBit(getCRn(crfD), CR_LT); }
+bool ne ( uint3_t crfD ) { return !eq(crfD);                   }
+bool le ( uint3_t crfD ) { return !gt(crfD);                   }
+bool ge ( uint3_t crfD ) { return !lt(crfD);                   }
 
 const int OP_ADD   =  0;
 const int OP_AND   =  1;
@@ -785,7 +833,7 @@ void _ARITHM( int op, int arg, int qual, bool carries , uint5_t rD, uint5_t rA, 
   sint32_t rA_sval = GPRS[rA], rB_sval = GPRS[rB], rD_sval;
 //uint32_t rA_uval = GPRS[rA], rB_uval = GPRS[rB]; // TODO: fix
 
-  uint1_t CA = getBit (XER, XER_CA);
+  uint1_t CA = getXERi(XER_CA);
   if ( op == OP_ADD ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] =  rA_sval + ( rB_sval &lt;&lt;  0 )       ; }
                                                  if ( qual == QUAL_EXTEND           ) { GPRS[rD] =  rA_sval + ( rB_sval &lt;&lt;  0 )  + CA ; }
                                                  if ( qual == QUAL_SHIFT            ) { GPRS[rD] =  rA_sval + ( rB_sval &lt;&lt; 16 )       ; }
@@ -796,7 +844,7 @@ void _ARITHM( int op, int arg, int qual, bool carries , uint5_t rD, uint5_t rA, 
                                                  if ( qual == QUAL_SHIFT            ) { GPRS[rD] =  rA_sval + ( SIMM     &lt;&lt; 16 )      ; } }
                         if ( arg == ARG_NONE ) { if ( qual == QUAL_EXTEND_MINUS_ONE ) { GPRS[rD] =  rA_sval - ( 1        &lt;&lt;  0 ) + CA ; }
                                                  if ( qual == QUAL_EXTEND_ZERO      ) { GPRS[rD] =  rA_sval                      + CA ; } }
-                        if ( carries         ) { setXER (XER_CA, false)                                                               ; } } /* Always false as UPPAAL disallow overflowing. */
+                        if ( carries         ) { setXERi (XER_CA, false)                                                              ; } } /* Always false as UPPAAL disallow overflowing. */
 
   if ( op == OP_SUB ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] = -rA_sval + ( rB_sval &lt;&lt;  0 )       ; }
                                                  if ( qual == QUAL_EXTEND           ) { GPRS[rD] = -rA_sval + ( rB_sval &lt;&lt;  0 )  + CA ; }
@@ -806,7 +854,7 @@ void _ARITHM( int op, int arg, int qual, bool carries , uint5_t rD, uint5_t rA, 
                                                  if ( qual == QUAL_SHIFT            ) { GPRS[rD] = -rA_sval + ( SIMM     &lt;&lt; 16 )      ; } }
                         if ( arg == ARG_NONE ) { if ( qual == QUAL_EXTEND_MINUS_ONE ) { GPRS[rD] = -rA_sval - ( 1        &lt;&lt;  0 ) + CA ; }
                                                  if ( qual == QUAL_EXTEND_ZERO      ) { GPRS[rD] = -rA_sval                      + CA ; } }
-                        if ( carries         ) { setXER (XER_CA, false)                                                               ; } } /* Always false as UPPAAL disallow overflowing. */
+                        if ( carries         ) { setXERi (XER_CA, false)                                                              ; } } /* Always false as UPPAAL disallow overflowing. */
 
   if ( op == OP_DIV ) { if ( arg == ARG_REG  ) { if ( qual == QUAL_NONE             ) { GPRS[rD] =  rA_sval /   rB_sval               ; }  
                                                  if ( qual == QUAL_UNSIGNED         ) { GPRS[rD] =  rA_sval /   rB_sval               ; } } } // TODO: set back to rA_uval
@@ -816,12 +864,12 @@ void _ARITHM( int op, int arg, int qual, bool carries , uint5_t rD, uint5_t rA, 
                                                  if ( qual == QUAL_MSB              ) { GPRS[rD] =  rA_sval *   rB_sval               ; }   } // TODO: 64-bit multiplication; store the 32 MSB in rD
 
   rD_sval = GPRS[rD];
-  if ( OE ) { setXER (     XER_OV, false                        );   /* Always false as UPPAAL disallow overflowing. */
-              setXER (     XER_SO, getBit (XER, XER_OV)         ); }
-  if ( Rc ) { setCR  (cr0,  CR_SO, getBit (XER, XER_SO)         );
-              setCR  (cr0,  CR_EQ, (rD_sval == 0 ? true : false));
-              setCR  (cr0,  CR_GT, (rD_sval &gt;  0 ? true : false));
-              setCR  (cr0,  CR_LT, (rD_sval &lt;  0 ? true : false)); }
+  if ( OE ) { setXERi (     XER_OV, false                        );   /* Always false as UPPAAL disallow overflowing. */
+              setXERi (     XER_SO, getBit (XER, XER_OV)         ); }
+  if ( Rc ) { setCRni (cr0,  CR_SO, getBit (XER, XER_SO)         );
+              setCRni (cr0,  CR_EQ, (rD_sval == 0 ? true : false));
+              setCRni (cr0,  CR_GT, (rD_sval &gt;  0 ? true : false));
+              setCRni (cr0,  CR_LT, (rD_sval &lt;  0 ? true : false)); }
 }
 
 void _add      ( uint5_t rD , uint5_t rA  , uint5_t  rB   ) { _ARITHM( OP_ADD , ARG_REG  , QUAL_NONE             , false , rD ,  rA , rB , 0    , false , false ); }
@@ -926,7 +974,8 @@ void _COMPARE( int op, int arg, int qual, uint3_t crfD, uint5_t rA, uint5_t rB, 
   else if ( a &gt; b ) { c = (1 &lt;&lt; CR_GT); }
   else              { c = (1 &lt;&lt; CR_EQ); }
 
-  CR[crfD] = c | getBit(XER, XER_SO);
+  c |= getXERi(XER_SO);
+  setCRn (crfD, c);
 }
 
 void _cmp    ( uint3_t crfD , uint5_t rA , uint5_t  rB   ) { _COMPARE( OP_CMP , ARG_REG  , QUAL_NONE    , crfD , rA , rB , 0    ); }
@@ -976,12 +1025,12 @@ void _LOGICAL( int op, int arg, int qual, int size, uint5_t rA, uint5_t rS, uint
                                                   if ( qual == QUAL_SHIFT      ) { GPRS[rA] =    ( rS_uval ^    ( rB_uval &lt;&lt; 16 ) ); } } }
 
   rA_sval = GPRS[rA]; // TODO: consider as unsigned?
-  if ( OE ) { setXER (     XER_OV, false                        );   /* Always false as UPPAAL disallow overflowing. */
-              setXER (     XER_SO, getBit (XER, XER_OV)         ); }
-  if ( Rc ) { setCR  (cr0,  CR_SO, getBit (XER, XER_SO)         );
-              setCR  (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
-              setCR  (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
-              setCR  (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
+  if ( OE ) { setXERi (     XER_OV, false                        );   /* Always false as UPPAAL disallow overflowing. */
+              setXERi (     XER_SO, getBit (XER, XER_OV)         ); }
+  if ( Rc ) { setCRni (cr0,  CR_SO, getBit (XER, XER_SO)         );
+              setCRni (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
+              setCRni (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
+              setCRni (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
 }
 
 void _and     ( uint5_t rA , uint5_t rS , uint5_t  rB   ) { _LOGICAL( OP_AND  , ARG_REG  , QUAL_NONE       , SIZE_NONE     , rA , rS , rB , 0    , false , false ); }
@@ -1045,10 +1094,10 @@ void _ROTATE( int op, int arg, int qual, uint5_t rA, uint5_t rS, uint5_t rB, uin
                          if ( qual == QUAL_MASKINSERT ) { GPRS[rA] = (r &amp; m) | ( rA_uval &amp; NOT( m ) ); } }
 
   rA_sval = GPRS[rA]; // TODO: consider as unsigned?
-  if ( Rc ) { setCR  (cr0,  CR_SO, getBit (XER, XER_SO)         );
-              setCR  (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
-              setCR  (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
-              setCR  (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
+  if ( Rc ) { setCRni (cr0,  CR_SO, getXERi(XER_SO)               );
+              setCRni (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
+              setCRni (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
+              setCRni (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
 }
 
 void _rlwnm     ( uint5_t rA , uint5_t rS , uint5_t rB , uint5_t MB , uint5_t ME ) { _ROTATE( OP_ROTL , ARG_REG  , QUAL_ANDMASK    , rA , rS , rB , 0  , 31 - ME , 31 - MB , false ); }
@@ -1109,13 +1158,13 @@ void _SHIFT( int op, int arg, int qual, uint5_t rA, uint5_t rS, uint5_t rB, uint
   GPRS[rA] = r &amp; m;
   if ( qual == QUAL_ALGEBRAIC )
   { GPRS[rA] |= _32xS &amp; NOT( m );
-    setBit (XER, XER_CA, (S &amp; ((r &amp; NOT( m )) != 0))); }
+    setXERi(XER_CA, (S &amp; ((r &amp; NOT( m )) != 0))); }
 
   rA_sval = GPRS[rA]; // TODO: consider as unsigned?
-  if ( Rc ) { setCR  (cr0,  CR_SO, getBit (XER, XER_SO)         );
-              setCR  (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
-              setCR  (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
-              setCR  (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
+  if ( Rc ) { setCRni (cr0,  CR_SO, getXERi(XER_SO)              );
+              setCRni (cr0,  CR_EQ, (rA_sval == 0 ? true : false));
+              setCRni (cr0,  CR_GT, (rA_sval &gt;  0 ? true : false));
+              setCRni (cr0,  CR_LT, (rA_sval &lt;  0 ? true : false)); }
 }
 
 void _slw    ( uint5_t rA , uint5_t rS , uint5_t rB ) { _SHIFT( OP_SHL , ARG_REG  , QUAL_LOGICAL   , rA , rS , rB , 0  , false ); }
@@ -1204,35 +1253,35 @@ const int BO_____ctr_________ = 18;
 const int BO_________________ = 20; // Branch always
 
 void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32_t target_addr, uint1_t AA, uint1_t LK ) {
-  int[0, _INST_MAX -1] next_index, target_index;
+  int[0, _INST_MAX] next_index, target_index;
 
   bool ctr_ok, cond_ok;
   uint3_t crfD     = BI / 4;
   uint2_t crfD_bit = BI % 4; 
   if ( conditional )
-  { if (!getBit(BO, 2)) { CTR = CTR -1; }
-    ctr_ok  = getBit(BO, 2) || ((CTR != 0) ^ getBit(BO, 1));
-    cond_ok = getBit(BO, 4) || (getBit(CR[crfD], crfD_bit) == getBit(BO, 3)); }
+    { if (!getBit(BO, 2)) { setCTR(getCTR() -1); }
+    ctr_ok  = getBit(BO, 2) || ((getCTR() != 0) ^ getBit(BO, 1));
+    cond_ok = getBit(BO, 4) || (getCRni (crfD, crfD_bit) == getBit(BO, 3)); }
 
   if ( !conditional ) { EUs.pipeline[EUS_PIPELINE_E].taken = (                      true        ); }
   if (  conditional ) { EUs.pipeline[EUS_PIPELINE_E].taken = ((ctr_ok &amp;&amp; cond_ok) ? true : false); }
 
-  next_index = EUs.pipeline[EUS_PIPELINE_E].index +1;
+  next_index   =        EUs.pipeline[EUS_PIPELINE_E].index +1;
+  target_index = _INSTS[EUs.pipeline[EUS_PIPELINE_E].index].target;
+  target_index = (qual == QUAL_TOLR ? _Stack_Pop () : target_index);
+  InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E].index, target_index, EUs.pipeline[EUS_PIPELINE_E].taken); /* Updates the BTB. */
+
   if ( LK ) { _Stack_Push (next_index); }
 
-  /* Update the BTB: */
-  InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E].index, EUs.pipeline[EUS_PIPELINE_E].taken);
-
-  /* Check for incorrect predictions: */
+  /* Check for incorrect predictions (predict taken but not taken): */
   if (EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].taken) {
     InCU_Flush(EUS_PIPELINE_E);
-    InCU_PC_Set(EUs.pipeline[EUS_PIPELINE_E].index +1);
+    InCU_PC_Set(next_index);
   }
 
+  /* Check for incorrect predictions (predict not taken but taken): */
   if (!EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; EUs.pipeline[EUS_PIPELINE_E].taken) {
     InCU_Flush(EUS_PIPELINE_E);
-
-    target_index = ( qual == QUAL_TOLR ? _Stack_Pop () : _INSTS[EUs.pipeline[EUS_PIPELINE_E].index].target);
     InCU_PC_Set(target_index);
   }
 }
@@ -1412,29 +1461,29 @@ void _bnuctrl  ( uint3_t crfD                                                  )
 
 // Processor control instructions:
 
-void _mfxer ( uint5_t rD               ) { GPRS[rD]  = XER;               }
-void _mfctr ( uint5_t rD               ) { GPRS[rD]  = CTR;               }
-void _mfcr  ( uint5_t rD               ) { GPRS[rD]  = (CR[0] &lt;&lt;  0);
-                                           GPRS[rD] |= (CR[1] &lt;&lt;  4); 
-                                           GPRS[rD] |= (CR[2] &lt;&lt;  8); 
-                                           GPRS[rD] |= (CR[3] &lt;&lt; 12); 
-                                           GPRS[rD] |= (CR[4] &lt;&lt; 16); 
-                                           GPRS[rD] |= (CR[5] &lt;&lt; 20); 
-                                           GPRS[rD] |= (CR[6] &lt;&lt; 24); 
-                                           GPRS[rD] |= (CR[7] &lt;&lt; 28);     }
+void _mfxer ( uint5_t rD               ) { GPRS[rD]  = getXER();          }
+void _mfctr ( uint5_t rD               ) { GPRS[rD]  = getCTR();          }
+void _mfcr  ( uint5_t rD               ) { GPRS[rD]  = (getCRn(0) &lt;&lt;  0);
+                                           GPRS[rD] |= (getCRn(1) &lt;&lt;  4); 
+                                           GPRS[rD] |= (getCRn(2) &lt;&lt;  8); 
+                                           GPRS[rD] |= (getCRn(3) &lt;&lt; 12); 
+                                           GPRS[rD] |= (getCRn(4) &lt;&lt; 16); 
+                                           GPRS[rD] |= (getCRn(5) &lt;&lt; 20); 
+                                           GPRS[rD] |= (getCRn(6) &lt;&lt; 24); 
+                                           GPRS[rD] |= (getCRn(7) &lt;&lt; 28);     }
 void _mfspr ( uint5_t rD , uint5_t spr ) { if (spr == 1) { _mfxer (rD); }
                                            if (spr == 9) { _mfctr (rD); } }
 
-void _mtcrf ( uint8_t CRM , uint5_t rS ) { CR[0] = (getBit(CRM, 7) ? CR[0] : getBits(rS, (7 * 4) + 3, (7 * 4) + 0));
-                                           CR[1] = (getBit(CRM, 6) ? CR[1] : getBits(rS, (6 * 4) + 3, (6 * 4) + 0));
-                                           CR[2] = (getBit(CRM, 5) ? CR[2] : getBits(rS, (5 * 4) + 3, (5 * 4) + 0));
-                                           CR[3] = (getBit(CRM, 4) ? CR[3] : getBits(rS, (4 * 4) + 3, (4 * 4) + 0));
-                                           CR[4] = (getBit(CRM, 3) ? CR[4] : getBits(rS, (3 * 4) + 3, (3 * 4) + 0));
-                                           CR[5] = (getBit(CRM, 2) ? CR[5] : getBits(rS, (2 * 4) + 3, (2 * 4) + 0));
-                                           CR[6] = (getBit(CRM, 1) ? CR[6] : getBits(rS, (1 * 4) + 3, (1 * 4) + 0));
-                                           CR[7] = (getBit(CRM, 0) ? CR[7] : getBits(rS, (0 * 4) + 3, (0 * 4) + 0)); }
-void _mtxer (               uint5_t rS ) { XER = GPRS[rS];                }
-void _mtctr (               uint5_t rS ) { CTR = GPRS[rS];                }
+void _mtcrf ( uint8_t CRM , uint5_t rS ) { setCRn(0, (getBit(CRM, 7) ? getCRn(0) : getBits(rS, (7 * 4) + 3, (7 * 4) + 0)));
+                                           setCRn(1, (getBit(CRM, 6) ? getCRn(1) : getBits(rS, (6 * 4) + 3, (6 * 4) + 0)));
+                                           setCRn(2, (getBit(CRM, 5) ? getCRn(2) : getBits(rS, (5 * 4) + 3, (5 * 4) + 0)));
+                                           setCRn(3, (getBit(CRM, 4) ? getCRn(3) : getBits(rS, (4 * 4) + 3, (4 * 4) + 0)));
+                                           setCRn(4, (getBit(CRM, 3) ? getCRn(4) : getBits(rS, (3 * 4) + 3, (3 * 4) + 0)));
+                                           setCRn(5, (getBit(CRM, 2) ? getCRn(5) : getBits(rS, (2 * 4) + 3, (2 * 4) + 0)));
+                                           setCRn(6, (getBit(CRM, 1) ? getCRn(6) : getBits(rS, (1 * 4) + 3, (1 * 4) + 0)));
+                                           setCRn(7, (getBit(CRM, 0) ? getCRn(7) : getBits(rS, (0 * 4) + 3, (0 * 4) + 0))); }
+void _mtxer (               uint5_t rS ) { setXER(GPRS[rS]);              }
+void _mtctr (               uint5_t rS ) { setCTR(GPRS[rS]);              }
 void _mtspr ( uint5_t spr , uint5_t rS ) { if (spr == 1) { _mtxer (rS); }
                                            if (spr == 9) { _mtctr (rS); } }
 

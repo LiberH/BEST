@@ -370,22 +370,11 @@ CFG::fall_into (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_slice
 
   oss_grd << " &&" << endl << "EUs_ExecuteNext(" << dec << src_inst -> m_num  <<  ")";
   if (in_slice) { oss_upd << "execute_" << hex << src_inst -> m_addr << "()"; }
-
-  size_t bl_pos = src_inst -> m_disass.find ("bl ");
-  if (bl_pos != string::npos)
-    {
-      if (in_slice) oss_upd << "," << endl;
-      oss_upd << "_Stack_Push(" << dec << src_inst -> m_num +1 << ")";
-    }
   
   size_t bclr_pos = src_inst -> m_disass.find ("bclr- ");
   if (bclr_pos != string::npos
   &&  taken)
-    {
-      oss_grd << " &&" << endl << "_Stack_TopIs(" << dec << trg_inst -> m_num << ")";
-      if (in_slice) oss_upd << "," << endl;
-      oss_upd << "_Stack_Pop()";
-    }
+    oss_grd << " &&" << endl << "_Stack_TopIs(" << dec << trg_inst -> m_num << ")";
 
   grd = oss_grd.str ();
   upd = oss_upd.str ();
@@ -403,16 +392,18 @@ CFG::fall_into (XMLDocument *doc, Inst * src_inst, Inst *trg_inst, bool in_slice
 }
 
 static
-string reg_names[62] = {
-  "cr"      , "ctr"   , "l1csr0" , "l1csr1" , "l1finv1" , "lr"   , "msr"  , "pc"   ,
-  "serial0" , "srr0"  , "srr1"   , "xer"    , "hit"     , "miss" , "XXXX" , "XXXX" ,
-  "cr0"     , "cr1"   , "cr2"    , "cr3"    , "cr4"     , "cr5"  , "cr6"  , "cr7"  ,
-   "XXXX"   , "XXXX"  , "XXXX"   , "XXXX"   , "XXXX"    , "XXXX" ,
+string reg_names[64] = {
+  /*  0 */ "cr"   , /*  1 */ "ctr" , /*  2 */ "XX2" , /*  3 */ "XX3" , /*  4 */ "XX4" , /*  5 */ "lr"  , /*  6 */ "XX6" , /*  7 */ "pc"  ,
+  /*  8 */ "XX8"  , /*  9 */ "XX9" , /* 10 */ "X10" , /* 11 */ "xer" , /* 12 */ "X12" , /* 13 */ "X13" , /* 14 */ "X14" , /* 15 */ "X15" ,
+  /* 16 */ "cr0"  , /* 17 */ "cr1" , /* 18 */ "cr2" , /* 19 */ "cr3" , /* 20 */ "cr4" , /* 21 */ "cr5" , /* 22 */ "cr6" , /* 23 */ "cr7" ,
+  /* 24 */  "X24" , /* 25 */ "X25" , /* 26 */ "X26" , /* 27 */ "X27" , /* 28 */ "X28" , /* 29 */ "X29" ,
   
-  "r0"  , "r1"  , "r2"  , "r3"  , "r4"  , "r5"  , "r6"  , "r7"  ,
-  "r8"  , "r9"  , "r10" , "r11" , "r12" , "r13" , "r14" , "r15" ,
-  "r16" , "r17" , "r18" , "r19" , "r20" , "r21" , "r22" , "r23" ,
-  "r24" , "r25" , "r26" , "r27" , "r28" , "r29" , "r30" , "r31" };
+  /* 30 */ "r0"  , /* 31 */ "r1"  , /* 32 */ "r2"  , /* 33 */ "r3"  , /* 34 */ "r4"  , /* 35 */ "r5"  , /* 36 */ "r6"  , /* 37 */ "r7"  ,
+  /* 38 */ "r8"  , /* 39 */ "r9"  , /* 40 */ "r10" , /* 41 */ "r11" , /* 42 */ "r12" , /* 43 */ "r13" , /* 44 */ "r14" , /* 45 */ "r15" ,
+  /* 46 */ "r16" , /* 47 */ "r17" , /* 48 */ "r18" , /* 49 */ "r19" , /* 50 */ "r20" , /* 51 */ "r21" , /* 52 */ "r22" , /* 53 */ "r23" ,
+  /* 54 */ "r24" , /* 55 */ "r25" , /* 56 */ "r26" , /* 57 */ "r27" , /* 58 */ "r28" , /* 59 */ "r29" , /* 60 */ "r30" , /* 61 */ "r31" ,
+  /* 62 */ "X62" , /* 63 */ "X63"
+};
 
 struct pos {int x; int y;};
 
@@ -483,12 +474,43 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   u32             data_addr  = cfg -> m_data_addr;
   vector<s32   > *bss        = cfg -> m_bss;
   u32             bss_addr   = cfg -> m_bss_addr;
-  u64 refs = 0;
-  vector<Inst *>::iterator inst_it = slice -> begin ();  
-  for (; inst_it != slice -> end (); ++inst_it)
+  
+  u64 regs = 0;
+  ostringstream semantics_oss;
+  int slice_size = slice -> size ();
+  sort (slice -> begin (), slice -> end (), Inst::byAddr);
+  for (int i = 0; i < slice_size; ++i)
     {
-      Inst *inst = *inst_it;
+      Inst *inst = (*slice)[i];
+      regs |= inst -> m_refs | inst -> m_defs;
+      /* TODO: should not add defs regs when slicing
       refs |= inst -> m_refs;
+      defs |= inst -> m_defs;
+      diff = refs ^ defs;
+      // `diff' is the list of set but not used registers
+      //   (as there shall not be use but not set registers).
+      // wrt. that these reisters could be declared as `const' in the model.
+       */
+      
+      /////
+      
+      semantics_oss << "void execute_" << hex << inst -> m_addr << "() {"
+		    << " " << inst -> m_function << "; "
+		    << "}" << endl;
+    }
+
+  int n_rets = 0;
+  int insts_size = insts -> size ();
+  vector<int> indRets (insts_size);
+  sort (insts -> begin (), insts -> end (), Inst::byAddr);
+  for (int i = 0; i < insts_size; ++i)
+    {
+      Inst *inst = (*insts)[i];
+      
+      indRets[i] = -1;
+      size_t bclr_pos = inst -> m_disass.find ("bclr- ");
+      if (bclr_pos != string::npos)
+	indRets[i] = n_rets++;
     }
   
   int n_insts = insts -> size ();
@@ -513,15 +535,117 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   ostringstream bss_addr_oss;
   bss_addr_oss << " " << dec << ((n_bss == 0) ? 0 : bss_addr) << ";";
   string bss_addr_str = bss_addr_oss.str ();
-  
-  ostringstream regs_oss;
-  bitset<64> bs (refs & ~0b100010000011);
-  for (int b = 0; b < 30; ++b)
+
+  int ri  = 1;
+  int cr_count = 1, cr_num;
+  int indCR[8] = { 0, -1, -1, -1, -1, -1, -1, -1 };
+  ostringstream crs_oss;
+  ostringstream gprs_oss;
+  bitset<64> bs (regs);
+  for (int b = 0; b < 64; ++b)
     if (bs[b])
-      regs_oss << " " << reg_names[b] << ",";
-  regs_oss.seekp (-1, regs_oss.cur);
-  regs_oss << ";";
-  string regs_str = regs_oss.str ();
+      switch (b)
+	{
+	case  0: /* "cr"  */ break; /* replaced by cr0 to cr7 */
+	case  1: /* "ctr" */ break; /* already in template    */
+	case  5: /* "lr"  */ break; /* not used               */
+	case  7: /* "pc"  */ break; /* not used               */
+	case 11: /* "xer" */ break; /* already in template    */
+	case 16: /* "cr0" */ break; /* already in template    */
+	case 17: /* "cr1" */
+	case 18: /* "cr2" */
+	case 19: /* "cr3" */
+	case 20: /* "cr4" */
+	case 21: /* "cr5" */
+	case 22: /* "cr6" */
+	case 23: /* "cr7" */
+	  cr_num = b -16;
+	  indCR[cr_num] = cr_count++;
+	  crs_oss << "const uint3_t " << reg_names[b] << " = " << dec << cr_num << ";" << endl;
+	  break;
+	  
+	case 30: /* "r0"   */ break; /* already in template    */
+	case 31: /* "r1"   */
+	case 32: /* "r2"   */
+	case 33: /* "r3"   */
+	case 34: /* "r4"   */
+	case 35: /* "r5"   */
+	case 36: /* "r6"   */
+	case 37: /* "r7"   */
+	case 38: /* "r8"   */
+	case 39: /* "r9"   */
+	case 40: /* "r10"  */
+	case 41: /* "r11"  */
+	case 42: /* "r12"  */
+	case 43: /* "r13"  */
+	case 44: /* "r14"  */
+	case 45: /* "r15"  */
+	case 46: /* "r16"  */
+	case 47: /* "r17"  */
+	case 48: /* "r18"  */
+	case 49: /* "r19"  */
+	case 50: /* "r20"  */
+	case 51: /* "r21"  */
+	case 52: /* "r22"  */
+	case 53: /* "r23"  */
+	case 54: /* "r24"  */
+	case 55: /* "r25"  */
+	case 56: /* "r26"  */
+	case 57: /* "r27"  */
+	case 58: /* "r28"  */
+	case 59: /* "r29"  */
+	case 60: /* "r30"  */
+	case 61: /* "r31"  */
+	  gprs_oss << "const uint5_t " << reg_names[b] << " = " << ri++ << ";" << endl;	
+	  break;
+	  
+	default:
+	  //cerr << "Bad register: " << reg_names[b] << endl;
+	  break;
+      }
+  string crs_str = crs_oss.str ();
+  string gprs_str = gprs_oss.str ();
+
+  ostringstream indRets_oss;
+  indRets_oss << " {";
+  for (int indRets_i = 0; indRets_i < insts_size -1; ++indRets_i)
+    {
+      if (indRets_i % 10 == 0)
+	indRets_oss << endl << "  ";
+      indRets_oss << dec << indRets[indRets_i] << ", ";
+    }
+  indRets_oss << dec << indRets[insts_size -1] << endl << "};";
+  string indRets_str = indRets_oss.str ();
+  
+  ostringstream rets_oss;
+  rets_oss << " {";
+  for (int rets_i = 0; rets_i < n_rets; ++rets_i)
+    rets_oss << " " << -1 << ",";
+  rets_oss.seekp (-1, rets_oss.cur);
+  rets_oss << " };";
+  string rets_str = rets_oss.str ();
+
+  int ind_i = 1;
+  ostringstream indCR_oss;
+  indCR_oss << " { 0, ";
+  for (; ind_i < 7; ++ind_i)
+    indCR_oss << dec << indCR[ind_i] << ", ";
+  indCR_oss << dec << indCR[7] << " };";
+  string indCR_str = indCR_oss.str ();
+
+  ostringstream rets_max_oss;
+  rets_max_oss << " " << dec << n_rets << ";";
+  string rets_max_str = rets_max_oss.str ();
+  
+  int n_cr = cr_count;
+  ostringstream cr_max_oss;
+  cr_max_oss << " " << dec << n_cr << ";";
+  string cr_max_str = cr_max_oss.str ();
+
+  int n_gprs = ri;
+  ostringstream gprs_max_oss;
+  gprs_max_oss << " " << dec << ((n_gprs == 0) ? 1 : n_gprs) << ";";
+  string gprs_max_str = gprs_max_oss.str ();
   
   ostringstream insts_oss;
   insts_oss << " {";
@@ -713,7 +837,14 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   string pattern_inst_max  = " /* REPLACE_WITH_INST_MAX */ 1;";
   string pattern_data_max  = " /* REPLACE_WITH_DATA_MAX */ 1;";
   string pattern_bss_max   = " /* REPLACE_WITH_BSS_MAX */ 1;";
-  string pattern_regs      = " /* REPLACE_WITH_REGS */ _REGS;";
+  string pattern_rets_max  = " /* REPLACE_WITH_RETS_MAX */ 1;";
+  string pattern_rets      = " /* REPLACE_WITH_RETS */ { -1 };";
+  string pattern_indrets   = " /* REPLACE_WITH_INDRETS */ { -1 };";
+  string pattern_indcr     = " /* REPLACE_WITH_INDCR */ { -1, -1, -1, -1, -1, -1, -1, -1 };";
+  string pattern_cr_max    = " /* REPLACE_WITH_CR_MAX */ 1;";
+  string pattern_gprs_max  = " /* REPLACE_WITH_GPRS_MAX */ 1;";
+  string pattern_crs       = " /* REPLACE_WITH_CRS */";
+  string pattern_gprs      = " /* REPLACE_WITH_GPRS */";
   string pattern_insts     = " /* REPLACE_WITH_INSTS */ { _EMPTY_INST };";
   string pattern_data_addr = " /* REPLACE_WITH_DATA_ADDR */ 0;";
   string pattern_data      = " /* REPLACE_WITH_DATA */ { 0 };";
@@ -731,10 +862,38 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   index = 0;
   index = nta_decl_txt.find (pattern_bss_max, index);
   nta_decl_txt.replace (index, pattern_bss_max.length (), bss_max_str);
+  
+  index = 0;
+  index = nta_decl_txt.find (pattern_rets_max, index);
+  nta_decl_txt.replace (index, pattern_rets_max.length (), rets_max_str);
+    
+  index = 0;
+  index = nta_decl_txt.find (pattern_rets, index);
+  nta_decl_txt.replace (index, pattern_rets.length (), rets_str);
 
-  //index = 0;
-  //index = nta_decl_txt.find (pattern_regs, index);
-  //nta_decl_txt.replace (index, pattern_regs.length (), regs_str);
+  index = 0;
+  index = nta_decl_txt.find (pattern_indrets, index);
+  nta_decl_txt.replace (index, pattern_indrets.length (), indRets_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_indcr, index);
+  nta_decl_txt.replace (index, pattern_indcr.length (), indCR_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_cr_max, index);
+  nta_decl_txt.replace (index, pattern_cr_max.length (), cr_max_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_gprs_max, index);
+  nta_decl_txt.replace (index, pattern_gprs_max.length (), gprs_max_str);
+  
+  index = 0;
+  index = nta_decl_txt.find (pattern_crs, index);
+  nta_decl_txt.replace (index, pattern_crs.length (), crs_str);
+
+  index = 0;
+  index = nta_decl_txt.find (pattern_gprs, index);
+  nta_decl_txt.replace (index, pattern_gprs.length (), gprs_str);
 
   index = 0;
   index = nta_decl_txt.find (pattern_insts, index);
@@ -760,17 +919,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   
   oss.str ("");
   oss << nta_decl_txt << endl;
-
-  sort (slice -> begin (), slice -> end (), Inst::byAddr);
-  inst_it = slice -> begin ();  
-  for (; inst_it != slice -> end (); ++inst_it)
-    {
-      Inst *inst = *inst_it;
-      oss << "void execute_" << hex << inst -> m_addr << "() {"
-	  << " " << inst -> m_function << "; "
-	  << "}" << endl;
-    }
-    
+  oss << semantics_oss.str ();
   nta_decl -> SetText (C(oss.str ()));
   // </declaration>
   
