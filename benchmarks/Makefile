@@ -40,37 +40,45 @@ $(BIN_MDL)/%: $(SRC)/%.c
 	@$(CC) $< -o $@-O3.elf -O3 $(CFLAGS) $(LDFLAGS)
 
 # Benchmark suite:
+ifndef BIN_PATH
+  BIN_PATH = $(BIN_MDL)
+endif
+
 malardalen:
-	@for elf in $(BIN_MDL)/*.elf; do \
-	  $(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $$elf --cfg-only; \
-	  dot -Tdot $$elf-cfg.dot -o $$elf.dot; \
-	  $(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $$elf; \
-	done
+	@for f in $(BIN_PATH)/*.elf                ; \
+	 do basename=`basename $$f`                ; \
+	    name=`echo $$basename | cut -d'.' -f1` ; \
+	    target="malardalen/$$name"             ; \
+	    $(MAKE) --no-print-directory $$target  ; \
+	 done
 
 malardalen/%:
-	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $(BIN_MDL)/$*.elf --cfg-only
-	@dot -Tdot $(BIN_MDL)/$*.elf-cfg.dot -o $(BIN_MDL)/$*.elf.dot
-	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/template.xml $(BIN_MDL)/$*.elf
+	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/$(BEST_TEMPLATE) $(BIN_PATH)/$*.elf --cfg-only
+	@dot -Tdot $(BIN_PATH)/$*.elf-cfg.dot -o $(BIN_PATH)/$*.elf.dot
+	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/$(BEST_TEMPLATE) $(BIN_PATH)/$*.elf
 
 # Verifying:
 VERIFYTA = timeout 20 $(UPPAAL_PATH)/bin-Linux/verifyta
 malardalen-verify:
-	@rm -f $(BIN_MDL)/*-O0.elf-*.xml
-	@rm -f $(BIN_MDL)/adpcm-*.xml
-	@rm -f $(BIN_MDL)/compress-*.xml
-	@rm -f $(BIN_MDL)/ndes-*.xml
+	@rm -f $(BIN_PATH)/*-O0*      # Needs stack data
+	@rm -f $(BIN_PATH)/*-O3*      # Results not used
 
-	@rm -f $(BIN_MDL)/cnt-*.xml
-	@rm -f $(BIN_MDL)/crc-*.xml
-	@rm -f $(BIN_MDL)/matmult-*.xml
+	@rm -f $(BIN_PATH)/cnt-*      # Needs stack data
+	@rm -f $(BIN_PATH)/crc-*      # Needs stack data
+	@rm -f $(BIN_PATH)/matmult-*  # Needs stack data
 
-	@for f in $(BIN_MDL)/*.elf-model_sliced.xml ; \
+	@rm -f $(BIN_PATH)/adpcm-*    # Too big to debug
+	@rm -f $(BIN_PATH)/compress-* # Too big to debug
+	@rm -f $(BIN_PATH)/ndes-*     # Too big to debug
+
+	@for f in $(BIN_PATH)/*.elf-model_sliced.xml ; \
 	 do basename=`basename $$f`                 ; \
 	    name=`echo $$basename | cut -d'.' -f1`  ; \
 	    target="malardalen-verify/$$name"       ; \
 	    $(MAKE) --no-print-directory $$target   ; \
 	 done
 
+# TODO: check if file exist.
 malardalen-verify/%:
 	@s_model="$*.elf-model_sliced.xml"          ; \
 	 __model="$*.elf-model.xml"                 ; \
@@ -79,7 +87,7 @@ malardalen-verify/%:
 	  __temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
 \
 	 echo -n "WCET for $$file .. "                                 ; \
-	 $(VERIFYTA) $(BIN_MDL)/$$s_model > $$s_temp 2> /dev/null      ; \
+	 $(VERIFYTA) $(BIN_PATH)/$$s_model > $$s_temp 2> /dev/null      ; \
 	 if [ "$$?" -eq 124 ]                                          ; \
 	   then echo "TIMEOUT"; exit 0; fi                             ; \
 	 s_abrt=`grep 'Aborted' $$s_temp`                              ; \
@@ -88,7 +96,7 @@ malardalen-verify/%:
 	 s_line=`grep "_clock <= " $$s_temp`                           ; \
 	 s_wcet=`echo $$s_line | sed -e 's/_clock <= \([0-9]\+\)/\1/'` ; \
 \
-	 $(VERIFYTA) $(BIN_MDL)/$$__model > $$__temp 2> /dev/null      ; \
+	 $(VERIFYTA) $(BIN_PATH)/$$__model > $$__temp 2> /dev/null      ; \
 	 if [ "$$?" -eq 124 ]                                          ; \
 	   then echo "TIMEOUT"; exit 0; fi                             ; \
 	 __abrt=`grep 'Aborted' $$__temp`                              ; \
@@ -103,12 +111,12 @@ malardalen-verify/%:
 
 # Dot export:
 malardalen-export:
-	@for elf in $(BIN_MDL)/*.elf; do \
+	@for elf in $(BIN_PATH)/*.elf; do \
 	  dot -Tpng $$elf-cfg.dot -o $$elf-cfg.png; \
 	done
 
 malardalen-export/%:
-	@dot -Tpng $(BIN_MDL)/$*.elf-cfg.dot -o $(BIN_MDL)/$*.elf-cfg.png
+	@dot -Tpng $(BIN_PATH)/$*.elf-cfg.dot -o $(BIN_PATH)/$*.elf-cfg.png
 
 # Cleaning:
 clean:

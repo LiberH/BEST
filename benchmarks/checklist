@@ -1,88 +1,88 @@
-  TODO: - check for stack access
-        - check for missing branches (multi-caller functions)
-
+  NOTE: - "Yes." may mean "No: Needs stack data (orig.)" without diverging WCET
+          depending on the template XML impementation of stack data access
+          while "No: Needs stack data (orig.)" always means diverging WCET.
 
       BENCHMARK NAME - SLICE LOC - STATUS
 
-           bs-O0.elf -     27    - No: Needs stack data
+           bs-O0.elf -     27    - No: Needs stack data (both)
            bs-O1.elf -     19    - Yes.
            bs-O2.elf -     18    - Yes.
            bs-O3.elf -     18    - Yes.
 
-     bsort100-O0.elf -     39    - No: Needs stack data
+     bsort100-O0.elf -     39    - No: Needs stack data (both)
      bsort100-O1.elf -     24    - Yes.
      bsort100-O2.elf -     22    - Yes.
      bsort100-O3.elf -     22    - Yes.
      
-          cnt-O0.elf -     44    - No: Needs stack data
-          cnt-O1.elf -     38    - No: ?
-          cnt-O2.elf -     24    - No: Not same WCET
-          cnt-O3.elf -     81    - No: Not same WCET
+          cnt-O0.elf -     44    - No: Needs stack data (both)
+          cnt-O1.elf -     38    - No: Needs stack data (both)
+          cnt-O2.elf -     24    - No: Needs stack data (orig.)
+          cnt-O3.elf -     81    - No: Needs stack data (orig.)
 
-          crc-O0.elf -     44    - No: Needs stack data
-          crc-O1.elf -     42    - No: Not same WCET
-          crc-O2.elf -     44    - No: Not same WCET
-          crc-O3.elf -     55    - No: Not same WCET
+          crc-O0.elf -     44    - No: Needs stack data (both)
+          crc-O1.elf -     42    - No: Needs stack data (orig.)
+          crc-O2.elf -     44    - No: Needs stack data (orig.)
+          crc-O3.elf -     55    - No: Needs stack data (orig.)
 
-       expint-O0.elf -     33    - No: Needs stack data
+       expint-O0.elf -     33    - No: Needs stack data (both)
        expint-O1.elf -     51    - Yes.
        expint-O2.elf -      8    - Yes.
        expint-O3.elf -      8    - Yes.
        
-         fdct-O0.elf -     11    - No: Needs stack data
+         fdct-O0.elf -     11    - No: Needs stack data (both)
          fdct-O1.elf -      6    - Yes.
          fdct-O2.elf -      6    - Yes.
          fdct-O3.elf -      3    - Yes.
 
-      fibcall-O0.elf -     12    - No: Needs stack data
+      fibcall-O0.elf -     12    - No: Needs stack data (both)
       fibcall-O1.elf -     10    - Yes.
       fibcall-O2.elf -      3    - Yes.
       fibcall-O3.elf -      3    - Yes.
       
-          fir-O0.elf -     21    - No: Needs stack data	  
+          fir-O0.elf -     21    - No: Needs stack data (both)
           fir-O1.elf -     33    - Yes.
           fir-O2.elf -     32    - Yes.
           fir-O3.elf -     32    - Yes.
 
-janne_complex-O0.elf -     21    - No: Needs stack data
+janne_complex-O0.elf -     21    - No: Needs stack data (both)
 janne_complex-O1.elf -     21    - Yes.
 janne_complex-O2.elf -     29    - Yes.
 janne_complex-O3.elf -     26    - Yes.
 
-     jfdctint-O0.elf -     29    - No: Needs stack data
+     jfdctint-O0.elf -     29    - No: Needs stack data (both)
      jfdctint-O1.elf -      9    - Yes.
      jfdctint-O2.elf -      9    - Yes.
      jfdctint-O3.elf -      6    - Yes.
 
-      matmult-O0.elf -     36    - No: Needs stack data     
-      matmult-O1.elf -     42    - No: ?
-      matmult-O2.elf -     43    - No: ?
-      matmult-O3.elf -     38    - No: ?
+      matmult-O0.elf -     36    - No: Needs stack data (both)
+      matmult-O1.elf -     42    - No: Needs stack data (both)
+      matmult-O2.elf -     43    - No: Needs stack data (orig.)
+      matmult-O3.elf -     38    - No: Needs stack data (orig.)
 
-           ns-O0.elf -     35    - No: Needs stack data
+           ns-O0.elf -     35    - No: Needs stack data (both)
            ns-O1.elf -     30    - Yes.
            ns-O2.elf -     27    - Yes.
            ns-O3.elf -     88    - Yes.
 
-        prime-O0.elf -     63    - No: Needs stack data
+        prime-O0.elf -     63    - No: Needs stack data (both)
         prime-O1.elf -     37    - Yes.
         prime-O2.elf -     30    - Yes.
         prime-O3.elf -     21    - Yes.
 
                  ... -    ...    - ...
 
-        adpcm-O0.elf -    224    - No: Needs stack data
+        adpcm-O0.elf -    224    - No: Needs stack data (both)
         adpcm-O1.elf -    268    - No: ?
-        adpcm-O2.elf -    409    - No: ?
-        adpcm-O3.elf -    336    - No: ?
+        adpcm-O2.elf -    409    - No: Needs stack data (both)
+        adpcm-O3.elf -    336    - No: Needs stack data (both)
 
-     compress-O0.elf -    271    - No: Needs stack data
+     compress-O0.elf -    271    - No: Needs stack data (both)
      compress-O1.elf -    214    - No: ?
      compress-O2.elf -    245    - No: ?
-     compress-O3.elf -    318    - No: ?
+     compress-O3.elf -    318    - No: Needs stack data (orig.)
      
-         ndes-O0.elf -    162    - No: Needs stack data
-         ndes-O1.elf -    156    - No: ?
-         ndes-O2.elf -    232    - No: ?
-         ndes-O3.elf -    518    - No: ?
+         ndes-O0.elf -    162    - No: Needs stack data (both)
+         ndes-O1.elf -    156    - Yes.
+         ndes-O2.elf -    232    - Yes.
+         ndes-O3.elf -    518    - No: Needs stack data (both)
 

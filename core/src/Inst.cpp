@@ -146,7 +146,8 @@ Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts
       addr = section -> v_addr ();
       end_addr = addr + section -> size ();
 
-      if (section -> name () == ".data")
+      if (section -> name () == ".data"  /* GCC    */
+      ||  section -> name () ==  "data") /* COSMIC */
 	{
 	  *data_addr = addr;
 	  while (addr < end_addr)
@@ -156,8 +157,9 @@ Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts
 	    }
 	}
       
-      if (section -> name () == ".text"
-      ||  section -> name () == ".text.startup" )
+      if (section -> name () == ".text"           /* GCC    */
+      ||  section -> name () == ".text.startup"   /* GCC    */
+      ||  section -> name () ==  "text"         ) /* COSMIC */
 	{
 	  prev = NULL;
 	  while (addr < end_addr)

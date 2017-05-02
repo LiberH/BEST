@@ -865,15 +865,18 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   
   index = 0;
   index = nta_decl_txt.find (pattern_rets_max, index);
-  nta_decl_txt.replace (index, pattern_rets_max.length (), rets_max_str);
+  if (index != string::npos)
+    nta_decl_txt.replace (index, pattern_rets_max.length (), rets_max_str);
     
   index = 0;
   index = nta_decl_txt.find (pattern_rets, index);
-  nta_decl_txt.replace (index, pattern_rets.length (), rets_str);
+  if (index != string::npos)
+    nta_decl_txt.replace (index, pattern_rets.length (), rets_str);
 
   index = 0;
   index = nta_decl_txt.find (pattern_indrets, index);
-  nta_decl_txt.replace (index, pattern_indrets.length (), indRets_str);
+  if (index != string::npos)
+    nta_decl_txt.replace (index, pattern_indrets.length (), indRets_str);
 
   index = 0;
   index = nta_decl_txt.find (pattern_indcr, index);

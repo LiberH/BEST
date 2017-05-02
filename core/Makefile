@@ -54,7 +54,10 @@ benchmarks: target
 benchmarks/%: target
 	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)/$*
 
-verify/%:
+verify: target
+	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)-verify
+
+verify/%: target
 	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)/$*
 	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)-verify/$*
 
