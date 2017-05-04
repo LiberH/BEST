@@ -10,60 +10,73 @@
 
 #include <vector>
 #include <ctime>
+#include <getopt.h>
 
 using namespace std;
 
 int
 main (int argc, char *argv[])
 {
-  string template_path   = "";
-  string executable_path = "";
+  string output_dir      = "";
+  string template_file   = "";
+  string executable_file = "";
   string option          = "";
   bool   print_usage     = false;
   bool   cfg_only        = false;
 
-  // TODO: getopt
-  switch (argc)
+  static struct option long_options[] = {
+    { "help"          ,       no_argument , NULL ,  'h' },
+    { "output-dir"    , required_argument , NULL ,  'o' },
+    { "template-file" , required_argument , NULL ,  't' },
+    { "cfg-only"      ,       no_argument , NULL ,  'c' },
+    { NULL            ,                 0 , NULL ,   0  }
+  };
+
+  int opt;
+  int long_index = 0;
+  while (!print_usage
+      && (opt = getopt_long (argc, argv,"ht:o:c", long_options, &long_index )) != -1)
     {
-    case 3:
-      template_path   = argv[1];
-      template_path   = template_path.substr (template_path.find_last_of ("=") +1);
-      executable_path = argv[2];
-      break;
-      
-    case 4:
-      template_path   = argv[1];
-      template_path   = template_path.substr (template_path.find_last_of ("=") +1);
-      executable_path = argv[2];
-      option          = argv[3]; cfg_only = true;
-      break;
-      
-    default:
-      print_usage = true;
-      break;
+      switch (opt)
+	{
+	case 'h' : print_usage     = true;   break;
+	case 't' : template_file   = optarg; break;
+	case 'o' : output_dir      = optarg; break;
+	case 'c' : cfg_only        = true;   break;
+	default  : print_usage     = true;   break;
+	}
     }
 
+  executable_file = argv[optind];
+  if (executable_file == "") print_usage = true;  
+  if (template_file   == "") print_usage = true;  
   if (print_usage)
     {
-      cerr << "Usage: " << argv[0] << " --template=TEMPLATE_FILE EXECUTABLE_FILE [--cfg-only]" << endl;
+      cerr << "usage: " << argv[0] << " --help" << endl;
+      cerr << "       " << argv[0] << " --template-file=TEMPLATE_FILE [--output-dir=OUTPUT_DIR] [--cfg-only] EXECUTABLE_FILE" << endl;
+      cerr << "         -h, --help                          prompt this help                    " << endl;
+      cerr << "         -t, --template-file=TEMPLATE_FILE   use TEMPLATE_FILE as UPPAAL template" << endl;
+      cerr << "         -o, --output-dir=OUTPUT_DIR         output generated files to OUTPUT_DIR" << endl;
+      cerr << "         -c, --cfg-only                      generate only CFG related files     " << endl;
       return EXIT_FAILURE;      
     }
   
-  string filename = executable_path.substr (executable_path.find_last_of ("/") +1);
+  string filename = executable_file.substr (executable_file.find_last_of ("/") +1);
   string basename = filename.substr (0, filename.find_last_of ("."));
   string name     = basename.substr (0, basename.find_last_of ("-"));
   string optim    = basename.substr (basename.find_last_of ("-") +1);
-    
+  string outbase  = (output_dir == "" ? executable_file : output_dir + "/" + filename);
+  
   if (cfg_only)
     {
-      CFG            *cfg  = CFG::FromFile (executable_path);
+      CFG            *cfg  = CFG::FromFile (executable_file);
       vector<Inst *> *dump = cfg -> insts ();
       vector<BB   *> *bbs  = cfg -> bbs   ();
-      
-      Inst::ToFile (executable_path + "-dump"    , dump);
-        BB::ToFile (executable_path + "-bbs"     , bbs);  
-       CFG::ToFile (executable_path + "-cfg.dot" , cfg, CFG::FINE_GRAIN);
-       CFG::ToFile (executable_path + "-CFG.dot" , cfg, CFG::COARSE_GRAIN);
+
+      Inst::ToFile (outbase + "-dump"    , dump);
+        BB::ToFile (outbase + "-bbs"     , bbs);  
+       CFG::ToFile (outbase + "-cfg.dot" , cfg, CFG::FINE_GRAIN);
+       CFG::ToFile (outbase + "-CFG.dot" , cfg, CFG::COARSE_GRAIN);
 
       return EXIT_SUCCESS;
     }
@@ -71,7 +84,7 @@ main (int argc, char *argv[])
   clock_t begin = clock ();
       
   ////////////////////
-  CFG            *cfg  = CFG::FromFile (executable_path);
+  CFG            *cfg  = CFG::FromFile (executable_file);
   vector<Inst *> *dump = cfg -> insts ();
   
   CFG *gfc = CFG::Reverse (cfg);
@@ -97,15 +110,15 @@ main (int argc, char *argv[])
        << slice_regs << ","
        << time       << endl;
    
-    DFS::ToFile (executable_path + "-dfs.dot"  , gfc, dfs);
-     DT::ToFile (executable_path + "-dt.dot"   , pdt);
-    PDT::ToFile (executable_path + "-pdt.dot"  , pdt);
-    CDG::ToFile (executable_path + "-cdg.dot"  , cdg);
-    PDG::ToFile (executable_path + "-pdg.dot"  , pdg);
-   Inst::ToFile (executable_path + "-slice"    , slice);
+    DFS::ToFile (outbase + "-dfs.dot"  , gfc, dfs);
+     DT::ToFile (outbase + "-dt.dot"   , pdt);
+    PDT::ToFile (outbase + "-pdt.dot"  , pdt);
+    CDG::ToFile (outbase + "-cdg.dot"  , cdg);
+    PDG::ToFile (outbase + "-pdg.dot"  , pdg);
+   Inst::ToFile (outbase + "-slice"    , slice);
 
-   CFG::ToUPPAAL (executable_path + "-model.xml"        , template_path, cfg, dump);
-   CFG::ToUPPAAL (executable_path + "-model_sliced.xml" , template_path, cfg, slice);
+   CFG::ToUPPAAL (outbase + "-model.xml"        , template_file, cfg, dump);
+   CFG::ToUPPAAL (outbase + "-model_sliced.xml" , template_file, cfg, slice);
   
   return EXIT_SUCCESS;
 }

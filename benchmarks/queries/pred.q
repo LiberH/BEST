@@ -1,0 +1,12 @@
+sup: _M_StaticPred.incorrectly_predicted_not_taken
+sup: _M_StaticPred.incorrectly_predicted_taken
+sup: _M_StaticPred.correctly_predicted_not_taken
+sup: _M_StaticPred.correctly_predicted_taken
+
+sup: _M_DynamicPred.incorrectly_predicted_not_taken
+sup: _M_DynamicPred.incorrectly_predicted_taken
+sup: _M_DynamicPred.correctly_predicted_not_taken
+sup: _M_DynamicPred.correctly_predicted_taken
+sup: _M_DynamicPred.incorrect_target
+
+sup: _M_BTBOverwriting

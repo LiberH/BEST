@@ -1300,6 +1300,7 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
   target_index = (qual != QUAL_TOLR ? _INSTS[EUs.pipeline[EUS_PIPELINE_E].index].target : _Stack_Pop ());
   incorrect_target = InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E].index, target_index, EUs.pipeline[EUS_PIPELINE_E].taken);
   if (USE_MONITORING
+  &amp;&amp;  USE_DYNAMIC_PREDICTION
   &amp;&amp;  incorrect_target)
     _M_DynamicPred.incorrect_target++;
 
@@ -1308,8 +1309,8 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
   /* Check for incorrect predictions (predict not taken but taken): */
   if (!EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; EUs.pipeline[EUS_PIPELINE_E].taken) {
     if (USE_MONITORING) {
-      if(!EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_not_taken++; }
-                                                      else { _M_DynamicPred.incorrectly_predicted_not_taken++; }
+      if (USE_STATIC_PREDICTION  &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_not_taken++; }
+      if (USE_DYNAMIC_PREDICTION &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.incorrectly_predicted_not_taken++; }
     }
 
     InCU_Flush(EUS_PIPELINE_E);
@@ -1319,8 +1320,8 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
   /* Check for incorrect predictions (predict taken but not taken): */
   if (EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].taken) {
     if (USE_MONITORING) {
-      if(!EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_taken++; }
-                                                      else { _M_DynamicPred.incorrectly_predicted_taken++; }
+      if (USE_STATIC_PREDICTION  &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_taken++; }
+      if (USE_DYNAMIC_PREDICTION &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.incorrectly_predicted_taken++; }
     }
 
     InCU_Flush(EUS_PIPELINE_E);
@@ -1330,16 +1331,16 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
   /* Check for correct predictions (predict not taken and not taken): */
   if (!EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].taken) {
     if (USE_MONITORING) {
-      if(!EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_not_taken++; }
-                                                      else { _M_DynamicPred.correctly_predicted_not_taken++; }
+      if (USE_STATIC_PREDICTION  &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_not_taken++; }
+      if (USE_DYNAMIC_PREDICTION &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.correctly_predicted_not_taken++; }
     }
   }
 
   /* Check for correct predictions (predict taken and taken): */
   if (EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; EUs.pipeline[EUS_PIPELINE_E].taken) {
     if (USE_MONITORING) {
-      if(!EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_taken++; }
-                                                      else { _M_DynamicPred.correctly_predicted_taken++; }
+      if (USE_STATIC_PREDICTION  &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_taken++; }
+      if (USE_DYNAMIC_PREDICTION &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.correctly_predicted_taken++; }
     }
   }
 }

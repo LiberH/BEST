@@ -11,6 +11,10 @@ BIN_GCC = $(BIN)/gcc
 BIN_MDL = $(BIN_GCC)/malardalen
 BIN_TPL = $(BIN_GCC)/trampoline
 
+QUERIES = queries
+WCET_QUERY = $(QUERIES)/wcet.q
+PRED_QUERY = $(QUERIES)/pred.q
+
 # Default:
 all: dirs bin-mdl
 
@@ -40,6 +44,10 @@ $(BIN_MDL)/%: $(SRC)/%.c
 	@$(CC) $< -o $@-O3.elf -O3 $(CFLAGS) $(LDFLAGS)
 
 # Benchmark suite:
+ifndef BEST_BIN
+  BEST_BIN = $(BEST_PATH)/bin/main
+endif
+
 ifndef BIN_PATH
   BIN_PATH = $(BIN_MDL)
 endif
@@ -53,13 +61,19 @@ malardalen:
 	 done
 
 malardalen/%:
-	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/$(BEST_TEMPLATE) $(BIN_PATH)/$*.elf --cfg-only
+ifndef OUTPUT_DIR
+	@$(BEST_BIN) --template-file=$(BEST_TEMPLATE) --cfg-only $(BIN_PATH)/$*.elf
 	@dot -Tdot $(BIN_PATH)/$*.elf-cfg.dot -o $(BIN_PATH)/$*.elf.dot
-	@$(BEST_PATH)/bin/main --template=$(BEST_PLUGINS_PATH)/$(BEST_PLUGIN)/$(BEST_TEMPLATE) $(BIN_PATH)/$*.elf
+	@$(BEST_BIN) --template-file=$(BEST_TEMPLATE) $(BIN_PATH)/$*.elf
+else
+	@$(BEST_BIN) --output-dir=$(OUTPUT_DIR) --template-file=$(BEST_TEMPLATE) --cfg-only $(BIN_PATH)/$*.elf
+	@dot -Tdot $(OUTPUT_DIR)/$*.elf-cfg.dot -o $(OUTPUT_DIR)/$*.elf.dot
+	@$(BEST_BIN) --output-dir=$(OUTPUT_DIR) --template-file=$(BEST_TEMPLATE) $(BIN_PATH)/$*.elf
+endif
 
 # Verifying:
-VERIFYTA = timeout 20 $(UPPAAL_PATH)/bin-Linux/verifyta
-malardalen-verify:
+VERIFYTA = timeout 60 $(UPPAAL_PATH)/bin-Linux/verifyta
+malardalen-verify: labels
 	@rm -f $(BIN_PATH)/*-O0*      # Needs stack data
 	@rm -f $(BIN_PATH)/*-O3*      # Results not used
 
@@ -71,43 +85,103 @@ malardalen-verify:
 	@rm -f $(BIN_PATH)/compress-* # Too big to debug
 	@rm -f $(BIN_PATH)/ndes-*     # Too big to debug
 
-	@for f in $(BIN_PATH)/*.elf-model_sliced.xml ; \
-	 do basename=`basename $$f`                 ; \
-	    name=`echo $$basename | cut -d'.' -f1`  ; \
-	    target="malardalen-verify/$$name"       ; \
-	    $(MAKE) --no-print-directory $$target   ; \
+	@for f in $(BIN_PATH)/*.elf-model.xml      ; \
+	 do basename=`basename $$f`                ; \
+	    name=`echo $$basename | cut -d'.' -f1` ; \
+	    target="malardalen-verify/$$name"      ; \
+	    $(MAKE) --no-print-directory $$target  ; \
 	 done
 
 # TODO: check if file exist.
 malardalen-verify/%:
-	@s_model="$*.elf-model_sliced.xml"          ; \
-	 __model="$*.elf-model.xml"                 ; \
-	    file=`echo $$s_model | cut -d'.' -f1`   ; \
-	  s_temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
-	  __temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
-\
-	 echo -n "WCET for $$file .. "                                 ; \
-	 $(VERIFYTA) $(BIN_PATH)/$$s_model > $$s_temp 2> /dev/null      ; \
-	 if [ "$$?" -eq 124 ]                                          ; \
-	   then echo "TIMEOUT"; exit 0; fi                             ; \
-	 s_abrt=`grep 'Aborted' $$s_temp`                              ; \
-	 if [ "$$s_abrt" != "" ]                                       ; \
-	   then echo "ABORTED"; exit 0; fi                             ; \
-	 s_line=`grep "_clock <= " $$s_temp`                           ; \
-	 s_wcet=`echo $$s_line | sed -e 's/_clock <= \([0-9]\+\)/\1/'` ; \
-\
-	 $(VERIFYTA) $(BIN_PATH)/$$__model > $$__temp 2> /dev/null      ; \
+	@__model="$*.elf-model.xml"                ; \
+	 __file=`echo $$__model | cut -d'.' -f1`   ; \
+	 __temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
+	 $(VERIFYTA) -u $(BIN_PATH)/$$__model \
+				$(WCET_QUERY) > $$__temp 2> /dev/null  ; \
 	 if [ "$$?" -eq 124 ]                                          ; \
 	   then echo "TIMEOUT"; exit 0; fi                             ; \
 	 __abrt=`grep 'Aborted' $$__temp`                              ; \
 	 if [ "$$__abrt" != "" ]                                       ; \
 	   then echo "ABORTED"; exit 0; fi                             ; \
-	 __line=`grep "_clock <= " $$__temp`                           ; \
-	 __wcet=`echo $$__line | sed -e 's/_clock <= \([0-9]\+\)/\1/'` ; \
+	 __WCET=`grep "_clock <= "                  $$__temp | sed -e 's/_clock <= \([0-9]\+\)/\1/'`                      ; \
+	 __staS=`grep " -- States stored : "        $$__temp | sed -e 's/ -- States stored : \([0-9]\+\) states/\1/'`     ; \
+	 __staE=`grep " -- States explored : "      $$__temp | sed -e 's/ -- States explored : \([0-9]\+\) states/\1/'`   ; \
+	 __cpuT=`grep " -- CPU user time used : "   $$__temp | sed -e 's/ -- CPU user time used : \([0-9]\+\) ms/\1/'`    ; \
+	 __memV=`grep " -- Virtual memory used : "  $$__temp | sed -e 's/ -- Virtual memory used : \([0-9]\+\) KiB/\1/'`  ; \
+	 __memR=`grep " -- Resident memory used : " $$__temp | sed -e 's/ -- Resident memory used : \([0-9]\+\) KiB/\1/'` ; \
 \
-	 if [ "$$s_wcet" -ne "$$__wcet" ]    ; \
-	   then echo "DIVERGING"; exit 0; fi ; \
-	 echo "$$s_wcet cycles"
+	 m_model="$*.elf-model_monitored.xml" ; \
+	 m_temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
+	 $(VERIFYTA) -u $(BIN_PATH)/$$m_model \
+				$(PRED_QUERY) > $$m_temp 2> /dev/null  ; \
+	 if [ "$$?" -eq 124 ]                                          ; \
+	   then echo "TIMEOUT"; exit 0; fi                             ; \
+	 m_abrt=`grep 'Aborted' $$m_temp`                              ; \
+	 if [ "$$m_abrt" != "" ]                                       ; \
+	   then echo "ABORTED"; exit 0; fi                             ; \
+	 m_BTBow=`grep "_M_BTBOverwriting <= "                              $$m_temp | sed -e 's/_M_BTBOverwriting <= \([0-9]\+\)/\1/'`  ; \
+	 m_sIPNT=`grep "_M_StaticPred.incorrectly_predicted_not_taken <= "  $$m_temp | sed -e 's/_M_StaticPred.incorrectly_predicted_not_taken <= \([0-9]\+\)/\1/'`  ; \
+	 m_sIP_T=`grep "_M_StaticPred.incorrectly_predicted_taken <= "      $$m_temp | sed -e 's/_M_StaticPred.incorrectly_predicted_taken <= \([0-9]\+\)/\1/'`      ; \
+	 m_sCPNT=`grep "_M_StaticPred.correctly_predicted_not_taken <= "    $$m_temp | sed -e 's/_M_StaticPred.correctly_predicted_not_taken <= \([0-9]\+\)/\1/'`    ; \
+	 m_sCP_T=`grep "_M_StaticPred.correctly_predicted_taken <= "        $$m_temp | sed -e 's/_M_StaticPred.correctly_predicted_taken <= \([0-9]\+\)/\1/'`        ; \
+	 m_dIPNT=`grep "_M_DynamicPred.incorrectly_predicted_not_taken <= " $$m_temp | sed -e 's/_M_DynamicPred.incorrectly_predicted_not_taken <= \([0-9]\+\)/\1/'` ; \
+	 m_dIP_T=`grep "_M_DynamicPred.incorrectly_predicted_taken <= "     $$m_temp | sed -e 's/_M_DynamicPred.incorrectly_predicted_taken <= \([0-9]\+\)/\1/'`     ; \
+	 m_dCPNT=`grep "_M_DynamicPred.correctly_predicted_not_taken <= "   $$m_temp | sed -e 's/_M_DynamicPred.correctly_predicted_not_taken <= \([0-9]\+\)/\1/'`   ; \
+	 m_dCP_T=`grep "_M_DynamicPred.correctly_predicted_taken <= "       $$m_temp | sed -e 's/_M_DynamicPred.correctly_predicted_taken <= \([0-9]\+\)/\1/'`       ; \
+	 m_dItrg=`grep "_M_DynamicPred.incorrect_target <= "                $$m_temp | sed -e 's/_M_DynamicPred.incorrect_target <= \([0-9]\+\)/\1/'`                ; \
+\
+	 echo -n "$$__file,$$__WCET,$$__staS,$$__staE,$$__cpuT,$$__memV,$$__memR," ; \
+	 echo -n "$$m_BTBow,"                                                      ; \
+	 echo -n "$$m_sIPNT,$$m_sIP_T,$$m_sCPNT,$$m_sCP_T,"                        ; \
+	 echo -n "$$m_dIPNT,$$m_dIP_T,$$m_dCPNT,$$m_dCP_T,"                        ; \
+	 echo    "$$m_dItrg"
+
+
+# 	@s_model="$*.elf-model_sliced.xml"          ; \
+# 	 __model="$*.elf-model.xml"                 ; \
+# 	    file=`echo $$s_model | cut -d'.' -f1`   ; \
+# 	  s_temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
+# 	  __temp=`mktemp /tmp/best-makefile.XXXXXX` ; \
+# \
+# 	 $(VERIFYTA) -u $(BIN_PATH)/$$s_model \
+# 				$(WCET_QUERY) > $$s_temp 2> /dev/null  ; \
+# 	 if [ "$$?" -eq 124 ]                                          ; \
+# 	   then echo "TIMEOUT"; exit 0; fi                             ; \
+# 	 s_abrt=`grep 'Aborted' $$s_temp`                              ; \
+# 	 if [ "$$s_abrt" != "" ]                                       ; \
+# 	   then echo "ABORTED"; exit 0; fi                             ; \
+# 	 s_WCET=`grep "_clock <= "                  $$s_temp | sed -e 's/_clock <= \([0-9]\+\)/\1/'`                      ; \
+# 	 s_staS=`grep " -- States stored : "        $$s_temp | sed -e 's/ -- States stored : \([0-9]\+\) states/\1/'`     ; \
+# 	 s_staE=`grep " -- States explored : "      $$s_temp | sed -e 's/ -- States explored : \([0-9]\+\) states/\1/'`   ; \
+# 	 s_cpuT=`grep " -- CPU user time used : "   $$s_temp | sed -e 's/ -- CPU user time used : \([0-9]\+\) ms/\1/'`    ; \
+# 	 s_memV=`grep " -- Virtual memory used : "  $$s_temp | sed -e 's/ -- Virtual memory used : \([0-9]\+\) KiB/\1/'`  ; \
+# 	 s_memR=`grep " -- Resident memory used : " $$s_temp | sed -e 's/ -- Resident memory used : \([0-9]\+\) KiB/\1/'` ; \
+# \
+# 	 $(VERIFYTA) -u $(BIN_PATH)/$$__model \
+# 				$(WCET_QUERY) > $$__temp 2> /dev/null  ; \
+# 	 if [ "$$?" -eq 124 ]                                          ; \
+# 	   then echo "TIMEOUT"; exit 0; fi                             ; \
+# 	 __abrt=`grep 'Aborted' $$__temp`                              ; \
+# 	 if [ "$$__abrt" != "" ]                                       ; \
+# 	   then echo "ABORTED"; exit 0; fi                             ; \
+# 	 __WCET=`grep "_clock <= "                  $$s_temp | sed -e 's/_clock <= \([0-9]\+\)/\1/'`                      ; \
+# 	 __staS=`grep " -- States stored : "        $$s_temp | sed -e 's/ -- States stored : \([0-9]\+\) states/\1/'`     ; \
+# 	 __staE=`grep " -- States explored : "      $$s_temp | sed -e 's/ -- States explored : \([0-9]\+\) states/\1/'`   ; \
+# 	 __cpuT=`grep " -- CPU user time used : "   $$s_temp | sed -e 's/ -- CPU user time used : \([0-9]\+\) ms/\1/'`    ; \
+# 	 __memV=`grep " -- Virtual memory used : "  $$s_temp | sed -e 's/ -- Virtual memory used : \([0-9]\+\) KiB/\1/'`  ; \
+# 	 __memR=`grep " -- Resident memory used : " $$s_temp | sed -e 's/ -- Resident memory used : \([0-9]\+\) KiB/\1/'` ; \
+# \
+# 	 if [ "$$s_WCET" -ne "$$__WCET" ]    ; \
+# 	   then echo "DIVERGING"; exit 0; fi ; \
+# 	 echo "$$file,$$__WCET,$$__staS,$$__staE,$$__cpuT,$$__memV,$$__memR"
+
+labels:
+	@echo -n "Benchmark,WCET (cycles),States stored,States explored,CPU user time used (ms),Virtual memory used (KiB),Resident memory used (KiB),"
+	@echo -n "BTB overwites,"
+	@echo -n "Incorrect pred. not-taken (static),Incorrect pred. taken (static),Correct pred. not-taken (static),Correct pred. taken (static),"
+	@echo -n "Incorrect pred. not-taken (dynamic),Incorrect pred. taken (dynamic),Correct pred. not-taken (dynamic),Correct pred. taken (dynamic),"
+	@echo    "Incorrect target (dynamic)"
 
 # Dot export:
 malardalen-export:
