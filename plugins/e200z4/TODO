@@ -1,3 +1,7 @@
+in void _BRANCH(...):
+  incorrect_target = InCU_BTB_Update(...) SHOULD BE CONDITIONAL!
+  [ if (USE_MONITORING && USE_DYNAMIC_PREDICTION) ]
+
 Reimplement mtspr, etc.
 Force display of correct crfD (not always just "cr") on conditional branch
 Make use of _GPRS[rX], not directly rX anymore
