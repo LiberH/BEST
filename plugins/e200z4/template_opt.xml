@@ -13,9 +13,11 @@
 ////////////////// Types and Constants: //
 //////////////////////////////////////////
 
-const bool USE_MONITORING         = true;
-const bool USE_STATIC_PREDICTION  = true;
-const bool USE_DYNAMIC_PREDICTION = true;
+/* NOTE: This is the opt. template. */
+
+const bool MONITORING = false;
+const bool BACKWARD_TAKEN = false;
+const bool DYNAMIC_PRED = false;
 
 /* Binary: */
 
@@ -225,7 +227,9 @@ int[ 0, _STACK_MAX   ] _stack_top;
 
 _M_Pred_t _M_StaticPred;
 _M_Pred_t _M_DynamicPred;
-int       _M_BTBOverwriting;
+uint32_t  _M_BTBOverwriting;
+uint32_t  _M_ICacheMiss;
+uint32_t  _M_ICacheHit;
 
 /* Binary: */
 
@@ -304,8 +308,11 @@ void _Init() {
     _Stack[i] = -1;
   _mustTerminate = false;
 
-  _M_StaticPred  = _M_EMPTY_PRED;
-  _M_DynamicPred = _M_EMPTY_PRED;
+  _M_StaticPred     = _M_EMPTY_PRED;
+  _M_DynamicPred    = _M_EMPTY_PRED;
+  _M_BTBOverwriting = 0;
+  _M_ICacheMiss     = 0;
+  _M_ICacheHit      = 0;
 }
 
 void _Stack_Push  (int index) { _Stack[_stack_top] = index; _stack_top++; }
@@ -459,7 +466,7 @@ void InCU_PC_Set(int index) {
   InCU.PC.index  = index;
   InCU.PC.cycles = _INSTS[InCU.PC.index].cycles;
 
-  if (USE_DYNAMIC_PREDICTION) {
+  if (DYNAMIC_PRED) {
     doBreak = false;
     for (btb_entry = 0; !doBreak &amp;&amp; btb_entry &lt; INCU_BTB_MAX; ++btb_entry)
       if (InCU.BTB.buffer[btb_entry].index == InCU.PC.index) {
@@ -483,7 +490,7 @@ void InCU_PC_Update() {
   bool doBreak;
 
   index = InCU.PC.index +1;
-  if (USE_DYNAMIC_PREDICTION) {
+  if (DYNAMIC_PRED) {
     btb_entry = -1;
     if (InCU.PC.dynamic_prediction 
     &amp;&amp;  InCU.PC.predict_taken) {
@@ -591,7 +598,7 @@ bool InCU_BTB_Update(int index, int target, bool taken) {
     if (taken) { // Insert (FIFO)
       InCU_BTB_Entry_t new_entry = {index, /*target,*/ INCU_WEAKLY_______TAKEN};
 
-      if (USE_MONITORING
+      if (MONITORING
       &amp;&amp;  InCU.BTB.buffer[InCU.BTB.top] != INCU_EMPTY_BTB_ENTRY)
         _M_BTBOverwriting++;
 
@@ -701,7 +708,7 @@ void EUs_Update() {
     InCU.IR = InCU_IBuff_Pop();
 
     // inst. in D is a backward branch then statically predict taken
-    if (USE_STATIC_PREDICTION
+    if (BACKWARD_TAKEN
     &amp;&amp;  EUs.pipeline[EUS_PIPELINE_D] != EUS_EMPTY_PIPELINE_STAGE
     &amp;&amp;  _INSTS[EUs.pipeline[EUS_PIPELINE_D].index].do_branch
     &amp;&amp; !EUs.pipeline[EUS_PIPELINE_D].dynamic_prediction) {
@@ -1303,19 +1310,20 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
   /* Updates the BTB: */
   next_index   = EUs.pipeline[EUS_PIPELINE_E].index +1;
   target_index = (qual != QUAL_TOLR ? _INSTS[EUs.pipeline[EUS_PIPELINE_E].index].target : _Stack_Pop ());
-  incorrect_target = InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E].index, target_index, EUs.pipeline[EUS_PIPELINE_E].taken);
-  if (USE_MONITORING
-  &amp;&amp;  USE_DYNAMIC_PREDICTION
-  &amp;&amp;  incorrect_target)
-    _M_DynamicPred.incorrect_target++;
+  if (DYNAMIC_PRED) {
+    incorrect_target = InCU_BTB_Update(EUs.pipeline[EUS_PIPELINE_E].index, target_index, EUs.pipeline[EUS_PIPELINE_E].taken);
+    if (MONITORING &amp;&amp; incorrect_target)
+      _M_DynamicPred.incorrect_target++;
+  }
 
   if ( LK ) { _Stack_Push (next_index); }
 
   /* Check for incorrect predictions (predict not taken but taken): */
   if (!EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; EUs.pipeline[EUS_PIPELINE_E].taken) {
-    if (USE_MONITORING) {
-      if (USE_STATIC_PREDICTION  &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_not_taken++; }
-      if (USE_DYNAMIC_PREDICTION &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.incorrectly_predicted_not_taken++; }
+    if (MONITORING) {
+           if ( DYNAMIC_PRED   &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.incorrectly_predicted_not_taken++; }
+      else if ( BACKWARD_TAKEN &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_not_taken++; }
+      else if (                   !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_not_taken++; }
     }
 
     InCU_Flush(EUS_PIPELINE_E);
@@ -1324,9 +1332,10 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
 
   /* Check for incorrect predictions (predict taken but not taken): */
   if (EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].taken) {
-    if (USE_MONITORING) {
-      if (USE_STATIC_PREDICTION  &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_taken++; }
-      if (USE_DYNAMIC_PREDICTION &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.incorrectly_predicted_taken++; }
+    if (MONITORING) {
+           if ( DYNAMIC_PRED   &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.incorrectly_predicted_taken++; }
+      else if ( BACKWARD_TAKEN &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_taken++; }
+      else if (                   !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.incorrectly_predicted_taken++; }
     }
 
     InCU_Flush(EUS_PIPELINE_E);
@@ -1335,17 +1344,19 @@ void _BRANCH( int op, int qual, bool conditional, uint5_t BO, uint5_t BI, sint32
 
   /* Check for correct predictions (predict not taken and not taken): */
   if (!EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].taken) {
-    if (USE_MONITORING) {
-      if (USE_STATIC_PREDICTION  &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_not_taken++; }
-      if (USE_DYNAMIC_PREDICTION &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.correctly_predicted_not_taken++; }
+    if (MONITORING) {
+           if ( DYNAMIC_PRED   &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.correctly_predicted_not_taken++; }
+      else if ( BACKWARD_TAKEN &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_not_taken++; }
+      else if (                   !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_not_taken++; }
     }
   }
 
   /* Check for correct predictions (predict taken and taken): */
   if (EUs.pipeline[EUS_PIPELINE_E].predict_taken &amp;&amp; EUs.pipeline[EUS_PIPELINE_E].taken) {
-    if (USE_MONITORING) {
-      if (USE_STATIC_PREDICTION  &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_taken++; }
-      if (USE_DYNAMIC_PREDICTION &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.correctly_predicted_taken++; }
+    if (MONITORING) {
+           if ( DYNAMIC_PRED   &amp;&amp;  EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) { _M_DynamicPred.correctly_predicted_taken++; }
+      else if ( BACKWARD_TAKEN &amp;&amp; !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_taken++; }
+      else if (                   !EUs.pipeline[EUS_PIPELINE_E].dynamic_prediction) {  _M_StaticPred.correctly_predicted_taken++; }
     }
   }
 }
@@ -1728,8 +1739,9 @@ SRAM.executing = true</label>
 		<transition>
 			<source ref="id13"/>
 			<target ref="id11"/>
-			<label kind="guard" x="-969" y="-68">IMU_ICache_Miss()</label>
-			<label kind="synchronisation" x="-969" y="-51">Flash_doBurst!</label>
+			<label kind="guard" x="-969" y="-76">IMU_ICache_Miss()</label>
+			<label kind="synchronisation" x="-969" y="-59">Flash_doBurst!</label>
+			<label kind="assignment" x="-969" y="-42">_M_ICacheMiss++</label>
 			<nail x="-816" y="-102"/>
 		</transition>
 		<transition>
@@ -1738,7 +1750,8 @@ SRAM.executing = true</label>
 			<label kind="guard" x="-799" y="-42">IMU_ICache_Hit() ||
 IMU_FillBuffer_Hit()</label>
 			<label kind="synchronisation" x="-799" y="8">IMU_doneAccess!</label>
-			<label kind="assignment" x="-799" y="25">IMU_clock = 0</label>
+			<label kind="assignment" x="-799" y="25">IMU_clock = 0,
+_M_ICacheHit++</label>
 		</transition>
 		<transition>
 			<source ref="id14"/>

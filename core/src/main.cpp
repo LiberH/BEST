@@ -48,12 +48,14 @@ main (int argc, char *argv[])
     }
 
   executable_file = argv[optind];
-  if (executable_file == "") print_usage = true;  
-  if (template_file   == "") print_usage = true;  
+  if (             executable_file == "") print_usage = true;  
+  if (!cfg_only && template_file   == "") print_usage = true;  
+  if ( cfg_only && template_file   != "") print_usage = true;  
   if (print_usage)
     {
       cerr << "usage: " << argv[0] << " --help" << endl;
-      cerr << "       " << argv[0] << " --template-file=TEMPLATE_FILE [--output-dir=OUTPUT_DIR] [--cfg-only] EXECUTABLE_FILE" << endl;
+      cerr << "       " << argv[0] << " [--output-dir=OUTPUT_DIR] --template-file=TEMPLATE_FILE EXECUTABLE_FILE" << endl;
+      cerr << "       " << argv[0] << " [--output-dir=OUTPUT_DIR] --cfg-only EXECUTABLE_FILE" << endl;
       cerr << "         -h, --help                          prompt this help                    " << endl;
       cerr << "         -t, --template-file=TEMPLATE_FILE   use TEMPLATE_FILE as UPPAAL template" << endl;
       cerr << "         -o, --output-dir=OUTPUT_DIR         output generated files to OUTPUT_DIR" << endl;
@@ -70,13 +72,13 @@ main (int argc, char *argv[])
   if (cfg_only)
     {
       CFG            *cfg  = CFG::FromFile (executable_file);
-      vector<Inst *> *dump = cfg -> insts ();
-      vector<BB   *> *bbs  = cfg -> bbs   ();
+    //vector<Inst *> *dump = cfg -> insts ();
+    //vector<BB   *> *bbs  = cfg -> bbs   ();
 
-      Inst::ToFile (outbase + "-dump"    , dump);
-        BB::ToFile (outbase + "-bbs"     , bbs);  
+    //Inst::ToFile (outbase + "-dump"    , dump);
+    //  BB::ToFile (outbase + "-bbs"     , bbs);  
        CFG::ToFile (outbase + "-cfg.dot" , cfg, CFG::FINE_GRAIN);
-       CFG::ToFile (outbase + "-CFG.dot" , cfg, CFG::COARSE_GRAIN);
+    // CFG::ToFile (outbase + "-CFG.dot" , cfg, CFG::COARSE_GRAIN);
 
       return EXIT_SUCCESS;
     }
@@ -87,8 +89,8 @@ main (int argc, char *argv[])
   CFG            *cfg  = CFG::FromFile (executable_file);
   vector<Inst *> *dump = cfg -> insts ();
   
-  CFG *gfc = CFG::Reverse (cfg);
-  DFS *dfs = new DFS (gfc);
+//CFG *gfc = CFG::Reverse (cfg);
+//DFS *dfs = new DFS (gfc);
   PDT *pdt = new PDT (cfg);
   CDG *cdg = new CDG (cfg , pdt);
   DDG *ddg = new DDG (cfg);
@@ -110,12 +112,12 @@ main (int argc, char *argv[])
        << slice_regs << ","
        << time       << endl;
    
-    DFS::ToFile (outbase + "-dfs.dot"  , gfc, dfs);
-     DT::ToFile (outbase + "-dt.dot"   , pdt);
-    PDT::ToFile (outbase + "-pdt.dot"  , pdt);
-    CDG::ToFile (outbase + "-cdg.dot"  , cdg);
-    PDG::ToFile (outbase + "-pdg.dot"  , pdg);
-   Inst::ToFile (outbase + "-slice"    , slice);
+ // DFS::ToFile (outbase + "-dfs.dot"  , gfc, dfs);
+ //  DT::ToFile (outbase + "-dt.dot"   , pdt);
+ // PDT::ToFile (outbase + "-pdt.dot"  , pdt);
+ // CDG::ToFile (outbase + "-cdg.dot"  , cdg);
+ // PDG::ToFile (outbase + "-pdg.dot"  , pdg);
+ //Inst::ToFile (outbase + "-slice"    , slice);
 
    CFG::ToUPPAAL (outbase + "-model.xml"        , template_file, cfg, dump);
    CFG::ToUPPAAL (outbase + "-model_sliced.xml" , template_file, cfg, slice);

@@ -1,6 +1,5 @@
 Fix failing benchmarks.
 Take into account dependencies on stack words.
-Fix UPPAAL export.
 
 Remove "CFG *" in PDG::PDG (...).
 Use class Slicer as a main class.
