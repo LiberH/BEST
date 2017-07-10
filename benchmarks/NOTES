@@ -1,17 +1,51 @@
-removed src/des.c        : missing header files
-removed src/whet.c       : missing header files
-removed src/cover.c      : has switch statement(s)
-removed src/duff.c       : has switch statement(s)
-removed src/lcdnum.c     : has switch statement(s)
-removed src/statemate.c  : has switch statement(s)
-removed src/fft1.c       : has floating point arithmetic
-removed src/lms.c        : has floating point arithmetic
-removed src/ludcmp.c     : has floating point arithmetic
-removed src/minver.c     : has floating point arithmetic
-removed src/qsort-exam.c : has floating point arithmetic
-removed src/qurt.c       : has floating point arithmetic
-removed src/select.c     : has floating point arithmetic
-removed src/sqrt.c       : has floating point arithmetic
-removed src/st.c         : has floating point arithmetic ; use external library
-removed src/recursion.c  : recursive
-removed src/fac.c        : recursive
+removed src/malardalen/des.c        : missing header files
+removed src/malardalen/whet.c       : missing header files
+removed src/malardalen/st.c         : uses external library ; uses floats
+removed src/malardalen/fac.c        : uses recursion
+removed src/malardalen/recursion.c  : uses recursion
+removed src/malardalen/fft1.c       : uses floats
+removed src/malardalen/lms.c        : uses floats
+removed src/malardalen/ludcmp.c     : uses floats
+removed src/malardalen/minver.c     : uses floats
+removed src/malardalen/qsort-exam.c : uses floats
+removed src/malardalen/qurt.c       : uses floats
+removed src/malardalen/select.c     : uses floats
+removed src/malardalen/sqrt.c       : uses floats
+removed src/malardalen/cover.c      : uses switch statements
+removed src/malardalen/duff.c       : uses switch statements
+removed src/malardalen/lcdnum.c     : uses switch statements
+removed src/malardalen/statemate.c  : uses switch statements
+
+removed src/tacle/powerwindow       : uses external libraries ; uses switch statements
+removed src/tacle/quicksort         : uses recursion ; uses floats ; uses switch statements
+removed src/tacle/bitcount          : uses recursion ; uses switch statements
+removed src/tacle/anagram           : uses recursion
+removed src/tacle/bitonic           : uses recursion
+removed src/tacle/fac               : uses recursion
+removed src/tacle/recursion	    : uses recursion
+removed src/tacle/audiobeam         : uses floats ; uses switch statements
+removed src/tacle/basicmath         : uses floats ; uses switch statements
+removed src/tacle/fmref             : uses floats ; uses switch statements
+removed src/tacle/susan             : uses floats ; uses switch statements
+removed src/tacle/complex_updates   : uses floats
+removed src/tacle/epic              : uses floats
+removed src/tacle/fft               : uses floats
+removed src/tacle/filterbank        : uses floats
+removed src/tacle/fir2dim           : uses floats
+removed src/tacle/iir               : uses floats
+removed src/tacle/lms               : uses floats
+removed src/tacle/ludcmp            : uses floats
+removed src/tacle/minver            : uses floats
+removed src/tacle/pm                : uses floats
+removed src/tacle/st                : uses floats
+removed src/tacle/DEBIE             : uses parallelism ; uses switch statements
+removed src/tacle/PaPaBench         : uses parallelism ; uses switch statements
+removed src/tacle/g723_enc          : uses switch statements
+removed src/tacle/gsm_dec           : uses switch statements
+removed src/tacle/gsm_encode        : uses switch statements
+removed src/tacle/rijndael_dec      : uses switch statements
+removed src/tacle/rijndael_enc      : uses switch statements
+removed src/tacle/statemate         : uses switch statements
+removed src/tacle/cover             : uses switch statements
+removed src/tacle/duff              : uses switch statements
+removed src/tacle/sha               : uses switch statements

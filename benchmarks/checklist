@@ -1,60 +1,67 @@
-  NOTE: - "Yes." may mean "No: Needs stack data (orig.)" without diverging WCET
+  NOTE: - "OK" may mean "Needs stack data (orig.)" without diverging WCET
           depending on the template XML impementation of stack data access
-          while "No: Needs stack data (orig.)" always means diverging WCET.
+          while "Needs stack data (orig.)" always means diverging WCET.
 
       BENCHMARK NAME - STATUS
 
-           bs-O1.elf - OK.
-           bs-O2.elf - OK.
+        adpcm-O1.elf - ?
+        adpcm-O2.elf - Needs stack data (both)
+	
+           bs-O1.elf - OK
+           bs-O2.elf - OK
 
-     bsort100-O1.elf - OK.
-     bsort100-O2.elf - OK.
+     bsort100-O1.elf - OK
+     bsort100-O2.elf - OK
      
-          cnt-O1.elf - No: Needs stack data (both)
-          cnt-O2.elf - No: Needs stack data (orig.)
+          cnt-O1.elf - Needs stack data (both)
+          cnt-O2.elf - Needs stack data (orig.)
 
-          crc-O1.elf - No: Needs stack data (orig.)
-          crc-O2.elf - No: Needs stack data (orig.)
+     compress-O1.elf - ?
+     compress-O2.elf - ?
+     
+          crc-O1.elf - Needs stack data (orig.)
+          crc-O2.elf - Needs stack data (orig.)
 
-       expint-O1.elf - OK.
-       expint-O2.elf - OK.
+       expint-O1.elf - OK
+       expint-O2.elf - OK
        
-         fdct-O1.elf - OK.
-         fdct-O2.elf - OK.
+         fdct-O1.elf - OK
+         fdct-O2.elf - OK
 
-      fibcall-O1.elf - OK.
-      fibcall-O2.elf - OK.
+      fibcall-O1.elf - OK
+      fibcall-O2.elf - OK
       
-          fir-O1.elf - OK.
-          fir-O2.elf - OK.
+          fir-O1.elf - OK
+          fir-O2.elf - OK
 
-janne_complex-O1.elf - OK.
-janne_complex-O2.elf - OK.
+   insertsort-O1.elf - OK
+   insertsort-O2.elf - Needs stack data (both)
 
-     jfdctint-O1.elf - OK.
-     jfdctint-O2.elf - OK.
+janne_complex-O1.elf - OK
+janne_complex-O2.elf - OK
 
-      matmult-O1.elf - No: Needs stack data (both)
-      matmult-O2.elf - No: Needs stack data (orig.)
+     jfdctint-O1.elf - OK
+     jfdctint-O2.elf - OK
 
-         ndes-O1.elf - OK.
-         ndes-O2.elf - OK.
+      matmult-O1.elf - Needs stack data (both)
+      matmult-O2.elf - Needs stack data (orig.)
 
-           ns-O1.elf - OK.
-           ns-O2.elf - OK.
+         ndes-O1.elf - OK
+         ndes-O2.elf - OK
 
-        prime-O1.elf - OK.
-        prime-O2.elf - OK.
+           ns-O1.elf - OK
+           ns-O2.elf - OK
 
-           ud-O1.elf - No: Needs stack data (both)
-	   ud-O2.elf - OK.
+     nsichneu-O1.elf - ?
+     nsichneu-O2.elf - ?
 
-                 ... - ...
+        prime-O1.elf - OK
+        prime-O2.elf - OK
 
-        adpcm-O1.elf - No: ?
-        adpcm-O2.elf - No: Needs stack data (both)
+           ud-O1.elf - Needs stack data (both)
+	   ud-O2.elf - OK
 
-     compress-O1.elf - No: ?
-     compress-O2.elf - No: ?
+
+
      
 

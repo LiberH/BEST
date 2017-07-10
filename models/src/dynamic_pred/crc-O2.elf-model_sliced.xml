@@ -230,6 +230,10 @@ _M_Pred_t _M_DynamicPred;
 uint32_t  _M_BTBOverwriting;
 uint32_t  _M_ICacheMiss;
 uint32_t  _M_ICacheHit;
+uint32_t  _M_IBuffPop;
+uint32_t  _M_IBuffFlush;
+uint32_t  _M_IBuffFlushedInst;
+uint32_t  _M_ExecutedInst;
 
 /* Binary: */
 
@@ -632,11 +636,15 @@ void _Init() {
     _Stack[i] = -1;
   _mustTerminate = false;
 
-  _M_StaticPred     = _M_EMPTY_PRED;
-  _M_DynamicPred    = _M_EMPTY_PRED;
-  _M_BTBOverwriting = 0;
-  _M_ICacheMiss     = 0;
-  _M_ICacheHit      = 0;
+  _M_StaticPred       = _M_EMPTY_PRED;
+  _M_DynamicPred      = _M_EMPTY_PRED;
+  _M_BTBOverwriting   = 0;
+  _M_ICacheMiss       = 0;
+  _M_ICacheHit        = 0;
+  _M_IBuffPop         = 0;
+  _M_IBuffFlush       = 0;
+  _M_IBuffFlushedInst = 0;
+  _M_ExecutedInst     = 0;
 }
 
 void _Stack_Push  (int index) { _Stack[_stack_top] = index; _stack_top++; }
@@ -856,8 +864,9 @@ InCU_IR_t InCU_IBuff_Pop() {
     InCU.IBuff.buffer[5] = InCU.IBuff.buffer[6];
     InCU.IBuff.buffer[6] = InCU.IBuff.buffer[7];
     InCU.IBuff.buffer[7] = INCU_EMPTY_IBUFF_ENTRY;
-    
     InCU.IBuff.count--;
+
+    if (MONITORING) { _M_IBuffPop++; }
     return entry;
   }
 
@@ -871,19 +880,28 @@ bool InCU_IsTerminated() {
 void InCU_Flush(int pipeline_stage) {
   int i;
 
+  if (MONITORING) { _M_IBuffFlush++; }
   InCU.IBuff.count = 0;
   InCU.PC = INCU_EMPTY_PC;
-  for (i = 0; i &lt; INCU_IBUFF_MAX; ++i)
+  for (i = 0; i &lt; INCU_IBUFF_MAX; ++i) {
+    if (MONITORING &amp;&amp; InCU.IBuff.buffer[i] != INCU_EMPTY_IBUFF_ENTRY) { _M_IBuffFlushedInst++; }
     InCU.IBuff.buffer[i] = INCU_EMPTY_IBUFF_ENTRY;
+  }
+  if (MONITORING &amp;&amp; InCU.IR != INCU_EMPTY_IR) { _M_IBuffFlushedInst++; }
   InCU.IR = INCU_EMPTY_IR;
 
-  if (pipeline_stage == EUS_PIPELINE_E)
+  if (pipeline_stage == EUS_PIPELINE_E
+  &amp;&amp; EUs.pipeline[EUS_PIPELINE_D] != EUS_EMPTY_PIPELINE_STAGE) {
+    if (MONITORING) { _M_IBuffFlushedInst++; }
     EUs.pipeline[EUS_PIPELINE_D] = EUS_EMPTY_PIPELINE_STAGE;
+  }
 }
 
 void InCU_Update() {
-  if (InCU.PC.index != IMU.ICache.index)
+  if (InCU.PC.index != IMU.ICache.index) {
+    if (MONITORING) { _M_IBuffFlushedInst++; }
     return;
+  }
 
   InCU_IBuff_Push();
   InCU_PC_Update();
@@ -987,6 +1005,7 @@ void EUs_Update() {
   int[0, _INST_MAX] target;
   
   // Execute W (if doesn't stall):
+  if (MONITORING &amp;&amp; EUs.pipeline[EUS_PIPELINE_W] != EUS_EMPTY_PIPELINE_STAGE) { _M_ExecutedInst++; }
   EUs.pipeline[EUS_PIPELINE_W] = EUS_EMPTY_PIPELINE_STAGE;
   if (!EUs_W_DoStall()) {
     EUs.pipeline[EUS_PIPELINE_W] = EUs.pipeline[EUS_PIPELINE_M];
