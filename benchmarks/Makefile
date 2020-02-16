@@ -1,4 +1,4 @@
-CC      = powerpc-linux-gnu-gcc-5
+CC      = powerpc-linux-gnu-gcc
 AS      = powerpc-linux-gnu-as
 CFLAGS	= -m32 -std=c89 -ggdb -ffreestanding
 LDFLAGS = -Wl,-T$(SRC)/script.ld,$(OBJ)/crt0.o -nostdlib

@@ -2,12 +2,15 @@
 
 ### Building BEST:
 
+* Install dependencies
+  * LEMON graph library (version 1.3.1)
 * Set `BEST_PLUGINS_PATH` and `BEST_PLUGIN`;
 * Make the executable.
 
 Example :
 
 ```bash
+$ cd core
 $ export BEST_PLUGINS_PATH=/path/to/best/plugins
 $ export BEST_PLUGIN=e200z4
 $ make
@@ -24,6 +27,7 @@ $ make
 Example :
 
 ```bash
+$ cd core
 $ export BEST_PLUGINS_PATH=/path/to/best/plugins
 $ export BEST_PLUGIN=e200z4
 $ export BEST_BENCHMARKS_PATH=/path/to/best/benchmarks
@@ -39,5 +43,6 @@ UPPAAL model. Such template files can be found in the BEST plugins directories.
 Example :
 
 ```bash
+$ cd core
 $ ./bin/main --template=/path/to/best/plugins/template.xml arbitrary.elf
 ```
