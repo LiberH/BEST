@@ -65,14 +65,15 @@ DT::DT (const CFG *cfg)
 
       // Step 3:
       v = (*m_bucket)[(*dfs -> m_parent)[w]] -> begin();
-      for (; v != (*m_bucket)[(*dfs -> m_parent)[w]] -> end(); ++v)
+      while (v != (*m_bucket)[(*dfs -> m_parent)[w]] -> end())
         {
-          (*m_bucket)[(*dfs -> m_parent)[w]] -> erase (v);
           ListDigraph::Node u = eval(*v);
           if ((*m_sdom)[u] < (*m_sdom)[*v])
             (*m_idom)[*v] = u;
           else
             (*m_idom)[*v] = (*dfs -> m_parent)[w];
+
+          v = (*m_bucket)[(*dfs -> m_parent)[w]] -> erase (v);
         }
     }
   
