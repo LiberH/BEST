@@ -47,7 +47,7 @@ main (int argc, char *argv[])
         }
     }
 
-  executable_file = argv[optind];
+  executable_file = (argc - optind == 1) ? argv[optind] : "";
   if (             executable_file == "") print_usage = true;  
   if (!cfg_only && template_file   == "") print_usage = true;  
   if ( cfg_only && template_file   != "") print_usage = true;  
@@ -56,10 +56,10 @@ main (int argc, char *argv[])
       cerr << "usage: " << argv[0] << " --help" << endl;
       cerr << "       " << argv[0] << " [--output-dir=OUTPUT_DIR] --template-file=TEMPLATE_FILE EXECUTABLE_FILE" << endl;
       cerr << "       " << argv[0] << " [--output-dir=OUTPUT_DIR] --cfg-only EXECUTABLE_FILE" << endl;
-      cerr << "         -h, --help                          prompt this help                    " << endl;
-      cerr << "         -t, --template-file=TEMPLATE_FILE   use TEMPLATE_FILE as UPPAAL template" << endl;
-      cerr << "         -o, --output-dir=OUTPUT_DIR         output generated files to OUTPUT_DIR" << endl;
-      cerr << "         -c, --cfg-only                      generate only CFG related files     " << endl;
+      cerr << "  -h, --help                          prompt this help                    " << endl;
+      cerr << "  -t, --template-file=TEMPLATE_FILE   use TEMPLATE_FILE as UPPAAL template" << endl;
+      cerr << "  -o, --output-dir=OUTPUT_DIR         output generated files to OUTPUT_DIR" << endl;
+      cerr << "  -c, --cfg-only                      generate only CFG related files     " << endl;
       return EXIT_FAILURE;      
     }
   
@@ -68,6 +68,7 @@ main (int argc, char *argv[])
   string name     = basename.substr (0, basename.find_last_of ("-"));
   string optim    = basename.substr (basename.find_last_of ("-") +1);
   string outbase  = (output_dir == "" ? executable_file : output_dir + "/" + filename);
+  if (outbase[0] == '~') outbase.replace(0, 1, getenv("HOME"));
   
   if (cfg_only)
     {
