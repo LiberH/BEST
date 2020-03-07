@@ -9,12 +9,6 @@ BIN = bin
 # Default:
 all: check-env dirs objs target
 
-# Directories:
-DIRS = $(OBJ) $(BIN)
-dirs: | $(OBJ)
-$(DIRS):
-	mkdir -p $(DIRS)
-
 # Check ENV variables:
 check-env:
 	@if [ "${BEST_PLUGINS_PATH}" = "" ] ||     \
@@ -24,6 +18,12 @@ check-env:
 	  echo " or BEST_PLUGIN                 "; \
 	  exit 1;                                  \
 	fi
+
+# Directories:
+DIRS = $(OBJ) $(BIN)
+dirs: | $(OBJ)
+$(DIRS):
+	mkdir -p $(DIRS)
 
 # Object files:
 OBJS =	$(OBJ)/main.o	\
@@ -46,20 +46,6 @@ TRGT = $(BIN)/main
 target: objs $(TRGT)
 $(TRGT): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS) `pkg-config libgvc --libs`
-
-# Run the benchmark suite:
-benchmarks: target
-	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)
-
-benchmarks/%: target
-	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)/$*
-
-verify: target
-	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)-verify
-
-verify/%: target
-	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)/$*
-	@BEST_TRGT=`pwd`/$(TRGT) make -C $(BEST_BENCHMARKS_PATH) $(BEST_BENCHMARK)-verify/$*
 
 # Clean:
 clean:
