@@ -45,41 +45,41 @@ CDG::CDG (CFG *g, PDT *pdt)
       ListDigraph::Node v = cfg -> m_graph -> source (a);
       ListDigraph::Node u = cfg -> m_graph -> target (a);
       if (u == v) // self loop ; post-dom itself
-	continue;
+        continue;
       
       // TODO: clean the following code
       ListDigraph::Node i = (*pdt -> m_idom)[u];
       while (i != INVALID)
-	{
-	  if (i == v) break;
-	  i = (*pdt -> m_idom)[i];
-	}
+        {
+          if (i == v) break;
+          i = (*pdt -> m_idom)[i];
+        }
       
       if (i == INVALID)
-	{
-	  ListDigraph::Node cdg_v = (*m_nodes)[(*cfg -> m_bbs)[v] -> m_entry];
-	  ListDigraph::Node cdg_u = (*m_nodes)[(*cfg -> m_bbs)[u] -> m_entry];
-	  (*m_deps)[cdg_v] -> push_back (cdg_u);
-	  ListDigraph::Node pu = (*pdt -> m_idom)[u];
-	  ListDigraph::Node l = (*pdt -> m_idom)[v];
-	  while (l != INVALID)
-	    {
-	      if (l == u)
-		{
-		  ListDigraph::Node cdg_l = (*m_nodes)[(*cfg -> m_bbs)[l] -> m_entry];
-		  (*m_deps)[cdg_l] -> push_back (cdg_l);
-		  break;
-		}
-	      
-	      if (l == pu)
-		break;
-	      
-	      ListDigraph::Node cdg_l = (*m_nodes)[(*cfg -> m_bbs)[l] -> m_entry];
-	      ListDigraph::Node cdg_u = (*m_nodes)[(*cfg -> m_bbs)[u] -> m_entry];
-	      (*m_deps)[cdg_l] -> push_back (cdg_u);
-	      l = (*pdt -> m_idom)[l];
-	    }
-	}
+        {
+          ListDigraph::Node cdg_v = (*m_nodes)[(*cfg -> m_bbs)[v] -> m_entry];
+          ListDigraph::Node cdg_u = (*m_nodes)[(*cfg -> m_bbs)[u] -> m_entry];
+          (*m_deps)[cdg_v] -> push_back (cdg_u);
+          ListDigraph::Node pu = (*pdt -> m_idom)[u];
+          ListDigraph::Node l = (*pdt -> m_idom)[v];
+          while (l != INVALID)
+            {
+              if (l == u)
+                {
+                  ListDigraph::Node cdg_l = (*m_nodes)[(*cfg -> m_bbs)[l] -> m_entry];
+                  (*m_deps)[cdg_l] -> push_back (cdg_l);
+                  break;
+                }
+              
+              if (l == pu)
+                break;
+              
+              ListDigraph::Node cdg_l = (*m_nodes)[(*cfg -> m_bbs)[l] -> m_entry];
+              ListDigraph::Node cdg_u = (*m_nodes)[(*cfg -> m_bbs)[u] -> m_entry];
+              (*m_deps)[cdg_l] -> push_back (cdg_u);
+              l = (*pdt -> m_idom)[l];
+            }
+        }
     }
 
   ListDigraph::NodeIt m (*m_graph);
@@ -87,12 +87,12 @@ CDG::CDG (CFG *g, PDT *pdt)
     {
       vector<ListDigraph::Node>::iterator node_it = (*m_deps)[m] -> begin ();
       for (; node_it != (*m_deps)[m] -> end (); ++node_it)
-	{
-	  ListDigraph::Node n = *node_it;
-	  BB *bb = (*m_bbs)[m];
-	  BB *cc = (*m_bbs)[n];
-	  this -> addEdge (bb, cc);
-	}
+        {
+          ListDigraph::Node n = *node_it;
+          BB *bb = (*m_bbs)[m];
+          BB *cc = (*m_bbs)[n];
+          this -> addEdge (bb, cc);
+        }
     }
 }
 
@@ -114,7 +114,7 @@ CDG::addBB (BB *bb)
 
 ListDigraph::Arc
 CDG::addEdge (BB *bb,
-	      BB *cc)
+              BB *cc)
 {
   ListDigraph::Node n = (*m_nodes)[bb -> m_entry];
   ListDigraph::Node m = (*m_nodes)[cc -> m_entry];
@@ -143,7 +143,7 @@ CDG::ToFile (string fn, CDG *cdg)
       agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
       
       if ((*cdg -> m_deps)[n] -> empty ())
-	agedge (agraph, agn, (*agnodes)[n], NULL, TRUE);
+        agedge (agraph, agn, (*agnodes)[n], NULL, TRUE);
     }
   
   ListDigraph::NodeIt m (*cdg -> m_graph);
@@ -151,10 +151,10 @@ CDG::ToFile (string fn, CDG *cdg)
     {
       vector<ListDigraph::Node>::iterator node_it = (*cdg -> m_deps)[m] -> begin ();
       for (; node_it != (*cdg -> m_deps)[m] -> end (); ++node_it)
-	{
-	  ListDigraph::Node n = *node_it;
-	  agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
-	}
+        {
+          ListDigraph::Node n = *node_it;
+          agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
+        }
     }
 
   agwrite (agraph, f);  

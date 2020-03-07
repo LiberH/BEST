@@ -75,7 +75,7 @@ Inst::Inst (const staticInfo &si)
       crX_index = m_crfD + 16;      
       if (m_crfD != -1) refs_bs[crX_index] = 1;
       else for (crX_index = 16; crX_index < 24; ++crX_index)
-	     refs_bs[crX_index] = 1;
+             refs_bs[crX_index] = 1;
       
       m_refs = refs_bs.to_ulong ();
     }
@@ -83,9 +83,9 @@ Inst::Inst (const staticInfo &si)
     {
       defs_bs[cr__index] = 0;
       crX_index = m_crfD + 16;
-      if (m_crfD != -1)	defs_bs[crX_index] = 1;
+      if (m_crfD != -1)        defs_bs[crX_index] = 1;
       else for (crX_index = 16; crX_index < 24; ++crX_index)
-	     defs_bs[crX_index] = 1;
+             defs_bs[crX_index] = 1;
       
       m_defs = defs_bs.to_ulong ();
     }
@@ -148,32 +148,32 @@ Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts
 
       if (section -> name () == ".data"  /* GCC    */
       ||  section -> name () ==  "data") /* COSMIC */
-	{
-	  *data_addr = addr;
-	  while (addr < end_addr)
-	    {
-	      raw_data = a.defaultFetch (addr);
-	      (*data) -> push_back (raw_data);
-	    }
-	}
+        {
+          *data_addr = addr;
+          while (addr < end_addr)
+            {
+              raw_data = a.defaultFetch (addr);
+              (*data) -> push_back (raw_data);
+            }
+        }
       
       if (section -> name () == ".text"           /* GCC    */
       ||  section -> name () == ".text.startup"   /* GCC    */
       ||  section -> name () ==  "text"         ) /* COSMIC */
-	{
-	  prev = NULL;
-	  while (addr < end_addr)
-	    {
-	      info = a.getInstructionStaticInfo (addr);
-	      inst = new Inst (*info);
-	      inst -> m_prev = prev;
-	      (*insts) -> push_back (inst);
-	      
-	      if (prev)
-		prev -> m_next = inst;
-	      prev = inst;
-	    }
-	}
+        {
+          prev = NULL;
+          while (addr < end_addr)
+            {
+              info = a.getInstructionStaticInfo (addr);
+              inst = new Inst (*info);
+              inst -> m_prev = prev;
+              (*insts) -> push_back (inst);
+              
+              if (prev)
+                prev -> m_next = inst;
+              prev = inst;
+            }
+        }
     }
 
   /* .bss section: */
@@ -185,10 +185,10 @@ Inst::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<Inst*> **insts
 
       *bss_addr = addr;
       while (addr < end_addr)
-	{
-	  addr += 4;
-	  (*bss) -> push_back (0);
-	}
+        {
+          addr += 4;
+          (*bss) -> push_back (0);
+        }
     }
 }
 
@@ -212,8 +212,8 @@ Inst::ToFile (string fn, vector<Inst *> *insts)
       spaces = string (8 - mnemo.length (), ' ');
 
       f << hex << inst -> m_addr << ":   "
-	<< mnemo << spaces << args
-	<< endl;
+        << mnemo << spaces << args
+        << endl;
     }
   
   f.close ();
@@ -235,7 +235,7 @@ Inst::CountRegs (vector<Inst *> *insts)
   bitset<64> bs (refs);
   for (int b = 0; b < 62; ++b)
     if (bs[b])
-	count++;
+        count++;
 
   return count;
 }

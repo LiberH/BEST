@@ -44,8 +44,8 @@ BB::insts ()
 // static
 void
 BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<BB *> **bbs,
-	      u32 *data_addr, vector<s32> **data,
-	      u32 *bss_addr,  vector<s32> **bss )
+              u32 *data_addr, vector<s32> **data,
+              u32 *bss_addr,  vector<s32> **bss )
 {
   vector<Inst *> *insts = NULL;
   Inst::FromFile (f, entry_addr, exit_addr, &insts, data_addr, data, bss_addr, bss);
@@ -65,17 +65,17 @@ BB::FromFile (string f, u32 *entry_addr, u32 *exit_addr, vector<BB *> **bbs,
     {
       Inst *inst = *inst_it;
       vector<u32>::iterator addr_it =
-	find (leaders -> begin () ,
-	      leaders -> end   () ,
-	      inst    -> m_addr   );
+        find (leaders -> begin () ,
+              leaders -> end   () ,
+              inst    -> m_addr   );
       
       if (addr_it != leaders -> end ())
-	{
-	  (*bbs) -> push_back (bb);
-	  
-	  bb = new BB ();
-	  bb -> m_entry = inst -> m_addr;
-	}
+        {
+          (*bbs) -> push_back (bb);
+          
+          bb = new BB ();
+          bb -> m_entry = inst -> m_addr;
+        }
 
       bb -> addInst (*inst);
     }
@@ -100,19 +100,19 @@ BB::ToFile (string fn, vector<BB *> *bbs)
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it = insts -> begin ();  
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  
-	  string addr, mnemo, spaces, args;
-	  stringstream ss (inst -> m_disass);      
-	  getline (ss, mnemo, ' ');
-	  getline (ss, args,  ' ');
-	  spaces = string (8 - mnemo.length (), ' ');
-	  
-	  f << hex << inst -> m_addr << ":       "
-	    << mnemo << spaces << args
-	    << endl;
-	}
+        {
+          Inst *inst = *inst_it;
+          
+          string addr, mnemo, spaces, args;
+          stringstream ss (inst -> m_disass);      
+          getline (ss, mnemo, ' ');
+          getline (ss, args,  ' ');
+          spaces = string (8 - mnemo.length (), ' ');
+          
+          f << hex << inst -> m_addr << ":       "
+            << mnemo << spaces << args
+            << endl;
+        }
     }
     
   f.close ();
@@ -163,10 +163,10 @@ BB::Leaders (vector<Inst *> &insts)
     {
       Inst *i = *inst_it;
       if (i -> m_branch)
-	{
-	  leaders -> push_back (i -> m_addr +4);
-	  leaders -> push_back (i -> m_target);
-	}
+        {
+          leaders -> push_back (i -> m_addr +4);
+          leaders -> push_back (i -> m_target);
+        }
     }
 
   vector<u32>::iterator leader_it;

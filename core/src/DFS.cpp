@@ -33,13 +33,13 @@ DFS::DFS (const CFG *cfg)
       ListDigraph::Node u = cfg -> m_graph -> source (a);
       ListDigraph::Node v = cfg -> m_graph -> target (a);
       if (!dfs.reached (v))
-	{
-	  i++;
-	  
-	  (*m_order )[v] = i;
-	  (*m_parent)[v] = u;
-	  (*m_list  )[i] = v;
-	}
+        {
+          i++;
+          
+          (*m_order )[v] = i;
+          (*m_parent)[v] = u;
+          (*m_list  )[i] = v;
+        }
       
       dfs.processNextArc ();
     }

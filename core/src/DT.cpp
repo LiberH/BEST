@@ -53,12 +53,12 @@ DT::DT (const CFG *cfg)
       
       ListDigraph::InArcIt a (*cfg -> m_graph, w);
       for (; a != INVALID; ++a)
-	{
-	  ListDigraph::Node v = cfg -> m_graph -> source (a);
-	  ListDigraph::Node u = eval (v);
-	  if ((*m_sdom)[u] < (*m_sdom)[w])
-	    (*m_sdom)[w] = (*m_sdom)[u];
-	}
+        {
+          ListDigraph::Node v = cfg -> m_graph -> source (a);
+          ListDigraph::Node u = eval (v);
+          if ((*m_sdom)[u] < (*m_sdom)[w])
+            (*m_sdom)[w] = (*m_sdom)[u];
+        }
 
       (*m_bucket)[(*dfs -> m_list)[(*m_sdom)[w]]] -> insert (w); // add w to bucket(vertex(semi(w)))
       (*m_ancestor)[w] = (*dfs -> m_parent)[w]; // link
@@ -66,14 +66,14 @@ DT::DT (const CFG *cfg)
       // Step 3:
       v = (*m_bucket)[(*dfs -> m_parent)[w]] -> begin();
       for (; v != (*m_bucket)[(*dfs -> m_parent)[w]] -> end(); ++v)
-	{
-	  (*m_bucket)[(*dfs -> m_parent)[w]] -> erase (v);
-	  ListDigraph::Node u = eval(*v);
-	  if ((*m_sdom)[u] < (*m_sdom)[*v])
-	    (*m_idom)[*v] = u;
-	  else
-	    (*m_idom)[*v] = (*dfs -> m_parent)[w];
-	}
+        {
+          (*m_bucket)[(*dfs -> m_parent)[w]] -> erase (v);
+          ListDigraph::Node u = eval(*v);
+          if ((*m_sdom)[u] < (*m_sdom)[*v])
+            (*m_idom)[*v] = u;
+          else
+            (*m_idom)[*v] = (*dfs -> m_parent)[w];
+        }
     }
   
   // Step 4:
@@ -81,7 +81,7 @@ DT::DT (const CFG *cfg)
     {
       ListDigraph::Node w = (*dfs -> m_list)[i];
       if ((*dfs -> m_order)[(*m_idom)[w]] != (*m_sdom)[w])
-	(*m_idom)[w] = (*m_idom)[(*m_idom)[w]];
+        (*m_idom)[w] = (*m_idom)[(*m_idom)[w]];
     }
 
   ListDigraph::NodeIt m (*cfg -> m_graph);
@@ -114,7 +114,7 @@ DT::addBB (const BB *bb)
 
 ListDigraph::Arc
 DT::addEdge (const BB *bb,
-	     const BB *cc)
+             const BB *cc)
 {
   ListDigraph::Node n = (*m_nodes)[bb -> m_entry];
   ListDigraph::Node m = (*m_nodes)[cc -> m_entry];
@@ -163,7 +163,7 @@ DT::eval (ListDigraph::Node v)
   while ((*m_ancestor)[v] != INVALID)
     {
       if ((*m_sdom)[v] < (*m_sdom)[u])
-	u = v;
+        u = v;
       
       v = (*m_ancestor)[v];
     }

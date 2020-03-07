@@ -30,11 +30,11 @@ Slicer::slice ()
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it = insts -> begin ();  
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  if (inst -> m_branch)
-	    to_slice -> push_back (inst);
-	}
+        {
+          Inst *inst = *inst_it;
+          if (inst -> m_branch)
+            to_slice -> push_back (inst);
+        }
     }
   
   return this -> slice (to_slice);
@@ -74,45 +74,45 @@ Slicer::slice (vector<Inst *> *insts)
       
       ListDigraph::InArcIt ia_it (*m_pdg -> m_graph, n);
       for (; ia_it != INVALID; ++ia_it)
-	{
-	  ListDigraph::Arc a = ia_it;
-	  ListDigraph::Node m = m_pdg -> m_graph -> source (a);
-	  if ((*m_pdg -> m_meta)[n]
-	  &&  (*m_pdg -> m_meta)[m])
-	    {
-	      Inst *inst = (*m_pdg -> m_insts)[m];
-	      if (!marked[m])
-		{
-		  slice -> push_back (inst);
-		  w.insert (m);
-		  marked[m] = true;
-		}
-	    }
+        {
+          ListDigraph::Arc a = ia_it;
+          ListDigraph::Node m = m_pdg -> m_graph -> source (a);
+          if ((*m_pdg -> m_meta)[n]
+          &&  (*m_pdg -> m_meta)[m])
+            {
+              Inst *inst = (*m_pdg -> m_insts)[m];
+              if (!marked[m])
+                {
+                  slice -> push_back (inst);
+                  w.insert (m);
+                  marked[m] = true;
+                }
+            }
 
-	  if ((*m_pdg -> m_meta)[n]
+          if ((*m_pdg -> m_meta)[n]
           && !(*m_pdg -> m_meta)[m])
-	    {
-	      if (!marked[m])
-		{
-		  w.insert (m);
-		  marked[m] = true;
-		}
-	    }
+            {
+              if (!marked[m])
+                {
+                  w.insert (m);
+                  marked[m] = true;
+                }
+            }
 
-	  if (!(*m_pdg -> m_meta)[n]
+          if (!(*m_pdg -> m_meta)[n]
           &&  !(*m_pdg -> m_meta)[m])
-	    {
-	      BB *bb = (*m_pdg -> m_bbs)[m];
-	      Inst *inst = bb -> m_insts -> back ();
-	      ListDigraph::Node m = (*m_pdg -> m_nodes)[inst -> m_addr +1];
-	      if (!marked[m])
-		{
-		  slice -> push_back (inst);
-		  w.insert (m);
-		  marked[m] = true;
-		}	      
-	    }	  
-	}
+            {
+              BB *bb = (*m_pdg -> m_bbs)[m];
+              Inst *inst = bb -> m_insts -> back ();
+              ListDigraph::Node m = (*m_pdg -> m_nodes)[inst -> m_addr +1];
+              if (!marked[m])
+                {
+                  slice -> push_back (inst);
+                  w.insert (m);
+                  marked[m] = true;
+                }              
+            }          
+        }
     }
 
   return slice;

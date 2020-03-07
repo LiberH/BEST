@@ -39,11 +39,11 @@ DDG::DDG (CFG *cfg)
       BB *bb = (*cfg -> m_bbs)[n];
       vector<Inst *>::iterator inst_it = bb -> m_insts -> begin ();
       for (; inst_it != bb -> m_insts -> end (); ++inst_it)
-	{
-	  // TODO: retreivable form Inst::FromFile function.
-	  Inst *inst = *inst_it;
-	  insts -> push_back (inst);
-	}
+        {
+          // TODO: retreivable form Inst::FromFile function.
+          Inst *inst = *inst_it;
+          insts -> push_back (inst);
+        }
     }
   
   m_kills = new vector< set<Inst *> * > (64, NULL);
@@ -65,11 +65,11 @@ DDG::DDG (CFG *cfg)
 
       bitset<64> bs (inst -> m_defs);
       for (int b = 0; b < 64; ++b)
-	if (bs[b])
-	  {
-	    (*m_kills)[b] -> insert (inst);
-	    (*m_gens )[inst -> m_addr] -> insert (inst);
-	  }
+        if (bs[b])
+          {
+            (*m_kills)[b] -> insert (inst);
+            (*m_gens )[inst -> m_addr] -> insert (inst);
+          }
     }  
   
   vector<Inst *> w;
@@ -80,12 +80,12 @@ DDG::DDG (CFG *cfg)
       // pick and remove an inst from the worklist.
       Inst *inst = w.front ();
       w.erase (w.begin ());
-	
+        
       // assign 'OUT' to 'OLDOUT'.
       set<Inst *> *oldout = new set<Inst *> ();
       set<Inst *>::iterator it = (*m_outs)[inst -> m_addr] -> begin ();
       for (; it != (*m_outs)[inst -> m_addr] -> end (); ++it)
-	oldout -> insert (*it);
+        oldout -> insert (*it);
 
       // compute 'IN'.
       (*m_ins)[inst -> m_addr] -> clear ();
@@ -93,78 +93,78 @@ DDG::DDG (CFG *cfg)
       BB *bb = (*cfg -> m_bbs)[n];
       Inst *bb_entry = bb -> m_insts -> front ();
       if (inst -> m_addr != bb_entry -> m_addr)
-	{
-	  Inst *prev = inst -> m_prev;
-	  set<Inst *>::iterator it = (*m_outs)[prev -> m_addr] -> begin ();
-	  for (; it != (*m_outs)[prev -> m_addr] -> end (); ++it)
-	    (*m_ins)[inst -> m_addr] -> insert (*it);
-	}
+        {
+          Inst *prev = inst -> m_prev;
+          set<Inst *>::iterator it = (*m_outs)[prev -> m_addr] -> begin ();
+          for (; it != (*m_outs)[prev -> m_addr] -> end (); ++it)
+            (*m_ins)[inst -> m_addr] -> insert (*it);
+        }
       else
-	{
-	  vector<BB *> *preds = (*cfg -> m_preds)[n];
-	  vector<BB *>::iterator pred_it = preds -> begin ();
-	  for (; pred_it != preds -> end (); ++pred_it)
-	    {
-	      BB *bb = *pred_it;
-	      Inst *bb_exit = bb -> m_insts -> back ();
-	      set<Inst *>::iterator it = (*m_outs)[bb_exit -> m_addr] -> begin ();
-	      for (; it != (*m_outs)[bb_exit -> m_addr] -> end (); ++it)
-		(*m_ins)[inst -> m_addr] -> insert (*it);
-	    }
-	}
+        {
+          vector<BB *> *preds = (*cfg -> m_preds)[n];
+          vector<BB *>::iterator pred_it = preds -> begin ();
+          for (; pred_it != preds -> end (); ++pred_it)
+            {
+              BB *bb = *pred_it;
+              Inst *bb_exit = bb -> m_insts -> back ();
+              set<Inst *>::iterator it = (*m_outs)[bb_exit -> m_addr] -> begin ();
+              for (; it != (*m_outs)[bb_exit -> m_addr] -> end (); ++it)
+                (*m_ins)[inst -> m_addr] -> insert (*it);
+            }
+        }
       
       // compute 'KILL'.
       set<Inst *> *kill = new set<Inst *> ();
       it = (*m_gens)[inst -> m_addr] -> begin ();
       for (; it != (*m_gens)[inst -> m_addr] -> end (); ++it)
-	for (int b = 0; b < 64; ++b)
-	  {
-	    Inst *inst = *it;
-	    bitset<64> bs (inst -> m_defs);
-	    if (bs[b])
-	      kill -> insert ((*m_kills)[b] -> begin (),
-		              (*m_kills)[b] -> end ());
-	  }
+        for (int b = 0; b < 64; ++b)
+          {
+            Inst *inst = *it;
+            bitset<64> bs (inst -> m_defs);
+            if (bs[b])
+              kill -> insert ((*m_kills)[b] -> begin (),
+                              (*m_kills)[b] -> end ());
+          }
       
       // compute 'OUT'.
       (*m_outs)[inst -> m_addr] -> clear ();
       
       it = (*m_ins)[inst -> m_addr] -> begin ();
       for (; it != (*m_ins)[inst -> m_addr] -> end (); ++it)
-	(*m_outs)[inst -> m_addr] -> insert (*it);
+        (*m_outs)[inst -> m_addr] -> insert (*it);
 
       it = kill -> begin ();
       for (; it != kill -> end (); ++it)
-	(*m_outs)[inst -> m_addr] -> erase (*it);
+        (*m_outs)[inst -> m_addr] -> erase (*it);
       
       it = (*m_gens)[inst -> m_addr] -> begin ();
       for (; it != (*m_gens)[inst -> m_addr] -> end (); ++it)
-	(*m_outs)[inst -> m_addr] -> insert (*it);
+        (*m_outs)[inst -> m_addr] -> insert (*it);
 
       // check if 'OLDOUT' equals 'OUT'.
       if ((*oldout) != (*(*m_outs)[inst -> m_addr]))
-	{
-	  // add all successors to the worklist.
-	  // TODO
-	  ListDigraph::Node n = (*cfg -> m_nodes)[inst -> m_addr];
-	  BB *bb = (*cfg -> m_bbs)[n];
-	  Inst *bb_exit = bb -> m_insts -> back ();
-	  if (inst -> m_addr != bb_exit -> m_addr)
-	    {
-	      w.push_back (inst -> m_next);
-	    }
-	  else
-	    {
-	      vector<BB *> *succs = (*cfg -> m_succs)[n];
-	      vector<BB *>::iterator succ_it = succs -> begin ();
-	      for (; succ_it != succs -> end (); ++succ_it)
-		{
-		  BB *bb = *succ_it;
-		  Inst *bb_entry = bb -> m_insts -> front ();
-		  w.push_back (bb_entry);
-		}
-	    }
-	}
+        {
+          // add all successors to the worklist.
+          // TODO
+          ListDigraph::Node n = (*cfg -> m_nodes)[inst -> m_addr];
+          BB *bb = (*cfg -> m_bbs)[n];
+          Inst *bb_exit = bb -> m_insts -> back ();
+          if (inst -> m_addr != bb_exit -> m_addr)
+            {
+              w.push_back (inst -> m_next);
+            }
+          else
+            {
+              vector<BB *> *succs = (*cfg -> m_succs)[n];
+              vector<BB *>::iterator succ_it = succs -> begin ();
+              for (; succ_it != succs -> end (); ++succ_it)
+                {
+                  BB *bb = *succ_it;
+                  Inst *bb_entry = bb -> m_insts -> front ();
+                  w.push_back (bb_entry);
+                }
+            }
+        }
     }
 
   for (int i = 0; i < size; ++i)
@@ -173,18 +173,18 @@ DDG::DDG (CFG *cfg)
       bitset<64> bs (inst -> m_refs);
       // TODO: which registers to filter?
       for (int b = 0; b < 64; ++b)
-	if (b != 7 && bs[b])
-	  {
-	    set<Inst *> *ins = (*m_ins)[inst -> m_addr];
-	    set<Inst *>::iterator in_it = ins -> begin ();
-	    for (; in_it != ins -> end (); ++in_it)
-	      {
-		Inst *in = *in_it;
-		bitset<64> bs (in -> m_defs);
-		if (bs[b])
-		  (*m_deps)[inst -> m_addr] -> insert (in);
-	      }
-	  }
+        if (b != 7 && bs[b])
+          {
+            set<Inst *> *ins = (*m_ins)[inst -> m_addr];
+            set<Inst *>::iterator in_it = ins -> begin ();
+            for (; in_it != ins -> end (); ++in_it)
+              {
+                Inst *in = *in_it;
+                bitset<64> bs (in -> m_defs);
+                if (bs[b])
+                  (*m_deps)[inst -> m_addr] -> insert (in);
+              }
+          }
     }
 }
 
@@ -210,24 +210,24 @@ DDG::ToFile (string fn, vector<Inst *> *insts, DDG *ddg)
       spaces = string (8 - mnemo.length (), ' ');
 
       f << hex << inst -> m_addr << ":   "
-	<< mnemo << spaces << args;
+        << mnemo << spaces << args;
 
       spaces = string (17 - args.length (), ' ');
       f << spaces << "| ";
 
       string srefs, sdefs;
       for (int b = 0; b < 64; ++b)
-	if (b != 7 && refs[b])
-	  srefs += reg_names[b] + " ";
+        if (b != 7 && refs[b])
+          srefs += reg_names[b] + " ";
 
       if (srefs.length () < 16)
-	{
-	  spaces = string (16 - srefs.length (), ' ');
-	  f << srefs << spaces << "-> ";
-	  for (int b = 0; b < 64; ++b)
-	    if (b != 7 && defs[b])
-	      f << reg_names[b] << " ";
-	}
+        {
+          spaces = string (16 - srefs.length (), ' ');
+          f << srefs << spaces << "-> ";
+          for (int b = 0; b < 64; ++b)
+            if (b != 7 && defs[b])
+              f << reg_names[b] << " ";
+        }
       
       f << endl;
     }
@@ -256,16 +256,16 @@ DDG::ToFile (string fn, CFG *cfg, DDG *ddg)
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it  = insts -> begin ();
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  ostringstream oss;
-	  Inst *inst = *inst_it;
-	  oss << hex << inst -> m_addr;
-	  (*agnodes)[inst -> m_addr] = agnode (agraph, C(inst -> m_name), TRUE);
-	  agsafeset ((*agnodes)[inst -> m_addr], "label", C(oss.str ()), "error");
-	  agsafeset ((*agnodes)[inst -> m_addr], "ranksep", "0.2",   "");  
-	  agsafeset ((*agnodes)[inst -> m_addr], "shape",   "box",   "");  
-	  agsafeset ((*agnodes)[inst -> m_addr], "height",  "0.3",   "");
-	}
+        {
+          ostringstream oss;
+          Inst *inst = *inst_it;
+          oss << hex << inst -> m_addr;
+          (*agnodes)[inst -> m_addr] = agnode (agraph, C(inst -> m_name), TRUE);
+          agsafeset ((*agnodes)[inst -> m_addr], "label", C(oss.str ()), "error");
+          agsafeset ((*agnodes)[inst -> m_addr], "ranksep", "0.2",   "");  
+          agsafeset ((*agnodes)[inst -> m_addr], "shape",   "box",   "");  
+          agsafeset ((*agnodes)[inst -> m_addr], "height",  "0.3",   "");
+        }
     }
   
   ListDigraph::NodeIt m (*graph);
@@ -275,21 +275,21 @@ DDG::ToFile (string fn, CFG *cfg, DDG *ddg)
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it  = insts -> begin ();
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  set<Inst *> *deps = (*ddg -> m_deps)[inst -> m_addr];
-	  if (deps -> empty ())
-	      agedge (agraph, agn, (*agnodes)[inst -> m_addr], NULL, TRUE);
-	  else
-	    { 
-	      set<Inst *>::iterator dep_it  = deps -> begin ();
-	      for (; dep_it != deps -> end (); ++dep_it)
-		{
-		  Inst *dep = *dep_it;
-		  agedge (agraph, (*agnodes)[dep -> m_addr], (*agnodes)[inst -> m_addr], NULL, TRUE);
-		}
-	    }
-	}
+        {
+          Inst *inst = *inst_it;
+          set<Inst *> *deps = (*ddg -> m_deps)[inst -> m_addr];
+          if (deps -> empty ())
+              agedge (agraph, agn, (*agnodes)[inst -> m_addr], NULL, TRUE);
+          else
+            { 
+              set<Inst *>::iterator dep_it  = deps -> begin ();
+              for (; dep_it != deps -> end (); ++dep_it)
+                {
+                  Inst *dep = *dep_it;
+                  agedge (agraph, (*agnodes)[dep -> m_addr], (*agnodes)[inst -> m_addr], NULL, TRUE);
+                }
+            }
+        }
     }
 
   agwrite (agraph, f);

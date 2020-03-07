@@ -38,13 +38,13 @@ main (int argc, char *argv[])
       && (opt = getopt_long (argc, argv,"ht:o:c", long_options, &long_index )) != -1)
     {
       switch (opt)
-	{
-	case 'h' : print_usage     = true;   break;
-	case 't' : template_file   = optarg; break;
-	case 'o' : output_dir      = optarg; break;
-	case 'c' : cfg_only        = true;   break;
-	default  : print_usage     = true;   break;
-	}
+        {
+        case 'h' : print_usage     = true;   break;
+        case 't' : template_file   = optarg; break;
+        case 'o' : output_dir      = optarg; break;
+        case 'c' : cfg_only        = true;   break;
+        default  : print_usage     = true;   break;
+        }
     }
 
   executable_file = argv[optind];

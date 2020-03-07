@@ -67,10 +67,10 @@ CFG::insts ()
       BB *bb = (*m_bbs)[n];
       vector<Inst *>::iterator inst_it = bb -> m_insts -> begin ();
       for (; inst_it != bb -> m_insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  insts -> push_back (inst);
-	}
+        {
+          Inst *inst = *inst_it;
+          insts -> push_back (inst);
+        }
     }
 
   return insts;
@@ -95,7 +95,7 @@ CFG::addBB (BB &bb)
 
 ListDigraph::Arc
 CFG::addEdge (BB &bb,
-	      BB &cc)
+              BB &cc)
 {
   ListDigraph::Node n = (*m_nodes)[bb.m_entry];
   ListDigraph::Node m = (*m_nodes)[cc.m_entry];
@@ -165,10 +165,10 @@ CFG::FromFile (string f)
       ListDigraph::Node n = (*cfg -> m_nodes)[bb -> m_entry];
       vector<BB *>::iterator succ_it = (*cfg -> m_succs)[n] -> begin ();
       for (; succ_it != (*cfg -> m_succs)[n] -> end (); ++succ_it)
-	{
-	  BB *succ = *succ_it;
-	  cfg -> addEdge (*bb, *succ);
-	}
+        {
+          BB *succ = *succ_it;
+          cfg -> addEdge (*bb, *succ);
+        }
     }
 
   cfg -> m_entry = (*cfg -> m_nodes)[entry_addr];  
@@ -195,19 +195,19 @@ CFG::ToFile (string fn, CFG *cfg, int grain)
     {
       ListDigraph::NodeIt n (*graph);
       for (; n != INVALID; ++n)
-	{
-	  BB *bb = (*cfg -> m_bbs)[n];
-	  (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
-	  agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
-	}
+        {
+          BB *bb = (*cfg -> m_bbs)[n];
+          (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
+          agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
+        }
   
       ListDigraph::ArcIt a (*graph);
       for (; a != INVALID; ++a)
-	{
-	  ListDigraph::Node n = graph -> source (a);
-	  ListDigraph::Node m = graph -> target (a);
-	  agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
-	}
+        {
+          ListDigraph::Node n = graph -> source (a);
+          ListDigraph::Node m = graph -> target (a);
+          agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
+        }
     }
   else
     {
@@ -215,54 +215,54 @@ CFG::ToFile (string fn, CFG *cfg, int grain)
       sort (insts -> begin (), insts -> end (), Inst::byAddr);
       vector<Inst *>::iterator inst_it = insts -> begin ();
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  ostringstream oss;
-	  oss.str (""); oss << hex << inst -> m_addr;
+        {
+          Inst *inst = *inst_it;
+          ostringstream oss;
+          oss.str (""); oss << hex << inst -> m_addr;
 
-	  Agnode_t *src = agnode (agraph, C(inst -> m_name), TRUE);
-	  agsafeset (src, "label", C(oss.str ()), "error");
-	  
-	  if(!inst -> m_branch)
-	    {
-	      string name = (inst -> m_next != NULL ? inst -> m_next -> m_name : "NULL"); // TOODO: fix
-	      Agnode_t *nxt = agnode (agraph, C(name), TRUE);
-	      agedge (agraph, src, nxt, NULL, TRUE);
-	    }
-	  else if (inst -> m_uncond)
-	    {
-	      Inst *target = NULL;
-	      vector<Inst *> *targets = cfg -> insts ();
-	      vector<Inst *>::iterator target_it = targets -> begin ();
-	      for (; target_it != targets -> end (); ++target_it)
-		{
-		  target = *target_it;
-		  if (target -> m_addr == inst -> m_target)
-		    break;
-		}
+          Agnode_t *src = agnode (agraph, C(inst -> m_name), TRUE);
+          agsafeset (src, "label", C(oss.str ()), "error");
+          
+          if(!inst -> m_branch)
+            {
+              string name = (inst -> m_next != NULL ? inst -> m_next -> m_name : "NULL"); // TOODO: fix
+              Agnode_t *nxt = agnode (agraph, C(name), TRUE);
+              agedge (agraph, src, nxt, NULL, TRUE);
+            }
+          else if (inst -> m_uncond)
+            {
+              Inst *target = NULL;
+              vector<Inst *> *targets = cfg -> insts ();
+              vector<Inst *>::iterator target_it = targets -> begin ();
+              for (; target_it != targets -> end (); ++target_it)
+                {
+                  target = *target_it;
+                  if (target -> m_addr == inst -> m_target)
+                    break;
+                }
 
-	      Agnode_t *trg = agnode (agraph, C(target -> m_name), TRUE);
-	      agedge (agraph, src, trg, NULL, TRUE);
-	    }
-	  else
-	    {
-	      Agnode_t *nxt = agnode (agraph, C(inst -> m_next -> m_name), TRUE);
-	      agedge (agraph, src, nxt, NULL, TRUE);
-	      
-	      Inst *target = NULL;
-	      vector<Inst *> *targets = cfg -> insts ();
-	      vector<Inst *>::iterator target_it = targets -> begin ();
-	      for (; target_it != targets -> end (); ++target_it)
-		{
-		  target = *target_it;
-		  if (target -> m_addr == inst -> m_target)
-		    break;
-		}
+              Agnode_t *trg = agnode (agraph, C(target -> m_name), TRUE);
+              agedge (agraph, src, trg, NULL, TRUE);
+            }
+          else
+            {
+              Agnode_t *nxt = agnode (agraph, C(inst -> m_next -> m_name), TRUE);
+              agedge (agraph, src, nxt, NULL, TRUE);
+              
+              Inst *target = NULL;
+              vector<Inst *> *targets = cfg -> insts ();
+              vector<Inst *>::iterator target_it = targets -> begin ();
+              for (; target_it != targets -> end (); ++target_it)
+                {
+                  target = *target_it;
+                  if (target -> m_addr == inst -> m_target)
+                    break;
+                }
 
-	      Agnode_t *trg = agnode (agraph, C(target -> m_name), TRUE);
-	      agedge (agraph, src, trg, NULL, TRUE);
-	    }
-	}
+              Agnode_t *trg = agnode (agraph, C(target -> m_name), TRUE);
+              agedge (agraph, src, trg, NULL, TRUE);
+            }
+        }
     }
   
   agwrite (agraph, f);
@@ -278,10 +278,10 @@ struct {
 
 XMLElement *
 newElementWrapper (XMLDocument *doc,
-		   const char *name,
-		   const char *text,
-		   attr_t *attrs,
-		   XMLElement **childs)
+                   const char *name,
+                   const char *text,
+                   attr_t *attrs,
+                   XMLElement **childs)
 {
   XMLElement *elm;
   
@@ -425,35 +425,35 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
     Agnode_t *n = agfstnode(g);
     for (; n != NULL; n = agnxtnode (g, n))
       {
-	char *label = agget (n, "label");
-	char *pos   = agget (n, "pos");
-	pos = (pos ? pos : (char *) "null");
+        char *label = agget (n, "label");
+        char *pos   = agget (n, "pos");
+        pos = (pos ? pos : (char *) "null");
 
-	string x, y;
-	stringstream ss (pos);
-	getline (ss, x, ',');
-	getline (ss, y, ',');
+        string x, y;
+        stringstream ss (pos);
+        getline (ss, x, ',');
+        getline (ss, y, ',');
 
-	u32 addr;
-	stringstream ss_label (label);
-	stringstream ss_x (x);
-	stringstream ss_y (y);
-	ss_label >> hex >> addr;
+        u32 addr;
+        stringstream ss_label (label);
+        stringstream ss_x (x);
+        stringstream ss_y (y);
+        ss_label >> hex >> addr;
 
-	Inst *inst = NULL;
-	vector<Inst *> *insts = cfg -> insts ();
-	vector<Inst *>::iterator inst_it = insts -> begin ();
-	for (; inst_it != insts -> end (); ++inst_it)
-	  {
-	    inst = *inst_it;
-	    if (inst -> m_addr == addr)
-	      break;
-	  }
+        Inst *inst = NULL;
+        vector<Inst *> *insts = cfg -> insts ();
+        vector<Inst *>::iterator inst_it = insts -> begin ();
+        for (; inst_it != insts -> end (); ++inst_it)
+          {
+            inst = *inst_it;
+            if (inst -> m_addr == addr)
+              break;
+          }
 
-	ss_x >> dec >> inst -> m_x;
-	ss_y >> dec >> inst -> m_y;
-	inst -> m_x *=  5;
-	inst -> m_y *= -1;
+        ss_x >> dec >> inst -> m_x;
+        ss_y >> dec >> inst -> m_y;
+        inst -> m_x *=  5;
+        inst -> m_y *= -1;
       }
     
     agclose (g);
@@ -495,8 +495,8 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
       /////
       
       semantics_oss << "void execute_" << hex << inst -> m_addr << "() {"
-		    << " " << inst -> m_function << "; "
-		    << "}" << endl;
+                    << " " << inst -> m_function << "; "
+                    << "}" << endl;
     }
 
   int n_rets = 0;
@@ -510,7 +510,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
       indRets[i] = -1;
       size_t bclr_pos = inst -> m_disass.find ("bclr- ");
       if (bclr_pos != string::npos)
-	indRets[i] = n_rets++;
+        indRets[i] = n_rets++;
     }
   
   int n_insts = insts -> size ();
@@ -545,63 +545,63 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   for (int b = 0; b < 64; ++b)
     if (bs[b])
       switch (b)
-	{
-	case  0: /* "cr"  */ break; /* replaced by cr0 to cr7 */
-	case  1: /* "ctr" */ break; /* already in template    */
-	case  5: /* "lr"  */ break; /* not used               */
-	case  7: /* "pc"  */ break; /* not used               */
-	case 11: /* "xer" */ break; /* already in template    */
-	case 16: /* "cr0" */ break; /* already in template    */
-	case 17: /* "cr1" */
-	case 18: /* "cr2" */
-	case 19: /* "cr3" */
-	case 20: /* "cr4" */
-	case 21: /* "cr5" */
-	case 22: /* "cr6" */
-	case 23: /* "cr7" */
-	  cr_num = b -16;
-	  indCR[cr_num] = cr_count++;
-	  crs_oss << "const uint3_t " << reg_names[b] << " = " << dec << cr_num << ";" << endl;
-	  break;
-	  
-	case 30: /* "r0"   */ break; /* already in template    */
-	case 31: /* "r1"   */
-	case 32: /* "r2"   */
-	case 33: /* "r3"   */
-	case 34: /* "r4"   */
-	case 35: /* "r5"   */
-	case 36: /* "r6"   */
-	case 37: /* "r7"   */
-	case 38: /* "r8"   */
-	case 39: /* "r9"   */
-	case 40: /* "r10"  */
-	case 41: /* "r11"  */
-	case 42: /* "r12"  */
-	case 43: /* "r13"  */
-	case 44: /* "r14"  */
-	case 45: /* "r15"  */
-	case 46: /* "r16"  */
-	case 47: /* "r17"  */
-	case 48: /* "r18"  */
-	case 49: /* "r19"  */
-	case 50: /* "r20"  */
-	case 51: /* "r21"  */
-	case 52: /* "r22"  */
-	case 53: /* "r23"  */
-	case 54: /* "r24"  */
-	case 55: /* "r25"  */
-	case 56: /* "r26"  */
-	case 57: /* "r27"  */
-	case 58: /* "r28"  */
-	case 59: /* "r29"  */
-	case 60: /* "r30"  */
-	case 61: /* "r31"  */
-	  gprs_oss << "const uint5_t " << reg_names[b] << " = " << ri++ << ";" << endl;	
-	  break;
-	  
-	default:
-	  //cerr << "Bad register: " << reg_names[b] << endl;
-	  break;
+        {
+        case  0: /* "cr"  */ break; /* replaced by cr0 to cr7 */
+        case  1: /* "ctr" */ break; /* already in template    */
+        case  5: /* "lr"  */ break; /* not used               */
+        case  7: /* "pc"  */ break; /* not used               */
+        case 11: /* "xer" */ break; /* already in template    */
+        case 16: /* "cr0" */ break; /* already in template    */
+        case 17: /* "cr1" */
+        case 18: /* "cr2" */
+        case 19: /* "cr3" */
+        case 20: /* "cr4" */
+        case 21: /* "cr5" */
+        case 22: /* "cr6" */
+        case 23: /* "cr7" */
+          cr_num = b -16;
+          indCR[cr_num] = cr_count++;
+          crs_oss << "const uint3_t " << reg_names[b] << " = " << dec << cr_num << ";" << endl;
+          break;
+          
+        case 30: /* "r0"   */ break; /* already in template    */
+        case 31: /* "r1"   */
+        case 32: /* "r2"   */
+        case 33: /* "r3"   */
+        case 34: /* "r4"   */
+        case 35: /* "r5"   */
+        case 36: /* "r6"   */
+        case 37: /* "r7"   */
+        case 38: /* "r8"   */
+        case 39: /* "r9"   */
+        case 40: /* "r10"  */
+        case 41: /* "r11"  */
+        case 42: /* "r12"  */
+        case 43: /* "r13"  */
+        case 44: /* "r14"  */
+        case 45: /* "r15"  */
+        case 46: /* "r16"  */
+        case 47: /* "r17"  */
+        case 48: /* "r18"  */
+        case 49: /* "r19"  */
+        case 50: /* "r20"  */
+        case 51: /* "r21"  */
+        case 52: /* "r22"  */
+        case 53: /* "r23"  */
+        case 54: /* "r24"  */
+        case 55: /* "r25"  */
+        case 56: /* "r26"  */
+        case 57: /* "r27"  */
+        case 58: /* "r28"  */
+        case 59: /* "r29"  */
+        case 60: /* "r30"  */
+        case 61: /* "r31"  */
+          gprs_oss << "const uint5_t " << reg_names[b] << " = " << ri++ << ";" << endl;        
+          break;
+          
+        default:
+          //cerr << "Bad register: " << reg_names[b] << endl;
+          break;
       }
   string crs_str = crs_oss.str ();
   string gprs_str = gprs_oss.str ();
@@ -611,7 +611,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   for (int indRets_i = 0; indRets_i < insts_size -1; ++indRets_i)
     {
       if (indRets_i % 10 == 0)
-	indRets_oss << endl << "  ";
+        indRets_oss << endl << "  ";
       indRets_oss << dec << indRets[indRets_i] << ", ";
     }
   indRets_oss << dec << indRets[insts_size -1] << endl << "};";
@@ -665,94 +665,94 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it = insts -> begin ();
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  string disass, spaces;
-	  ostringstream o;
+        {
+          Inst *inst = *inst_it;
+          string disass, spaces;
+          ostringstream o;
 
-	  if (next(inst_it) == insts -> end ())
-	    last_addr = inst -> m_addr;
-	  
-	  int target_num = -1;
-	  vector<Inst *> *targets = cfg -> insts ();
-	  vector<Inst *>::iterator target_it = targets -> begin ();
-	  for (; target_it != targets -> end (); ++target_it)
-	    {
-	      Inst *target = *target_it;
-	      if (inst -> m_branch
-	       && target -> m_addr == inst -> m_target)
-		target_num = target -> m_num; 
-	    }
+          if (next(inst_it) == insts -> end ())
+            last_addr = inst -> m_addr;
+          
+          int target_num = -1;
+          vector<Inst *> *targets = cfg -> insts ();
+          vector<Inst *>::iterator target_it = targets -> begin ();
+          for (; target_it != targets -> end (); ++target_it)
+            {
+              Inst *target = *target_it;
+              if (inst -> m_branch
+               && target -> m_addr == inst -> m_target)
+                target_num = target -> m_num; 
+            }
 
-	  o.str ("");
-	  o << hex << inst -> m_addr << ": " << inst -> m_disass;
-	  disass = o.str ();
-	  spaces = string (30 - disass.length (), ' ');
-	  
-	  insts_oss << endl;
-	  insts_oss << "  /*  " << disass << spaces << " - " << dec << inst -> m_num << " */ { ";
-	  insts_oss << dec << inst -> m_addr                    << ", ";
-	  insts_oss << 1                                        << ", "; // latency;
-	  insts_oss << (inst -> m_branch ? "true, " : "false,") << " ";
+          o.str ("");
+          o << hex << inst -> m_addr << ": " << inst -> m_disass;
+          disass = o.str ();
+          spaces = string (30 - disass.length (), ' ');
+          
+          insts_oss << endl;
+          insts_oss << "  /*  " << disass << spaces << " - " << dec << inst -> m_num << " */ { ";
+          insts_oss << dec << inst -> m_addr                    << ", ";
+          insts_oss << 1                                        << ", "; // latency;
+          insts_oss << (inst -> m_branch ? "true, " : "false,") << " ";
 
-	  size_t bclr_pos = inst -> m_disass.find ("bclr- ");
-	  if (inst -> m_branch
+          size_t bclr_pos = inst -> m_disass.find ("bclr- ");
+          if (inst -> m_branch
           &&  bclr_pos == string::npos)
-	    {
-	      o.str ("");
-	      o << dec << target_num;
-	      spaces = string (9 - o.str ().length (), ' ');
-	      insts_oss << spaces << dec << target_num;
-	    }
-	  else insts_oss << "_INST_MAX";
-	  insts_oss << ", ";
-	  insts_oss << (inst -> m_memory ? "true, " : "false,") << " "; // does_mem_access
-	  insts_oss << "{ ";
+            {
+              o.str ("");
+              o << dec << target_num;
+              spaces = string (9 - o.str ().length (), ' ');
+              insts_oss << spaces << dec << target_num;
+            }
+          else insts_oss << "_INST_MAX";
+          insts_oss << ", ";
+          insts_oss << (inst -> m_memory ? "true, " : "false,") << " "; // does_mem_access
+          insts_oss << "{ ";
 
-	  {
-	    int i = 64;
-	    ostringstream o;
-	    string byte, spaces;
-	    bool first = true;
-	    do
-	      {
-		i -= 8;
-		
-		o.str ("");
-		o << ((inst -> m_refs >> i) & 0xff);
-		byte = o.str ();
-		
-		spaces = string (3 - byte.length (), ' ');
-		insts_oss << (first ? "" : ", ") << spaces << byte;
-		first = false;
-	      }
-	    while (i);
-	  }
-	  
-	  insts_oss << " }, { ";
+          {
+            int i = 64;
+            ostringstream o;
+            string byte, spaces;
+            bool first = true;
+            do
+              {
+                i -= 8;
+                
+                o.str ("");
+                o << ((inst -> m_refs >> i) & 0xff);
+                byte = o.str ();
+                
+                spaces = string (3 - byte.length (), ' ');
+                insts_oss << (first ? "" : ", ") << spaces << byte;
+                first = false;
+              }
+            while (i);
+          }
+          
+          insts_oss << " }, { ";
 
-	  {
-	    int i = 64;
-	    ostringstream o;
-	    string byte, spaces;
-	    bool first = true;
-	    do
-	      {
-		i -= 8;
-		
-		o.str ("");
-		o << ((inst -> m_defs >> i) & 0xff);
-		byte = o.str ();
-		
-		spaces = string (3 - byte.length (), ' ');
-		insts_oss << (first ? "" : ", ") << spaces << byte;
-		first = false;
-	      }
-	    while (i);
-	  }
-	  
-	  insts_oss << " } },";
-	}
+          {
+            int i = 64;
+            ostringstream o;
+            string byte, spaces;
+            bool first = true;
+            do
+              {
+                i -= 8;
+                
+                o.str ("");
+                o << ((inst -> m_defs >> i) & 0xff);
+                byte = o.str ();
+                
+                spaces = string (3 - byte.length (), ' ');
+                insts_oss << (first ? "" : ", ") << spaces << byte;
+                first = false;
+              }
+            while (i);
+          }
+          
+          insts_oss << " } },";
+        }
     }
 
   insts_oss << endl;
@@ -803,10 +803,10 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
       
       if (i == 4) { i = 0; data_oss << endl << "  "; }
       data_oss << "/* " << dec << j    << " */ "
-	       << oct3_spc << oct3_str << ", "
-	       << oct2_spc << oct2_str << ", "
-	       << oct1_spc << oct1_str << ", "
-	       << oct0_spc << oct0_str << ", ";
+               << oct3_spc << oct3_str << ", "
+               << oct2_spc << oct2_str << ", "
+               << oct1_spc << oct1_str << ", "
+               << oct0_spc << oct0_str << ", ";
     }
   data_oss.seekp (-2, data_oss.cur);
   data_oss << endl << "};";
@@ -942,9 +942,9 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
                Inst *entry   = (*cfg -> m_bbs  )[cfg   -> m_entry] -> m_insts -> front ();
   ListDigraph::Node  entry_n = (*cfg -> m_nodes)[entry -> m_addr ];
   attr_t entry_attrs[] = {{"id" , "idinit"            },
-			  {"x"  , C(S(entry -> m_x))},
-			  {"y"  , C(S(entry -> m_y))},
-			  {NULL , NULL                }};
+                          {"x"  , C(S(entry -> m_x))},
+                          {"y"  , C(S(entry -> m_y))},
+                          {NULL , NULL                }};
   XMLElement *urg = newElementWrapper (doc, "urgent", NULL, NULL, NULL);
   XMLElement *loc_init_childs[] = {urg, NULL};
   XMLElement *loc_init = newElementWrapper (doc, "location", NULL, entry_attrs, loc_init_childs);
@@ -957,9 +957,9 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
                Inst *exit   = (*cfg -> m_bbs  )[cfg  -> m_exit] -> m_insts -> back ();
   ListDigraph::Node  exit_n = (*cfg -> m_nodes)[exit -> m_addr];
   attr_t exit_attrs[] = {{"id" , "idexit"           },
-			 {"x"  , C(S(exit -> m_x))},
-			 {"y"  , C(S(exit -> m_y))},
-			 {NULL , NULL               }};
+                         {"x"  , C(S(exit -> m_x))},
+                         {"y"  , C(S(exit -> m_y))},
+                         {NULL , NULL               }};
   XMLElement *loc_exit = newElementWrapper (doc, "location", NULL, exit_attrs, NULL);
   tmplt -> InsertEndChild (loc_exit);
 
@@ -980,25 +980,25 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
       sort (insts -> begin (), insts -> end (), Inst::byAddr);
       vector<Inst *>::iterator inst_it = insts -> begin ();
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  
-	  XMLElement *loc_name = NULL;
-	  if (inst == bb_entry)
-	    {
-	      oss.str (""); oss << bb -> m_label;
-	      loc_name = newElementWrapper (doc, "name", C(oss.str ()), NULL, NULL);
-	    }
+        {
+          Inst *inst = *inst_it;
+          
+          XMLElement *loc_name = NULL;
+          if (inst == bb_entry)
+            {
+              oss.str (""); oss << bb -> m_label;
+              loc_name = newElementWrapper (doc, "name", C(oss.str ()), NULL, NULL);
+            }
 
-	  oss.str (""); oss << "id" << hex << inst -> m_addr;
-	  attr_t attrs[] = {{"id" , C(oss.str ())    },
-			    {"x"  , C(S(inst -> m_x))},
-			    {"y"  , C(S(inst -> m_y))},
-			    {NULL , NULL             }};
-	  XMLElement *loc_childs[] = {loc_name, NULL};
-	  XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
-	  tmplt -> InsertEndChild (loc);
-	}
+          oss.str (""); oss << "id" << hex << inst -> m_addr;
+          attr_t attrs[] = {{"id" , C(oss.str ())    },
+                            {"x"  , C(S(inst -> m_x))},
+                            {"y"  , C(S(inst -> m_y))},
+                            {NULL , NULL             }};
+          XMLElement *loc_childs[] = {loc_name, NULL};
+          XMLElement *loc = newElementWrapper (doc, "location", NULL, attrs, loc_childs);
+          tmplt -> InsertEndChild (loc);
+        }
     }
   }
   
@@ -1044,7 +1044,7 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   string grd, upd;
   oss.str (""); oss << "EUs_ExecuteNext(" << dec << exit -> m_num <<   ")"; grd = oss.str ();
   oss.str (""); oss << "execute_"         << hex << exit -> m_addr << "()," << endl
-		    << "_mustTerminate = true"; upd = oss.str ();
+                    << "_mustTerminate = true"; upd = oss.str ();
   XMLElement *ltr_src = newElementWrapper (doc, "source" , NULL          , ltr_src_attrs , NULL);
   XMLElement *ltr_trg = newElementWrapper (doc, "target" , NULL          , ltr_trg_attrs , NULL);
   XMLElement *ltr_grd = newElementWrapper (doc, "label"  , C(grd)        , ltr_grd_attrs , NULL);
@@ -1070,57 +1070,57 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
       /* Check if last inst. of BB is in the slice: */
       vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), last_inst);
       if (slice_it != slice -> end ())
-	in_slice = true;
+        in_slice = true;
 
       /* Building intra-BB transitions: */
       vector<Inst *>::iterator inst_it = insts -> begin ();
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  XMLElement *tr;
-	  bool        in_slice =  false;
-	  Inst        *inst     = *inst_it;
+        {
+          XMLElement *tr;
+          bool        in_slice =  false;
+          Inst        *inst     = *inst_it;
 
-	  /* Don't take account of last inst. of BB: */
-	  if (inst -> m_addr != last_inst -> m_addr)
-	    {	      
-	      /* Check if this inst. is in the slice: */
-	      vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
-	      if (slice_it != slice -> end ())
-		in_slice = true;
+          /* Don't take account of last inst. of BB: */
+          if (inst -> m_addr != last_inst -> m_addr)
+            {              
+              /* Check if this inst. is in the slice: */
+              vector<Inst *>::iterator slice_it = find (slice -> begin (), slice -> end (), inst);
+              if (slice_it != slice -> end ())
+                in_slice = true;
 
-	      tr = fall_through (doc, inst, inst -> m_next, in_slice);
-	      tmplt -> InsertEndChild (tr);
-	    }
-	}
+              tr = fall_through (doc, inst, inst -> m_next, in_slice);
+              tmplt -> InsertEndChild (tr);
+            }
+        }
       
       /* Building inter-BB transitions (last inst. of BB as source inst.): */
       vector<BB *> *succs = (*cfg -> m_succs)[n];
       vector<BB *>::iterator succ_it = succs -> begin ();
       for (; succ_it != succs -> end (); ++succ_it)
-	{
-	  XMLElement     *tr;
-	  bool            taken      =  true;
-	  BB             *succ       = *succ_it;
-	  vector<Inst *> *succ_insts =  succ       -> insts ();
-	  Inst           *target     =  succ_insts -> front ();
+        {
+          XMLElement     *tr;
+          bool            taken      =  true;
+          BB             *succ       = *succ_it;
+          vector<Inst *> *succ_insts =  succ       -> insts ();
+          Inst           *target     =  succ_insts -> front ();
 
-	  /* Don't take account of self loop: */
-	  if (last_inst -> m_addr != target -> m_addr)
-	    {
-	      if (!last_inst -> m_branch)
-		{
-		  tr = fall_through (doc, last_inst, target, in_slice);
-		  tmplt -> InsertEndChild (tr);
-		  continue;
-		}
+          /* Don't take account of self loop: */
+          if (last_inst -> m_addr != target -> m_addr)
+            {
+              if (!last_inst -> m_branch)
+                {
+                  tr = fall_through (doc, last_inst, target, in_slice);
+                  tmplt -> InsertEndChild (tr);
+                  continue;
+                }
 
-	      if (target -> m_addr == last_inst -> m_addr +4)
-		taken = false;
-	      
-	      tr = fall_into (doc, last_inst, target, in_slice, taken);
-	      tmplt -> InsertEndChild (tr);
-	    }
-	}
+              if (target -> m_addr == last_inst -> m_addr +4)
+                taken = false;
+              
+              tr = fall_into (doc, last_inst, target, in_slice, taken);
+              tmplt -> InsertEndChild (tr);
+            }
+        }
     }
   
   nta -> InsertFirstChild (tmplt);
@@ -1138,7 +1138,7 @@ CFG::findByLabel (string label)
     {
       BB *bb = (*m_bbs)[n];
       if (bb -> m_label == label)
-	return n;
+        return n;
     }
 
   return INVALID;
@@ -1163,34 +1163,34 @@ CFG::findSuccs (vector<BB *> &bbs)
       // TODO: hacky ; to clean
       size_t bclr_pos = inst -> m_disass.find ("bclr- ");
       if (bclr_pos != string::npos)
-	continue;
+        continue;
       
       if (inst -> m_branch)
-	{
-	  ListDigraph::Node m = (*m_nodes)[inst -> m_target];
-	  BB *cc = (*m_bbs)[m];
-	  (*m_preds)[m] -> push_back (bb);
-	  (*m_succs)[n] -> push_back (cc);
+        {
+          ListDigraph::Node m = (*m_nodes)[inst -> m_target];
+          BB *cc = (*m_bbs)[m];
+          (*m_preds)[m] -> push_back (bb);
+          (*m_succs)[n] -> push_back (cc);
 
-	  if (!inst -> m_uncond
-	  &&   inst -> m_next != NULL)
-	    {
-	      ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
-	      BB *cc = (*m_bbs)[m];
-	      (*m_preds)[m] -> push_back (bb);
-	      (*m_succs)[n] -> push_back (cc);
-	    }
-	}
+          if (!inst -> m_uncond
+          &&   inst -> m_next != NULL)
+            {
+              ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
+              BB *cc = (*m_bbs)[m];
+              (*m_preds)[m] -> push_back (bb);
+              (*m_succs)[n] -> push_back (cc);
+            }
+        }
       else
-	{
-	  if (inst -> m_next != NULL)
-	    {
-	      ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
-	      BB *cc = (*m_bbs)[m];
-	      (*m_preds)[m] -> push_back (bb);
-	      (*m_succs)[n] -> push_back (cc);
-	    }
-	}
+        {
+          if (inst -> m_next != NULL)
+            {
+              ListDigraph::Node m = (*m_nodes)[inst -> m_next -> m_addr];
+              BB *cc = (*m_bbs)[m];
+              (*m_preds)[m] -> push_back (bb);
+              (*m_succs)[n] -> push_back (cc);
+            }
+        }
     }
 }
 
@@ -1211,14 +1211,14 @@ CFG::deadcode_patch ()
       ListDigraph::Node n = *n_it;      
       ListDigraph::NodeIt m (*m_graph);
       for (; m != INVALID; ++m)
-	{
-	  BB *bb = (*m_bbs)[n];
-	  vector<BB *> *preds = (*m_preds)[m];
+        {
+          BB *bb = (*m_bbs)[n];
+          vector<BB *> *preds = (*m_preds)[m];
 
-	  vector<BB *>::iterator pos = find (preds -> begin (), preds -> end (), bb);
-	  if (pos != preds -> end())
-	    preds -> erase (pos);
-	}
+          vector<BB *>::iterator pos = find (preds -> begin (), preds -> end (), bb);
+          if (pos != preds -> end())
+            preds -> erase (pos);
+        }
     }
   }
   {
@@ -1228,14 +1228,14 @@ CFG::deadcode_patch ()
       ListDigraph::Node n = *n_it;      
       ListDigraph::NodeIt m (*m_graph);
       for (; m != INVALID; ++m)
-	{
-	  BB *bb = (*m_bbs)[n];
-	  vector<BB *> *succs = (*m_succs)[m];
+        {
+          BB *bb = (*m_bbs)[n];
+          vector<BB *> *succs = (*m_succs)[m];
 
-	  vector<BB *>::iterator pos = find (succs -> begin (), succs -> end (), bb);
-	  if (pos != succs -> end())
-	    succs -> erase (pos);
-	}
+          vector<BB *>::iterator pos = find (succs -> begin (), succs -> end (), bb);
+          if (pos != succs -> end())
+            succs -> erase (pos);
+        }
     }
   }
   
@@ -1298,151 +1298,151 @@ CFG::blr_patch ()
       // copy stack from state:
       vector<ListDigraph::Node>::iterator ret_it = state.stack.begin ();
       for (; ret_it != state.stack.end (); ++ret_it)
-	{
-	  ListDigraph::Node ret = *ret_it;
-	  stack_t.push_back (ret);
-	}
+        {
+          ListDigraph::Node ret = *ret_it;
+          stack_t.push_back (ret);
+        }
 
       // trg does a return:
       size_t bclr_pos = last_inst -> m_disass.find ("bclr- ");
       if (bclr_pos != string::npos)
-	{
-	  if (stack_t.empty ())
-	    {
-	      cerr << "SHOULD NOT BE EMPTY" << endl;
-	      exit (1);
-	    }
-	  
-	  ListDigraph::Node ret = stack_t.back ();
-	  stack_t.pop_back ();
-	  
-	  BB *ret_bb = (*m_bbs)[ret];
-	  Inst *ret_inst = ret_bb -> m_insts -> front ();
-	  
-	  bool exists_arc = false;
-	  ListDigraph::OutArcIt arc (*m_graph, trg);
-	  for (; arc != INVALID; ++arc)
-	    if (m_graph -> target (arc) == ret)
-	      exists_arc = true;
-	  
-	  if (!exists_arc)
-	    {
-	      addEdge (*trg_bb, *ret_bb);
-	      (*m_preds)[ret] -> push_back (trg_bb);
-	      (*m_succs)[trg] -> push_back (ret_bb);
-	    }
-	  
-	  ListDigraph::Arc a;
-	  m_graph -> firstOut (a, trg);
-	  while (a != INVALID)
-	    {
-	      if (m_graph -> target (a) == ret)
-		break;
-	      
-	      m_graph -> nextOut (a);
-	    }
-	  
-	  state.arc = a;
-	  state.stack = stack_t;
-	  w.push_back (state);
-	  
-	  if (!last_inst -> m_uncond)
-	    {
-	      ListDigraph::Node target = (*m_nodes)[last_inst -> m_target];
-	      BB *target_bb = (*m_bbs)[target];
-	      bool exists_arc = false;
-	      ListDigraph::OutArcIt arc (*m_graph, trg);
-	      for (; arc != INVALID; ++arc)
-		if (m_graph -> target (arc) == target)
-		  exists_arc = true;
-	      
-	      if (!exists_arc)
-		{
-		  addEdge (*trg_bb, *target_bb);
-		  (*m_preds)[target] -> push_back (trg_bb);
-		  (*m_succs)[trg] -> push_back (target_bb);
-		}
+        {
+          if (stack_t.empty ())
+            {
+              cerr << "SHOULD NOT BE EMPTY" << endl;
+              exit (1);
+            }
+          
+          ListDigraph::Node ret = stack_t.back ();
+          stack_t.pop_back ();
+          
+          BB *ret_bb = (*m_bbs)[ret];
+          Inst *ret_inst = ret_bb -> m_insts -> front ();
+          
+          bool exists_arc = false;
+          ListDigraph::OutArcIt arc (*m_graph, trg);
+          for (; arc != INVALID; ++arc)
+            if (m_graph -> target (arc) == ret)
+              exists_arc = true;
+          
+          if (!exists_arc)
+            {
+              addEdge (*trg_bb, *ret_bb);
+              (*m_preds)[ret] -> push_back (trg_bb);
+              (*m_succs)[trg] -> push_back (ret_bb);
+            }
+          
+          ListDigraph::Arc a;
+          m_graph -> firstOut (a, trg);
+          while (a != INVALID)
+            {
+              if (m_graph -> target (a) == ret)
+                break;
+              
+              m_graph -> nextOut (a);
+            }
+          
+          state.arc = a;
+          state.stack = stack_t;
+          w.push_back (state);
+          
+          if (!last_inst -> m_uncond)
+            {
+              ListDigraph::Node target = (*m_nodes)[last_inst -> m_target];
+              BB *target_bb = (*m_bbs)[target];
+              bool exists_arc = false;
+              ListDigraph::OutArcIt arc (*m_graph, trg);
+              for (; arc != INVALID; ++arc)
+                if (m_graph -> target (arc) == target)
+                  exists_arc = true;
+              
+              if (!exists_arc)
+                {
+                  addEdge (*trg_bb, *target_bb);
+                  (*m_preds)[target] -> push_back (trg_bb);
+                  (*m_succs)[trg] -> push_back (target_bb);
+                }
 
-	      ListDigraph::Arc a;
-	      m_graph -> firstOut (a, trg);
-	      while (a != INVALID)
-		{
-		  if (m_graph -> target (a) == target)
-		    break;
-		  
-		  m_graph -> nextOut (a);
-		}
-	  
-	      state.arc = a;
-	      state.stack = stack_t;
-	      state.stack.push_back (ret);
-	      w.push_back (state);
-	    }
-	  
-	  // TODO: hacky ; to clean
-	  //last_inst -> m_disass = "blr";
-	  last_inst -> m_refs   &= ~0xa0; // unsets pc and lr.
-	  last_inst -> m_defs   &= ~0xa0; // id.
-	  last_inst -> m_link   = false;
-	  last_inst -> m_uncond = true;
-	  last_inst -> m_target = ret_inst -> m_addr;
-	}
+              ListDigraph::Arc a;
+              m_graph -> firstOut (a, trg);
+              while (a != INVALID)
+                {
+                  if (m_graph -> target (a) == target)
+                    break;
+                  
+                  m_graph -> nextOut (a);
+                }
+          
+              state.arc = a;
+              state.stack = stack_t;
+              state.stack.push_back (ret);
+              w.push_back (state);
+            }
+          
+          // TODO: hacky ; to clean
+          //last_inst -> m_disass = "blr";
+          last_inst -> m_refs   &= ~0xa0; // unsets pc and lr.
+          last_inst -> m_defs   &= ~0xa0; // id.
+          last_inst -> m_link   = false;
+          last_inst -> m_uncond = true;
+          last_inst -> m_target = ret_inst -> m_addr;
+        }
       else
-	{
-	  // trg does a call:
-	  size_t bl_pos = last_inst -> m_disass.find ("bl ");
-	  if (bl_pos != string::npos)
-	    {
-	      ListDigraph::Node ret = (*m_nodes)[last_inst -> m_addr +4];
-	      stack_t.push_back (ret);
-	    } 
+        {
+          // trg does a call:
+          size_t bl_pos = last_inst -> m_disass.find ("bl ");
+          if (bl_pos != string::npos)
+            {
+              ListDigraph::Node ret = (*m_nodes)[last_inst -> m_addr +4];
+              stack_t.push_back (ret);
+            } 
 
-	  // add states too w if not yet reached:
-	  ListDigraph::Arc arc;
-	  m_graph -> firstOut (arc, trg);
-	  state.stack = stack_t;
-	  while (arc != INVALID)
-	    {
-	      ListDigraph::Node u = m_graph -> target (arc);
-	      state.arc = arc;
-	      
-	      bool found = false;
-	      vector<struct state>::iterator reach_it = reached.begin ();
-	      for (; reach_it != reached.end (); ++reach_it)
-		{
-		  struct state reach = *reach_it;	      
-		  if (state.arc == reach.arc)
-		    {
-		      if (state.stack.size () == reach.stack.size ())
-			{
-			  bool equals = true;
-			  vector<ListDigraph::Node>::iterator state_ret_it = state.stack.begin ();
-			  vector<ListDigraph::Node>::iterator reach_ret_it = reach.stack.begin ();
-			  for (; state_ret_it != state.stack.end (); ++state_ret_it, ++reach_ret_it)
-			    {
-			      ListDigraph::Node state_ret = *state_ret_it;
-			      ListDigraph::Node reach_ret = *reach_ret_it;
-			      if (state_ret != reach_ret)
-				{
-				  equals = false;
-				  break;
-				}
-			    }
-			  
-			  if (equals)
-			    {
-			      found = true;
-			      break;
-			    }
-			}
-		    }
-		}
-	  
-	      if (!found)
-		w.push_back (state);
-	      
-	      m_graph -> nextOut (arc);
-	    }
-	}
+          // add states too w if not yet reached:
+          ListDigraph::Arc arc;
+          m_graph -> firstOut (arc, trg);
+          state.stack = stack_t;
+          while (arc != INVALID)
+            {
+              ListDigraph::Node u = m_graph -> target (arc);
+              state.arc = arc;
+              
+              bool found = false;
+              vector<struct state>::iterator reach_it = reached.begin ();
+              for (; reach_it != reached.end (); ++reach_it)
+                {
+                  struct state reach = *reach_it;              
+                  if (state.arc == reach.arc)
+                    {
+                      if (state.stack.size () == reach.stack.size ())
+                        {
+                          bool equals = true;
+                          vector<ListDigraph::Node>::iterator state_ret_it = state.stack.begin ();
+                          vector<ListDigraph::Node>::iterator reach_ret_it = reach.stack.begin ();
+                          for (; state_ret_it != state.stack.end (); ++state_ret_it, ++reach_ret_it)
+                            {
+                              ListDigraph::Node state_ret = *state_ret_it;
+                              ListDigraph::Node reach_ret = *reach_ret_it;
+                              if (state_ret != reach_ret)
+                                {
+                                  equals = false;
+                                  break;
+                                }
+                            }
+                          
+                          if (equals)
+                            {
+                              found = true;
+                              break;
+                            }
+                        }
+                    }
+                }
+          
+              if (!found)
+                w.push_back (state);
+              
+              m_graph -> nextOut (arc);
+            }
+        }
     }
 }

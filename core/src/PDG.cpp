@@ -42,11 +42,11 @@ PDG::PDG (CFG *cfg, CDG *cdg, DDG *ddg)
 
       vector<Inst *>::iterator inst_it = bb -> m_insts -> begin ();
       for (; inst_it != bb -> m_insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  ListDigraph::Node i = this -> addInst (inst);
-	  this ->  addEdge (m, i);
-	}
+        {
+          Inst *inst = *inst_it;
+          ListDigraph::Node i = this -> addInst (inst);
+          this ->  addEdge (m, i);
+        }
     }
 
   ListDigraph::ArcIt a (*cdg -> m_graph);
@@ -67,16 +67,16 @@ PDG::PDG (CFG *cfg, CDG *cdg, DDG *ddg)
       vector<Inst *> *insts = bb -> m_insts;
       vector<Inst *>::iterator inst_it  = insts -> begin ();
       for (; inst_it != insts -> end (); ++inst_it)
-	{
-	  Inst *inst = *inst_it;
-	  set<Inst *> *deps = (*ddg -> m_deps)[inst -> m_addr];
-	  set<Inst *>::iterator dep_it  = deps -> begin ();
-	  for (; dep_it != deps -> end (); ++dep_it)
-	    {
-	      Inst *dep = *dep_it;
-	      this -> addEdge ((*m_nodes)[dep -> m_addr +1], (*m_nodes)[inst -> m_addr +1]);
-	    }
-	}
+        {
+          Inst *inst = *inst_it;
+          set<Inst *> *deps = (*ddg -> m_deps)[inst -> m_addr];
+          set<Inst *>::iterator dep_it  = deps -> begin ();
+          for (; dep_it != deps -> end (); ++dep_it)
+            {
+              Inst *dep = *dep_it;
+              this -> addEdge ((*m_nodes)[dep -> m_addr +1], (*m_nodes)[inst -> m_addr +1]);
+            }
+        }
     }
 
 }
@@ -133,29 +133,29 @@ PDG::ToFile (string fn, PDG *pdg)
   for (; n != INVALID; ++n)
     {
       if (!(*pdg -> m_meta)[n])
-	{
-	  BB *bb = (*pdg -> m_bbs)[n];
-	  (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
-	  agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
+        {
+          BB *bb = (*pdg -> m_bbs)[n];
+          (*agnodes)[n] = agnode (agraph, C(bb -> m_name), TRUE);
+          agsafeset ((*agnodes)[n], "label", C(bb -> m_label), "error");
 
-	  InDegMap<ListDigraph> idm (*graph);
-	  if (!idm[n])
-	    {
-	      Agedge_t *age = agedge (agraph, agn, (*agnodes)[n], NULL, TRUE);
-	      agsafeset (age, "style", "bold", "");
-	    }
-	}
+          InDegMap<ListDigraph> idm (*graph);
+          if (!idm[n])
+            {
+              Agedge_t *age = agedge (agraph, agn, (*agnodes)[n], NULL, TRUE);
+              agsafeset (age, "style", "bold", "");
+            }
+        }
       else
-	{
-	  ostringstream oss;
-	  Inst *inst = (*pdg -> m_insts)[n];
-	  oss << hex << inst -> m_addr;
-	  (*agnodes)[n] = agnode (agraph, C(inst -> m_name), TRUE);
-	  agsafeset ((*agnodes)[n], "label", C(oss.str ()), "error");
-	  agsafeset ((*agnodes)[n], "ranksep", "0.2",   "");  
-	  agsafeset ((*agnodes)[n], "shape",   "box",   "");  
-	  agsafeset ((*agnodes)[n], "height",  "0.3",   "");  
-	}
+        {
+          ostringstream oss;
+          Inst *inst = (*pdg -> m_insts)[n];
+          oss << hex << inst -> m_addr;
+          (*agnodes)[n] = agnode (agraph, C(inst -> m_name), TRUE);
+          agsafeset ((*agnodes)[n], "label", C(oss.str ()), "error");
+          agsafeset ((*agnodes)[n], "ranksep", "0.2",   "");  
+          agsafeset ((*agnodes)[n], "shape",   "box",   "");  
+          agsafeset ((*agnodes)[n], "height",  "0.3",   "");  
+        }
     }
 
   ListDigraph::ArcIt a (*graph);
@@ -166,10 +166,10 @@ PDG::ToFile (string fn, PDG *pdg)
       Agedge_t *age = agedge (agraph, (*agnodes)[n], (*agnodes)[m], NULL, TRUE);
       
       if ((*pdg -> m_meta)[n] && (*pdg -> m_meta)[m])
-	agsafeset (age, "style", "dashed", "");
+        agsafeset (age, "style", "dashed", "");
       
       if (!(*pdg -> m_meta)[n] && !(*pdg -> m_meta)[m])
-	agsafeset (age, "style", "bold", "");
+        agsafeset (age, "style", "bold", "");
     }
 
   agwrite (agraph, f);  
