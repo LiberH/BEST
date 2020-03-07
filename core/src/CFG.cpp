@@ -938,13 +938,12 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   ////////////////////////////
   // <location id="idinit"> //
   ////////////////////////////
-  
-               Inst *entry   = (*cfg -> m_bbs  )[cfg   -> m_entry] -> m_insts -> front ();
-  ListDigraph::Node  entry_n = (*cfg -> m_nodes)[entry -> m_addr ];
-  attr_t entry_attrs[] = {{"id" , "idinit"            },
+
+  Inst *entry = (*cfg -> m_bbs)[cfg -> m_entry] -> m_insts -> front ();
+  attr_t entry_attrs[] = {{"id" , "idinit"          },
                           {"x"  , C(S(entry -> m_x))},
                           {"y"  , C(S(entry -> m_y))},
-                          {NULL , NULL                }};
+                          {NULL , NULL              }};
   XMLElement *urg = newElementWrapper (doc, "urgent", NULL, NULL, NULL);
   XMLElement *loc_init_childs[] = {urg, NULL};
   XMLElement *loc_init = newElementWrapper (doc, "location", NULL, entry_attrs, loc_init_childs);
@@ -954,12 +953,11 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
   // <location id="idexit"> //
   ////////////////////////////
 
-               Inst *exit   = (*cfg -> m_bbs  )[cfg  -> m_exit] -> m_insts -> back ();
-  ListDigraph::Node  exit_n = (*cfg -> m_nodes)[exit -> m_addr];
-  attr_t exit_attrs[] = {{"id" , "idexit"           },
+  Inst *exit = (*cfg -> m_bbs)[cfg -> m_exit] -> m_insts -> back ();
+  attr_t exit_attrs[] = {{"id" , "idexit"         },
                          {"x"  , C(S(exit -> m_x))},
                          {"y"  , C(S(exit -> m_y))},
-                         {NULL , NULL               }};
+                         {NULL , NULL             }};
   XMLElement *loc_exit = newElementWrapper (doc, "location", NULL, exit_attrs, NULL);
   tmplt -> InsertEndChild (loc_exit);
 
@@ -1275,7 +1273,6 @@ CFG::blr_patch ()
   BB *bb = (*m_bbs)[m_entry];
   Inst *last_inst = bb -> m_insts -> back ();
   ListDigraph::Node ret = (*m_nodes)[last_inst -> m_addr +4];
-  ListDigraph::Node trg = m_graph -> target (first_arc);
   stack_s.push_back (ret);
 
   state.arc = first_arc;
@@ -1290,7 +1287,6 @@ CFG::blr_patch ()
       struct state state = w.back (); w.pop_back ();
       reached.push_back (state);
       
-      ListDigraph::Node src = m_graph -> source (state.arc);
       ListDigraph::Node trg = m_graph -> target (state.arc);
       BB *trg_bb = (*m_bbs)[trg];
       Inst *last_inst = trg_bb -> m_insts -> back ();
@@ -1403,7 +1399,6 @@ CFG::blr_patch ()
           state.stack = stack_t;
           while (arc != INVALID)
             {
-              ListDigraph::Node u = m_graph -> target (arc);
               state.arc = arc;
               
               bool found = false;
