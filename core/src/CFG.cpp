@@ -405,8 +405,6 @@ string reg_names[64] = {
   /* 62 */ "X62" , /* 63 */ "X63"
 };
 
-struct pos {int x; int y;};
-
 // static
 void
 CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
@@ -416,48 +414,50 @@ CFG::ToUPPAAL (string fn, string template_fn, CFG *cfg, vector<Inst *> *slice)
     pos_fn = fn.substr (0, fn.find_last_of ("-")) + ".dot";
 
     FILE *f = fopen (C(pos_fn), "r");
-    if (f == NULL) {
-      cerr << "CFG::ToUPPAAL: " << pos_fn << " not found." << endl;
-      return;
-    }
-    
-    Agraph_t* g = agread (f, NULL);
-    Agnode_t *n = agfstnode(g);
-    for (; n != NULL; n = agnxtnode (g, n))
+    if (f == NULL)
       {
-        char *label = agget (n, "label");
-        char *pos   = agget (n, "pos");
-        pos = (pos ? pos : (char *) "null");
-
-        string x, y;
-        stringstream ss (pos);
-        getline (ss, x, ',');
-        getline (ss, y, ',');
-
-        u32 addr;
-        stringstream ss_label (label);
-        stringstream ss_x (x);
-        stringstream ss_y (y);
-        ss_label >> hex >> addr;
-
-        Inst *inst = NULL;
-        vector<Inst *> *insts = cfg -> insts ();
-        vector<Inst *>::iterator inst_it = insts -> begin ();
-        for (; inst_it != insts -> end (); ++inst_it)
-          {
-            inst = *inst_it;
-            if (inst -> m_addr == addr)
-              break;
-          }
-
-        ss_x >> dec >> inst -> m_x;
-        ss_y >> dec >> inst -> m_y;
-        inst -> m_x *=  5;
-        inst -> m_y *= -1;
+        cerr << "CFG::ToUPPAAL: " << pos_fn << " not found." << endl;
       }
+    else
+      {
+        Agraph_t* g = agread (f, NULL);
+        Agnode_t *n = agfstnode(g);
+        for (; n != NULL; n = agnxtnode (g, n))
+          {
+            char *label = agget (n, "label");
+            char *pos   = agget (n, "pos");
+            pos = (pos ? pos : (char *) "null");
+
+            string x, y;
+            stringstream ss (pos);
+            getline (ss, x, ',');
+            getline (ss, y, ',');
+
+            u32 addr;
+            stringstream ss_label (label);
+            stringstream ss_x (x);
+            stringstream ss_y (y);
+            ss_label >> hex >> addr;
+
+            Inst *inst = NULL;
+            vector<Inst *> *insts = cfg -> insts ();
+            vector<Inst *>::iterator inst_it = insts -> begin ();
+            for (; inst_it != insts -> end (); ++inst_it)
+              {
+                inst = *inst_it;
+                if (inst -> m_addr == addr)
+                  break;
+              }
+
+            ss_x >> dec >> inst -> m_x;
+            ss_y >> dec >> inst -> m_y;
+            inst -> m_x *=  5;
+            inst -> m_y *= -1;
+          }
     
-    agclose (g);
-    fclose (f);
+        agclose (g);
+        fclose (f);
+      }
   }
 
   //////////////

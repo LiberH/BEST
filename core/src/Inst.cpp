@@ -45,6 +45,9 @@ Inst::Inst (const staticInfo &si)
   
   m_memory   = si.do_memory;
 
+  m_x        = 0;
+  m_y        = 0;
+
   // Fix bad branch target in disassembly:
   if (m_branch &&
      !m_uncond &&
