@@ -246,11 +246,15 @@ uint4_t CR[_CR_MAX];
 const uint3_t cr0 = 0;
 
 
-const int _GPRS_MAX = 2;
+const int _GPRS_MAX = 6;
 sint32_t GPRS[_GPRS_MAX];
 
 const uint3_t r0 = 0;
-const uint5_t r8 = 1;
+const uint5_t r1 = 1;
+const uint5_t r3 = 2;
+const uint5_t r8 = 3;
+const uint5_t r9 = 4;
+const uint5_t r10 = 5;
 
 
 const int _RETS_MAX = 1;
@@ -263,8 +267,8 @@ const int[-1, _RETS_MAX] IndRets[_INST_MAX -32] = {
 const _Inst_t _INSTS[_INST_MAX] = {
 
   /* BB5 */
-  /*  3044: lis r1,1                 - 0 */ { 12356, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
-  /*  3048: ori r1,r1,49296          - 1 */ { 12360, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  3044: lis r1,0                 - 0 */ { 12356, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  3048: ori r1,r1,0              - 1 */ { 12360, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
   /*  304c: bl 3060                  - 2 */ { 12364, 1, true,          4, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
 
   /* BB6 */
@@ -273,8 +277,8 @@ const _Inst_t _INSTS[_INST_MAX] = {
   /* BB7 */
   /*  3060: li r8,29                 - 4 */ { 12384, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,  64,   0,   0,   0,   0 } },
   /*  3064: li r10,0                 - 5 */ { 12388, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
-  /*  3068: mtspr 120,r8             - 6 */ { 12392, 1, false, _INST_MAX, false, {   0,   0,   0,  64,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   2 } },
-  /*  306c: li r9,1                  - 7 */ { 12396, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
+  /*  3068: li r9,1                  - 6 */ { 12392, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
+  /*  306c: mtspr 120,r8             - 7 */ { 12396, 1, false, _INST_MAX, false, {   0,   0,   0,  64,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   2 } },
   /*  3070: b 3084                   - 8 */ { 12400, 1, true,         10, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB9 */
@@ -1654,44 +1658,51 @@ void _mtspr ( uint5_t spr , uint5_t rS ) { if (spr == 1) { _mtxer (rS); }
 ////////////////// Generated semantics: //
 //////////////////////////////////////////
 
+void execute_3044() { _lis(r1,0); }
+void execute_3048() { _ori(r1,r1,0); }
 void execute_304c() { _bl(12384); }
 void execute_3050() { _b(12368); }
 void execute_3060() { _li(r8,29); }
-void execute_3068() { _mtspr(9,r8); }
+void execute_3064() { _li(r10,0); }
+void execute_3068() { _li(r9,1); }
+void execute_306c() { _mtspr(9,r8); }
 void execute_3070() { _b(12420); }
+void execute_3080() { _mr(r9,r3); }
+void execute_3084() { _add(r3,r9,r10); }
+void execute_3088() { _mr(r10,r9); }
 void execute_308c() { _bdnz(16,12412); }
 void execute_3090() { _bclr(20,0); }
 </declaration>
     <template>
         <name>Binary</name>
-        <location id="idinit" x="370" y="-905">
+        <location id="idinit" x="0" y="0">
             <urgent/>
         </location>
-        <location id="idexit" x="140" y="-41"/>
-        <location id="id3044" x="370" y="-905">
+        <location id="idexit" x="0" y="0"/>
+        <location id="id3044" x="0" y="0">
             <name>BB5</name>
         </location>
-        <location id="id3048" x="370" y="-833"/>
-        <location id="id304c" x="370" y="-761"/>
-        <location id="id3050" x="140" y="-41">
+        <location id="id3048" x="0" y="0"/>
+        <location id="id304c" x="0" y="0"/>
+        <location id="id3050" x="0" y="0">
             <name>BB6</name>
         </location>
-        <location id="id3060" x="370" y="-689">
+        <location id="id3060" x="0" y="0">
             <name>BB7</name>
         </location>
-        <location id="id3064" x="370" y="-617"/>
-        <location id="id3068" x="370" y="-545"/>
-        <location id="id306c" x="370" y="-473"/>
-        <location id="id3070" x="370" y="-401"/>
-        <location id="id3080" x="515" y="-113">
+        <location id="id3064" x="0" y="0"/>
+        <location id="id3068" x="0" y="0"/>
+        <location id="id306c" x="0" y="0"/>
+        <location id="id3070" x="0" y="0"/>
+        <location id="id3080" x="0" y="0">
             <name>BB9</name>
         </location>
-        <location id="id3084" x="370" y="-329">
+        <location id="id3084" x="0" y="0">
             <name>BB10</name>
         </location>
-        <location id="id3088" x="230" y="-257"/>
-        <location id="id308c" x="230" y="-185"/>
-        <location id="id3090" x="140" y="-113">
+        <location id="id3088" x="0" y="0"/>
+        <location id="id308c" x="0" y="0"/>
+        <location id="id3090" x="0" y="0">
             <name>BB11</name>
         </location>
         <init ref="idinit"/>
@@ -1724,14 +1735,14 @@ _Stack_TopIs(3)</label>
             <target ref="id3088"/>
             <label kind="guard">EUs_ExecuteNext(10)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_3084()</label>
         </transition>
         <transition>
             <source ref="id3088"/>
             <target ref="id308c"/>
             <label kind="guard">EUs_ExecuteNext(11)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_3088()</label>
         </transition>
         <transition>
             <source ref="id308c"/>
@@ -1754,7 +1765,7 @@ EUs_ExecuteNext(12)</label>
             <target ref="id3084"/>
             <label kind="guard">EUs_ExecuteNext(9)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_3080()</label>
         </transition>
         <transition>
             <source ref="id3060"/>
@@ -1768,7 +1779,7 @@ EUs_ExecuteNext(12)</label>
             <target ref="id3068"/>
             <label kind="guard">EUs_ExecuteNext(5)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_3064()</label>
         </transition>
         <transition>
             <source ref="id3068"/>
@@ -1782,7 +1793,7 @@ EUs_ExecuteNext(12)</label>
             <target ref="id3070"/>
             <label kind="guard">EUs_ExecuteNext(7)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_306c()</label>
         </transition>
         <transition>
             <source ref="id3070"/>
@@ -1797,14 +1808,14 @@ EUs_ExecuteNext(8)</label>
             <target ref="id3048"/>
             <label kind="guard">EUs_ExecuteNext(0)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_3044()</label>
         </transition>
         <transition>
             <source ref="id3048"/>
             <target ref="id304c"/>
             <label kind="guard">EUs_ExecuteNext(1)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_3048()</label>
         </transition>
         <transition>
             <source ref="id304c"/>

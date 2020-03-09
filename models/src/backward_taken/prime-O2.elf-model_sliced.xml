@@ -51,7 +51,7 @@ typedef int[_SINT32_MIN, _SINT32_MAX] sint32_t;
 const int  _REGS_MAX  =  8;
 const int _CYCLES_MAX =  1; // Arbitrary.
 const int _STACK_MAX  = 10; // Arbitrary.
-const int  _INST_MAX  = 80;
+const int  _INST_MAX  = 81;
 const int  _DATA_MAX  = 1;
 const int   _BSS_MAX  = 1;
 
@@ -263,14 +263,14 @@ const int[-1, _RETS_MAX] IndRets[_INST_MAX -32] = {
   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
   -1, -1, -1, 0, -1, 1, -1, -1, -1, -1, 
   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-  -1, -1, -1, -1, -1, -1, -1, 2
+  -1, -1, -1, 2, -1, -1, -1, -1, -1
 };
 
 const _Inst_t _INSTS[_INST_MAX] = {
 
   /* BB0 */
   /*  3000: cmplwi cr7,r3,8          - 0 */ { 12288, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  3004: ble- cr7,3050            - 1 */ { 12292, 1, true,         19, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  3004: ble- cr7,3050            - 1 */ { 12292, 1, true,         19, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB1 */
   /*  3008: lis r9,-21846            - 2 */ { 12296, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
@@ -279,7 +279,7 @@ const _Inst_t _INSTS[_INST_MAX] = {
   /*  3014: rlwinm r9,r9,31,1,31     - 5 */ { 12308, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
   /*  3018: mulli r9,r9,3            - 6 */ { 12312, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
   /*  301c: cmpw cr7,r3,r9           - 7 */ { 12316, 1, false, _INST_MAX, false, {   0,   0,   0, 130,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  3020: beq- cr7,3070            - 8 */ { 12320, 1, true,         24, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  3020: beq- cr7,3070            - 8 */ { 12320, 1, true,         24, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB2 */
   /*  3024: li r9,3                  - 9 */ { 12324, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
@@ -289,13 +289,13 @@ const _Inst_t _INSTS[_INST_MAX] = {
   /*  3030: divwu r10,r3,r9          - 11 */ { 12336, 1, false, _INST_MAX, false, {   0,   0,   0, 130,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
   /*  3034: mullw r10,r10,r9         - 12 */ { 12340, 1, false, _INST_MAX, false, {   0,   0,   1, 128,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
   /*  3038: cmpw cr7,r3,r10          - 13 */ { 12344, 1, false, _INST_MAX, false, {   0,   0,   1,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  303c: beq- cr7,3070            - 14 */ { 12348, 1, true,         24, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  303c: beq- cr7,3070            - 14 */ { 12348, 1, true,         24, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB5 */
   /*  3040: addi r9,r9,2             - 15 */ { 12352, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
   /*  3044: mullw r10,r9,r9          - 16 */ { 12356, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
   /*  3048: cmplw cr7,r3,r10         - 17 */ { 12360, 1, false, _INST_MAX, false, {   0,   0,   1,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  304c: bge+ cr7,3030            - 18 */ { 12364, 1, true,         11, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
+  /*  304c: bge+ cr7,3030            - 18 */ { 12364, 1, true,         11, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB6 */
   /*  3050: subfic r3,r3,1           - 19 */ { 12368, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   8,   0 } },
@@ -309,8 +309,8 @@ const _Inst_t _INSTS[_INST_MAX] = {
   /*  3074: bclr- 20,lt              - 25 */ { 12404, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB16 */
-  /*  30e4: lis r1,1                 - 26 */ { 12516, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
-  /*  30e8: ori r1,r1,49476          - 27 */ { 12520, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  30e4: lis r1,0                 - 26 */ { 12516, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  30e8: ori r1,r1,0              - 27 */ { 12520, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
   /*  30ec: bl 3100                  - 28 */ { 12524, 1, true,         30, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
 
   /* BB17 */
@@ -327,25 +327,25 @@ const _Inst_t _INSTS[_INST_MAX] = {
   /* BB19 */
   /*  3118: li r9,1                  - 36 */ { 12568, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
   /*  311c: cmpwi cr7,r3,0           - 37 */ { 12572, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  3120: beq- cr7,3134            - 38 */ { 12576, 1, true,         43, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  3120: bne- cr7,3138            - 38 */ { 12576, 1, true,         44, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB20 */
-  /*  3124: li r3,21649              - 39 */ { 12580, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  3128: bl 3000                  - 40 */ { 12584, 1, true,          0, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
+  /*  3124: lwz r0,20(r1)            - 39 */ { 12580, 1, false, _INST_MAX, true,  {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0,  64,   0,   0,   0 } },
+  /*  3128: mr r3,r9                 - 40 */ { 12584, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  312c: addi r1,r1,16            - 41 */ { 12588, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  3130: mtspr 100,r0             - 42 */ { 12592, 1, false, _INST_MAX, false, {   0,   0,   0,   0,  64,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,  32 } },
+  /*  3134: bclr- 20,lt              - 43 */ { 12596, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB21 */
-  /*  312c: cntlzw r3,r3             - 41 */ { 12588, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  3130: rlwinm r9,r3,27,5,31     - 42 */ { 12592, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
+  /*  3138: li r3,21649              - 44 */ { 12600, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  313c: bl 3000                  - 45 */ { 12604, 1, true,          0, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
 
   /* BB22 */
-  /*  3134: lwz r0,20(r1)            - 43 */ { 12596, 1, false, _INST_MAX, true,  {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0,  64,   0,   0,   0 } },
-  /*  3138: mr r3,r9                 - 44 */ { 12600, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  313c: addi r1,r1,16            - 45 */ { 12604, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
-  /*  3140: mtspr 100,r0             - 46 */ { 12608, 1, false, _INST_MAX, false, {   0,   0,   0,   0,  64,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,  32 } },
-  /*  3144: bclr- 20,lt              - 47 */ { 12612, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  3140: cntlzw r3,r3             - 46 */ { 12608, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  3144: rlwinm r9,r3,27,5,31     - 47 */ { 12612, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
+  /*  3148: b 3124                   - 48 */ { 12616, 1, true,         39, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* Nops */
-  /*  xxxx: ---                      - 48 */ { 12616, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
   /*  xxxx: ---                      - 49 */ { 12620, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
   /*  xxxx: ---                      - 50 */ { 12624, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
   /*  xxxx: ---                      - 51 */ { 12628, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
@@ -376,7 +376,8 @@ const _Inst_t _INSTS[_INST_MAX] = {
   /*  xxxx: ---                      - 76 */ { 12728, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
   /*  xxxx: ---                      - 77 */ { 12732, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
   /*  xxxx: ---                      - 78 */ { 12736, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
-  /*  xxxx: ---                      - 79 */ { 12740, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } }
+  /*  xxxx: ---                      - 79 */ { 12740, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  xxxx: ---                      - 80 */ { 12744, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } }
 };
 
 const uint32_t _DATA_ADDR = 0;
@@ -1742,93 +1743,95 @@ void execute_3104() { _lis(r3,7); }
 void execute_310c() { _ori(r3,r3,54487); }
 void execute_3114() { _bl(12288); }
 void execute_311c() { _cmpwi(cr7,r3,0); }
-void execute_3120() { _beq(cr7,12592); }
-void execute_3124() { _li(r3,21649); }
-void execute_3128() { _bl(12288); }
-void execute_3144() { _bclr(20,0); }
+void execute_3120() { _bne(cr7,12596); }
+void execute_3134() { _bclr(20,0); }
+void execute_3138() { _li(r3,21649); }
+void execute_313c() { _bl(12288); }
+void execute_3148() { _b(12580); }
 </declaration>
     <template>
         <name>Binary</name>
-        <location id="idinit" x="140" y="-2777">
+        <location id="idinit" x="0" y="0">
             <urgent/>
         </location>
-        <location id="idexit" x="660" y="-41"/>
-        <location id="id3000" x="140" y="-2129">
+        <location id="idexit" x="0" y="0"/>
+        <location id="id3000" x="0" y="0">
             <name>BB0</name>
         </location>
-        <location id="id3004" x="285" y="-2057"/>
-        <location id="id3008" x="570" y="-1985">
+        <location id="id3004" x="0" y="0"/>
+        <location id="id3008" x="0" y="0">
             <name>BB1</name>
         </location>
-        <location id="id300c" x="570" y="-1913"/>
-        <location id="id3010" x="595" y="-1841"/>
-        <location id="id3014" x="595" y="-1769"/>
-        <location id="id3018" x="615" y="-1697"/>
-        <location id="id301c" x="635" y="-1625"/>
-        <location id="id3020" x="755" y="-1553"/>
-        <location id="id3024" x="755" y="-1481">
+        <location id="id300c" x="0" y="0"/>
+        <location id="id3010" x="0" y="0"/>
+        <location id="id3014" x="0" y="0"/>
+        <location id="id3018" x="0" y="0"/>
+        <location id="id301c" x="0" y="0"/>
+        <location id="id3020" x="0" y="0"/>
+        <location id="id3024" x="0" y="0">
             <name>BB2</name>
         </location>
-        <location id="id3028" x="755" y="-1409"/>
-        <location id="id3030" x="660" y="-1049">
+        <location id="id3028" x="0" y="0"/>
+        <location id="id3030" x="0" y="0">
             <name>BB4</name>
         </location>
-        <location id="id3034" x="660" y="-977"/>
-        <location id="id3038" x="660" y="-905"/>
-        <location id="id303c" x="805" y="-833"/>
-        <location id="id3040" x="755" y="-1337">
+        <location id="id3034" x="0" y="0"/>
+        <location id="id3038" x="0" y="0"/>
+        <location id="id303c" x="0" y="0"/>
+        <location id="id3040" x="0" y="0">
             <name>BB5</name>
         </location>
-        <location id="id3044" x="660" y="-1265"/>
-        <location id="id3048" x="660" y="-1193"/>
-        <location id="id304c" x="660" y="-1121"/>
-        <location id="id3050" x="285" y="-1049">
+        <location id="id3044" x="0" y="0"/>
+        <location id="id3048" x="0" y="0"/>
+        <location id="id304c" x="0" y="0"/>
+        <location id="id3050" x="0" y="0">
             <name>BB6</name>
         </location>
-        <location id="id3054" x="285" y="-977"/>
-        <location id="id3058" x="285" y="-905"/>
-        <location id="id305c" x="285" y="-833"/>
-        <location id="id3060" x="285" y="-689"/>
-        <location id="id3070" x="805" y="-761">
+        <location id="id3054" x="0" y="0"/>
+        <location id="id3058" x="0" y="0"/>
+        <location id="id305c" x="0" y="0"/>
+        <location id="id3060" x="0" y="0"/>
+        <location id="id3070" x="0" y="0">
             <name>BB8</name>
         </location>
-        <location id="id3074" x="710" y="-689"/>
-        <location id="id30e4" x="140" y="-2777">
+        <location id="id3074" x="0" y="0"/>
+        <location id="id30e4" x="0" y="0">
             <name>BB16</name>
         </location>
-        <location id="id30e8" x="140" y="-2705"/>
-        <location id="id30ec" x="140" y="-2633"/>
-        <location id="id30f0" x="660" y="-41">
+        <location id="id30e8" x="0" y="0"/>
+        <location id="id30ec" x="0" y="0"/>
+        <location id="id30f0" x="0" y="0">
             <name>BB17</name>
         </location>
-        <location id="id3100" x="140" y="-2561">
+        <location id="id3100" x="0" y="0">
             <name>BB18</name>
         </location>
-        <location id="id3104" x="140" y="-2489"/>
-        <location id="id3108" x="140" y="-2417"/>
-        <location id="id310c" x="140" y="-2345"/>
-        <location id="id3110" x="140" y="-2273"/>
-        <location id="id3114" x="140" y="-2201"/>
-        <location id="id3118" x="285" y="-617">
+        <location id="id3104" x="0" y="0"/>
+        <location id="id3108" x="0" y="0"/>
+        <location id="id310c" x="0" y="0"/>
+        <location id="id3110" x="0" y="0"/>
+        <location id="id3114" x="0" y="0"/>
+        <location id="id3118" x="0" y="0">
             <name>BB19</name>
         </location>
-        <location id="id311c" x="285" y="-545"/>
-        <location id="id3120" x="285" y="-473"/>
-        <location id="id3124" x="285" y="-401">
+        <location id="id311c" x="0" y="0"/>
+        <location id="id3120" x="0" y="0"/>
+        <location id="id3124" x="0" y="0">
             <name>BB20</name>
         </location>
-        <location id="id3128" x="145" y="-329"/>
-        <location id="id312c" x="660" y="-545">
+        <location id="id3128" x="0" y="0"/>
+        <location id="id312c" x="0" y="0"/>
+        <location id="id3130" x="0" y="0"/>
+        <location id="id3134" x="0" y="0"/>
+        <location id="id3138" x="0" y="0">
             <name>BB21</name>
         </location>
-        <location id="id3130" x="660" y="-473"/>
-        <location id="id3134" x="660" y="-401">
+        <location id="id313c" x="0" y="0"/>
+        <location id="id3140" x="0" y="0">
             <name>BB22</name>
         </location>
-        <location id="id3138" x="660" y="-329"/>
-        <location id="id313c" x="660" y="-257"/>
-        <location id="id3140" x="660" y="-185"/>
-        <location id="id3144" x="660" y="-113"/>
+        <location id="id3144" x="0" y="0"/>
+        <location id="id3148" x="0" y="0"/>
         <init ref="idinit"/>
         <transition>
             <source ref="idinit"/>
@@ -1846,27 +1849,6 @@ _clock = 0</label>
 _mustTerminate = true</label>
         </transition>
         <transition>
-            <source ref="id3134"/>
-            <target ref="id3138"/>
-            <label kind="guard">EUs_ExecuteNext(43)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
-        </transition>
-        <transition>
-            <source ref="id3138"/>
-            <target ref="id313c"/>
-            <label kind="guard">EUs_ExecuteNext(44)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
-        </transition>
-        <transition>
-            <source ref="id313c"/>
-            <target ref="id3140"/>
-            <label kind="guard">EUs_ExecuteNext(45)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
-        </transition>
-        <transition>
             <source ref="id3140"/>
             <target ref="id3144"/>
             <label kind="guard">EUs_ExecuteNext(46)</label>
@@ -1875,12 +1857,47 @@ _mustTerminate = true</label>
         </transition>
         <transition>
             <source ref="id3144"/>
-            <target ref="id30f0"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(47) &amp;&amp;
-_Stack_TopIs(29)</label>
+            <target ref="id3148"/>
+            <label kind="guard">EUs_ExecuteNext(47)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3144()</label>
+            <label kind="assignment"></label>
+        </transition>
+        <transition>
+            <source ref="id3148"/>
+            <target ref="id3124"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(48)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_3148()</label>
+        </transition>
+        <transition>
+            <source ref="id3138"/>
+            <target ref="id313c"/>
+            <label kind="guard">EUs_ExecuteNext(44)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_3138()</label>
+        </transition>
+        <transition>
+            <source ref="id313c"/>
+            <target ref="id3000"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(45)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_313c()</label>
+        </transition>
+        <transition>
+            <source ref="id3124"/>
+            <target ref="id3128"/>
+            <label kind="guard">EUs_ExecuteNext(39)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment"></label>
+        </transition>
+        <transition>
+            <source ref="id3128"/>
+            <target ref="id312c"/>
+            <label kind="guard">EUs_ExecuteNext(40)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment"></label>
         </transition>
         <transition>
             <source ref="id312c"/>
@@ -1897,19 +1914,13 @@ _Stack_TopIs(29)</label>
             <label kind="assignment"></label>
         </transition>
         <transition>
-            <source ref="id3124"/>
-            <target ref="id3128"/>
-            <label kind="guard">EUs_ExecuteNext(39)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3124()</label>
-        </transition>
-        <transition>
-            <source ref="id3128"/>
-            <target ref="id3000"/>
+            <source ref="id3134"/>
+            <target ref="id30f0"/>
             <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(40)</label>
+EUs_ExecuteNext(43) &amp;&amp;
+_Stack_TopIs(29)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3128()</label>
+            <label kind="assignment">execute_3134()</label>
         </transition>
         <transition>
             <source ref="id3118"/>
@@ -1927,8 +1938,8 @@ EUs_ExecuteNext(40)</label>
         </transition>
         <transition>
             <source ref="id3120"/>
-            <target ref="id3134"/>
-            <label kind="guard">eq(cr7) &amp;&amp;
+            <target ref="id3138"/>
+            <label kind="guard">ne(cr7) &amp;&amp;
 EUs_ExecuteNext(38)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3120()</label>
@@ -1936,7 +1947,7 @@ EUs_ExecuteNext(38)</label>
         <transition>
             <source ref="id3120"/>
             <target ref="id3124"/>
-            <label kind="guard">!eq(cr7) &amp;&amp;
+            <label kind="guard">!ne(cr7) &amp;&amp;
 EUs_ExecuteNext(38)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3120()</label>
@@ -2015,10 +2026,10 @@ EUs_ExecuteNext(28)</label>
         </transition>
         <transition>
             <source ref="id3074"/>
-            <target ref="id312c"/>
+            <target ref="id3140"/>
             <label kind="guard">true &amp;&amp;
 EUs_ExecuteNext(25) &amp;&amp;
-_Stack_TopIs(41)</label>
+_Stack_TopIs(46)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3074()</label>
         </transition>
@@ -2070,10 +2081,10 @@ _Stack_TopIs(36)</label>
         </transition>
         <transition>
             <source ref="id3060"/>
-            <target ref="id312c"/>
+            <target ref="id3140"/>
             <label kind="guard">true &amp;&amp;
 EUs_ExecuteNext(23) &amp;&amp;
-_Stack_TopIs(41)</label>
+_Stack_TopIs(46)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3060()</label>
         </transition>

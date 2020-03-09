@@ -253,35 +253,36 @@ const uint3_t cr6 = 6;
 const uint3_t cr7 = 7;
 
 
-const int _GPRS_MAX = 4;
+const int _GPRS_MAX = 5;
 sint32_t GPRS[_GPRS_MAX];
 
 const uint3_t r0 = 0;
-const uint5_t r3 = 1;
-const uint5_t r9 = 2;
-const uint5_t r10 = 3;
+const uint5_t r1 = 1;
+const uint5_t r3 = 2;
+const uint5_t r9 = 3;
+const uint5_t r10 = 4;
 
 
 const int _RETS_MAX = 5;
       int[-1, _INST_MAX -32] _Rets[_RETS_MAX] = { -1, -1, -1, -1, -1 };
 const int[-1, _RETS_MAX] IndRets[_INST_MAX -32] = {
   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-  -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, 
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 
-  -1, 2, -1, 3, -1, -1, -1, -1, -1, -1, 
   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-  -1, 4, -1, -1, -1, -1
+  -1, 0, -1, -1, -1, 1, -1, -1, -1, -1, 
+  2, -1, 3, -1, -1, -1, -1, -1, -1, -1, 
+  -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, 
+  -1, -1, -1, -1, -1, -1
 };
 
 const _Inst_t _INSTS[_INST_MAX] = {
 
   /* BB2 */
   /*  3024: andi. r9,r3,1            - 0 */ { 12324, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0, 255,   8,   0 }, {   0,   0,   0, 128,   0, 255,   0,   0 } },
-  /*  3028: beq- 3054,4              - 1 */ { 12328, 1, true,         13, false, {   0,   0,   0,   0,   0,   1,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  3028: beq- 3078,4              - 1 */ { 12328, 1, true,         22, false, {   0,   0,   0,   0,   0,   1,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB3 */
   /*  302c: cmplwi cr7,r3,8          - 2 */ { 12332, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  3030: ble- cr7,3088            - 3 */ { 12336, 1, true,         25, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
+  /*  3030: ble- cr7,308c            - 3 */ { 12336, 1, true,         26, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB4 */
   /*  3034: lis r9,-21846            - 4 */ { 12340, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
@@ -290,77 +291,77 @@ const _Inst_t _INSTS[_INST_MAX] = {
   /*  3040: rlwinm r9,r9,31,1,31     - 7 */ { 12352, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
   /*  3044: mulli r9,r9,3            - 8 */ { 12356, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
   /*  3048: cmpw cr7,r3,r9           - 9 */ { 12360, 1, false, _INST_MAX, false, {   0,   0,   0, 130,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  304c: beq- cr7,309c            - 10 */ { 12364, 1, true,         30, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  304c: beq- cr7,30a0            - 10 */ { 12364, 1, true,         31, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB5 */
   /*  3050: li r9,3                  - 11 */ { 12368, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
-  /*  3054: b 3078                   - 12 */ { 12372, 1, true,         21, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB6 */
-  /*  3058: xori r3,r3,2             - 13 */ { 12376, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  305c: cntlzw r3,r3             - 14 */ { 12380, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  3060: rlwinm r3,r3,27,5,31     - 15 */ { 12384, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  3064: bclr- 20,lt              - 16 */ { 12388, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  3054: addi r9,r9,2             - 12 */ { 12372, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
+  /*  3058: mullw r10,r9,r9          - 13 */ { 12376, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
+  /*  305c: cmplw cr7,r10,r3         - 14 */ { 12380, 1, false, _INST_MAX, false, {   0,   0,   1,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
+  /*  3060: bgt- cr7,308c            - 15 */ { 12384, 1, true,         26, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB7 */
-  /*  3068: divwu r10,r3,r9          - 17 */ { 12392, 1, false, _INST_MAX, false, {   0,   0,   0, 130,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
-  /*  306c: mullw r10,r10,r9         - 18 */ { 12396, 1, false, _INST_MAX, false, {   0,   0,   1, 128,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
-  /*  3070: cmpw cr7,r3,r10          - 19 */ { 12400, 1, false, _INST_MAX, false, {   0,   0,   1,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  3074: beq- cr7,30a4            - 20 */ { 12404, 1, true,         32, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
+  /*  3064: divwu r10,r3,r9          - 16 */ { 12388, 1, false, _INST_MAX, false, {   0,   0,   0, 130,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
+  /*  3068: mullw r10,r10,r9         - 17 */ { 12392, 1, false, _INST_MAX, false, {   0,   0,   1, 128,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
+  /*  306c: cmpw cr7,r3,r10          - 18 */ { 12396, 1, false, _INST_MAX, false, {   0,   0,   1,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
+  /*  3070: bne+ cr7,3054            - 19 */ { 12400, 1, true,         12, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB8 */
-  /*  3078: addi r9,r9,2             - 21 */ { 12408, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
-  /*  307c: mullw r10,r9,r9          - 22 */ { 12412, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   1,   0,   0,   0,   0,   0 } },
-  /*  3080: cmplw cr7,r3,r10         - 23 */ { 12416, 1, false, _INST_MAX, false, {   0,   0,   1,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  3084: bge+ cr7,3068            - 24 */ { 12420, 1, true,         17, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  3074: li r3,0                  - 20 */ { 12404, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  3078: bclr- 20,lt              - 21 */ { 12408, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB9 */
-  /*  3088: subfic r3,r3,1           - 25 */ { 12424, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   8,   0 } },
-  /*  308c: subfe r3,r3,r3           - 26 */ { 12428, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   8,   0 }, {   0,   0,   0,   2,   0,   0,   8,   0 } },
-  /*  3090: neg r3,r3                - 27 */ { 12432, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  3094: clrlwi r3,r3,24          - 28 */ { 12436, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  3098: bclr- 20,lt              - 29 */ { 12440, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  307c: xori r3,r3,2             - 22 */ { 12412, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  3080: cntlzw r3,r3             - 23 */ { 12416, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  3084: rlwinm r3,r3,27,5,31     - 24 */ { 12420, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  3088: bclr- 20,lt              - 25 */ { 12424, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB10 */
-  /*  309c: li r3,0                  - 30 */ { 12444, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  30a0: bclr- 20,lt              - 31 */ { 12448, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  308c: subfic r3,r3,1           - 26 */ { 12428, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   8,   0 } },
+  /*  3090: subfe r3,r3,r3           - 27 */ { 12432, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   8,   0 }, {   0,   0,   0,   2,   0,   0,   8,   0 } },
+  /*  3094: neg r3,r3                - 28 */ { 12436, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  3098: clrlwi r3,r3,24          - 29 */ { 12440, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  309c: bclr- 20,lt              - 30 */ { 12444, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB11 */
-  /*  30a4: li r3,0                  - 32 */ { 12452, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  30a8: bclr- 20,lt              - 33 */ { 12456, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  30a0: li r3,0                  - 31 */ { 12448, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  30a4: bclr- 20,lt              - 32 */ { 12452, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB13 */
-  /*  30c0: stwu r1,-16(r1)          - 34 */ { 12480, 1, false, _INST_MAX, true,  {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
-  /*  30c4: mfspr r0,100             - 35 */ { 12484, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,  32 }, {   0,   0,   0,   0,  64,   0,   0,   0 } },
-  /*  30c8: stw r0,20(r1)            - 36 */ { 12488, 1, false, _INST_MAX, true,  {   0,   0,   0,   0, 192,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
-  /*  30cc: lis r3,7                 - 37 */ { 12492, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  30d0: ori r3,r3,54487          - 38 */ { 12496, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  30d4: bl 3024                  - 39 */ { 12500, 1, true,          0, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
+  /*  30bc: stwu r1,-16(r1)          - 33 */ { 12476, 1, false, _INST_MAX, true,  {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  30c0: mfspr r0,100             - 34 */ { 12480, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,  32 }, {   0,   0,   0,   0,  64,   0,   0,   0 } },
+  /*  30c4: stw r0,20(r1)            - 35 */ { 12484, 1, false, _INST_MAX, true,  {   0,   0,   0,   0, 192,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  30c8: lis r3,7                 - 36 */ { 12488, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  30cc: ori r3,r3,54487          - 37 */ { 12492, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  30d0: bl 3024                  - 38 */ { 12496, 1, true,          0, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
 
   /* BB14 */
-  /*  30d8: li r9,1                  - 40 */ { 12504, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
-  /*  30dc: cmpwi cr7,r3,0           - 41 */ { 12508, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
-  /*  30e0: beq- cr7,30f4            - 42 */ { 12512, 1, true,         47, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  30d4: li r9,1                  - 39 */ { 12500, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
+  /*  30d8: cmpwi cr7,r3,0           - 40 */ { 12504, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   8,   0 }, {   0,   0,   0,   0,   0, 128,   0,   0 } },
+  /*  30dc: bne- cr7,30f4            - 41 */ { 12508, 1, true,         47, false, {   0,   0,   0,   0,   0, 128,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB15 */
-  /*  30e4: li r3,21649              - 43 */ { 12516, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  30e8: bl 3024                  - 44 */ { 12520, 1, true,          0, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
+  /*  30e0: mr r3,r9                 - 42 */ { 12512, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  30e4: lwz r0,20(r1)            - 43 */ { 12516, 1, false, _INST_MAX, true,  {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0,  64,   0,   0,   0 } },
+  /*  30e8: mtspr 100,r0             - 44 */ { 12520, 1, false, _INST_MAX, false, {   0,   0,   0,   0,  64,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,  32 } },
+  /*  30ec: addi r1,r1,16            - 45 */ { 12524, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  30f0: bclr- 20,lt              - 46 */ { 12528, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
 
   /* BB16 */
-  /*  30ec: cntlzw r3,r3             - 45 */ { 12524, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  30f0: rlwinm r9,r3,27,5,31     - 46 */ { 12528, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
+  /*  30f4: li r3,21649              - 47 */ { 12532, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  30f8: bl 3024                  - 48 */ { 12536, 1, true,          0, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
 
   /* BB17 */
-  /*  30f4: mr r3,r9                 - 47 */ { 12532, 1, false, _INST_MAX, false, {   0,   0,   0, 128,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
-  /*  30f8: lwz r0,20(r1)            - 48 */ { 12536, 1, false, _INST_MAX, true,  {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0,  64,   0,   0,   0 } },
-  /*  30fc: mtspr 100,r0             - 49 */ { 12540, 1, false, _INST_MAX, false, {   0,   0,   0,   0,  64,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,  32 } },
-  /*  3100: addi r1,r1,16            - 50 */ { 12544, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
-  /*  3104: bclr- 20,lt              - 51 */ { 12548, 1, true,  _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0,   0,   0,   0,   0 } },
+  /*  30fc: cntlzw r3,r3             - 49 */ { 12540, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0,   2,   0,   0,   0,   0 } },
+  /*  3100: rlwinm r9,r3,27,5,31     - 50 */ { 12544, 1, false, _INST_MAX, false, {   0,   0,   0,   2,   0,   0,   0,   0 }, {   0,   0,   0, 128,   0,   0,   0,   0 } },
+  /*  3104: b 30e0                   - 51 */ { 12548, 1, true,         42, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
 
   /* BB18 */
-  /*  3108: lis r1,1                 - 52 */ { 12552, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
-  /*  310c: ori r1,r1,49428          - 53 */ { 12556, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
-  /*  3110: bl 30c0                  - 54 */ { 12560, 1, true,         34, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
+  /*  3108: lis r1,0                 - 52 */ { 12552, 1, false, _INST_MAX, false, {   0,   0,   0,   0,   0,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  310c: ori r1,r1,0              - 53 */ { 12556, 1, false, _INST_MAX, false, {   0,   0,   0,   0, 128,   0,   0,   0 }, {   0,   0,   0,   0, 128,   0,   0,   0 } },
+  /*  3110: bl 30bc                  - 54 */ { 12560, 1, true,         33, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 160 } },
 
   /* BB19 */
   /*  3114: b 3114                   - 55 */ { 12564, 1, true,         55, false, {   0,   0,   0,   0,   0,   0,   0, 128 }, {   0,   0,   0,   0,   0,   0,   0, 128 } },
@@ -1732,144 +1733,156 @@ void _mtspr ( uint5_t spr , uint5_t rS ) { if (spr == 1) { _mtxer (rS); }
 //////////////////////////////////////////
 
 void execute_3024() { _andi_(r9,r3,1); }
-void execute_3028() { _beq(cr0,12372); }
+void execute_3028() { _beq(cr0,12408); }
 void execute_302c() { _cmplwi(cr7,r3,8); }
-void execute_3030() { _ble(cr7,12420); }
+void execute_3030() { _ble(cr7,12424); }
 void execute_3034() { _lis(r9,-21846); }
 void execute_3038() { _ori(r9,r9,43691); }
 void execute_303c() { _mulhwu(r9,r3,r9); }
 void execute_3040() { _rlwinm(r9,r9,31,1,31); }
 void execute_3044() { _mulli(r9,r9,3); }
 void execute_3048() { _cmpw(cr7,r3,r9); }
-void execute_304c() { _beq(cr7,12440); }
+void execute_304c() { _beq(cr7,12444); }
 void execute_3050() { _li(r9,3); }
-void execute_3054() { _b(12408); }
-void execute_3058() { _xori(r3,r3,2); }
-void execute_305c() { _cntlzw(r3,r3); }
-void execute_3060() { _rlwinm(r3,r3,27,5,31); }
-void execute_3064() { _bclr(20,0); }
-void execute_3068() { _divwu(r10,r3,r9); }
-void execute_306c() { _mullw(r10,r10,r9); }
-void execute_3070() { _cmpw(cr7,r3,r10); }
-void execute_3074() { _beq(cr7,12448); }
-void execute_3078() { _addi(r9,r9,2); }
-void execute_307c() { _mullw(r10,r9,r9); }
-void execute_3080() { _cmplw(cr7,r3,r10); }
-void execute_3084() { _bge(cr7,12388); }
-void execute_3088() { _subfic(r3,r3,1); }
-void execute_308c() { _subfe(r3,r3,r3); }
-void execute_3090() { _neg(r3,r3); }
-void execute_3094() { _clrlwi(r3,r3,24); }
-void execute_3098() { _bclr(20,0); }
-void execute_309c() { _li(r3,0); }
-void execute_30a0() { _bclr(20,0); }
-void execute_30a4() { _li(r3,0); }
-void execute_30a8() { _bclr(20,0); }
-void execute_30cc() { _lis(r3,7); }
-void execute_30d0() { _ori(r3,r3,54487); }
-void execute_30d4() { _bl(12324); }
-void execute_30dc() { _cmpwi(cr7,r3,0); }
-void execute_30e0() { _beq(cr7,12528); }
-void execute_30e4() { _li(r3,21649); }
-void execute_30e8() { _bl(12324); }
-void execute_3104() { _bclr(20,0); }
-void execute_3110() { _bl(12480); }
+void execute_3054() { _addi(r9,r9,2); }
+void execute_3058() { _mullw(r10,r9,r9); }
+void execute_305c() { _cmplw(cr7,r10,r3); }
+void execute_3060() { _bgt(cr7,12424); }
+void execute_3064() { _divwu(r10,r3,r9); }
+void execute_3068() { _mullw(r10,r10,r9); }
+void execute_306c() { _cmpw(cr7,r3,r10); }
+void execute_3070() { _bne(cr7,12368); }
+void execute_3074() { _li(r3,0); }
+void execute_3078() { _bclr(20,0); }
+void execute_307c() { _xori(r3,r3,2); }
+void execute_3080() { _cntlzw(r3,r3); }
+void execute_3084() { _rlwinm(r3,r3,27,5,31); }
+void execute_3088() { _bclr(20,0); }
+void execute_308c() { _subfic(r3,r3,1); }
+void execute_3090() { _subfe(r3,r3,r3); }
+void execute_3094() { _neg(r3,r3); }
+void execute_3098() { _clrlwi(r3,r3,24); }
+void execute_309c() { _bclr(20,0); }
+void execute_30a0() { _li(r3,0); }
+void execute_30a4() { _bclr(20,0); }
+void execute_30bc() { _stwu(r1,-16,r1); }
+void execute_30c0() { _mfspr(r0,8); }
+void execute_30c4() { _stw(r0,20,r1); }
+void execute_30c8() { _lis(r3,7); }
+void execute_30cc() { _ori(r3,r3,54487); }
+void execute_30d0() { _bl(12324); }
+void execute_30d4() { _li(r9,1); }
+void execute_30d8() { _cmpwi(cr7,r3,0); }
+void execute_30dc() { _bne(cr7,12528); }
+void execute_30e0() { _mr(r3,r9); }
+void execute_30e4() { _lwz(r0,20,r1); }
+void execute_30e8() { _mtspr(8,r0); }
+void execute_30ec() { _addi(r1,r1,16); }
+void execute_30f0() { _bclr(20,0); }
+void execute_30f4() { _li(r3,21649); }
+void execute_30f8() { _bl(12324); }
+void execute_30fc() { _cntlzw(r3,r3); }
+void execute_3100() { _rlwinm(r9,r3,27,5,31); }
+void execute_3104() { _b(12512); }
+void execute_3108() { _lis(r1,0); }
+void execute_310c() { _ori(r1,r1,0); }
+void execute_3110() { _bl(12476); }
 void execute_3114() { _b(12564); }
 </declaration>
     <template>
         <name>Binary</name>
-        <location id="idinit" x="1040" y="-2921">
+        <location id="idinit" x="0" y="0">
             <urgent/>
         </location>
-        <location id="idexit" x="400" y="-41"/>
-        <location id="id3024" x="1040" y="-2273">
+        <location id="idexit" x="0" y="0"/>
+        <location id="id3024" x="0" y="0">
             <name>BB2</name>
         </location>
-        <location id="id3028" x="715" y="-2201"/>
-        <location id="id302c" x="715" y="-2129">
+        <location id="id3028" x="0" y="0"/>
+        <location id="id302c" x="0" y="0">
             <name>BB3</name>
         </location>
-        <location id="id3030" x="715" y="-2057"/>
-        <location id="id3034" x="790" y="-1985">
+        <location id="id3030" x="0" y="0"/>
+        <location id="id3034" x="0" y="0">
             <name>BB4</name>
         </location>
-        <location id="id3038" x="795" y="-1913"/>
-        <location id="id303c" x="795" y="-1841"/>
-        <location id="id3040" x="800" y="-1769"/>
-        <location id="id3044" x="800" y="-1697"/>
-        <location id="id3048" x="800" y="-1625"/>
-        <location id="id304c" x="800" y="-1553"/>
-        <location id="id3050" x="800" y="-1481">
+        <location id="id3038" x="0" y="0"/>
+        <location id="id303c" x="0" y="0"/>
+        <location id="id3040" x="0" y="0"/>
+        <location id="id3044" x="0" y="0"/>
+        <location id="id3048" x="0" y="0"/>
+        <location id="id304c" x="0" y="0"/>
+        <location id="id3050" x="0" y="0">
             <name>BB5</name>
         </location>
-        <location id="id3054" x="800" y="-1409"/>
-        <location id="id3058" x="255" y="-2057">
+        <location id="id3054" x="0" y="0">
             <name>BB6</name>
         </location>
-        <location id="id305c" x="220" y="-1985"/>
-        <location id="id3060" x="215" y="-1913"/>
-        <location id="id3064" x="170" y="-1841"/>
-        <location id="id3068" x="980" y="-1049">
+        <location id="id3058" x="0" y="0"/>
+        <location id="id305c" x="0" y="0"/>
+        <location id="id3060" x="0" y="0"/>
+        <location id="id3064" x="0" y="0">
             <name>BB7</name>
         </location>
-        <location id="id306c" x="980" y="-977"/>
-        <location id="id3070" x="980" y="-905"/>
-        <location id="id3074" x="895" y="-833"/>
-        <location id="id3078" x="800" y="-1337">
+        <location id="id3068" x="0" y="0"/>
+        <location id="id306c" x="0" y="0"/>
+        <location id="id3070" x="0" y="0"/>
+        <location id="id3074" x="0" y="0">
             <name>BB8</name>
         </location>
-        <location id="id307c" x="980" y="-1265"/>
-        <location id="id3080" x="980" y="-1193"/>
-        <location id="id3084" x="980" y="-1121"/>
-        <location id="id3088" x="410" y="-1049">
+        <location id="id3078" x="0" y="0"/>
+        <location id="id307c" x="0" y="0">
             <name>BB9</name>
         </location>
-        <location id="id308c" x="410" y="-977"/>
-        <location id="id3090" x="410" y="-905"/>
-        <location id="id3094" x="410" y="-833"/>
-        <location id="id3098" x="495" y="-689"/>
-        <location id="id309c" x="1175" y="-1409">
+        <location id="id3080" x="0" y="0"/>
+        <location id="id3084" x="0" y="0"/>
+        <location id="id3088" x="0" y="0"/>
+        <location id="id308c" x="0" y="0">
             <name>BB10</name>
         </location>
-        <location id="id30a0" x="1175" y="-1337"/>
-        <location id="id30a4" x="895" y="-761">
+        <location id="id3090" x="0" y="0"/>
+        <location id="id3094" x="0" y="0"/>
+        <location id="id3098" x="0" y="0"/>
+        <location id="id309c" x="0" y="0"/>
+        <location id="id30a0" x="0" y="0">
             <name>BB11</name>
         </location>
-        <location id="id30a8" x="895" y="-689"/>
-        <location id="id30c0" x="1040" y="-2705">
+        <location id="id30a4" x="0" y="0"/>
+        <location id="id30bc" x="0" y="0">
             <name>BB13</name>
         </location>
-        <location id="id30c4" x="1040" y="-2633"/>
-        <location id="id30c8" x="1040" y="-2561"/>
-        <location id="id30cc" x="1040" y="-2489"/>
-        <location id="id30d0" x="1040" y="-2417"/>
-        <location id="id30d4" x="1040" y="-2345"/>
-        <location id="id30d8" x="895" y="-617">
+        <location id="id30c0" x="0" y="0"/>
+        <location id="id30c4" x="0" y="0"/>
+        <location id="id30c8" x="0" y="0"/>
+        <location id="id30cc" x="0" y="0"/>
+        <location id="id30d0" x="0" y="0"/>
+        <location id="id30d4" x="0" y="0">
             <name>BB14</name>
         </location>
-        <location id="id30dc" x="895" y="-545"/>
-        <location id="id30e0" x="895" y="-473"/>
-        <location id="id30e4" x="1035" y="-401">
+        <location id="id30d8" x="0" y="0"/>
+        <location id="id30dc" x="0" y="0"/>
+        <location id="id30e0" x="0" y="0">
             <name>BB15</name>
         </location>
-        <location id="id30e8" x="1035" y="-329"/>
-        <location id="id30ec" x="160" y="-1769">
+        <location id="id30e4" x="0" y="0"/>
+        <location id="id30e8" x="0" y="0"/>
+        <location id="id30ec" x="0" y="0"/>
+        <location id="id30f0" x="0" y="0"/>
+        <location id="id30f4" x="0" y="0">
             <name>BB16</name>
         </location>
-        <location id="id30f0" x="135" y="-1697"/>
-        <location id="id30f4" x="400" y="-401">
+        <location id="id30f8" x="0" y="0"/>
+        <location id="id30fc" x="0" y="0">
             <name>BB17</name>
         </location>
-        <location id="id30f8" x="400" y="-329"/>
-        <location id="id30fc" x="400" y="-257"/>
-        <location id="id3100" x="400" y="-185"/>
-        <location id="id3104" x="400" y="-113"/>
-        <location id="id3108" x="1040" y="-2921">
+        <location id="id3100" x="0" y="0"/>
+        <location id="id3104" x="0" y="0"/>
+        <location id="id3108" x="0" y="0">
             <name>BB18</name>
         </location>
-        <location id="id310c" x="1040" y="-2849"/>
-        <location id="id3110" x="1040" y="-2777"/>
-        <location id="id3114" x="400" y="-41">
+        <location id="id310c" x="0" y="0"/>
+        <location id="id3110" x="0" y="0"/>
+        <location id="id3114" x="0" y="0">
             <name>BB19</name>
         </location>
         <init ref="idinit"/>
@@ -1893,73 +1906,66 @@ _mustTerminate = true</label>
             <target ref="id310c"/>
             <label kind="guard">EUs_ExecuteNext(52)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_3108()</label>
         </transition>
         <transition>
             <source ref="id310c"/>
             <target ref="id3110"/>
             <label kind="guard">EUs_ExecuteNext(53)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_310c()</label>
         </transition>
         <transition>
             <source ref="id3110"/>
-            <target ref="id30c0"/>
+            <target ref="id30bc"/>
             <label kind="guard">true &amp;&amp;
 EUs_ExecuteNext(54)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3110()</label>
         </transition>
         <transition>
-            <source ref="id30f4"/>
-            <target ref="id30f8"/>
-            <label kind="guard">EUs_ExecuteNext(47)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
-        </transition>
-        <transition>
-            <source ref="id30f8"/>
-            <target ref="id30fc"/>
-            <label kind="guard">EUs_ExecuteNext(48)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
-        </transition>
-        <transition>
             <source ref="id30fc"/>
             <target ref="id3100"/>
             <label kind="guard">EUs_ExecuteNext(49)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_30fc()</label>
         </transition>
         <transition>
             <source ref="id3100"/>
             <target ref="id3104"/>
             <label kind="guard">EUs_ExecuteNext(50)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_3100()</label>
         </transition>
         <transition>
             <source ref="id3104"/>
-            <target ref="id3114"/>
+            <target ref="id30e0"/>
             <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(51) &amp;&amp;
-_Stack_TopIs(55)</label>
+EUs_ExecuteNext(51)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3104()</label>
         </transition>
         <transition>
-            <source ref="id30ec"/>
-            <target ref="id30f0"/>
-            <label kind="guard">EUs_ExecuteNext(45)</label>
+            <source ref="id30f4"/>
+            <target ref="id30f8"/>
+            <label kind="guard">EUs_ExecuteNext(47)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_30f4()</label>
         </transition>
         <transition>
-            <source ref="id30f0"/>
-            <target ref="id30f4"/>
-            <label kind="guard">EUs_ExecuteNext(46)</label>
+            <source ref="id30f8"/>
+            <target ref="id3024"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(48)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_30f8()</label>
+        </transition>
+        <transition>
+            <source ref="id30e0"/>
+            <target ref="id30e4"/>
+            <label kind="guard">EUs_ExecuteNext(42)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_30e0()</label>
         </transition>
         <transition>
             <source ref="id30e4"/>
@@ -1970,62 +1976,84 @@ _Stack_TopIs(55)</label>
         </transition>
         <transition>
             <source ref="id30e8"/>
-            <target ref="id3024"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(44)</label>
+            <target ref="id30ec"/>
+            <label kind="guard">EUs_ExecuteNext(44)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_30e8()</label>
+        </transition>
+        <transition>
+            <source ref="id30ec"/>
+            <target ref="id30f0"/>
+            <label kind="guard">EUs_ExecuteNext(45)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_30ec()</label>
+        </transition>
+        <transition>
+            <source ref="id30f0"/>
+            <target ref="id3114"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(46) &amp;&amp;
+_Stack_TopIs(55)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_30f0()</label>
+        </transition>
+        <transition>
+            <source ref="id30d4"/>
+            <target ref="id30d8"/>
+            <label kind="guard">EUs_ExecuteNext(39)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_30d4()</label>
         </transition>
         <transition>
             <source ref="id30d8"/>
             <target ref="id30dc"/>
             <label kind="guard">EUs_ExecuteNext(40)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_30d8()</label>
         </transition>
         <transition>
             <source ref="id30dc"/>
-            <target ref="id30e0"/>
-            <label kind="guard">EUs_ExecuteNext(41)</label>
+            <target ref="id30f4"/>
+            <label kind="guard">ne(cr7) &amp;&amp;
+EUs_ExecuteNext(41)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_30dc()</label>
         </transition>
         <transition>
-            <source ref="id30e0"/>
-            <target ref="id30f4"/>
-            <label kind="guard">eq(cr7) &amp;&amp;
-EUs_ExecuteNext(42)</label>
+            <source ref="id30dc"/>
+            <target ref="id30e0"/>
+            <label kind="guard">!ne(cr7) &amp;&amp;
+EUs_ExecuteNext(41)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_30e0()</label>
+            <label kind="assignment">execute_30dc()</label>
         </transition>
         <transition>
-            <source ref="id30e0"/>
-            <target ref="id30e4"/>
-            <label kind="guard">!eq(cr7) &amp;&amp;
-EUs_ExecuteNext(42)</label>
+            <source ref="id30bc"/>
+            <target ref="id30c0"/>
+            <label kind="guard">EUs_ExecuteNext(33)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_30e0()</label>
+            <label kind="assignment">execute_30bc()</label>
         </transition>
         <transition>
             <source ref="id30c0"/>
             <target ref="id30c4"/>
             <label kind="guard">EUs_ExecuteNext(34)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_30c0()</label>
         </transition>
         <transition>
             <source ref="id30c4"/>
             <target ref="id30c8"/>
             <label kind="guard">EUs_ExecuteNext(35)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_30c4()</label>
         </transition>
         <transition>
             <source ref="id30c8"/>
             <target ref="id30cc"/>
             <label kind="guard">EUs_ExecuteNext(36)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment"></label>
+            <label kind="assignment">execute_30c8()</label>
         </transition>
         <transition>
             <source ref="id30cc"/>
@@ -2036,75 +2064,36 @@ EUs_ExecuteNext(42)</label>
         </transition>
         <transition>
             <source ref="id30d0"/>
-            <target ref="id30d4"/>
-            <label kind="guard">EUs_ExecuteNext(38)</label>
+            <target ref="id3024"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(38)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_30d0()</label>
         </transition>
         <transition>
-            <source ref="id30d4"/>
-            <target ref="id3024"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(39)</label>
+            <source ref="id30a0"/>
+            <target ref="id30a4"/>
+            <label kind="guard">EUs_ExecuteNext(31)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_30d4()</label>
+            <label kind="assignment">execute_30a0()</label>
         </transition>
         <transition>
             <source ref="id30a4"/>
-            <target ref="id30a8"/>
-            <label kind="guard">EUs_ExecuteNext(32)</label>
+            <target ref="id30fc"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(32) &amp;&amp;
+_Stack_TopIs(49)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_30a4()</label>
         </transition>
         <transition>
-            <source ref="id30a8"/>
-            <target ref="id30ec"/>
+            <source ref="id30a4"/>
+            <target ref="id30d4"/>
             <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(33) &amp;&amp;
-_Stack_TopIs(45)</label>
+EUs_ExecuteNext(32) &amp;&amp;
+_Stack_TopIs(39)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_30a8()</label>
-        </transition>
-        <transition>
-            <source ref="id30a8"/>
-            <target ref="id30d8"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(33) &amp;&amp;
-_Stack_TopIs(40)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_30a8()</label>
-        </transition>
-        <transition>
-            <source ref="id309c"/>
-            <target ref="id30a0"/>
-            <label kind="guard">EUs_ExecuteNext(30)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_309c()</label>
-        </transition>
-        <transition>
-            <source ref="id30a0"/>
-            <target ref="id30ec"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(31) &amp;&amp;
-_Stack_TopIs(45)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_30a0()</label>
-        </transition>
-        <transition>
-            <source ref="id30a0"/>
-            <target ref="id30d8"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(31) &amp;&amp;
-_Stack_TopIs(40)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_30a0()</label>
-        </transition>
-        <transition>
-            <source ref="id3088"/>
-            <target ref="id308c"/>
-            <label kind="guard">EUs_ExecuteNext(25)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3088()</label>
+            <label kind="assignment">execute_30a4()</label>
         </transition>
         <transition>
             <source ref="id308c"/>
@@ -2129,28 +2118,28 @@ _Stack_TopIs(40)</label>
         </transition>
         <transition>
             <source ref="id3098"/>
-            <target ref="id30ec"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(29) &amp;&amp;
-_Stack_TopIs(45)</label>
+            <target ref="id309c"/>
+            <label kind="guard">EUs_ExecuteNext(29)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3098()</label>
         </transition>
         <transition>
-            <source ref="id3098"/>
-            <target ref="id30d8"/>
+            <source ref="id309c"/>
+            <target ref="id30fc"/>
             <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(29) &amp;&amp;
-_Stack_TopIs(40)</label>
+EUs_ExecuteNext(30) &amp;&amp;
+_Stack_TopIs(49)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3098()</label>
+            <label kind="assignment">execute_309c()</label>
         </transition>
         <transition>
-            <source ref="id3078"/>
-            <target ref="id307c"/>
-            <label kind="guard">EUs_ExecuteNext(21)</label>
+            <source ref="id309c"/>
+            <target ref="id30d4"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(30) &amp;&amp;
+_Stack_TopIs(39)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3078()</label>
+            <label kind="assignment">execute_309c()</label>
         </transition>
         <transition>
             <source ref="id307c"/>
@@ -2168,19 +2157,60 @@ _Stack_TopIs(40)</label>
         </transition>
         <transition>
             <source ref="id3084"/>
-            <target ref="id3068"/>
-            <label kind="guard">ge(cr7) &amp;&amp;
-EUs_ExecuteNext(24)</label>
+            <target ref="id3088"/>
+            <label kind="guard">EUs_ExecuteNext(24)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3084()</label>
         </transition>
         <transition>
-            <source ref="id3084"/>
-            <target ref="id3088"/>
-            <label kind="guard">!ge(cr7) &amp;&amp;
-EUs_ExecuteNext(24)</label>
+            <source ref="id3088"/>
+            <target ref="id30d4"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(25) &amp;&amp;
+_Stack_TopIs(39)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3084()</label>
+            <label kind="assignment">execute_3088()</label>
+        </transition>
+        <transition>
+            <source ref="id3088"/>
+            <target ref="id30fc"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(25) &amp;&amp;
+_Stack_TopIs(49)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_3088()</label>
+        </transition>
+        <transition>
+            <source ref="id3074"/>
+            <target ref="id3078"/>
+            <label kind="guard">EUs_ExecuteNext(20)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_3074()</label>
+        </transition>
+        <transition>
+            <source ref="id3078"/>
+            <target ref="id30fc"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(21) &amp;&amp;
+_Stack_TopIs(49)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_3078()</label>
+        </transition>
+        <transition>
+            <source ref="id3078"/>
+            <target ref="id30d4"/>
+            <label kind="guard">true &amp;&amp;
+EUs_ExecuteNext(21) &amp;&amp;
+_Stack_TopIs(39)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_3078()</label>
+        </transition>
+        <transition>
+            <source ref="id3064"/>
+            <target ref="id3068"/>
+            <label kind="guard">EUs_ExecuteNext(16)</label>
+            <label kind="synchronisation">EUs_doStep?</label>
+            <label kind="assignment">execute_3064()</label>
         </transition>
         <transition>
             <source ref="id3068"/>
@@ -2198,26 +2228,26 @@ EUs_ExecuteNext(24)</label>
         </transition>
         <transition>
             <source ref="id3070"/>
-            <target ref="id3074"/>
-            <label kind="guard">EUs_ExecuteNext(19)</label>
+            <target ref="id3054"/>
+            <label kind="guard">ne(cr7) &amp;&amp;
+EUs_ExecuteNext(19)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3070()</label>
         </transition>
         <transition>
-            <source ref="id3074"/>
-            <target ref="id30a4"/>
-            <label kind="guard">eq(cr7) &amp;&amp;
-EUs_ExecuteNext(20)</label>
+            <source ref="id3070"/>
+            <target ref="id3074"/>
+            <label kind="guard">!ne(cr7) &amp;&amp;
+EUs_ExecuteNext(19)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3074()</label>
+            <label kind="assignment">execute_3070()</label>
         </transition>
         <transition>
-            <source ref="id3074"/>
-            <target ref="id3078"/>
-            <label kind="guard">!eq(cr7) &amp;&amp;
-EUs_ExecuteNext(20)</label>
+            <source ref="id3054"/>
+            <target ref="id3058"/>
+            <label kind="guard">EUs_ExecuteNext(12)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3074()</label>
+            <label kind="assignment">execute_3054()</label>
         </transition>
         <transition>
             <source ref="id3058"/>
@@ -2235,28 +2265,19 @@ EUs_ExecuteNext(20)</label>
         </transition>
         <transition>
             <source ref="id3060"/>
-            <target ref="id3064"/>
-            <label kind="guard">EUs_ExecuteNext(15)</label>
+            <target ref="id308c"/>
+            <label kind="guard">gt(cr7) &amp;&amp;
+EUs_ExecuteNext(15)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3060()</label>
         </transition>
         <transition>
-            <source ref="id3064"/>
-            <target ref="id30d8"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(16) &amp;&amp;
-_Stack_TopIs(40)</label>
+            <source ref="id3060"/>
+            <target ref="id3064"/>
+            <label kind="guard">!gt(cr7) &amp;&amp;
+EUs_ExecuteNext(15)</label>
             <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3064()</label>
-        </transition>
-        <transition>
-            <source ref="id3064"/>
-            <target ref="id30ec"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(16) &amp;&amp;
-_Stack_TopIs(45)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3064()</label>
+            <label kind="assignment">execute_3060()</label>
         </transition>
         <transition>
             <source ref="id3050"/>
@@ -2264,14 +2285,6 @@ _Stack_TopIs(45)</label>
             <label kind="guard">EUs_ExecuteNext(11)</label>
             <label kind="synchronisation">EUs_doStep?</label>
             <label kind="assignment">execute_3050()</label>
-        </transition>
-        <transition>
-            <source ref="id3054"/>
-            <target ref="id3078"/>
-            <label kind="guard">true &amp;&amp;
-EUs_ExecuteNext(12)</label>
-            <label kind="synchronisation">EUs_doStep?</label>
-            <label kind="assignment">execute_3054()</label>
         </transition>
         <transition>
             <source ref="id3034"/>
@@ -2317,7 +2330,7 @@ EUs_ExecuteNext(12)</label>
         </transition>
         <transition>
             <source ref="id304c"/>
-            <target ref="id309c"/>
+            <target ref="id30a0"/>
             <label kind="guard">eq(cr7) &amp;&amp;
 EUs_ExecuteNext(10)</label>
             <label kind="synchronisation">EUs_doStep?</label>
@@ -2340,7 +2353,7 @@ EUs_ExecuteNext(10)</label>
         </transition>
         <transition>
             <source ref="id3030"/>
-            <target ref="id3088"/>
+            <target ref="id308c"/>
             <label kind="guard">le(cr7) &amp;&amp;
 EUs_ExecuteNext(3)</label>
             <label kind="synchronisation">EUs_doStep?</label>
@@ -2363,7 +2376,7 @@ EUs_ExecuteNext(3)</label>
         </transition>
         <transition>
             <source ref="id3028"/>
-            <target ref="id3058"/>
+            <target ref="id307c"/>
             <label kind="guard">eq(cr0) &amp;&amp;
 EUs_ExecuteNext(1)</label>
             <label kind="synchronisation">EUs_doStep?</label>
